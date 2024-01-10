@@ -22,7 +22,7 @@ To get started with the project, follow these steps:
 2. Install the required dependencies by running npm install in the project directory.
 
 3. Familiarize yourself with the project structure. The main files you will be working with are:
-    - src/App.tsx: The main component that renders the stopwatch and handles its functionality.
+    - /App.tsx: The main component that renders the stopwatch and handles its functionality.
     - src/Stopwatch.tsx: A separate component that represents the stopwatch display.
     - src/StopwatchButton.tsx: A separate component that represents the start, stop, and reset buttons.
 
@@ -77,8 +77,6 @@ To start working on the project, follow these steps:
 
 ## Resources
 Here are some resources that may be helpful during your work on this project:
-
-- [React Documentation](https://reactjs.org/docs/getting-started.html) - Official documentation for React, providing detailed information on React concepts and usage.
 
 - [TypeScript Documentation](https://www.typescriptlang.org/docs/) - Official documentation for TypeScript, offering guidance on TypeScript features and usage.
 
