@@ -21,11 +21,15 @@ const styles = StyleSheet.create({
   timeContainer: {
     alignItems: 'center',
     justifyContent: 'center',
-    margin: 10,
+    padding: 10,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#696969',
+    margin: 15
   },
   timeText: {
     color: "#fff",
-    fontSize: 24
+    fontSize: 28,
   }
 });
 

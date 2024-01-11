@@ -50,15 +50,17 @@ export default function App() {
       <StatusBar style="light" />
       <StopWatch time={timePassed} />
       <StopWatchButton isRunning={isRunning} handleRun={handleRun} handleReset={handleReset} handleLap={handleLap}/>
-      <View style={styles.lapsContainer}>
+      <View style={styles.lapListContainer}>
         <FlatList 
           data={laps}
           keyExtractor={(item, index) => index.toString()}
           renderItem={
             ({item, index}) => (
-              <Text style={styles.lapText}>{
-                `Lap ${index + 1}: ${item}`
-              }</Text>
+              <View style={styles.lapContainer}>
+                <Text style={styles.lapText}>{
+                  `Lap ${index + 1}: ${item}`
+                }</Text>
+              </View>
             )
           }
         />
@@ -74,14 +76,22 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  lapsContainer: {
+  lapListContainer: {
     flex: 0.5,
     width: '100%',
+  },
+  lapContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderColor: '#696969',
     borderWidth: 1,
-    borderColor: '#fff'
+    borderRadius: 10,
+    padding: 5,
+    margin: 10,
   },
   lapText: {
-    color: '#fff',
-    margin: 5
+    color: "#fff",
+    fontSize: 24,
   }
 });

@@ -17,19 +17,19 @@ const StopWatchButton: React.FC<ButtonProps> = (props) => {
         }
         onPress={props.handleRun}
       >
-        <Text>{props.isRunning ? "Stop" : "Start"}</Text>
+        <Text style={styles.buttonText}>{props.isRunning ? "Stop" : "Start"}</Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={[styles.button, {backgroundColor: "#00bfff"}]}
         onPress={props.handleReset}
       >
-        <Text>Reset</Text>
+        <Text style={styles.buttonText}>Reset</Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={[styles.button, {backgroundColor: "#ffa07a"}]}
         onPress={props.handleLap}
       >
-        <Text>Lap</Text>
+        <Text style={styles.buttonText}>Lap</Text>
       </TouchableOpacity>
     </View>
   );
@@ -49,6 +49,9 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     borderRadius: 10,
     marginHorizontal: 5
+  },
+  buttonText: {
+    fontSize: 16
   }
 });
 
