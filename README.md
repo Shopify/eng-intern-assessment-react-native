@@ -3,7 +3,7 @@
 1. Updated App.tsx to import my Stopwatch file
 2. Updated the Readme to include a demo image, and the stop watch clearly working.
 3. Updated Stopwatch.tsx to display a basic stopwatch with HRs, Mins, Secs on it. Text was adding was well as custom styling for the app. 
-4. Updated StopwatchButton.tsx to have three buttons, for stopping, starting, and resetting the timer!
+4. Updated StopwatchButton.tsx to have three buttons, for stopping, starting, and resetting the timer! Adds lap functionality as well!
 
 ## Usage
 
