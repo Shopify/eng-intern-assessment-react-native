@@ -10,8 +10,17 @@ export default function App() {
   const [laps, setLaps] = useState<number[]>([]);
 
   const recordLap = () => {
-    setLaps([...laps, time]);
+    const newLaps = [...laps, time];
+    console.log("Recording lap:", newLaps); // Debug log
+    setLaps(newLaps);
   };
+
+  const handleReset = () => {
+    setTime(0);
+    setIsRunning(false);
+    setLaps([]);  // Clear the laps
+  };
+  
   useEffect(() => {
     let interval: number | undefined;
 
@@ -28,19 +37,24 @@ export default function App() {
     };
   }, [isRunning]); // Dependence on isRunning to start/stop interval
 
-  return (
-    <View style={styles.container}>
-      <StopWatch time={time} laps={laps} />
-      <StopWatchButton setIsRunning={setIsRunning} setTime={setTime} recordLap={recordLap} />
-    </View>
-  );
+return (
+  <View style={styles.container}>
+    <StopWatch time={time} laps={laps} />
+    <StopWatchButton 
+      setIsRunning={setIsRunning} 
+      setTime={setTime} 
+      recordLap={recordLap}
+      handleReset={handleReset}  // Pass this new reset function
+    />
+  </View>
+);
 
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: 'space-around', // This can be adjusted to 'space-between' or 'center'
     alignItems: 'center',
     backgroundColor: '#fff',
   },
