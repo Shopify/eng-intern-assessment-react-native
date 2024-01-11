@@ -75,6 +75,20 @@ To start working on the project, follow these steps:
 
 8. Once you have completed the project goals, create a pull request to merge your changes into the main repository.
 
+## Usage
+
+To use, simply run:
+
+1. npm install 
+
+2. expo start
+
+3. Download Expo app on your iPhone, then scan the QR code that shows up in Visual Studio Code. Make sure to install NodeJS and the relevant VSC linting tools. 
+
+4. It runs! View the stopwatch below, and have fun coding! 
+
+![My personal demo on iOS 17, on an iPhone 15 Pro](image.png)
+
 ## Resources
 Here are some resources that may be helpful during your work on this project:
 
