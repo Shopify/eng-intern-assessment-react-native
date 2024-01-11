@@ -1,29 +1,49 @@
+// StopwatchButton.tsx
 import React from 'react';
 import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
 
 interface StopwatchButtonProps {
   isRunning: boolean;
+  elapsedTime: number;
   onStartStop: () => void;
+  onStop: () => void;
   onReset: () => void;
   onLap: () => void;
 }
 
 const StopwatchButton: React.FC<StopwatchButtonProps> = ({
   isRunning,
+  elapsedTime,
   onStartStop,
+  onStop,
   onReset,
   onLap,
 }) => {
+  const buttonText = elapsedTime === 0 ? 'Start' : isRunning ? 'Pause' : 'Resume';
+
   return (
     <View style={styles.buttonContainer}>
       <TouchableOpacity
-        style={[styles.button, isRunning ? styles.stopButton : styles.startButton, styles.marginRight]}
+        style={[
+          styles.button,
+          isRunning ? styles.resumeButton : styles.startButton,
+          styles.marginRight,
+        ]}
         onPress={onStartStop}
       >
-        <Text style={styles.buttonText}>{isRunning ? 'Stop' : 'Start'}</Text>
+        <Text style={styles.buttonText}>{buttonText}</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={[styles.button, styles.marginRight]} onPress={onLap}>
+      <TouchableOpacity
+        style={[styles.button, styles.marginRight]}
+        onPress={onLap}
+      >
         <Text style={styles.buttonText}>Lap</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={[styles.button, styles.marginRight]}
+        onPress={onStop}
+      >
+        <Text style={styles.buttonText}>Stop</Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.button} onPress={onReset}>
         <Text style={styles.buttonText}>Reset</Text>
@@ -37,7 +57,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     marginTop: 20,
-    width: 240,
+    width: 350,
   },
   button: {
     flex: 1,
@@ -50,7 +70,7 @@ const styles = StyleSheet.create({
   startButton: {
     backgroundColor: '#007BFF',
   },
-  stopButton: {
+  resumeButton: {
     backgroundColor: '#dc3545',
   },
   buttonText: {
@@ -58,7 +78,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   marginRight: {
-    marginRight: 25
+    marginRight: 15,
   },
 });
 
