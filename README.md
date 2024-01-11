@@ -36,7 +36,7 @@ Your specific goals for this project are as follows:
     - The stopwatch should start counting when the user clicks the start button.
     - The stopwatch should stop counting when the user clicks the stop button.
     - The stopwatch should reset to zero when the user clicks the reset button.
-    - The stopwatch should records and displays lap times when user clicks the lap button.
+    - The stopwatch should record and display laps when user clicks the lap button.
 
 2. Ensure code quality:
     - Write clean, well-structured, and maintainable code.
