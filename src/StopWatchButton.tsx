@@ -5,6 +5,7 @@ interface ButtonProps {
   isRunning: boolean;
   handleRun: () => void;
   handleReset: () => void;
+  handleLap: () => void;
 }
 
 const StopWatchButton: React.FC<ButtonProps> = (props) => {
@@ -26,6 +27,7 @@ const StopWatchButton: React.FC<ButtonProps> = (props) => {
       </TouchableOpacity>
       <TouchableOpacity
         style={[styles.button, {backgroundColor: "#ffa07a"}]}
+        onPress={props.handleLap}
       >
         <Text>Lap</Text>
       </TouchableOpacity>
