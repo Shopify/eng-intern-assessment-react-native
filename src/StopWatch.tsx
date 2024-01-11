@@ -1,4 +1,3 @@
-  // StopWatch.tsx
   import React, { useState, useRef, useMemo } from 'react';
   import { ScrollView, StyleSheet, Text, View } from 'react-native';
   import StopwatchButton from './StopWatchButton';
