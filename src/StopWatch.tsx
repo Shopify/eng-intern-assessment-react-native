@@ -1,8 +1,15 @@
-import { View } from 'react-native';
+import React from 'react';
+import { View, Text } from 'react-native';
 
-export default function StopWatch() {
+interface StopWatchProps {
+  time: number;
+}
+
+export default function StopWatch({ time }: StopWatchProps) {
   return (
-    <View >
+    <View>
+      {/* Display the current time in seconds */}
+      <Text>{time}s</Text>
     </View>
   );
 }
