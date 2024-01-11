@@ -2,6 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import StopWatchButton from './src/StopWatchButton';
 import { useState } from 'react';
+import StopWatch from './src/StopWatch';
 
 export default function App() {
 
@@ -14,6 +15,7 @@ export default function App() {
   return (
     <View style={styles.container}>
       <StatusBar style="light" />
+      <StopWatch time={1000} />
       <StopWatchButton isRunning={isRunning} handleRun={handleRun} />
     </View>
   );
