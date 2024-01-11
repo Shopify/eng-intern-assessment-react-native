@@ -7,7 +7,11 @@ export default function App() {
   // State variables for time and stopwatch running status
   const [time, setTime] = useState(0);
   const [isRunning, setIsRunning] = useState(false);
+  const [laps, setLaps] = useState<number[]>([]);
 
+  const recordLap = () => {
+    setLaps([...laps, time]);
+  };
   useEffect(() => {
     let interval: number | undefined;
 
@@ -26,12 +30,11 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      {/* Stopwatch display */}
-      <StopWatch time={time} />
-      {/* Controls for starting/stopping and resetting the stopwatch */}
-      <StopWatchButton setIsRunning={setIsRunning} setTime={setTime} />
+      <StopWatch time={time} laps={laps} />
+      <StopWatchButton setIsRunning={setIsRunning} setTime={setTime} recordLap={recordLap} />
     </View>
   );
+
 }
 
 const styles = StyleSheet.create({

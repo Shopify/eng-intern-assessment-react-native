@@ -4,6 +4,7 @@ import { View, Button } from 'react-native';
 interface StopWatchButtonProps {
   setIsRunning: React.Dispatch<React.SetStateAction<boolean>>;
   setTime: React.Dispatch<React.SetStateAction<number>>;
+  recordLap: () => void; 
 }
 
 export default function StopWatchButton({ setIsRunning, setTime }: StopWatchButtonProps) {
