@@ -14,6 +14,12 @@ export default function App() {
     setIsRunning(!isRunning);
   }
 
+  const handleReset = () => {
+    clearInterval(timeRef.current as number);
+    setTimePassed(0);
+    setIsRunning(false);
+  }
+
   useEffect(() => {
     if (isRunning) { // start watch
       const prevTime = new Date(Date.now() - timePassed);
@@ -33,7 +39,7 @@ export default function App() {
     <View style={styles.container}>
       <StatusBar style="light" />
       <StopWatch time={timePassed} />
-      <StopWatchButton isRunning={isRunning} handleRun={handleRun} />
+      <StopWatchButton isRunning={isRunning} handleRun={handleRun} handleReset={handleReset} />
     </View>
   );
 }

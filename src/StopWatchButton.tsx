@@ -4,6 +4,7 @@ import React from 'react';
 interface ButtonProps {
   isRunning: boolean;
   handleRun: () => void;
+  handleReset: () => void;
 }
 
 const StopWatchButton: React.FC<ButtonProps> = (props) => {
@@ -19,6 +20,7 @@ const StopWatchButton: React.FC<ButtonProps> = (props) => {
       </TouchableOpacity>
       <TouchableOpacity
         style={[styles.button, {backgroundColor: "#00bfff"}]}
+        onPress={props.handleReset}
       >
         <Text>Reset</Text>
       </TouchableOpacity>
