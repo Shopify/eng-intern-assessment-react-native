@@ -4,7 +4,7 @@
 import React from 'react';
 import { Button, View } from 'react-native';
 
-export default function StopwatchButton({ onStart, onStop, onReset }) {
+export default function StopwatchButton({ onStart, onStop, onReset }: { onStart: () => void, onStop: () => void, onReset: () => void }) {
   return (
     <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
       <Button title="Start" onPress={onStart} />

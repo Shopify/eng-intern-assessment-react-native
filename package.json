@@ -11,6 +11,7 @@
   "dependencies": {
     "expo": "~49.0.15",
     "expo-status-bar": "~1.6.0",
+    "metro-source-map": "^0.80.4",
     "react": "18.2.0",
     "react-native": "0.72.6"
   },
@@ -19,7 +20,9 @@
     "@testing-library/react-native": "^12.4.3",
     "@tsconfig/react-native": "^3.0.2",
     "@types/jest": "^29.5.11",
+    "@types/node": "^20.10.8",
     "@types/react": "~18.2.14",
+    "@types/react-native": "^0.73.0",
     "@types/react-test-renderer": "^18.0.7",
     "typescript": "^5.3.3"
   },
