@@ -10,6 +10,7 @@ The goal of this project is to implement a stopwatch application using React Nat
 
 - Start the stopwatch to begin counting time.
 - Stop the stopwatch to pause the timer.
+- Displays Laps when a button is pressed.
 - Reset the stopwatch to zero.
 
 You will be provided with a basic project structure that includes the necessary files and dependencies. Your task is to write the code to implement the stopwatch functionality and ensure that it works correctly.
