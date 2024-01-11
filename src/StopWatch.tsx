@@ -2,7 +2,7 @@
 // 2024-Jan-10
 
 import React, { useState, useEffect, useRef } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import StopwatchButton from './StopWatchButton'; 
 
 // Stopwatch component
@@ -10,6 +10,8 @@ export default function Stopwatch() {
   const [time, setTime] = useState(0); 
   const [running, setRunning] = useState(false);
   const intervalRef = useRef<number | null>(null); 
+  const [laps, setLaps] = useState<number[]>([]);
+  const [hasStarted, setHasStarted] = useState(false);
   
   useEffect(() => { 
     if (running) {
@@ -35,29 +37,60 @@ export default function Stopwatch() {
       .join(':');
   };
 
-  const handleStart = () => setRunning(true);
-  const handleStop = () => setRunning(false);
+
   const handleReset = () => {
     setRunning(false);
     setTime(0);
+    setLaps([]); 
+    setHasStarted(false);
+  };
+
+  const handleLap = () => {
+    setLaps([...laps, time]);
+  };
+
+  const handleStartStopResume = () => {
+    if (!running) {
+      if (!hasStarted) {
+        setHasStarted(true);
+      }
+      setRunning(true);
+    } else {
+      setRunning(false);
+    }
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Stopwatch</Text>
-      <Text style={styles.timeDisplay}>{formatTime(time)}</Text>
-      <StopwatchButton
-        onStart={handleStart}
-        onStop={handleStop}
-        onReset={handleReset}
-      />
+      <View style={styles.centeredContent}>
+        <Text style={styles.title}>Stopwatch</Text>
+        <Text style={styles.timeDisplay}>{formatTime(time)}</Text>
+        <StopwatchButton
+          onStartStopResume={handleStartStopResume}
+          onReset={handleReset}
+          onLap={handleLap}
+          running={running}
+          hasStarted={hasStarted}
+        />
+        <Text style={styles.instructions}>
+          Press 'Start' to begin timing, 'Stop' to pause, and 'Reset' to clear! Thanks for using my app!
+        </Text>
+      </View>
       <Text style={styles.instructions}>
-        Press 'Start' to begin timing, 'Stop' to pause, and 'Reset' to clear! Thanks for using my app.
-      </Text>
-
-      <Text style={styles.josh}>
-        Created by Josh Chen
-      </Text>
+      {laps.length > 5 && "If the lap list gets too long, please scroll down."}
+        </Text>
+      <ScrollView
+        testID="lap-list"
+        style={styles.lapScrollView}
+        contentContainerStyle={styles.lapScrollViewContent}
+      >
+        
+        {laps.map((lap, index) => (
+          <Text key={index} style={styles.lap}>
+            Lap {index + 1}: {formatTime(lap)}
+          </Text>
+        ))}
+      </ScrollView>
     </View>
   );
 }
@@ -72,6 +105,11 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 20,
   },
+  centeredContent: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   timeDisplay: {
     fontSize: 48,
     fontWeight: 'bold',
@@ -81,6 +119,18 @@ const styles = StyleSheet.create({
     fontSize: 16,
     textAlign: 'center',
     marginTop: 20,
+  },
+  lapScrollView: {
+    maxHeight: 200, // Adjust the maximum height as needed
+    width: '100%',
+  },
+  lapScrollViewContent: {
+    alignItems: 'center',
+  },
+  lap: {
+    fontSize: 18,
+    textAlign: 'center',
+    marginTop: 10,
   },
   josh: {
     fontSize: 16,
