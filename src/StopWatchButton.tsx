@@ -6,13 +6,13 @@ interface StopwatchButtonProps {
   title: string;
 }
 
-export default function StopWatchButton({ onPress, title }: StopwatchButtonProps) {
+const StopWatchButton: React.FC<StopwatchButtonProps> = ({ onPress, title }) => {
   return (
-    <TouchableOpacity style={styles.button} onPress={onPress}>
+    <TouchableOpacity onPress={onPress} style={styles.button}>
       <Text style={styles.buttonText}>{title}</Text>
     </TouchableOpacity>
   );
-}
+};
 
 const styles = StyleSheet.create({
   button: {
@@ -28,3 +28,4 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
 });
+export default StopWatchButton;

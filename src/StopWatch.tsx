@@ -8,27 +8,26 @@ export default function StopWatch() {
   const [laps, setLaps] = useState<number[]>([]);
 
   useEffect(() => {
-    let interval: number | undefined;
+    let interval: ReturnType<typeof setInterval>;
     if (isRunning) {
       interval = setInterval(() => {
-        setTime(prevTime => prevTime + 1);
+        setTime(prevTime => prevTime + 1); 
       }, 1000);
     }
-    return () => {
-      if (interval) clearInterval(interval);
-    };
+    return () => clearInterval(interval);
   }, [isRunning]);
 
   const start = () => setIsRunning(true);
-  const stop = () => setIsRunning(false);
+  const stop = () => setIsRunning(false); // This acts as 'Pause'
+  const resume = () => setIsRunning(true); // Resume functionality
   const reset = () => {
     setIsRunning(false);
     setTime(0);
     setLaps([]);
   };
   const recordLap = () => setLaps([...laps, time]);
-  const pause = () => setIsRunning(false);
-  const resume = () => setIsRunning(true);
+
+
   // Format time into hours, minutes, and seconds
   const formatTime = (time: number) => {
     const hours = Math.floor(time / 3600);
@@ -36,7 +35,6 @@ export default function StopWatch() {
     const seconds = time % 60;
     return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
   };
-
   return (
     <View style={styles.stopwatchContainer}>
       <Text style={styles.timeDisplay}>{formatTime(time)}</Text>
@@ -48,13 +46,9 @@ export default function StopWatch() {
       <View style={styles.buttonsContainer}>
         {!isRunning && time === 0 && <StopWatchButton title="Start" onPress={start} />}
         {isRunning && <StopWatchButton title="Stop" onPress={stop} />}
+        {!isRunning && time !== 0 && <StopWatchButton title="Resume" onPress={resume} />}
         {isRunning && <StopWatchButton title="Lap" onPress={recordLap} />}
-        {!isRunning && time !== 0 && (
-          <>
-            <StopWatchButton title="Resume" onPress={resume} />
-            <StopWatchButton title="Reset" onPress={reset} />
-          </>
-        )}
+        {!isRunning && time !== 0 && <StopWatchButton title="Reset" onPress={reset} />}
       </View>
     </View>
   );
