@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, ScrollView, StyleSheet } from 'react-native';
-import StopWatchButton from './StopWatchButton'; 
+import StopWatchButton from './StopWatchButton';
 
 export default function StopWatch() {
   const [isRunning, setIsRunning] = useState(false);
@@ -8,13 +8,15 @@ export default function StopWatch() {
   const [laps, setLaps] = useState<number[]>([]);
 
   useEffect(() => {
-    let interval: ReturnType<typeof setInterval>;
+    let interval: number | undefined;
     if (isRunning) {
       interval = setInterval(() => {
-        setTime(prevTime => prevTime + 1); 
+        setTime(prevTime => prevTime + 1);
       }, 1000);
     }
-    return () => clearInterval(interval);
+    return () => {
+      if (interval) clearInterval(interval);
+    };
   }, [isRunning]);
 
   const start = () => setIsRunning(true);
@@ -25,7 +27,8 @@ export default function StopWatch() {
     setLaps([]);
   };
   const recordLap = () => setLaps([...laps, time]);
-
+  const pause = () => setIsRunning(false);
+  const resume = () => setIsRunning(true);
   // Format time into hours, minutes, and seconds
   const formatTime = (time: number) => {
     const hours = Math.floor(time / 3600);
@@ -33,19 +36,25 @@ export default function StopWatch() {
     const seconds = time % 60;
     return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
   };
+
   return (
     <View style={styles.stopwatchContainer}>
       <Text style={styles.timeDisplay}>{formatTime(time)}</Text>
-      <ScrollView style={styles.lapsContainer}>
+      <ScrollView style={styles.lapsContainer} testID="lap-list">
         {laps.map((lap, index) => (
           <Text key={index} style={styles.lapText}>{formatTime(lap)}</Text>
         ))}
       </ScrollView>
       <View style={styles.buttonsContainer}>
-        <StopWatchButton title="Start" onPress={start} />
-        <StopWatchButton title="Stop" onPress={stop} />
-        <StopWatchButton title="Lap" onPress={recordLap} />
-        <StopWatchButton title="Reset" onPress={reset} />
+        {!isRunning && time === 0 && <StopWatchButton title="Start" onPress={start} />}
+        {isRunning && <StopWatchButton title="Stop" onPress={stop} />}
+        {isRunning && <StopWatchButton title="Lap" onPress={recordLap} />}
+        {!isRunning && time !== 0 && (
+          <>
+            <StopWatchButton title="Resume" onPress={resume} />
+            <StopWatchButton title="Reset" onPress={reset} />
+          </>
+        )}
       </View>
     </View>
   );
