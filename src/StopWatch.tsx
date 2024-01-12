@@ -1,6 +1,7 @@
 import { Text, View } from 'react-native';
 import StopWatchButton from './StopWatchButton';
 import { useEffect, useState } from 'react';
+import displayTime from './utils/DisplayTime';
 
 export default function StopWatch() {
 
@@ -12,23 +13,21 @@ export default function StopWatch() {
 
     if (isOn) {
       timeInterval = setInterval(() => {
-        setTime((lastTime) => lastTime + 10);
-      }, 10);
+        setTime((lastTime) => lastTime + 0.1);
+      }, 100);
+    }
+    else if (timeInterval) {
+      clearInterval(timeInterval);
     }
     return () => {
       if (timeInterval) {
         clearInterval(timeInterval)
       }
     };
-  });
+  }, [isOn]);
 
   const startStop = () => {
     setIsOn(!isOn);
-  };
-
-  const displayTime = (ms: number) => {
-    const milliseconds = ms;
-    return `${milliseconds}`;
   };
 
   return (
