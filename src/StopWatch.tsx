@@ -30,10 +30,16 @@ export default function StopWatch() {
     setIsOn(!isOn);
   };
 
+  const reset = () => {
+    setIsOn(false);
+    setTime(0);
+  }
+
   return (
     <View >
       <Text>{displayTime(time)}</Text>
       <StopWatchButton title={isOn ? 'Stop' : 'Start'} onPress={startStop}/>
+      <StopWatchButton title='Reset' onPress={reset}/>
     </View>
   );
 }
