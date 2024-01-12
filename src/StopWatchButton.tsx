@@ -5,45 +5,38 @@
     isRunning: boolean;
     elapsedTime: number;
     onStartStop: () => void;
-    onStop: () => void;
     onReset: () => void;
     onLap: () => void;
   }
 
+  // Button component
   const StopwatchButton: React.FC<StopwatchButtonProps> = ({
     isRunning,
-    elapsedTime,
     onStartStop,
-    onStop,
     onReset,
     onLap,
   }) => {
-    const buttonText = elapsedTime === 0 ? 'Start' : isRunning ? 'Pause' : 'Resume';
+    const buttonText = isRunning ? 'Stop' : 'Start'; // Display stop if running, start if not.
 
     return (
       <View style={styles.buttonContainer}>
+        {/* Start/Stop Button */}
         <TouchableOpacity
           style={[
             styles.button,
-            isRunning ? styles.resumeButton : styles.startButton,
+            isRunning ? styles.stopButton : styles.startButton,
             styles.marginRight,
           ]}
-          onPress={onStartStop}
-        >
+          onPress={onStartStop}>
           <Text style={styles.buttonText}>{buttonText}</Text>
         </TouchableOpacity>
+        {/* Lap Button */}
         <TouchableOpacity
           style={[styles.button, styles.marginRight]}
-          onPress={onLap}
-        >
+          onPress={onLap}>
           <Text style={styles.buttonText}>Lap</Text>
         </TouchableOpacity>
-        <TouchableOpacity
-          style={[styles.button, styles.marginRight]}
-          onPress={onStop}
-        >
-          <Text style={styles.buttonText}>Stop</Text>
-        </TouchableOpacity>
+        {/* Reset Button */}
         <TouchableOpacity style={styles.button} onPress={onReset}>
           <Text style={styles.buttonText}>Reset</Text>
         </TouchableOpacity>
@@ -69,7 +62,7 @@
     startButton: {
       backgroundColor: '#007BFF',
     },
-    resumeButton: {
+    stopButton: {
       backgroundColor: '#dc3545',
     },
     buttonText: {
