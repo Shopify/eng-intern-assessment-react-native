@@ -11,6 +11,7 @@ interface ButtonProps {
 const StopWatchButton: React.FC<ButtonProps> = (props) => {
   return (
     <View style={styles.buttonContainer}>
+      {/* Start/stop button, alternates based on current state of stopwatch */}
       <TouchableOpacity 
         style={
           [styles.button, props.isRunning ? {backgroundColor: "#ff0000"} : {backgroundColor: "#7cfc00"}]
@@ -19,12 +20,14 @@ const StopWatchButton: React.FC<ButtonProps> = (props) => {
       >
         <Text style={styles.buttonText}>{props.isRunning ? "Stop" : "Start"}</Text>
       </TouchableOpacity>
+
       <TouchableOpacity
         style={[styles.button, {backgroundColor: "#00bfff"}]}
         onPress={props.handleReset}
       >
         <Text style={styles.buttonText}>Reset</Text>
       </TouchableOpacity>
+      
       <TouchableOpacity
         style={[styles.button, {backgroundColor: "#ffa07a"}]}
         onPress={props.handleLap}

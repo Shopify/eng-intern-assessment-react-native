@@ -1,3 +1,8 @@
+/**
+ * Format time given in milliseconds to HH:mm:ss
+ * @param ms - Time in milliseconds
+ * @returns - Formatted time string
+ */
 const formatTime = (ms: number) => {
     const seconds = Math.floor(ms / 1000);
     const mins = Math.floor((seconds % 3600) / 60);

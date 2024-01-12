@@ -9,10 +9,12 @@ const Stopwatch = () => {
   const [laps, setLaps] = useState([]);
   const timeRef = useRef<number | null>(null);
 
+  // handles starting and stopping the stopwatch
   const handleRun = () => {
     setIsRunning(!isRunning);
   }
 
+  // handles resetting the stopwatch
   const handleReset = () => {
     clearInterval(timeRef.current as number);
     setTimePassed(0);
@@ -20,20 +22,31 @@ const Stopwatch = () => {
     setLaps([]);
   }
 
+  // handles and records lap times
   const handleLap = () => {
+    // Derive date according to time that has passed till now
     const prevTime = new Date(Date.now() - timePassed);
+
     if (isRunning) {
+      // Record lap corresponding to the time that has passed till now
       setLaps((prevLaps) => [...prevLaps, formatTime(Date.now() - prevTime.getTime())]);
     }
   };
 
+  // Manages side-effects for starting and stopping the stopwatch
   useEffect(() => {
-    if (isRunning) { // start watch
+    if (isRunning) { // start the stowatch
+
+      // Derive date according to time that has passed till now
       const prevTime = new Date(Date.now() - timePassed);
+
+      // Start stopwatch from the previous date from when it was stopped
       timeRef.current = setInterval(() => {
         setTimePassed(Date.now() - prevTime);
       }, 1000); // updating every second
-    } else { // stop watch
+      
+    } else { 
+      // stop the stopwatch
       clearInterval(timeRef.current as number);
     }
 
@@ -45,12 +58,17 @@ const Stopwatch = () => {
   return (
     <View style={styles.container}>
       <StatusBar barStyle="light-content" />
+
+      {/* Displaying current state of stopwatch time */}
       <View style={styles.timeContainer}>
         <Text style={styles.timeText}>
           {formatTime(timePassed)}
         </Text>
       </View>
+
       <StopWatchButton isRunning={isRunning} handleRun={handleRun} handleReset={handleReset} handleLap={handleLap}/>
+
+      {/* Rendering a scrollable list to display lap times */}
       <View style={styles.lapListContainer}>
         <FlatList
           data={laps}
