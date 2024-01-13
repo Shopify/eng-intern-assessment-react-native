@@ -29,6 +29,6 @@ const styles = StyleSheet.create({
     fontFamily: 'Courier New',
     fontWeight: 'bold',
     letterSpacing: 0.25,
-    color: 'white',
+    color: 'white'
   },
 })

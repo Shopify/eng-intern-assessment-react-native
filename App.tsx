@@ -16,12 +16,12 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'center'
   },
   title:{
     marginTop: '18%',
     fontSize: 15,
     fontFamily: 'Courier New',
-    fontWeight: '500',
+    fontWeight: '500'
   }
 });

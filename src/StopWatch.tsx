@@ -133,18 +133,18 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     justifyContent: 'center',
     alignItems: 'flex-start',
-    width: '23%',
+    width: '23%'
   },
   lapText: {
     fontSize: 18,
     fontWeight: '500',
-    fontFamily: 'Courier New',
+    fontFamily: 'Courier New'
   },
   lapRow: {
     flexDirection: 'row',
     marginTop: '8%',
     justifyContent: 'space-between',
-    alignItems: 'center',
+    alignItems: 'center'
   },
   lapTableView:{
     height: '53%',
