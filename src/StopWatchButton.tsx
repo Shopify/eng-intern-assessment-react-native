@@ -2,12 +2,14 @@ import React from 'react';
 import { Text, StyleSheet, TouchableOpacity } from 'react-native';
 
 export default function StopWatchButton(props) {
-  const { onClick, color, title } = props;
+  const { onClick, color, title, disable } = props;
   return (
     <TouchableOpacity
     onPress={onClick}
     style={[styles.button, {backgroundColor: color}]}
-    activeOpacity={0.6}>
+    activeOpacity={0.6}
+    disabled={disable}
+    >
       <Text style={styles.text}>{title}</Text>
     </TouchableOpacity>
   );
