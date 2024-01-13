@@ -1,9 +1,15 @@
-import { Button, View } from 'react-native';
+import React from 'react';
+import { Button } from 'react-native';
 
-export default function StopWatchButton( {title, onPress}: {title: string; onPress: () => void} ) {
+interface StopwatchButtonProps {
+  title: string;
+  onPress: () => void;
+}
+
+const StopwatchButton: React.FC<StopwatchButtonProps> = ({ title, onPress }) => {
   return (
-    <View >
-      <Button title={title} onPress={onPress}/>
-    </View>
+    <Button title={title} onPress={onPress} />
   );
 }
+
+export default StopwatchButton;

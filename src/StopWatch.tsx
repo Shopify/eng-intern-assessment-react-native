@@ -1,4 +1,4 @@
-import { Text, View } from 'react-native';
+import { FlatList, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native';
 import StopWatchButton from './StopWatchButton';
 import { useEffect, useState } from 'react';
 import displayTime from './utils/DisplayTime';
@@ -41,25 +41,57 @@ export default function StopWatch() {
     if(isOn) {
       setLaps((previousLaps) => ({
         ...previousLaps,
-        [`lap${Object.keys(previousLaps).length + 1}`]: time,
+        [`Lap${Object.keys(previousLaps).length + 1}`]: time,
       }))
     }
   };
 
+  const stop = () => {
+    setIsOn(false);
+    setTime(0);
+  }
+
   return (
-    <View >
-      <Text>{displayTime(time)}</Text>
-      <StopWatchButton title={isOn ? 'Stop' : 'Start'} onPress={startStop}/>
-      <StopWatchButton title='Reset' onPress={reset}/>
-      <StopWatchButton title='Lap' onPress={lap} />
-      {Object.entries(laps).length > 0 && (
-        <View>
-          <Text>Lap Times:</Text>
-          {Object.entries(laps).map(([lapKey, lapTime]) => (
-            <Text key={lapKey}>{`${lapKey}: ${displayTime(lapTime)}`}</Text>
-          ))}
-        </View>
-      )}
+    <View style={styles.container}>
+      <Text style={styles.dialView}>{displayTime(time)}</Text>
+      <View style={styles.buttonView}>
+        <StopWatchButton title={'Start'} onPress={startStop} />
+        <StopWatchButton title={isOn ? 'Pause' : 'Resume'} onPress={startStop} />
+        <StopWatchButton title={'Stop'} onPress={stop} />
+      </View>
+      <View style={styles.buttonView}>
+        <StopWatchButton title='Reset' onPress={reset} />
+        <StopWatchButton title='Lap' onPress={lap} />
+      </View>
+      <ScrollView style={styles.scrollView}>
+        {Object.entries(laps).length > 0 && (
+          <View testID='lap-list'>
+            <Text>Lap Times:</Text>
+            {Object.entries(laps).map(([lapKey, lapTime]) => (
+              <Text key={lapKey}>{`${lapKey}: ${displayTime(lapTime)}`}</Text>
+            ))}
+          </View>
+        )}
+      </ScrollView>
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+  },
+  dialView: {
+    fontSize: 50,
+    padding: 10,
+  },
+  buttonView: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+  },
+  scrollView: {
+    flex: 1,
+    width: '100%',
+  },
+});
