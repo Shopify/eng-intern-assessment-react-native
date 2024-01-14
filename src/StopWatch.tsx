@@ -1,4 +1,4 @@
-import { FlatList, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { FlatList, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import StopWatchButton from './StopWatchButton';
 import { useEffect, useState } from 'react';
 import displayTime from './utils/DisplayTime';
@@ -7,15 +7,15 @@ export default function StopWatch() {
 
   const [isOn, setIsOn] = useState(false);
   const [time, setTime] = useState(0);
-  const [laps, setLaps] = useState<{[key: number]: number}>({});
+  const [laps, setLaps] = useState<{[key: string]: string}>({});
 
   useEffect(() => {
     let timeInterval: number | undefined;
 
     if (isOn) {
       timeInterval = setInterval(() => {
-        setTime((lastTime) => lastTime + 0.1);
-      }, 100);
+        setTime((lastTime) => lastTime + 1);
+      }, 1000);
     }
     else if (timeInterval) {
       clearInterval(timeInterval);
@@ -28,8 +28,17 @@ export default function StopWatch() {
   }, [isOn]);
 
   const startStop = () => {
+    if (isOn) {
+      setTime(0);
+    }
     setIsOn(!isOn);
   };
+
+  const pauseResume = () => {
+    if (time!==0) {
+      setIsOn(!isOn);
+    }
+  }
 
   const reset = () => {
     setIsOn(false);
@@ -41,35 +50,34 @@ export default function StopWatch() {
     if(isOn) {
       setLaps((previousLaps) => ({
         ...previousLaps,
-        [`Lap${Object.keys(previousLaps).length + 1}`]: time,
+        [`Lap${Object.keys(previousLaps).length + 1}`]: displayTime(time),
       }))
     }
   };
 
-  const stop = () => {
-    setIsOn(false);
-    setTime(0);
-  }
-
   return (
     <View style={styles.container}>
       <Text style={styles.dialView}>{displayTime(time)}</Text>
-      <View style={styles.buttonView}>
-        <StopWatchButton title={'Start'} onPress={startStop} />
-        <StopWatchButton title={isOn ? 'Pause' : 'Resume'} onPress={startStop} />
-        <StopWatchButton title={'Stop'} onPress={stop} />
+      <View style={styles.buttonsRow}>
+      <StopWatchButton title={isOn ? 'Stop' : 'Start'} onPress={startStop} background={isOn ? '#3C1715' : '#1B361F'} color={isOn ? '#E33935' : '#50D167'}/>
+        <StopWatchButton title={isOn ? 'Pause' : 'Resume'} onPress={pauseResume} background={isOn ? '#3C1715' : '#1B361F'} color={isOn ? '#E33935' : '#50D167'} />
       </View>
-      <View style={styles.buttonView}>
-        <StopWatchButton title='Reset' onPress={reset} />
-        <StopWatchButton title='Lap' onPress={lap} />
+      <View style={styles.buttonsRow}>
+        <StopWatchButton title='Reset' onPress={reset} color='#FFFFFF' background='#3D3D3D'/>
+        <StopWatchButton title='Lap' onPress={lap} color='#FFFFFF' background='#3D3D3D' />
       </View>
       <ScrollView style={styles.scrollView}>
         {Object.entries(laps).length > 0 && (
-          <View testID='lap-list'>
-            <Text>Lap Times:</Text>
+            <View>
+            {/* <Text>Lap Times:</Text> */}
+            <View testID='lap-list'>
             {Object.entries(laps).map(([lapKey, lapTime]) => (
-              <Text key={lapKey}>{`${lapKey}: ${displayTime(lapTime)}`}</Text>
+              <View style={styles.lap} key={lapKey}>
+              <Text style={styles.lapText} >{`${lapKey}:`}</Text>
+              <Text style={styles.lapText} >{`${lapTime}`}</Text>
+              </View>
             ))}
+            </View>
           </View>
         )}
       </ScrollView>
@@ -81,17 +89,35 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
+    backgroundColor: '#0D0D0D',
+    paddingTop: 130,
+    paddingHorizontal: 20,
   },
   dialView: {
-    fontSize: 50,
-    padding: 10,
-  },
-  buttonView: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
+    color: '#FFFFFF',
+    fontSize: 30,
+    fontWeight: '200',
+    width: 110,
   },
   scrollView: {
-    flex: 1,
-    width: '100%',
+    alignSelf: 'stretch'
+  },
+  buttonsRow: {
+    flexDirection: 'row',
+    alignSelf: 'stretch',
+    justifyContent: 'space-between',
+    marginTop: 40,
+    marginBottom: 10,
+  },
+  lapText: {
+    color: '#FFFFFF',
+    fontSize: 18,
+  },
+  lap: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    borderColor: '#151515',
+    borderTopWidth: 1,
+    paddingVertical: 10,
   },
 });
