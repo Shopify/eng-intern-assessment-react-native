@@ -13,6 +13,9 @@ type StopWatchProps = {
   onLap: () => void;
 };
 
+/*
+ * Displays the elapsed time of the StopWatch
+ */
 const StopWatch = ({
   time,
   isActive,

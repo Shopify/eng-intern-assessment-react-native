@@ -2,36 +2,51 @@ import { StyleSheet, View } from "react-native";
 import StopWatch from "./src/StopWatch";
 import { useRef, useState } from "react";
 
+/*
+ * Handles StopWatch functionality and rendering
+ */
 export default function App() {
+  // Declare state variables
   const [time, setTime] = useState<number>(0);
   const [isActive, setIsActive] = useState<boolean>(false);
   const [laps, setLaps] = useState<number[]>([]);
   const stopwatchRef = useRef<number | null>(null);
 
-  const handleStart = () => {
-    if (!isActive) {
-      setIsActive(true);
-      stopwatchRef.current = setInterval(() => {
-        setTime((prevTime) => prevTime + 1000);
-      }, 1000);
-    }
-  };
-  const handlePause = () => {
-    if (isActive && stopwatchRef.current) {
-      setIsActive(false);
-      clearInterval(stopwatchRef.current);
-    }
-  };
-
-  const handleReset = () => {
-    setTime(0);
-    setIsActive(false);
-    setLaps([]);
+  // Clear the previously set interval, if not null
+  const clearPrevInterval = () => {
     if (stopwatchRef.current) {
       clearInterval(stopwatchRef.current);
     }
   };
 
+  // Start Button for StopWatch functionality
+  const handleStart = () => {
+    if (!isActive) {
+      setIsActive(true);
+      // Initiate interval that updates the elapsed StopWatch time every second
+      stopwatchRef.current = setInterval(() => {
+        setTime((prevTime) => prevTime + 1000);
+      }, 1000);
+    }
+  };
+
+  // Pause Button for StopWatch functionality
+  const handlePause = () => {
+    if (isActive && stopwatchRef.current) {
+      setIsActive(false);
+      clearPrevInterval();
+    }
+  };
+
+  // Reset Button for StopWatch functionality
+  const handleReset = () => {
+    setTime(0);
+    setIsActive(false);
+    setLaps([]);
+    clearPrevInterval();
+  };
+
+  // Lap Button for StopWatch functionality
   const handleLap = () => {
     if (laps.length > 0) {
       const previousLapTime = laps[laps.length - 1];

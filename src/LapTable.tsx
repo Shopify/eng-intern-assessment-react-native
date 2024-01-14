@@ -6,8 +6,12 @@ type LapTableProps = {
   laps: number[];
 };
 
+/*
+ * Displays a scrollable table of lap times: lap number and duration
+ */
 const LapTable = ({ laps }: LapTableProps) => {
   return (
+    // Fixed header row and scrollable table of laps
     <View style={styles.container}>
       <View style={styles.headerRow}>
         <View style={styles.cell}>
@@ -17,8 +21,7 @@ const LapTable = ({ laps }: LapTableProps) => {
           <Text style={styles.headerText}>Duration</Text>
         </View>
       </View>
-
-      <ScrollView>
+      <ScrollView testID='lap-list'>
         {laps.map((lap, index) => (
           <View key={index} style={styles.row}>
             <View style={styles.cell}>
@@ -47,7 +50,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     paddingVertical: 10,
     borderBottomColor: "rgba(255, 255, 255, 0.5)",
-    borderBottomWidth: 1
+    borderBottomWidth: 1,
   },
   row: {
     flexDirection: "row",
