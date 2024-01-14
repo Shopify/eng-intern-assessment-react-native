@@ -11,11 +11,11 @@ export default function App() {
           name='timer'
           type='material-community'
           size={80}
+          color={'#fff'}
         />
         <Text style= {styles.text}>Stopwatch</Text>
       </View>
       <StopWatch />
-      {/* <StatusBar style="auto" /> */}
     </View>
   );
 }
@@ -23,7 +23,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#0D0D0D',
     alignItems: 'stretch',
     justifyContent: 'flex-start',
   },
@@ -32,9 +32,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     paddingTop: StatusBar.currentHeight,
-    paddingBottom: 20
   },
   text: {
-    fontSize: 50
+    fontSize: 50,
+    color: '#fff'
   },
 });
