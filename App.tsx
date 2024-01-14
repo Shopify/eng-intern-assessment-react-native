@@ -1,5 +1,5 @@
 import { StyleSheet, View } from "react-native";
-import StopWatch from "./src/StopWatch";
+import StopWatch from "./src/components/StopWatch";
 import { useRef, useState } from "react";
 
 /*

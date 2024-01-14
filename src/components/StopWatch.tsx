@@ -1,6 +1,6 @@
 import { Text, View, StyleSheet, Dimensions } from "react-native";
 import StopWatchButton from "./StopWatchButton";
-import { formatTime } from "./utils";
+import { formatTime } from "../utils/utils";
 import LapTable from "./LapTable";
 
 type StopWatchProps = {
@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginTop: 80,
     color: "white",
-    fontWeight: "600"
+    fontWeight: "600",
   },
   subtitle: {
     fontSize: 13,
@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-around",
     marginTop: 60,
-    marginHorizontal: 10
+    marginHorizontal: 10,
   },
 });
 

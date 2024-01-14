@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, StyleSheet, ScrollView } from "react-native";
-import { formatTime } from "./utils";
+import { formatTime } from "../utils/utils";
 
 type LapTableProps = {
   laps: number[];
@@ -21,7 +21,7 @@ const LapTable = ({ laps }: LapTableProps) => {
           <Text style={styles.headerText}>Duration</Text>
         </View>
       </View>
-      <ScrollView testID='lap-list'>
+      <ScrollView testID="lap-list">
         {laps.map((lap, index) => (
           <View key={index} style={styles.row}>
             <View style={styles.cell}>
