@@ -10,11 +10,16 @@ export default function StopWatch() {
     red = '#ee6b6e'
   }
 
+  // time elapsed on stopwatch
   const [time, setTime] = useState(0);
+  // if stopwatch is currently running
   const [isRunning, setIsRunning] = useState(false);
+  // if the 'stop' button is pressed
   const [hasStopped, setHasStopped] = useState(false);
+  // an array of elapsed laps
   const [laps, setLaps] = useState([]);
-  
+
+  // elapsed time in minutes, seconds, and milliseconds
   const minutes = Math.floor((time % 360000) / 6000);
   const seconds = Math.floor((time % 6000) / 100);
   const milliseconds = time % 100;
@@ -23,78 +28,96 @@ export default function StopWatch() {
   useEffect(() => {
     let intervalId;
     if (isRunning) {
-      intervalId = setInterval(() => setTime(time + 1), 10);
+      intervalId = setInterval(() => setTime(time + 1), 10); // every 10 milliseconds
     }
     return () => clearInterval(intervalId);
   }, [isRunning, time]);
 
+  // start stopwatch
+  // currently functions the same as the resume button
   const start = () => {
     setHasStopped(false);
     setIsRunning(true);
   };
 
+  // stop stopwatch
+  // currently functions the same as the pause button, but removes the display
+  // of time on the interface
   const stop = () => {
     setHasStopped(true);
     setIsRunning(false);
   };
 
+  // clear elapsed time and laps
   const reset = () => {
     setTime(0);
     setLaps([]);
   };
 
+  //record a lap
   const lap = () => {
     setLaps(laps => [...laps, time]);
   };
 
+  // switch between pause and resume
   const togglePauseResume = () => {
     setIsRunning(!isRunning);
   };
 
+  // format time from milliseconds to minutes:seconds:centiseconds
+  const formatTime = (timeElapsed) => {
+    const minutes = Math.floor((timeElapsed % 360000) / 6000);
+    const seconds = Math.floor((timeElapsed % 6000) / 100);
+    const milliseconds = timeElapsed % 100;
+
+    const display = `${minutes.toString().padStart(2, '0')}\
+:${seconds.toString().padStart(2, '0')}\
+:${milliseconds.toString().padStart(2, '0')}`;
+    return display
+  };
+
   return(
-    <View style={styles.container}>
+    <View>
       <View style={styles.timerContainer}>
         {!hasStopped && <Text style={styles.timer}>
-          {minutes.toString().padStart(2, '0')}:
-          {seconds.toString().padStart(2, '0')}:
-          {milliseconds.toString().padStart(2, '0')}
-        </Text>}
+          {formatTime(time)}
+        </Text>
+        }
         {hasStopped && <View style={styles.emptyTimerContainer}></View>}
       </View>
+
       <View style={styles.buttonRowContainer}>
         <View style={styles.buttonColumnContainer} >
-          <StopWatchButton onClick={lap} disable={!isRunning} color={Colors.gray} title='Lap'/>
+          <StopWatchButton 
+          onClick={lap}
+          disable={!isRunning}
+          color={Colors.gray}
+          title='Lap'/>
           <StopWatchButton onClick={reset} color={Colors.gray} title='Reset'/>
         </View>
         <View style={styles.buttonColumnContainer}>
           <StopWatchButton
-          onClick={isRunning? stop: start}
-          color={isRunning? Colors.red:Colors.green}
-          title={isRunning? "Stop":"Start"}/>
+          onClick={isRunning? stop : start}
+          color={isRunning? Colors.red : Colors.green}
+          title={isRunning? "Stop" : "Start"}/>
           <StopWatchButton 
           onClick={togglePauseResume}
           disable={hasStopped}
           color={Colors.gray}
-          title={isRunning? "Pause":"Resume"}/>
+          title={isRunning? "Pause" : "Resume"}/>
         </View>
       </View>
+
       <View style={styles.lapTableView}>
-      {laps.length!=0 && <ScrollView testID="lap-list" style={styles.lapTable}>
-        {laps.map((item, index) => {
-          const minutes = Math.floor((item % 360000) / 6000);
-          const seconds = Math.floor((item % 6000) / 100);
-          const milliseconds = item % 100;
-          return(
-          <View key={index} style={styles.lapRow}>
-          <Text style={styles.lapText}>Lap {index}</Text>
-          <Text style={styles.lapTimer}>
-            {minutes.toString().padStart(2, '0')}:
-            {seconds.toString().padStart(2, '0')}:
-            {milliseconds.toString().padStart(2, '0')}</Text>
-          </View>
-          );
-          }
-        )}
+        {laps.length!=0 && <ScrollView testID="lap-list" style={styles.lapTable}>
+          {laps.map((item, index) => {
+            return(
+            <View key={index} style={styles.lapRow}>
+            <Text style={styles.lapText}>Lap {index}</Text>
+            <Text style={styles.lapTimer}>{formatTime(item)}</Text>
+            </View>
+            );}
+          )}
         </ScrollView>}
       </View>
     </View>
