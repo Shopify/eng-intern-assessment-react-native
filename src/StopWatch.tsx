@@ -30,8 +30,11 @@ export default function StopWatch() {
   const startStop = () => {
     if (isOn) {
       setTime(0);
+      setIsOn(false);
     }
-    setIsOn(!isOn);
+    else if (time===0){
+      setIsOn(true);
+    }
   };
 
   const pauseResume = () => {
@@ -49,8 +52,7 @@ export default function StopWatch() {
   const lap = () => {
     if(isOn) {
       setLaps((previousLaps) => ({
-        ...previousLaps,
-        [`Lap${Object.keys(previousLaps).length + 1}`]: displayTime(time),
+        [`Lap${Object.keys(previousLaps).length + 1}`]: displayTime(time), ...previousLaps
       }))
     }
   };
