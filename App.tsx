@@ -1,8 +1,10 @@
-// import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, View, Text, StatusBar } from 'react-native';
 import StopWatch from './src/StopWatch';
 import { Icon } from '@rneui/themed';
 
+/**
+ * Main application component containing the Stopwatch and title.
+ */
 export default function App() {
   return (
     <View style={styles.container}>
@@ -20,6 +22,7 @@ export default function App() {
   );
 }
 
+// Styles for the App component
 const styles = StyleSheet.create({
   container: {
     flex: 1,

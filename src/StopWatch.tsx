@@ -1,14 +1,24 @@
-import { FlatList, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import StopWatchButton from './StopWatchButton';
 import { useEffect, useState } from 'react';
 import displayTime from './utils/DisplayTime';
 
+/**
+ * Stopwatch component for measuring time and recording laps.
+ */
 export default function StopWatch() {
-
+  // State variables
+  // To check if stopwatch is running
   const [isOn, setIsOn] = useState(false);
+  // To keep track of time
   const [time, setTime] = useState(0);
+  // To keep track of laps
   const [laps, setLaps] = useState<{[key: string]: string}>({});
 
+  /**
+   * Effect hook for handling the interval timer when the stopwatch is running.
+   * It increments the time every second when the stopwatch is active.
+   */
   useEffect(() => {
     let timeInterval: number | undefined;
 
@@ -20,6 +30,8 @@ export default function StopWatch() {
     else if (timeInterval) {
       clearInterval(timeInterval);
     }
+
+    // Cleanup function to clear the interval when the component unmounts or is updated
     return () => {
       if (timeInterval) {
         clearInterval(timeInterval)
@@ -27,6 +39,11 @@ export default function StopWatch() {
     };
   }, [isOn]);
 
+  /**
+   * Handles the start/stop functionality of the stopwatch.
+   * If the stopwatch is running and stop is clicked, it stops and resets the time to 00:00:00. 
+   * It starts running if start is clicked when time is 00:00:00.
+   */
   const startStop = () => {
     if (isOn) {
       setTime(0);
@@ -37,18 +54,29 @@ export default function StopWatch() {
     }
   };
 
+  /**
+   * Handles the pause/resume functionality of the stopwatch.
+   * If the time is not zero, it toggles between pausing and resuming the stopwatch.
+   */
   const pauseResume = () => {
     if (time!==0) {
       setIsOn(!isOn);
     }
   }
 
+  /**
+   * Resets the stopwatch, clearing the time and lap records.
+   */
   const reset = () => {
     setIsOn(false);
     setTime(0);
     setLaps({});
   };
 
+  /**
+   * Records a lap time if the stopwatch is running.
+   * It adds a new lap entry with the format "LapX: hh:mm:ss" to the laps state.
+   */
   const lap = () => {
     if(isOn) {
       setLaps((previousLaps) => ({
@@ -57,6 +85,7 @@ export default function StopWatch() {
     }
   };
 
+  // JSX structure for rendering the stopwatch UI
   return (
     <View style={styles.container}>
       <Text style={styles.dialView}>{displayTime(time)}</Text>
@@ -87,6 +116,7 @@ export default function StopWatch() {
   );
 }
 
+// Styles for the Stopwatch component
 const styles = StyleSheet.create({
   container: {
     flex: 1,

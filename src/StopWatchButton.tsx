@@ -1,6 +1,7 @@
 import React from 'react';
-import { Button, TouchableOpacity, Text, View, StyleSheet } from 'react-native';
+import { TouchableOpacity, Text, View, StyleSheet } from 'react-native';
 
+// Props for the StopwatchButton component
 interface StopwatchButtonProps {
   title: string;
   onPress: () => void;
@@ -8,6 +9,10 @@ interface StopwatchButtonProps {
   background: string
 }
 
+/**
+ * Button component for the Stopwatch, used for actions like Start, Stop, Pause, Resume, Reset, and Lap.
+ * @param {StopwatchButtonProps} props - Props for configuring the button, including title, onPress function, color, and background color.
+ */
 const StopwatchButton: React.FC<StopwatchButtonProps> = ({ title, onPress, color, background }) => {
   return (
     <TouchableOpacity onPress={onPress} style={[styles.button, {backgroundColor: background}]}>
@@ -18,6 +23,7 @@ const StopwatchButton: React.FC<StopwatchButtonProps> = ({ title, onPress, color
   );
 }
 
+// Styles for the StopwatchButton component
 const styles = StyleSheet.create({
   button:{
     width: 80,
