@@ -92,14 +92,14 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     backgroundColor: '#0D0D0D',
-    paddingTop: 130,
+    paddingTop: 50,
     paddingHorizontal: 20,
   },
   dialView: {
     color: '#FFFFFF',
-    fontSize: 30,
+    fontSize: 80,
     fontWeight: '200',
-    width: 110,
+    width: 300,
   },
   scrollView: {
     alignSelf: 'stretch'
