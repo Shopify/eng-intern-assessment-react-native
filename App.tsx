@@ -1,20 +1,43 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View, Text, SafeAreaView } from 'react-native';
+import StopWatch from './src/StopWatch';
+import { Icon } from '@rneui/themed';
 
+/**
+ * Main application component containing the Stopwatch and title.
+ */
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <SafeAreaView style={styles.container}>
+        <View style= {styles.title}>
+          <Icon 
+            name='timer'
+            type='material-community'
+            size={80}
+            color={'#fff'}
+          />
+          <Text style= {styles.text}>Stopwatch</Text>
+        </View>
+        <StopWatch />
+    </SafeAreaView>
   );
 }
 
+// Styles for the App component
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#0D0D0D',
+    alignItems: 'stretch',
+    justifyContent: 'flex-start',
+  },
+  title: {
+    flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
+    paddingTop: 50,
+  },
+  text: {
+    fontSize: 50,
+    color: '#fff'
   },
 });
