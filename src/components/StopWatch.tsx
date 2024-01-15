@@ -1,7 +1,7 @@
 import { Text, View, StyleSheet, Dimensions } from "react-native";
 import StopWatchButton from "./StopWatchButton";
 import { formatTime } from "../utils/utils";
-import LapTable from "./LapTable";
+import LapTable, { Lap } from "./LapTable";
 import { useRef, useState } from "react";
 
 /*
@@ -11,7 +11,7 @@ const StopWatch = () => {
   // Declare state variables
   const [time, setTime] = useState<number>(0);
   const [isActive, setIsActive] = useState<boolean>(false);
-  const [laps, setLaps] = useState<number[]>([]);
+  const [laps, setLaps] = useState<Lap[]>([]);
   const stopwatchRef = useRef<number | null>(null);
 
   // Clear the previously set interval, if not null
@@ -50,13 +50,20 @@ const StopWatch = () => {
 
   // Lap Button for StopWatch functionality
   const onLap = () => {
-    if (laps.length > 0) {
-      const previousLapTime = laps[laps.length - 1];
-      const lapDuration = time - previousLapTime;
-      setLaps((prev) => [...prev, lapDuration]);
-    } else {
-      setLaps([time]);
-    }
+    // If laps array not empty, get endTime of last lap and set it to startTime of new lap
+    const startTime = laps.length > 0 ? laps[laps.length - 1].endTime : 0;
+
+    // To calculate duration of the lap, subtract startTime from the current time
+    const duration = time - startTime;
+
+    const lap = {
+      number: laps.length + 1,
+      startTime,
+      endTime: time,
+      duration,
+    };
+
+    setLaps((prevLaps) => [...prevLaps, lap]);
   };
 
   return (

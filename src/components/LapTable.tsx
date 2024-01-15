@@ -2,8 +2,15 @@ import React from "react";
 import { View, Text, StyleSheet, ScrollView } from "react-native";
 import { formatTime } from "../utils/utils";
 
+export type Lap = {
+  number: number;
+  startTime: number;
+  endTime: number;
+  duration: number;
+};
+
 type LapTableProps = {
-  laps: number[];
+  laps: Lap[];
 };
 
 /*
@@ -25,10 +32,10 @@ const LapTable = ({ laps }: LapTableProps) => {
         {laps.map((lap, index) => (
           <View key={index} style={styles.row}>
             <View style={styles.cell}>
-              <Text style={styles.cellText}>{index + 1}</Text>
+              <Text style={styles.cellText}>{lap.number}</Text>
             </View>
             <View style={styles.cell}>
-              <Text style={styles.cellText}>{formatTime(lap)}</Text>
+              <Text style={styles.cellText}>{formatTime(lap.duration)}</Text>
             </View>
           </View>
         ))}
