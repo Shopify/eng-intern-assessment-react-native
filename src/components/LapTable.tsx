@@ -12,16 +12,16 @@ type LapTableProps = {
 const LapTable = ({ laps }: LapTableProps) => {
   return (
     // Fixed header row and scrollable table of laps
-    <View style={styles.container}>
+    <View style={styles.container} testID="lap-list">
       <View style={styles.headerRow}>
         <View style={styles.cell}>
-          <Text style={styles.headerText}>Lap</Text>
+          <Text style={styles.headerText}>Lap #</Text>
         </View>
         <View style={styles.cell}>
           <Text style={styles.headerText}>Duration</Text>
         </View>
       </View>
-      <ScrollView testID="lap-list">
+      <ScrollView>
         {laps.map((lap, index) => (
           <View key={index} style={styles.row}>
             <View style={styles.cell}>

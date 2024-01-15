@@ -5,7 +5,7 @@ import LapTable from "./LapTable";
 import { useRef, useState } from "react";
 
 /*
- * Displays the elapsed time of the StopWatch
+ * Handles StopWatch functionality and displays the elapsed time
  */
 const StopWatch = () => {
   // Declare state variables
@@ -63,23 +63,21 @@ const StopWatch = () => {
     <View style={styles.container}>
       <Text style={styles.title}>shopify stopwatch</Text>
       <Text style={styles.subtitle}>made by: vanessa hoang</Text>
-      <Text style={styles.timer} testID="timer">
-        {formatTime(time)}
-      </Text>
+      <Text style={styles.timer}>{formatTime(time)}</Text>
       <View style={styles.buttonContainer}>
         <StopWatchButton
-          title="Reset"
+          label="Reset"
           onPress={onReset}
           activeColour="#D8001F"
           disabled={!isActive && time === 0}
         />
         <StopWatchButton
-          title={isActive ? "Pause" : "Start"}
+          label={isActive ? "Pause" : "Start"}
           onPress={isActive ? onPause : onStart}
           activeColour={isActive ? "#007BFF" : "#7FB576"}
         />
         <StopWatchButton
-          title="Lap"
+          label="Lap"
           onPress={onLap}
           activeColour="#FFAB45"
           disabled={!isActive && time === 0}

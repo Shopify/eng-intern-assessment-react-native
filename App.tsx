@@ -2,7 +2,7 @@ import { StyleSheet, View } from "react-native";
 import StopWatch from "./src/components/StopWatch";
 
 /*
- * Handles StopWatch functionality and rendering
+ * Renders StopWatch
  */
 export default function App() {
   return (

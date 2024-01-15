@@ -2,29 +2,31 @@ import React from "react";
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
 
 type StopWatchButtonProps = {
-  title: string;
+  label: string;
   onPress: () => void;
   activeColour: string;
+  disabledColour?: string;
   disabled?: boolean;
 };
 
 const StopWatchButton = ({
-  title,
+  label,
   onPress,
-  disabled,
   activeColour,
+  disabledColour = "rgba(64, 64, 64, 0.3)",
+  disabled,
 }: StopWatchButtonProps) => {
   return (
     <TouchableOpacity
       style={[
         styles.button,
-        { backgroundColor: disabled ? "rgba(64, 64, 64, 0.3)" : activeColour },
+        { backgroundColor: disabled ? disabledColour : activeColour },
       ]}
       onPress={onPress}
       disabled={disabled}
       activeOpacity={0.8}
     >
-      <Text style={styles.buttonText}>{title}</Text>
+      <Text style={styles.buttonLabel}>{label}</Text>
     </TouchableOpacity>
   );
 };
@@ -39,10 +41,10 @@ const styles = StyleSheet.create({
     margin: 5,
     borderRadius: 50,
   },
-  buttonText: {
+  buttonLabel: {
     color: "#fff",
     fontSize: 16,
-    fontWeight: "bold"
+    fontWeight: "bold",
   },
 });
 
