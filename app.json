@@ -1,13 +1,14 @@
 {
   "expo": {
-    "name": "eng-intern-assessment-react-native",
-    "slug": "eng-intern-assessment-react-native",
+    "name": "StopWatch",
+    "slug": "stop-watch",
+    "description": "StopWatch app for the Shopify Summer 2024 intern challenge",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/stopwatch_icon.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/stopwatch_icon.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -25,6 +26,17 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "f6ef0198-e309-4cd1-8927-fcdb34919516"
+      }
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/f6ef0198-e309-4cd1-8927-fcdb34919516"
     }
   }
 }
