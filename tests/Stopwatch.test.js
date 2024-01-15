@@ -14,10 +14,11 @@ describe('Stopwatch', () => {
 
   /**
    * Test case to check if the stopwatch starts and stops correctly
-   * Note: I added fake jest fake timers in order to get the time to pass, otherwise the test would click the start
-   * and stop button instantly. I also added the '.props.children' keys to get actual time string from the ReactTestInstance
-   * that was being retured by the 'getByText' function. Then I compared it with the original time before start instead
-   * of it checking for the text to be null, thus making this test more robust.
+   * Note: I added jest fake timers to simulate the passage of time, otherwise the test would click the start and stop 
+   * buttons instantly which resulted in the start and stop time being the same. I also added the '.props.children' keys 
+   * to get the actual time string from the ReactTestInstance that was being returned by the 'getByText' function. Then I 
+   * compared it with the original time before starting instead of checking for the text to be null, thus making this test 
+   * more robust by making sure the start and stop times were different.
    */
   test('starts and stops the stopwatch', async () => {
     jest.useFakeTimers();
@@ -34,9 +35,11 @@ describe('Stopwatch', () => {
 
   /**
    * Test case to check if the stopwatch pauses and resumes correctly
-   * Note: I added fake jest fake timers in order to get the time to pass, otherwise the test would click the start, pause,
-   * and resume button instantly. I also added the '.props.children' keys to get actual time string from the ReactTestInstance
-   * that was being retured by the 'getByText' function.
+   * Note: I added jest fake timers to simulate the passage of time, otherwise the test would click the start, resume, 
+   * and pause buttons instantly which resulted in the resume and pause time being the same. I also added the 
+   * '.props.children' keys to get the actual time string from the ReactTestInstance that was being returned by the 
+   * 'getByText' function. Then I compared it with the original time before starting instead of checking for the text 
+   * to be null, thus making this test more robust by making sure the pause and resume times were different.
    */
   test('pauses and resumes the stopwatch', async () => {
     jest.useFakeTimers();
@@ -54,12 +57,12 @@ describe('Stopwatch', () => {
 
   /**
    * Test case to check if lap times are recorded and displayed correctly
-   * Note: I added fake jest fake timers in order to get the time to pass, otherwise the test would click the start, pause,
-   * and resume button instantly. I also added the '.props.children' keys to get actual time string from the ReactTestInstance
-   * that was being retured by the 'getByText' function.
-   * I also made use of the 'toMatch' function instead of the 'toContainElement' function, since that requires a new library.
-   * Instead of the 'getByText' I used 'getAllByText' function so that it won't throw an error if it sees multiple '00:00:00'
-   * format texts. (One will always be present because of the main stopwatch)
+   * Note: I added jest fake timers to simulate the passage of time, otherwise the test would click the lap button twice 
+   * instantly. I also added the '.props.children' keys to get the actual time string from the ReactTestInstance that was
+   *  being returned by the 'getByText' function. I also made use of the 'toMatch' function instead of the 
+   * 'toContainElement' function, since that requires a new library. 'toMatch' also allows me to compare the strings of 
+   * the lap times. Instead of the 'getByText' I used the 'getAllByText' function so that it won't throw an error if it 
+   * sees multiple '00:00:00' format texts. (One will always be present because of the main stopwatch)
    */
   test('records and displays lap times', () => {
     const { getByText, getByTestId, getAllByText } = render(<Stopwatch />);
