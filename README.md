@@ -1,84 +1,75 @@
-# Technical Instructions
-1. Fork this repo to your local Github account.
-2. Create a new branch to complete all your work in.
-3. Test your work using the provided tests
-4. Create a Pull Request against your local Main branch when you're done and all tests are passing
+## Shopify Summer 2024 Intern Challenge
 
-# Project Overview
-The goal of this project is to implement a stopwatch application using React Native and TypeScript. The stopwatch should have the following functionality:
+## Contents
+1. [Usage](#usage)
+2. [Local Installation](#local-installation)
+3. [Run Test Cases](#run-test-cases)
+4. [Additional Features](#additional-features)
+5. [Reflection](#reflection)
+6. [Resources](#resources)
+7. [Next Steps](#next-steps)
 
-- Start the stopwatch to begin counting time.
-- Stop the stopwatch to pause the timer.
-- Displays Laps when a button is pressed.
-- Reset the stopwatch to zero.
+## Usage
+There are six simple actions that you can do to use the stopwatch app.
+The actions are as described below:
+| Action | Description |
+|--------|-------------|
+| Start | Click this button to start the stopwatch. You can only start it when the time is 00:00:00. |
+| Stop | Click this button to stop the stopwatch and set the time back to 00:00:00. |
+| Pause | Click this button when the stopwatch is running to pause the time. |
+| Resume | Click this button when the stopwatch is paused to continue the timer running from when you paused it. |
+| Reset | Click this button at any time after the stopwatch has started to reset the time to 00:00:00 and remove all lap entries. |
+| Lap | Click this button when the stopwatch is running to lap the time. You can see the lapped time in the lap entries below. You can only lap when the stopwatch is active. |
 
-You will be provided with a basic project structure that includes the necessary files and dependencies. Your task is to write the code to implement the stopwatch functionality and ensure that it works correctly.
+All of these actions have been implemented as methods in (`src/StopWatch.tsx`). The start and stop buttons use the same method. The resume and pause buttons share a method too. The reset and lap buttons have their own respective methods.
 
-## Project Setup
-To get started with the project, follow these steps:
+## Local Installation
 
-1. Clone the project repository to your local development environment.
+### Prerequisites:
+- Require one of the following emulators:
+-- An android emulator with Android 6.0 (API 23) or newer. Works best with Android 13.0 (API 33)
+-- An iOS (iPhone) emulator with iOS 13.4 or newer.
+-- A smartphone running either of the above mentioned OS with the Expo Go app installed on it.
+- NodeJS.
+- JDK if you are using the Android emulator.
+- clone by the repo by running (`git clone https://github.com/kishorpandya2210/eng-intern-assessment-react-native.git`).
 
-2. Install the required dependencies by running npm install in the project directory.
+### Generate Dev Build
+1. run `cd eng-intern-assessment-react-native` to enter the project directory.
+2. run `npm i` or `npm install` to download all the dependencies required by the project.
+3. run `npm start` to run the project using Expo Go.
+4. press `a` to run it on your Android emulator or `i` to run it on the iOS emulator. You can also scan the QR code to run it on your own device (make sure your device and laptop are connected to the same local network).
 
-3. Familiarize yourself with the project structure. The main files you will be working with are:
-    - /App.tsx: The main component that renders the stopwatch and handles its functionality.
-    - src/Stopwatch.tsx: A separate component that represents the stopwatch display.
-    - src/StopwatchButton.tsx: A separate component that represents the start, stop, and reset buttons.
+## Run Test Cases
+With the same prerequisites for local installation as described [above](#local-installation):
+1. run `npm test` in the root directory of the project.
 
-4. Review the existing code in the above files to understand the initial structure and component hierarchy.
+Validated results from test cases:
 
-## Project Goals
-Your specific goals for this project are as follows:
 
-1. Implement the stopwatch functionality:
-    - The stopwatch should start counting when the user clicks the start button.
-    - The stopwatch should stop counting when the user clicks the stop button.
-    - The stopwatch should reset to zero when the user clicks the reset button.
-    - The stopwatch should record and display laps when user clicks the lap button.
+## Additional features:
+1. 
 
-2. Ensure code quality:
-    - Write clean, well-structured, and maintainable code.
-    - Follow best practices and adhere to the React and TypeScript coding conventions.
-    - Pay attention to code readability, modularity, and performance.
+## Reflection
+### Biggest Challenges
+1. This was my first time working with react native specifically. This created a learning curve that I had to overcome, but my experience with other frameworks like react and flutter made this learning curve easier.
+2. I chose the HH:MM:SS format instead of the MM:SS:MS format because to use milliseconds accurately, we have to use the system time instead of the setInterval function (like in my current application). I chose my implementation because after some research online, I discovered that the system time can change if a user travels from one timezone to another or if the daylight savings time switch happens. A change in the system time can cause the stopwatch to display inaccurate time. Using the setInterval function came with its own disadvantages too as if you set an interval of less than 100 ms, the accuracy of the stopwatch is lost. Making this choice was difficult.
+3. It was confusing to understand how the app should be implementated since the instructions sometimes contradicted what was in the test cases. My implementation is my version of how I thought the app should be implemented after looking at the instructions and the test cases.
 
-3. Test your code:
-    - Run the application and test the stopwatch functionality to ensure it works correctly.
-    - Verify that the stopwatch starts, stops, resets, and records laps as expected.
-
-4. Code documentation:
-    - Document your code by adding comments and explanatory notes where necessary.
-    - Provide clear explanations of the implemented functionality and any important details.
-
-5. Version control:
-    - Use Git for version control. Commit your changes regularly and push them to a branch in your forked repository.
-
- 6. Create a Pull Request:
-    - Once you have completed the project goals, create a pull request to merge your changes into the main repository.
-    - Provide a clear description of the changes made and any relevant information for the code review.
-
-## Getting Started
-To start working on the project, follow these steps:
-
-1. Clone the repository to your local development environment.
-
-2. Install the required dependencies by running npm install in the project directory.
-
-3. Open the project in your preferred code editor.
-
-4. Review the existing code in the src directory to understand the initial structure and component hierarchy.
-
-5. Implement the stopwatch functionality by modifying the necessary components (App.tsx, Stopwatch.tsx, StopwatchButton.tsx).
-
-6. Run the application using npm start and test the stopwatch functionality.
-
-7. Commit your changes regularly and push them to a branch in your forked repository.
-
-8. Once you have completed the project goals, create a pull request to merge your changes into the main repository.
+### Key Takeaways
+1. React Native - This project forced me to learn react native. I noticed a lot of similarities between React and React Native. I also realised that Flutter has a different mechanism of doing this under the hood compared to React Native.
+2. Testing - This project forced me to learn a lot of new Jest testing functions that I had never used before. Especially the Jest fake timer.
+3. Hosting - I always believed to host an app I would have to publish it to either the Play Store or the App Store, working with Expo Go showed me that there are other ways to host apps too.
 
 ## Resources
 Here are some resources that may be helpful during your work on this project:
 
+- [React Native Doc](https://reactnative.dev/docs/environment-setup) - Official documentation to setup the development environment.
+
 - [TypeScript Documentation](https://www.typescriptlang.org/docs/) - Official documentation for TypeScript, offering guidance on TypeScript features and usage.
 
 - [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/) - Explore React Testing Library, a popular testing library for React applications.
+
+## Next Steps
+1. Build a pipeline to create a workflow where an approved PR can be merged into the deployment branch, triggering the hosted app to rebuild.
+2. Add more tests to the test suite to ensure robustness of the application.
