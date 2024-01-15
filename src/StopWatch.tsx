@@ -1,4 +1,4 @@
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Dimensions, ScrollView, StyleSheet, Text, View } from 'react-native';
 import StopWatchButton from './StopWatchButton';
 import { useEffect, useState } from 'react';
 import displayTime from './utils/DisplayTime';
@@ -100,7 +100,6 @@ export default function StopWatch() {
       <ScrollView style={styles.scrollView}>
         {Object.entries(laps).length > 0 && (
             <View>
-            {/* <Text>Lap Times:</Text> */}
             <View testID='lap-list'>
             {Object.entries(laps).map(([lapKey, lapTime]) => (
               <View style={styles.lap} key={lapKey}>
@@ -127,9 +126,8 @@ const styles = StyleSheet.create({
   },
   dialView: {
     color: '#FFFFFF',
-    fontSize: 80,
-    fontWeight: '200',
-    width: 300,
+    fontSize: 75,
+    fontWeight: '100',
   },
   scrollView: {
     alignSelf: 'stretch'

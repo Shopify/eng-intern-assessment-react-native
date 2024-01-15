@@ -1,4 +1,4 @@
-import { StyleSheet, View, Text, StatusBar } from 'react-native';
+import { StyleSheet, View, Text, SafeAreaView } from 'react-native';
 import StopWatch from './src/StopWatch';
 import { Icon } from '@rneui/themed';
 
@@ -7,18 +7,18 @@ import { Icon } from '@rneui/themed';
  */
 export default function App() {
   return (
-    <View style={styles.container}>
-      <View style= {styles.title}>
-        <Icon 
-          name='timer'
-          type='material-community'
-          size={80}
-          color={'#fff'}
-        />
-        <Text style= {styles.text}>Stopwatch</Text>
-      </View>
-      <StopWatch />
-    </View>
+    <SafeAreaView style={styles.container}>
+        <View style= {styles.title}>
+          <Icon 
+            name='timer'
+            type='material-community'
+            size={80}
+            color={'#fff'}
+          />
+          <Text style= {styles.text}>Stopwatch</Text>
+        </View>
+        <StopWatch />
+    </SafeAreaView>
   );
 }
 
@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    paddingTop: StatusBar.currentHeight,
+    paddingTop: 50,
   },
   text: {
     fontSize: 50,
