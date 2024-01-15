@@ -51,9 +51,9 @@ https://github.com/kishorpandya2210/eng-intern-assessment-react-native/assets/77
   - [For Android](https://play.google.com/store/apps/details?id=host.exp.exponent&hl=en_CA&gl=US&pli=1)
   - [For iOS](https://apps.apple.com/us/app/expo-go/id982107779)
 - For Android Scan the QR code below:
-![AndroidPreview](https://github.com/kishorpandya2210/eng-intern-assessment-react-native/assets/77642092/90f6c99f-d142-4410-ae9b-8ad6ec64d059)
+- ![AndroidPreview](https://github.com/kishorpandya2210/eng-intern-assessment-react-native/assets/77642092/90f6c99f-d142-4410-ae9b-8ad6ec64d059)
 - For iOS Scan the QR code below:
-![iOSPreview](https://github.com/kishorpandya2210/eng-intern-assessment-react-native/assets/77642092/9559ef76-6ee8-4337-b574-711b16e95be7)
+- ![iOSPreview](https://github.com/kishorpandya2210/eng-intern-assessment-react-native/assets/77642092/9559ef76-6ee8-4337-b574-711b16e95be7)
 
 
 ## Run Test Cases
