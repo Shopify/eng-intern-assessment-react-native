@@ -2,34 +2,70 @@ import { Text, View, StyleSheet, Dimensions } from "react-native";
 import StopWatchButton from "./StopWatchButton";
 import { formatTime } from "../utils/utils";
 import LapTable from "./LapTable";
-
-type StopWatchProps = {
-  time: number;
-  isActive: boolean;
-  laps: number[];
-  onStart: () => void;
-  onPause: () => void;
-  onReset: () => void;
-  onLap: () => void;
-};
+import { useRef, useState } from "react";
 
 /*
  * Displays the elapsed time of the StopWatch
  */
-const StopWatch = ({
-  time,
-  isActive,
-  laps,
-  onStart,
-  onPause,
-  onReset,
-  onLap,
-}: StopWatchProps) => {
+const StopWatch = () => {
+  // Declare state variables
+  const [time, setTime] = useState<number>(0);
+  const [isActive, setIsActive] = useState<boolean>(false);
+  const [laps, setLaps] = useState<number[]>([]);
+  const stopwatchRef = useRef<number | null>(null);
+
+  // Clear the previously set interval, if not null
+  const clearPrevInterval = () => {
+    if (stopwatchRef.current) {
+      clearInterval(stopwatchRef.current);
+    }
+  };
+
+  // Start Button for StopWatch functionality
+  const onStart = () => {
+    if (!isActive) {
+      setIsActive(true);
+      // Initiate interval that updates the elapsed StopWatch time every second
+      stopwatchRef.current = setInterval(() => {
+        setTime((prevTime) => prevTime + 1000);
+      }, 1000);
+    }
+  };
+
+  // Pause Button for StopWatch functionality
+  const onPause = () => {
+    if (isActive && stopwatchRef.current) {
+      setIsActive(false);
+      clearPrevInterval();
+    }
+  };
+
+  // Reset Button for StopWatch functionality
+  const onReset = () => {
+    setTime(0);
+    setIsActive(false);
+    setLaps([]);
+    clearPrevInterval();
+  };
+
+  // Lap Button for StopWatch functionality
+  const onLap = () => {
+    if (laps.length > 0) {
+      const previousLapTime = laps[laps.length - 1];
+      const lapDuration = time - previousLapTime;
+      setLaps((prev) => [...prev, lapDuration]);
+    } else {
+      setLaps([time]);
+    }
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>shopify stopwatch</Text>
       <Text style={styles.subtitle}>made by: vanessa hoang</Text>
-      <Text style={styles.timer}>{formatTime(time)}</Text>
+      <Text style={styles.timer} testID="timer">
+        {formatTime(time)}
+      </Text>
       <View style={styles.buttonContainer}>
         <StopWatchButton
           title="Reset"
