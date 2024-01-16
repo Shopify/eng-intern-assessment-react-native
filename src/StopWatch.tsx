@@ -1,9 +1,10 @@
-// TODO: Create lap table, add button styling and text styling, clean up code
+// TODO: add comments and add nicer UI
 
-import { FlatList, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import StopWatchButton from './StopWatchButton';
 import { useEffect, useState } from 'react';
 import { formatTime } from './util/formatTime';
+import LapTable from './LapTable';
 
 export default function StopWatch() {
   const [isRunning, setIsRunning] = useState(false);
@@ -42,13 +43,6 @@ export default function StopWatch() {
     setLapTimes([...lapTimes, time]);
   }
 
-  const renderItem = ({ item, index }: { item: number, index: number }) => (
-    <View style={styles.tableRow}>
-      <Text style={styles.tableCell}>Lap {index + 1}</Text>
-      <Text style={styles.tableCell}>{`${formatTime(item)}`}</Text>
-    </View>
-  );
-
   return (
     <View style={styles.container}>
       <Text style={styles.timer}>
@@ -67,11 +61,7 @@ export default function StopWatch() {
           isDisabled={isDisabled}
         />
       </View>
-      <FlatList
-        data={lapTimes}
-        keyExtractor={(_, index) => index.toString()}
-        renderItem={renderItem}
-      />
+      <LapTable lapTimes={lapTimes} />
     </View>
   );
 }
@@ -84,27 +74,9 @@ const styles = StyleSheet.create({
   },
   timer: {
     fontSize: 50,
-    marginBottom: 30,
     paddingTop: 100,
-  },
-  lapText: {
-    fontSize: 18,
-    marginVertical: 5,
   },
   buttonsContainer: {
     flexDirection: 'row',
-    paddingBottom: 30,
-  },
-  tableRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingVertical: 15,
-    paddingHorizontal: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: '#ccc',
-  },
-  tableCell: {
-    fontSize: 25,
-    paddingRight: 20,
-  },
+  }
 });
