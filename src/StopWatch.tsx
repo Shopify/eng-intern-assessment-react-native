@@ -1,8 +1,10 @@
-import { View, Text } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, SafeAreaView } from 'react-native';
 import React, { useState, useEffect } from 'react';
 
 // Import the StopWatchButton component for controlling stopwatch actions
 import StopWatchButton from './StopWatchButton';
+// Import the color configuration
+import colors from '../config/colors';
 
 // Define the StopWatch component
 export default function StopWatch() {
@@ -10,8 +12,8 @@ export default function StopWatch() {
   const [time, setTime] = useState(0);
   // State to track whether the stopwatch is running
   const [isOn, setIsOn] = useState(false);
-  // State to store recorded laps
-  const [laps, setLaps] = useState<number[]>([]);
+  // State to store recorded laps with lap start time and lap elapsed time
+  const [laps, setLaps] = useState<{ startTime: number; elapsedTime: number }[]>([]);
 
   // Effect hook to handle the interval for updating time
   useEffect(() => {
@@ -20,9 +22,9 @@ export default function StopWatch() {
     // Start the interval when isOn is true
     if (isOn) {
       interval = setInterval(() => {
-        // Update the time every second
-        setTime((prevTime) => prevTime + 1);
-      }, 1000);
+        // Update the time every millisecond
+        setTime((prevTime) => prevTime + 10);
+      }, 10);
     }
 
     // Clear the interval when isOn changes
@@ -45,35 +47,91 @@ export default function StopWatch() {
     setTime(0);     // Reset the time
     setLaps([]);    // Clear recorded laps
   };
+
   // Function to record a lap
   const recordLap = () => {
-    // Save the current time in the laps array
-    setLaps((prevLaps) => [...prevLaps, time]);
+    // Calculate the elapsed time for the lap
+    const lapElapsedTime = laps.length > 0 ? time - laps[laps.length - 1].startTime : time;
+
+    // Save the lap in the laps array
+    setLaps((prevLaps) => [...prevLaps, { startTime: time, elapsedTime: lapElapsedTime }]);
   };
+
+
+  // Function to format milliseconds to "MM:SS.SS"
+  const formatTime = (milliseconds: number): string => {
+    const totalSeconds = Math.floor(milliseconds / 1000);
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = totalSeconds % 60;
+    const millisecondsPart = Math.floor((milliseconds % 1000) / 10);
+  
+    const formattedMinutes = minutes.toString().padStart(2, '0');
+    const formattedSeconds = seconds.toString().padStart(2, '0');
+    const formattedMilliseconds = millisecondsPart.toString().padStart(2, '0');
+  
+    return `${formattedMinutes}:${formattedSeconds}.${formattedMilliseconds}`;
+  };
+
 
   // Render the StopWatch component
   return (
-    <View>
-      {/* Display the elapsed time */}
-      <Text>{time}</Text>
-      {/* Render the StopWatchButton component with appropriate callback functions */}
+    <View style={styles.container}>
+      <Text style={styles.text}>{formatTime(time)}</Text>
       <StopWatchButton
         onStart={startStopwatch}
         onStop={stopStopwatch}
         onReset={resetStopwatch}
         onRecordLap={recordLap}
       />
-
-      {/* Display recorded laps if there are any */}
-      {laps.length > 0 && (
-        <View>
-          <Text>Laps:</Text>
-          {/* Map through laps and display lap information */}
-          {laps.map((lap, index) => (
-            <Text key={index + 1}>{`Lap ${index + 1}: ${lap}`}</Text>
-          ))}
-        </View>
-      )}
+      <View style={styles.divider}></View>
+      <SafeAreaView style={styles.container}>
+        <ScrollView style={styles.scrollView}>
+        {[...laps].reverse().map((lap, index) => (
+          <Text
+            key={index + 1}
+            style={[
+              styles.lapText,
+              { color: 'white' },
+            ]}
+          >{`Lap ${laps.length - index}: ${formatTime(lap.elapsedTime)}`}</Text>
+        ))}
+        </ScrollView>
+      </SafeAreaView>
     </View>
   );
 }
+
+
+const styles = StyleSheet.create({
+  container: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    flex: 1,
+    width: '100%',
+  },
+  divider: {
+    height: 1,
+    marginTop: 10,
+    backgroundColor: colors.white,
+    width: '100%',
+  },
+  lapText: {
+    color: colors.white,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    textAlign: 'center'
+  },
+  scrollView: {
+    backgroundColor: colors.secondary,
+    marginTop: 20,
+    borderRadius: 8,
+    width: '100%',
+    height: 25,
+    display: 'flex',
+  },
+  text: {
+    fontSize: 50,
+    color: colors.white,
+    marginBottom: 20,
+  },
+});

@@ -1,5 +1,7 @@
-import { View } from 'react-native';
-import { Button } from '@shopify/polaris'
+import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
+
+// Import the color configuration
+import colors from '../config/colors';
 
 // Define the props interface for the StopWatchButton component
 interface StopWatchButtonProps {
@@ -17,15 +19,54 @@ export default function StopWatchButton({
   onRecordLap,
 }: StopWatchButtonProps) {
   return (
-    <View>
-      {/* Button for starting the stopwatch, onClick triggers the onStart function */}
-      <Button onClick={onStart}>Start</Button>
-      {/* Button for stopping the stopwatch, onClick triggers the onStop function */}
-      <Button onClick={onStop}>Stop</Button>
-      {/* Button for resetting the stopwatch, onClick triggers the onReset function */}
-      <Button onClick={onReset}>Reset</Button>
-      {/* Button for recording a lap, onClick triggers the onRecordLap function */}
-      <Button onClick={onRecordLap}>Lap</Button>
+    <View style={styles.container}>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={onStart}
+      >
+        <Text style={styles.buttonText}>Start</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        style={styles.button}
+        onPress={onStop}
+      >
+        <Text style={styles.buttonText}>Stop</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        style={styles.button}
+        onPress={onReset}
+      >
+        <Text style={styles.buttonText}>Reset</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        style={styles.button}
+        onPress={onRecordLap}
+      >
+        <Text style={styles.buttonText}>Lap</Text>
+      </TouchableOpacity>
     </View>
   );
 }
+
+
+const styles = StyleSheet.create({
+  button: {
+    backgroundColor: colors.secondary,
+    padding: 10,
+    margin: 5,
+    borderRadius: 8,
+    alignItems: 'center',
+  },
+
+  buttonText: {
+    color: colors.white,
+    fontWeight: '400',
+    fontSize: 15,
+  },
+  container: {
+    flexDirection: 'row',  
+  },
+});

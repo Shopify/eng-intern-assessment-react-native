@@ -1,6 +1,6 @@
 export default {
     primaryBackground: '#22223a',
-    secondaryBackground: '#2c2c4b',
+    secondary: '#2c2c4b',
     white: 'white',
     accentColor1: '#37595e',
     accentColor2: '#00e5e3',
