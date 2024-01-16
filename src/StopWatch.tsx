@@ -86,15 +86,18 @@ export default function StopWatch() {
       <View style={styles.divider}></View>
       <SafeAreaView style={styles.container}>
         <ScrollView style={styles.scrollView}>
-        {[...laps].reverse().map((lap, index) => (
-          <Text
-            key={index + 1}
-            style={[
-              styles.lapText,
-              { color: 'white' },
-            ]}
-          >{`Lap ${laps.length - index}: ${formatTime(lap.elapsedTime)}`}</Text>
-        ))}
+          {[...laps].reverse().map((lap, index) => (
+            <Text
+              key={index + 1}
+              style={[
+                styles.lapText,
+                { color: 'white' },
+                // Apply color based on the lap time comparison
+                laps.length >= 3 && lap.elapsedTime === Math.min(...laps.map((lap) => lap.elapsedTime)) ? { color: 'green' } :
+                laps.length >= 3 && lap.elapsedTime === Math.max(...laps.map((lap) => lap.elapsedTime)) ? { color: 'red' } : null
+              ]}
+            >{`Lap ${laps.length - index}: ${formatTime(lap.elapsedTime)}`}</Text>
+          ))}
         </ScrollView>
       </SafeAreaView>
     </View>
