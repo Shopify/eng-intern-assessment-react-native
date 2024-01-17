@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import {
   View,
   ScrollView,
@@ -20,25 +21,140 @@ export default function StopWatchButton({
   onReset,
   onLap,
   laps,
-  isActive
+  isActive,
 }: StopWatchButtonProps) {
+  const [maxIndex, setMaxIndex] = useState<number | null>(null);
+  const [minIndex, setMinIndex] = useState<number | null>(null);
+
+  useEffect(() => {
+    setMaxIndex(findMaxDuration(laps));
+    setMinIndex(findMinDuration(laps));
+  }, [laps]);
+
+  const findMaxDuration = (laps: string[]): number => {
+    // Return index of the lap with the largest duration
+    let maxTimeInSeconds = -1;
+    let indexOfMaxTime = -1;
+
+    for (let i = 0; i < laps.length; i++) {
+      // Split time parts and calculate the time in seconds.
+      const timeParts = laps[i].split(":");
+      if (timeParts.length === 3) {
+        const hours = parseInt(timeParts[0], 10);
+        const minutes = parseInt(timeParts[1], 10);
+        const seconds = parseInt(timeParts[2], 10);
+        const totalTimeInSeconds = hours * 3600 + minutes * 60 + seconds;
+
+        // Compare with exisiting highest seconds, replace and save index if its bigger.
+        if (totalTimeInSeconds > maxTimeInSeconds) {
+          maxTimeInSeconds = totalTimeInSeconds;
+          indexOfMaxTime = i;
+        }
+      }
+    }
+    return indexOfMaxTime;
+  };
+
+  const findMinDuration = (laps: string[]): number => {
+    // Return index of the lap with the largest duration
+    let maxTimeInSeconds = Infinity;
+    let indexOfMaxTime = -1;
+
+    for (let i = 0; i < laps.length; i++) {
+      // Split time parts and calculate the time in seconds.
+      const timeParts = laps[i].split(":");
+      if (timeParts.length === 3) {
+        const hours = parseInt(timeParts[0], 10);
+        const minutes = parseInt(timeParts[1], 10);
+        const seconds = parseInt(timeParts[2], 10);
+        const totalTimeInSeconds = hours * 3600 + minutes * 60 + seconds;
+
+        // Compare with exisiting highest seconds, replace and save index if its bigger.
+        if (totalTimeInSeconds < maxTimeInSeconds) {
+          maxTimeInSeconds = totalTimeInSeconds;
+          indexOfMaxTime = i;
+        }
+      }
+    }
+
+    return indexOfMaxTime;
+  };
+
+  const loadColor = (index: number): string => {
+    if (index == maxIndex && index == minIndex) {
+      return "whiteText";
+    } else if (index == maxIndex) {
+      return "redText";
+    } else if (index == minIndex) {
+      return "greenText";
+    } else {
+      return "whiteText";
+    }
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={[styles.button, isActive ? styles.stopButton : styles.startButton]} onPress={onToggle}>
-          <Text style={[styles.buttonText, isActive ? styles.stopButtonText : styles.startButtonText]}>{isActive ? "Stop" : "Start"}</Text>
+        <TouchableOpacity
+          style={[
+            styles.button,
+            isActive ? styles.redButton : styles.greenButton,
+          ]}
+          onPress={onToggle}
+        >
+          <Text
+            style={[
+              styles.buttonText,
+              isActive ? styles.redText : styles.greenText,
+            ]}
+          >
+            {isActive ? "Stop" : "Start"}
+          </Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.button} onPress={isActive ? onLap : onReset}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={isActive ? onLap : onReset}
+        >
           <Text style={styles.buttonText}>{isActive ? "Lap" : "Reset"}</Text>
         </TouchableOpacity>
       </View>
-      <ScrollView contentContainerStyle={styles.lapContainerContent} style={styles.lapContainer}>
-        {laps.map((lapTime, index) => ( // Maps laps onto View element.
-          <View key={index} style={styles.lap}>
-            <Text style={styles.lapText}>{"Lap " + (laps.length - index)}</Text>
-            <Text style={styles.lapText}>{lapTime}</Text>
-          </View>
-        ))}
+      <ScrollView
+        contentContainerStyle={styles.lapContainerContent}
+        style={styles.lapContainer}
+      >
+        {laps.map(
+          (
+            lapTime,
+            index // Maps laps onto View element.
+          ) => (
+            <View key={index} style={styles.lap}>
+              <Text
+                style={[
+                  loadColor(index) == "redText"
+                    ? styles.redText
+                    : (loadColor(index) == "greenText"
+                    ? styles.greenText
+                    : (styles.whiteText)),
+                  styles.lapText,
+                ]}
+              >
+                {"Lap " + (laps.length - index)}
+              </Text>
+              <Text
+                style={[
+                  loadColor(index) == "redText"
+                    ? styles.redText
+                    : (loadColor(index) == "greenText"
+                    ? styles.greenText
+                    : (styles.whiteText)),
+                  styles.lapText,
+                ]}
+              >
+                {lapTime}
+              </Text>
+            </View>
+          )
+        )}
       </ScrollView>
     </View>
   );
@@ -69,21 +185,21 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     margin: 15,
-    backgroundColor: "#1b1b1b"
+    backgroundColor: "#1b1b1b",
   },
   buttonText: {
     fontSize: 22,
     fontWeight: "bold",
-    color: "white"
+    color: "white",
   },
   lapContainer: {
     width: "100%",
-    paddingBottom: 50
+    paddingBottom: 50,
   },
   lapContainerContent: {
-    flexDirection: 'column', 
-    alignItems: 'center',
-    justifyContent: 'center',
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
   },
   lap: {
     backgroundColor: "black",
@@ -95,23 +211,24 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     borderBottomWidth: 1,
     borderBottomColor: "rgba(64, 64, 64, 0.7)",
-    width: "90%"
+    width: "90%",
   },
   lapText: {
-    color: 'white',
-    fontSize: 25,
+    fontSize: 22,
   },
-  startButton: {
-    backgroundColor: "#0a2a12"
+  greenButton: {
+    backgroundColor: "#0a2a12",
   },
-  startButtonText: {
-    color: "#30d158"
+  greenText: {
+    color: "#30d158",
   },
-  stopButton: {
-    backgroundColor: "#330e0c"
-  }, 
-  stopButtonText: {
-    color: "#ff453a"
+  redButton: {
+    backgroundColor: "#330e0c",
   },
-  
+  redText: {
+    color: "#ff453a",
+  },
+  whiteText: {
+    color: "white",
+  },
 });

@@ -4,19 +4,18 @@ import StopWatch from "./src/StopWatch";
 import StopWatchButton from "./src/StopWatchButton";
 import { useEffect, useState } from "react";
 
-// pale red: #330e0c
-// bright red: #ff453a
-// pale green: #0a2a12
-// bright green: #30d158
-// gray on: #1b1b1b
-// gray off: #1c1c1e
-
 export default function App() {
   // Define state variables for managing the stopwatch.
   const [isActive, setIsActive] = useState<boolean>(false);
   const [time, setTime] = useState<number>(0);
   const [formattedTime, setFormattedTime] = useState<string>("00:00:00");
+  /* 
+    Laps are the duration of time between each lap
+    Total lap times are the total time expended at each lap
+    Total lap times are used to calculate laps (laps are displayed to user)
+  */
   const [laps, setLaps] = useState<string[]>([]);
+  const [totalLapTimes, setTotalLapTimes] = useState<string[]>([]);
 
   useEffect(() => {
     let interval: ReturnType<typeof setInterval> | undefined;
@@ -46,11 +45,40 @@ export default function App() {
     setTime(0);
     setFormattedTime("00:00:00");
     setLaps([]);
+    setTotalLapTimes([]);
   };
 
   const handleLap = () => {
-    // Update laps by append new lap to list of laps.
-    setLaps([formattedTime, ...laps]); // Laps are ordered newest to oldest.
+
+    // Get new lap time by calculating difference of current time and last lap.
+    const timeDifference: string = calculateTimeDifference(
+      formattedTime, 
+      totalLapTimes[0] ? totalLapTimes[0] : "00:00:00"
+    );
+
+    // Update laps/intervals by appending to start of list of laps/intervals.
+    setTotalLapTimes([formattedTime, ...totalLapTimes])
+    setLaps([timeDifference, ...laps]); // Laps are ordered newest to oldest.
+  };
+
+  const calculateTimeDifference = (time: string, lastInterval: string): string => {
+    // Convert times to date format.
+    const time1 = new Date(`1999-01-01T${time}`);
+    const time2 = new Date(`1999-01-01T${lastInterval}`);
+
+    //Get time HH:MM:SS time different using Date methods.
+    const timeDifference = time1.getTime() - time2.getTime();
+
+    // Convert from miliseconds to correct time.
+    const hours = Math.floor(timeDifference / 3600000);
+    const minutes = Math.floor((timeDifference % 3600000) / 60000);
+    const seconds = Math.floor((timeDifference % 60000) / 1000);
+
+    // Returned parsed hours, minutes, seconds in HH:MM:SS.
+    return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(
+      2,
+      "0"
+    )}:${String(seconds).padStart(2, "0")}`;
   };
 
   const formatTime = (): void => {
