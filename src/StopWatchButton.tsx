@@ -21,7 +21,43 @@ export const StateMapping: Record<StopButtonState, { btnLeft: StopButtonType, bt
   [StopButtonState.PAUSED]: { btnLeft: StopButtonType.RESET, btnRight: StopButtonType.START },
 };
 
-export function StopwatchButton(){
-  // Will generate the button depending on type
-  return <Text></Text>
+const StopwatchButtonMapping: Record<StopButtonType, { 
+  text?: string,
+  backgroundColor?: string;
+}> = {
+  [StopButtonType.START]: { text: 'Start', backgroundColor: "green" },
+  [StopButtonType.STOP]: { text: 'Stop', backgroundColor: 'red'},
+  [StopButtonType.RESET]: { text: 'Reset', backgroundColor: 'black' },
+  [StopButtonType.LAP]: {  text: 'Lap' , backgroundColor: 'blue'},
+  [StopButtonType.EMPTY]: {},
+};
+
+export default function StopWatchButton(
+  type: StopButtonType, 
+  buttonClick: (type: StopButtonType) => void,
+) {  
+  if(type === StopButtonType.EMPTY) return;
+  let bgColor = StopwatchButtonMapping[type].backgroundColor
+  let btnText = StopwatchButtonMapping[type].text
+
+  return (
+    <TouchableOpacity  style={{...buttonStyles.button, backgroundColor: bgColor}} onPress={() => buttonClick(type)} >
+      <Text style={buttonStyles.buttonText}>{btnText}</Text>
+    </TouchableOpacity>
+  );
 }
+
+const buttonStyles = StyleSheet.create({
+  button: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 10,
+    width: 100,
+    borderRadius: 30,
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 16,
+  },
+});

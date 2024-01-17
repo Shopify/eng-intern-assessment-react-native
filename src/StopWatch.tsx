@@ -1,13 +1,29 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { TimerState } from '../App';
+import { TimerState, formatTime } from '../App';
 
 
 export default function StopWatch(
   timerInfo: TimerState,
 ) {
-  // Stopwatch should have a start 
+  const displayTime = timerInfo.currTime - timerInfo.startTime
+  const timeStr = formatTime(timerInfo);
+
   return (
-    <Text>00:00:00</Text>
-  );
+    <View style={styles.box}>
+      <Text style={styles.text}>{timeStr}</Text>
+    </View>  );
 }
+
+const styles = StyleSheet.create({
+  box: {
+    padding: 0,
+    backgroundColor: 'white',
+  },
+  text: {
+    fontSize: 50,
+    fontWeight: 'bold',
+    color: 'black',
+    width: "100%",
+  },
+});
