@@ -22,6 +22,7 @@ const styles = StyleSheet.create({
     width: "100%",
     backgroundColor: "#000",
   },
+  // Stopwatch text styles
   stopWatch: {
     fontSize: 90,
     color: "#FFF",

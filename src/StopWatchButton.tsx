@@ -81,6 +81,7 @@ export default function StopWatchButton({
   };
 
   const loadColor = (index: number): string => {
+    // Returns color of text based on its duration (highest/lowest/neither)
     if (index == maxIndex && index == minIndex) {
       return "whiteText";
     } else if (index == maxIndex) {
@@ -130,6 +131,7 @@ export default function StopWatchButton({
             <View key={index} style={styles.lap}>
               <Text
                 style={[
+                  // Condinitonally (nested statements) load color styles based on loadColor value
                   loadColor(index) == "redText"
                     ? styles.redText
                     : (loadColor(index) == "greenText"
@@ -142,6 +144,7 @@ export default function StopWatchButton({
               </Text>
               <Text
                 style={[
+                  // Condinitonally (nested statements) load color styles based on loadColor value
                   loadColor(index) == "redText"
                     ? styles.redText
                     : (loadColor(index) == "greenText"
@@ -167,6 +170,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "black",
   },
+  /* Button Styles */
   buttonContainer: {
     height: "25%",
     alignItems: "center",
@@ -192,6 +196,13 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "white",
   },
+  greenButton: {
+    backgroundColor: "#0a2a12",
+  },
+  redButton: {
+    backgroundColor: "#330e0c",
+  },
+  /* Laps Styles */
   lapContainer: {
     width: "100%",
     paddingBottom: 50,
@@ -216,14 +227,9 @@ const styles = StyleSheet.create({
   lapText: {
     fontSize: 22,
   },
-  greenButton: {
-    backgroundColor: "#0a2a12",
-  },
+  /* Text styles */
   greenText: {
     color: "#30d158",
-  },
-  redButton: {
-    backgroundColor: "#330e0c",
   },
   redText: {
     color: "#ff453a",
