@@ -19,7 +19,7 @@ export default function StopWatch() {
   const intervalRef = useRef<number | null>(null);
 
   // start the timer when button is clicked
-  const startTimer = () => {
+  const onStartTimer = () => {
     setIsRunning(true);
     setIsDisabled(false);
     intervalRef.current = setInterval(() => {
@@ -28,13 +28,13 @@ export default function StopWatch() {
   };
 
   // stop the timer when button is clicked
-  const stopTimer = () => {
+  const onStopTimer = () => {
     setIsRunning(false);
     clearInterval(intervalRef.current!);
   };
 
   // reset the timer to 00:00:00 when button is clicked
-  const reset = () => {
+  const onReset = () => {
     setIsRunning(false);
     setTime(0);
     setLapTimes([]);
@@ -59,12 +59,12 @@ export default function StopWatch() {
       <View style={styles.buttonsContainer}>
         <StopWatchButton 
           title={isRunning ? 'Stop' : 'Start'} 
-          onPress={isRunning ? stopTimer : startTimer} 
+          onPress={isRunning ? onStopTimer : onStartTimer} 
           colour={isRunning ? 'red' : 'green'}
         />
         <StopWatchButton 
           title={isRunning ? 'Lap' : 'Reset'} 
-          onPress={isRunning ? onLap : reset} 
+          onPress={isRunning ? onLap : onReset} 
           colour={isDisabled ? 'lightgrey' : 'grey'} 
           isDisabled={isDisabled}
         />
