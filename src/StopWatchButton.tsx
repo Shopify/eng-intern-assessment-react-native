@@ -1,7 +1,7 @@
 import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
 
-// Import the color configuration
 import colors from '../config/colors';
+
 
 // Define the props interface for the StopWatchButton component
 interface StopWatchButtonProps {
@@ -21,14 +21,14 @@ export default function StopWatchButton({
   return (
     <View style={styles.container}>
       <TouchableOpacity
-        style={styles.button}
+        style={styles.startButton}
         onPress={onStart}
       >
         <Text style={styles.buttonText}>Start</Text>
       </TouchableOpacity>
 
       <TouchableOpacity
-        style={styles.button}
+        style={styles.stopButton}
         onPress={onStop}
       >
         <Text style={styles.buttonText}>Stop</Text>
@@ -61,16 +61,38 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     shadowColor: 'black', 
     shadowOffset: { width: 0, height: 3 }, 
-    shadowOpacity: 0.7, 
+    shadowOpacity: 0.8, 
     shadowRadius: 10, 
   },
-
+  startButton: {
+    backgroundColor: colors.green,
+    padding: 10,
+    margin: 5,
+    borderRadius: 8,
+    alignItems: 'center',
+    shadowColor: 'black', 
+    shadowOffset: { width: 0, height: 3 }, 
+    shadowOpacity: 0.8, 
+    shadowRadius: 10, 
+  },
+  stopButton: {
+    backgroundColor: colors.red,
+    padding: 10,
+    margin: 5,
+    borderRadius: 8,
+    alignItems: 'center',
+    shadowColor: 'black', 
+    shadowOffset: { width: 0, height: 3 }, 
+    shadowOpacity: 0.8, 
+    shadowRadius: 10, 
+  },
   buttonText: {
     color: colors.white,
-    fontWeight: '400',
-    fontSize: 15,
+    fontWeight: '500',
+    fontSize: 20,
   },
   container: {
-    flexDirection: 'row',  
+    flexDirection: 'row',
+    marginTop: 20,
   },
 });

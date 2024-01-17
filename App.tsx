@@ -2,10 +2,10 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, View, Text } from 'react-native';
 import { AppProvider } from '@shopify/polaris';
 
-// Import the StopWatch component
-import StopWatch from './src/StopWatch';
-// Import the color configuration
+
+import Stopwatch from './src/StopWatch';
 import colors from './config/colors';
+
 
 // Define the App component
 export default function App() {
@@ -13,19 +13,17 @@ export default function App() {
   return (
     <AppProvider i18n={{}}>
       <View style={styles.container}>
-        {/* Display the header with the application title */}
         <View style={styles.header}>
           <Text style={styles.title}>Stopwatch</Text>
         </View>
-        {/* Render the StopWatch component to display the stopwatch */}
-        <StopWatch />
+        <Stopwatch />
         <StatusBar style="auto" />
       </View>
     </AppProvider>
   );
 }
 
-// Define styles for the App component
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -41,5 +39,7 @@ const styles = StyleSheet.create({
     fontSize: 40,
     fontWeight: 'bold',
     color: colors.white,
+    marginTop: 40,
+    marginBottom: 40,
   },
 });

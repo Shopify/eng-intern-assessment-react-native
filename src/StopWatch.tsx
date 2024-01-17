@@ -1,15 +1,14 @@
 import { View, Text, StyleSheet, ScrollView, SafeAreaView } from 'react-native';
 import React, { useState, useEffect } from 'react';
 
-// Import the StopWatchButton component for controlling stopwatch actions
+
 import StopWatchButton from './StopWatchButton';
-// Import the Clock component
 import Clock from './Clock';
-// Import the color configuration
 import colors from '../config/colors';
 
+
 // Define the StopWatch component
-export default function StopWatch() {
+export default function Stopwatch() {
   // State to track the elapsed time
   const [time, setTime] = useState(0);
   // State to track whether the stopwatch is running
@@ -24,10 +23,10 @@ export default function StopWatch() {
     // Start the interval when isOn is true
     if (isOn) {
       interval = setInterval(() => {
-        // Update the time every millisecond
+        // Update the time every 10 milliseconds
         setTime((prevTime) => prevTime + 10);
-      }, 10);
-    }
+    }, 10);
+  }
 
     // Clear the interval when isOn changes
     return () => clearInterval(interval);
@@ -60,7 +59,7 @@ export default function StopWatch() {
   };
 
 
-  // Function to format milliseconds to "MM:SS.SS"
+  // Function to format milliseconds to "MM:SS:SS"
   const formatTime = (milliseconds: number): string => {
     const totalSeconds = Math.floor(milliseconds / 1000);
     const minutes = Math.floor(totalSeconds / 60);
@@ -75,7 +74,6 @@ export default function StopWatch() {
   };
 
 
-  // Render the StopWatch component
   return (
     <View style={styles.container}>
       <Clock time={time}/>
@@ -88,20 +86,22 @@ export default function StopWatch() {
       />
       <View style={styles.divider}></View>
       <SafeAreaView style={styles.container}>
-        <ScrollView style={styles.scrollView}>
-          {[...laps].reverse().map((lap, index) => (
-            <Text
-              key={index + 1}
-              style={[
-                styles.lapText,
-                { color: 'white' },
-                // Apply color based on the lap time comparison
-                laps.length >= 3 && lap.elapsedTime === Math.min(...laps.map((lap) => lap.elapsedTime)) ? { color: colors.green, fontWeight: 'bold' } :
-                laps.length >= 3 && lap.elapsedTime === Math.max(...laps.map((lap) => lap.elapsedTime)) ? { color: colors.red, fontWeight: 'bold'  } : null
-              ]}
-            >{`Lap ${laps.length - index}: ${formatTime(lap.elapsedTime)}`}</Text>
-          ))}
-        </ScrollView>
+        {laps.length > 0 && (
+          <ScrollView style={styles.scrollView} >
+            {[...laps].reverse().map((lap, index) => (
+              <Text
+                key={index + 1}
+                style={[
+                  styles.lapText,
+                  { color: 'white' },
+                  // Apply color based on the lap time comparison
+                  laps.length >= 3 && lap.elapsedTime === Math.min(...laps.map((lap) => lap.elapsedTime)) ? { color: colors.green, fontWeight: 'bold' } :
+                  laps.length >= 3 && lap.elapsedTime === Math.max(...laps.map((lap) => lap.elapsedTime)) ? { color: colors.red, fontWeight: 'bold'  } : null
+                ]}
+              >{`Lap ${laps.length - index}: ${formatTime(lap.elapsedTime)}`}</Text>
+            ))}
+          </ScrollView>
+        )}
       </SafeAreaView>
     </View>
   );
