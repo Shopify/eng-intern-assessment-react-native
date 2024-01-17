@@ -3,6 +3,8 @@ import React, { useState, useEffect } from 'react';
 
 // Import the StopWatchButton component for controlling stopwatch actions
 import StopWatchButton from './StopWatchButton';
+// Import the Clock component
+import Clock from './Clock';
 // Import the color configuration
 import colors from '../config/colors';
 
@@ -69,13 +71,14 @@ export default function StopWatch() {
     const formattedSeconds = seconds.toString().padStart(2, '0');
     const formattedMilliseconds = millisecondsPart.toString().padStart(2, '0');
   
-    return `${formattedMinutes}:${formattedSeconds}.${formattedMilliseconds}`;
+    return `${formattedMinutes}:${formattedSeconds}:${formattedMilliseconds}`;
   };
 
 
   // Render the StopWatch component
   return (
     <View style={styles.container}>
+      <Clock time={time}/>
       <Text style={styles.text}>{formatTime(time)}</Text>
       <StopWatchButton
         onStart={startStopwatch}
@@ -93,8 +96,8 @@ export default function StopWatch() {
                 styles.lapText,
                 { color: 'white' },
                 // Apply color based on the lap time comparison
-                laps.length >= 3 && lap.elapsedTime === Math.min(...laps.map((lap) => lap.elapsedTime)) ? { color: 'green' } :
-                laps.length >= 3 && lap.elapsedTime === Math.max(...laps.map((lap) => lap.elapsedTime)) ? { color: 'red' } : null
+                laps.length >= 3 && lap.elapsedTime === Math.min(...laps.map((lap) => lap.elapsedTime)) ? { color: colors.green, fontWeight: 'bold' } :
+                laps.length >= 3 && lap.elapsedTime === Math.max(...laps.map((lap) => lap.elapsedTime)) ? { color: colors.red, fontWeight: 'bold'  } : null
               ]}
             >{`Lap ${laps.length - index}: ${formatTime(lap.elapsedTime)}`}</Text>
           ))}
@@ -115,7 +118,7 @@ const styles = StyleSheet.create({
   divider: {
     height: 1,
     marginTop: 10,
-    backgroundColor: colors.white,
+    backgroundColor: colors.black,
     width: '100%',
   },
   lapText: {
@@ -125,7 +128,7 @@ const styles = StyleSheet.create({
     textAlign: 'center'
   },
   scrollView: {
-    backgroundColor: colors.secondary,
+    backgroundColor: colors.primary,
     marginTop: 20,
     borderRadius: 8,
     width: '100%',
@@ -133,8 +136,9 @@ const styles = StyleSheet.create({
     display: 'flex',
   },
   text: {
-    fontSize: 50,
+    fontSize: 30,
     color: colors.white,
-    marginBottom: 20,
+    marginTop: -120,
+    marginBottom: 100,
   },
 });

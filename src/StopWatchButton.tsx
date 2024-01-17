@@ -54,11 +54,15 @@ export default function StopWatchButton({
 
 const styles = StyleSheet.create({
   button: {
-    backgroundColor: colors.secondary,
+    backgroundColor: colors.primary,
     padding: 10,
     margin: 5,
     borderRadius: 8,
     alignItems: 'center',
+    shadowColor: 'black', 
+    shadowOffset: { width: 0, height: 3 }, 
+    shadowOpacity: 0.7, 
+    shadowRadius: 10, 
   },
 
   buttonText: {

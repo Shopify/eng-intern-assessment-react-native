@@ -1,9 +1,8 @@
 export default {
-    primaryBackground: '#22223a',
-    secondary: '#2c2c4b',
+    primary: '#222326',
     white: 'white',
-    accentColor1: '#37595e',
-    accentColor2: '#00e5e3',
-    accentColor3: '#2aa4a2',
-    accentColor4: '#3b8483',
+    black: '#161719',
+    pink: '#fb607f',
+    green: '#006642',
+    red: '#812f51',
 };
