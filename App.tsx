@@ -4,6 +4,13 @@ import StopWatch from "./src/StopWatch";
 import StopWatchButton from "./src/StopWatchButton";
 import { useEffect, useState } from "react";
 
+// pale red: #330e0c
+// bright red: #ff453a
+// pale green: #0a2a12
+// bright green: #30d158
+// gray on: #1b1b1b
+// gray off: #1c1c1e
+
 export default function App() {
   // Define state variables for managing the stopwatch.
   const [isActive, setIsActive] = useState<boolean>(false);
