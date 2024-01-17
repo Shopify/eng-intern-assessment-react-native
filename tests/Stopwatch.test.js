@@ -1,12 +1,11 @@
 import React, { View } from 'react';
 import { render, fireEvent } from '@testing-library/react-native';
-// import Stopwatch from '../src/Stopwatch';
-import App from '../App';
+import StopWatch from '../src/components/StopWatch';
 
 describe('Stopwatch', () => {
 
   test('renders initial state correctly', () => {
-    const { getByTestId } = render(<App />);
+    const { getByTestId } = render(<StopWatch />);
   
     expect(getByTestId('stopwatch-text')).toBeTruthy();
     const lapList = getByTestId('lap-list');
@@ -16,7 +15,7 @@ describe('Stopwatch', () => {
   });
 
   test('starts and stops the stopwatch', () => {
-    const { queryByText, getByTestId } = render(<App />);
+    const { queryByText, getByTestId } = render(<StopWatch />);
     
     fireEvent.press(getByTestId('start-stop')); // Start
     expect(queryByText(/(\d{2}:){2}\d{2}/)).toBeTruthy();
@@ -26,7 +25,7 @@ describe('Stopwatch', () => {
   });
 
   test('pauses and resumes the stopwatch', () => {
-    const { getByText, getByTestId } = render(<App />);
+    const { getByText, getByTestId } = render(<StopWatch />);
     
     fireEvent.press(getByTestId('start-stop')); // Start 
     fireEvent.press(getByTestId('start-stop')); // Stop
@@ -37,7 +36,7 @@ describe('Stopwatch', () => {
   });
 
   test('records and displays lap times', () => {
-    const { getByTestId, queryAllByText } = render(<App />);
+    const { getByTestId, queryAllByText } = render(<StopWatch />);
 
     fireEvent.press(getByTestId('start-stop')); // Start 
     fireEvent.press(getByTestId('lap-reset')); // Lap (1)
@@ -56,7 +55,7 @@ describe('Stopwatch', () => {
   });
 
   test('resets the stopwatch', () => {
-    const { getAllByText, queryAllByText, getByTestId } = render(<App />);
+    const { getAllByText, queryAllByText, getByTestId } = render(<StopWatch />);
     
     fireEvent.press(getByTestId('start-stop')); // Start
     fireEvent.press(getByTestId('lap-reset')); // Lap 

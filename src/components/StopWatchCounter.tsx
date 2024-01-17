@@ -1,11 +1,11 @@
 import { View, StyleSheet, Text } from "react-native";
 
 // Define the props interface for the StopWatch component.
-interface StopWatchProps {
+interface StopWatchCounterProps {
   time: string; // Formatted time 
 }
 
-export default function StopWatch({ time }: StopWatchProps) {
+export default function StopWatchCounter({ time }: StopWatchCounterProps) {
 
   return (
     <View style={styles.container}>
