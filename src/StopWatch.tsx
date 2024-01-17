@@ -1,10 +1,24 @@
 import React from 'react';
-import {Text, View} from 'react-native';
+import { Text, SafeAreaView } from 'react-native';
+import StopWatchButton from "./StopWatchButton";
 
 export default function StopWatch() {
+  const handleButtonClick = (buttonTitle: string) => {
+    console.log(`${buttonTitle} pressed`);
+  };
+
   return (
-    <View >
-      <Text>This is a stopwatch!</Text>
-    </View>
+    <SafeAreaView>
+      <StopWatchButton
+        title={'Button 1'}
+        onClick={handleButtonClick}
+        color={'green'}
+      />
+      <StopWatchButton
+        title={'Button 2'}
+        onClick={handleButtonClick}
+        color={'green'}
+      />
+    </SafeAreaView>
   );
 }
