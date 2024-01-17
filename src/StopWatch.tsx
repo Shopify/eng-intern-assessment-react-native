@@ -9,7 +9,7 @@ export default function StopWatch({ time }: StopWatchProps) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.stopWatch}>{time}</Text>
+      <Text testID="stopwatch-text" style={styles.stopWatch}>{time ? time : "00:00:00"}</Text>
     </View>
   );
 }

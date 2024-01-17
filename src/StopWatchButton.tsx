@@ -32,6 +32,11 @@ export default function StopWatchButton({
   }, [laps]);
 
   const findMaxDuration = (laps: string[]): number => {
+    // Return if laps is undefined
+    if (!laps) {
+      return -1;
+    }
+
     // Return index of the lap with the largest duration
     let maxTimeInSeconds = -1;
     let indexOfMaxTime = -1;
@@ -56,6 +61,11 @@ export default function StopWatchButton({
   };
 
   const findMinDuration = (laps: string[]): number => {
+    // Return if laps is undefined
+    if (!laps) {
+      return -1;
+    }
+
     // Return index of the lap with the largest duration
     let maxTimeInSeconds = Infinity;
     let indexOfMaxTime = -1;
@@ -102,6 +112,7 @@ export default function StopWatchButton({
             isActive ? styles.redButton : styles.greenButton,
           ]}
           onPress={onToggle}
+          testID="start-stop"
         >
           <Text
             style={[
@@ -115,6 +126,7 @@ export default function StopWatchButton({
         <TouchableOpacity
           style={styles.button}
           onPress={isActive ? onLap : onReset}
+          testID="lap-reset"
         >
           <Text style={styles.buttonText}>{isActive ? "Lap" : "Reset"}</Text>
         </TouchableOpacity>
@@ -122,42 +134,44 @@ export default function StopWatchButton({
       <ScrollView
         contentContainerStyle={styles.lapContainerContent}
         style={styles.lapContainer}
+        testID="lap-list"
       >
-        {laps.map(
-          (
-            lapTime,
-            index // Maps laps onto View element.
-          ) => (
-            <View key={index} style={styles.lap}>
-              <Text
-                style={[
-                  // Condinitonally (nested statements) load color styles based on loadColor value
-                  loadColor(index) == "redText"
-                    ? styles.redText
-                    : (loadColor(index) == "greenText"
-                    ? styles.greenText
-                    : (styles.whiteText)),
-                  styles.lapText,
-                ]}
-              >
-                {"Lap " + (laps.length - index)}
-              </Text>
-              <Text
-                style={[
-                  // Condinitonally (nested statements) load color styles based on loadColor value
-                  loadColor(index) == "redText"
-                    ? styles.redText
-                    : (loadColor(index) == "greenText"
-                    ? styles.greenText
-                    : (styles.whiteText)),
-                  styles.lapText,
-                ]}
-              >
-                {lapTime}
-              </Text>
-            </View>
-          )
-        )}
+        {laps &&
+          laps.map(
+            (
+              lapTime,
+              index // Maps laps onto View element.
+            ) => (
+              <View key={index} style={styles.lap}>
+                <Text
+                  style={[
+                    // Condinitonally (nested statements) load color styles based on loadColor value
+                    loadColor(index) == "redText"
+                      ? styles.redText
+                      : loadColor(index) == "greenText"
+                      ? styles.greenText
+                      : styles.whiteText,
+                    styles.lapText,
+                  ]}
+                >
+                  {"Lap " + (laps.length - index)}
+                </Text>
+                <Text
+                  style={[
+                    // Condinitonally (nested statements) load color styles based on loadColor value
+                    loadColor(index) == "redText"
+                      ? styles.redText
+                      : loadColor(index) == "greenText"
+                      ? styles.greenText
+                      : styles.whiteText,
+                    styles.lapText,
+                  ]}
+                >
+                  {lapTime}
+                </Text>
+              </View>
+            )
+          )}
       </ScrollView>
     </View>
   );
