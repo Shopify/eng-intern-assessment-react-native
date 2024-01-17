@@ -1,8 +1,13 @@
-import { View } from 'react-native';
+import React from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+import { TimerState } from '../App';
 
-export default function StopWatch() {
+
+export default function StopWatch(
+  timerInfo: TimerState,
+) {
+  // Stopwatch should have a start 
   return (
-    <View >
-    </View>
+    <Text>00:00:00</Text>
   );
 }
