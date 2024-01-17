@@ -1,6 +1,13 @@
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
-export default function StopWatchButton(props: any) {
+type StopWatchButtonProps = {
+  title?: string;
+  onPress?: () => void;
+  colour?: string;
+  isDisabled?: boolean;
+};
+
+export default function StopWatchButton(props: StopWatchButtonProps) {
   const { title = '', onPress = () => {}, colour = '', isDisabled = false } = props;
   return (
     <View style={{ margin: 30 }}>
