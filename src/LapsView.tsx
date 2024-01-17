@@ -1,7 +1,7 @@
 import { ScrollView, StyleSheet, Text, View } from "react-native";
-import { INITIAL_TIMER_STATE, TimerState, formatTime } from "../App";
 import React from "react";
 import uuid from 'react-native-uuid';
+import { INITIAL_TIMER_STATE, TimerState, formatTime } from "./TimerState";
 
 function timerText(timerInfo: TimerState) {
     if(timerInfo == INITIAL_TIMER_STATE) return

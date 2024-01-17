@@ -1,7 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { TimerState, formatTime } from '../App';
-
+import { TimerState, formatTime } from './TimerState';
 
 export default function StopWatch(
   timerInfo: TimerState,
