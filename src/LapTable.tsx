@@ -7,7 +7,7 @@ type LapTableProps = {
 
 export default function LapTable({ lapTimes }: LapTableProps) {
     const renderItem = (item : number, index  : number) => (
-        <View style={styles.tableRow}>
+        <View key={index} style={styles.tableRow}>
             <Text style={styles.tableCell}>Lap {index + 1}</Text>
             <Text style={styles.tableCell}>{`${formatTime(item)}`}</Text>
         </View>
