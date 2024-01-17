@@ -1,6 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, View, Text } from 'react-native';
-import { AppProvider } from '@shopify/polaris';
+import { StyleSheet, View, SafeAreaView, Text } from 'react-native';
 
 
 import Stopwatch from './src/StopWatch';
@@ -11,15 +10,13 @@ import colors from './config/colors';
 export default function App() {
   // Render the App component
   return (
-    <AppProvider i18n={{}}>
-      <View style={styles.container}>
-        <View style={styles.header}>
-          <Text style={styles.title}>Stopwatch</Text>
-        </View>
-        <Stopwatch />
-        <StatusBar style="auto" />
+    <SafeAreaView style={styles.container}>
+      <View style={styles.header}>
+        <Text style={styles.title}>Stopwatch</Text>
       </View>
-    </AppProvider>
+      <Stopwatch />
+      <StatusBar style="auto" />
+    </SafeAreaView>
   );
 }
 
@@ -36,10 +33,15 @@ const styles = StyleSheet.create({
     paddingBottom: 20,
   },
   title: {
-    fontSize: 40,
+    fontSize: 50,
     fontWeight: 'bold',
-    color: colors.white,
-    marginTop: 40,
-    marginBottom: 40,
+    color: colors.offwhite,
+    marginTop: 10,
+    marginBottom: 20,
+    shadowColor: colors.black,
+    shadowOffset: { width: 0.5, height: 0.5 },
+    shadowOpacity: 1,
+    shadowRadius: 1,
+    elevation: 1,
   },
 });

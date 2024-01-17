@@ -54,12 +54,13 @@ export default function StopWatchButton({
 
 const styles = StyleSheet.create({
   button: {
-    backgroundColor: colors.primary,
+    backgroundColor: colors.grey,
     padding: 10,
     margin: 5,
     borderRadius: 8,
     alignItems: 'center',
-    shadowColor: 'black', 
+    elevation: 5,
+    shadowColor: colors.black, 
     shadowOffset: { width: 0, height: 3 }, 
     shadowOpacity: 0.8, 
     shadowRadius: 10, 
@@ -70,7 +71,8 @@ const styles = StyleSheet.create({
     margin: 5,
     borderRadius: 8,
     alignItems: 'center',
-    shadowColor: 'black', 
+    elevation: 5,
+    shadowColor: colors.black, 
     shadowOffset: { width: 0, height: 3 }, 
     shadowOpacity: 0.8, 
     shadowRadius: 10, 
@@ -81,7 +83,8 @@ const styles = StyleSheet.create({
     margin: 5,
     borderRadius: 8,
     alignItems: 'center',
-    shadowColor: 'black', 
+    elevation: 5,
+    shadowColor: colors.black, 
     shadowOffset: { width: 0, height: 3 }, 
     shadowOpacity: 0.8, 
     shadowRadius: 10, 
@@ -93,6 +96,6 @@ const styles = StyleSheet.create({
   },
   container: {
     flexDirection: 'row',
-    marginTop: 20,
+    marginTop: 30,
   },
 });

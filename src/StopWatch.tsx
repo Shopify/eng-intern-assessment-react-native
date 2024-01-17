@@ -23,9 +23,9 @@ export default function Stopwatch() {
     // Start the interval when isOn is true
     if (isOn) {
       interval = setInterval(() => {
-        // Update the time every 10 milliseconds
-        setTime((prevTime) => prevTime + 10);
-    }, 10);
+        // Update the time every second
+        setTime((prevTime) => prevTime + 1);
+    }, 1000);
   }
 
     // Clear the interval when isOn changes
@@ -59,19 +59,19 @@ export default function Stopwatch() {
   };
 
 
-  // Function to format milliseconds to "MM:SS:SS"
-  const formatTime = (milliseconds: number): string => {
-    const totalSeconds = Math.floor(milliseconds / 1000);
-    const minutes = Math.floor(totalSeconds / 60);
-    const seconds = totalSeconds % 60;
-    const millisecondsPart = Math.floor((milliseconds % 1000) / 10);
-  
-    const formattedMinutes = minutes.toString().padStart(2, '0');
-    const formattedSeconds = seconds.toString().padStart(2, '0');
-    const formattedMilliseconds = millisecondsPart.toString().padStart(2, '0');
-  
-    return `${formattedMinutes}:${formattedSeconds}:${formattedMilliseconds}`;
-  };
+  // Function to format seconds to "HH:MM:SS"
+const formatTime = (seconds: number): string => {
+  const hours = Math.floor(seconds / 3600);
+  const remainingSeconds = seconds % 3600;
+  const minutes = Math.floor(remainingSeconds / 60);
+  const remainingSecondsPart = remainingSeconds % 60;
+
+  const formattedHours = hours.toString().padStart(2, '0');
+  const formattedMinutes = minutes.toString().padStart(2, '0');
+  const formattedSeconds = remainingSecondsPart.toString().padStart(2, '0');
+
+  return `${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
+};
 
 
   return (
@@ -85,7 +85,7 @@ export default function Stopwatch() {
         onRecordLap={recordLap}
       />
       <View style={styles.divider}></View>
-      <SafeAreaView style={styles.container}>
+      <SafeAreaView style={styles.lapsContainer}>
         {laps.length > 0 && (
           <ScrollView style={styles.scrollView} >
             {[...laps].reverse().map((lap, index) => (
@@ -110,26 +110,35 @@ export default function Stopwatch() {
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: colors.primary,
     alignItems: 'center',
     justifyContent: 'center',
     flex: 1,
     width: '100%',
   },
   divider: {
-    height: 1,
-    marginTop: 10,
-    backgroundColor: colors.black,
+    height: 5,
+    marginTop: 15,
+    backgroundColor: colors.darkgrey,
     width: '100%',
+  },
+  lapsContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    flex: 1,
+    width: '100%',
+    backgroundColor: colors.darkgrey,
   },
   lapText: {
     color: colors.white,
+    fontSize: 20,
     paddingVertical: 10,
     paddingHorizontal: 20,
     textAlign: 'center'
   },
   scrollView: {
-    backgroundColor: colors.primary,
-    marginTop: 20,
+    backgroundColor: colors.darkgrey,
+    marginTop: 10,
     borderRadius: 8,
     width: '100%',
     height: 25,
@@ -137,7 +146,8 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 30,
-    color: colors.white,
+    fontWeight: 'bold',
+    color: colors.offwhite,
     marginTop: -120,
     marginBottom: 100,
   },
