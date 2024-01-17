@@ -16,8 +16,8 @@ export default function LapTable({ lapTimes }: LapTableProps) {
     return (
         <View style={{height: "50%"}}>
             <View style={styles.headingsContainer}>
-                <Text style={[styles.heading, { paddingLeft: 25 }]}>Lap #</Text>
-                <Text style={[styles.heading, { paddingLeft: 60 }]}>Time</Text>
+                <Text style={[styles.heading]}>Lap #</Text>
+                <Text style={[styles.heading]}>Time</Text>
             </View>
             <ScrollView>
                 {
@@ -50,7 +50,6 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
         flexDirection: 'row',
         justifyContent: 'space-between',
-        alignContent: 'center',
         width: '40%',
         display: 'flex',
     },
@@ -59,5 +58,6 @@ const styles = StyleSheet.create({
         width: '100%',
         fontWeight: 'bold',
         paddingBottom: 10,
+        textAlign: 'center',
     },
 });
