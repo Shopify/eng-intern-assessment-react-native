@@ -17,7 +17,7 @@ export default function StopWatchButton(props: StopWatchButtonProps) {
         onPress={() => onClick(title)}
         accessibilityLabel={title}
       >
-        <Text>{title}</Text>
+        <Text style={styles.text}>{title}</Text>
       </TouchableOpacity>
     </SafeAreaView>
   );
@@ -25,9 +25,8 @@ export default function StopWatchButton(props: StopWatchButtonProps) {
 
 const styles = StyleSheet.create({
   button: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    margin: 20,
+    paddingHorizontal: 10
   },
   circleContainer: {
     width: 100,
@@ -35,7 +34,12 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'darkgrey', // Change color later
-    borderColor: 'black'
+    backgroundColor: '#98bb52', // Change color later
+    borderColor: 'black',
+    borderWidth: 2
   },
+  text: {
+    color: 'white',
+    fontWeight: 'bold'
+  }
 });
