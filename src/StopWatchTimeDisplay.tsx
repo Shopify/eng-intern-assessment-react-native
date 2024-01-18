@@ -12,10 +12,8 @@ export default function StopWatchDisplay(props: StopWatchDisplayProps) {
     <SafeAreaView style={styles.container}>
       <Text
         style={styles.timeText}
-        adjustsFontSizeToFit={true}
-        numberOfLines={1}
       >
-        {formatTime(timeInSeconds)}
+        {timeInSeconds === -1 ? '' : formatTime(timeInSeconds)}
       </Text>
     </SafeAreaView>
   );
@@ -30,6 +28,6 @@ const styles = StyleSheet.create({
   timeText: {
     color: 'black',
     fontWeight: 'bold',
-    fontSize: 50
+    fontSize: 50,
   },
 });
