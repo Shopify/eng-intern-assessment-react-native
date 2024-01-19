@@ -1,19 +1,19 @@
 import React from "react";
 import { Button, StyleSheet, View } from "react-native";
-import AppContext from "./utils/AppContext";
 
-export default function StopWatchButton() {
-  let { time, setTime } = React.useContext(AppContext);
-  const { setLaps } = React.useContext(AppContext);
-  const timerId = React.useRef(0);
+export default function StopWatchButton(props: any) {
+  // Used to switch between start and stop
   const [started, setStarted] = React.useState(false);
+  // Used to clear the interval
+  const timerId = React.useRef(0);
 
-  const start = () => {
+  const startTimer = () => {
     const timer = setInterval(() => {
-      setTime((time: number) => {
-        // 359999 is the maximum time that can be displayed
+      // A callback inside setTime has to be used to access the correct time as we are using a setInterval
+      props.setTime((time: number) => {
+        // 359999 is the maximum time that can be displayed (59:59:99)
         if (time == 359999) {
-          stop();
+          stopTimer();
           return 0;
         }
         return time + 1;
@@ -22,20 +22,23 @@ export default function StopWatchButton() {
     timerId.current = timer;
     setStarted(true);
   };
-  const stop = () => {
+
+  const stopTimer = () => {
     clearInterval(timerId.current);
     timerId.current = 0;
     setStarted(false);
   };
-  const reset = () => {
+
+  const resetTimer = () => {
     if (timerId.current) {
-      stop();
+      stopTimer();
     }
-    setTime(0);
-    setLaps([]);
+    props.setTime(0);
+    props.setLaps([]);
   };
-  const lap = () => {
-    setLaps((laps: any) => [...laps, time]);
+
+  const addLap = () => {
+    props.setLaps([...props.laps, props.time]);
   };
 
   return (
@@ -44,19 +47,23 @@ export default function StopWatchButton() {
         <Button
           title={started ? "Stop" : "Start"}
           color={started ? "red" : "green"}
-          onPress={started ? stop : start}
+          onPress={started ? stopTimer : startTimer}
         ></Button>
       </View>
       <View style={styles.buttonContainer}>
         <Button
           title="Reset"
-          disabled={time == 0}
+          disabled={props.time == 0}
           color={"grey"}
-          onPress={reset}
+          onPress={resetTimer}
         ></Button>
       </View>
       <View style={styles.buttonContainer}>
-        <Button title="Lap" disabled={time == 0} onPress={lap}></Button>
+        <Button
+          title="Lap"
+          disabled={props.time == 0}
+          onPress={addLap}
+        ></Button>
       </View>
     </View>
   );
@@ -65,7 +72,7 @@ export default function StopWatchButton() {
 const styles = StyleSheet.create({
   buttonsContainer: {
     width: "100%",
-    height: "8%",
+
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-evenly",

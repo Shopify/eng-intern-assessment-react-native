@@ -1,73 +1,39 @@
 import React from "react";
-import { ScrollView, StyleSheet, Text, View } from "react-native";
-import formatTime from "./utils/format-time";
-import AppContext from "./utils/AppContext";
+import { StyleSheet, Text, View } from "react-native";
+import formatTime from "./utils/FormatTime";
 import StopWatchButton from "./StopWatchButton";
 
-export default function StopWatch() {
-  const { time } = React.useContext(AppContext);
-  const { laps } = React.useContext(AppContext);
-  const displayLaps = () => {
-    const displayedLaps = [];
-    for (let i = 0; i < laps.length; i++) {
-      displayedLaps.push(
-        <View key={i} style={styles.lapContainer}>
-          <Text style={styles.lapText}>{"Lap " + (i + 1) + ": "}</Text>
-          <Text style={styles.lapText}>{formatTime(laps[i])}</Text>
-        </View>
-      );
-    }
-    return displayedLaps;
-  };
+export default function StopWatch(props: any) {
+  const [time, setTime] = React.useState(0);
+
   return (
-    <View style={styles.mainViewContainer}>
+    <View style={styles.stopwatchContainer}>
       <Text style={styles.title}>It's About Time</Text>
       <View style={styles.timeContainer}>
         <Text style={styles.timeText}>{formatTime(time)}</Text>
       </View>
-      <StopWatchButton />
-      <ScrollView contentContainerStyle={styles.lapsContainer}>
-        {displayLaps()}
-      </ScrollView>
+      <StopWatchButton
+        time={time}
+        setTime={setTime}
+        laps={props.laps}
+        setLaps={props.setLaps}
+      />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  mainViewContainer: {
+  stopwatchContainer: {
     width: "100%",
-    height: "100%",
+    height: "70%",
     display: "flex",
-    backgroundColor: "#fff",
+    justifyContent: "space-evenly",
     alignItems: "center",
-    justifyContent: "space-between",
   },
   title: {
     fontSize: 40,
     fontWeight: "bold",
     top: 50,
-  },
-  lapsContainer: {
-    width: "100%",
-    display: "flex",
-    justifyContent: "flex-start",
-    alignItems: "center",
-  },
-  lapContainer: {
-    width: "100%",
-    height: 40,
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    borderBottomColor: "black",
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    backgroundColor: "#fff",
-  },
-  lapText: {
-    fontSize: 20,
-    marginLeft: 10,
-    marginRight: 10,
   },
   timeContainer: {
     width: "100%",
@@ -78,6 +44,6 @@ const styles = StyleSheet.create({
   },
   timeText: {
     fontSize: 50,
-    top: 30,
+    top: 10,
   },
 });
