@@ -21,6 +21,7 @@ export default function MainView() {
   };
   return (
     <View style={styles.mainViewContainer}>
+      <Text style={styles.title}>It's About Time</Text>
       <StopWatch />
       <StopWatchButton />
       <ScrollView contentContainerStyle={styles.lapsContainer}>
@@ -38,6 +39,11 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "space-between",
+  },
+  title: {
+    fontSize: 40,
+    fontWeight: "bold",
+    top: 50,
   },
   lapsContainer: {
     width: "100%",

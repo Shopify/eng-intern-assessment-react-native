@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Button, StyleSheet, View } from "react-native";
 import AppContext from "./utils/AppContext";
 
@@ -6,19 +6,19 @@ export default function StopWatchButton() {
   let { time, setTime } = React.useContext(AppContext);
   const { setLaps } = React.useContext(AppContext);
   const timerId = React.useRef(0);
+  const [started, setStarted] = React.useState(false);
 
   const start = () => {
-    if (timerId.current) {
-      return;
-    }
     const timer = setInterval(() => {
       setTime((time: number) => time + 1);
     }, 10);
     timerId.current = timer;
+    setStarted(true);
   };
   const stop = () => {
     clearInterval(timerId.current);
     timerId.current = 0;
+    setStarted(false);
   };
   const reset = () => {
     if (timerId.current) {
@@ -31,22 +31,40 @@ export default function StopWatchButton() {
     setLaps((laps: any) => [...laps, time]);
   };
   return (
-    <View style={styles.buttonContainer}>
-      <Button title="Start" color={"green"} onPress={start}></Button>
-      <Button title="Stop" color={"red"} onPress={stop}></Button>
-      <Button title="Reset" color={"grey"} onPress={reset}></Button>
-      <Button title="Lap" onPress={lap}></Button>
+    <View style={styles.buttonsContainer}>
+      <View style={styles.buttonContainer}>
+        <Button
+          title={started ? "Stop" : "Start"}
+          color={started ? "red" : "green"}
+          onPress={started ? stop : start}
+        ></Button>
+      </View>
+      <View style={styles.buttonContainer}>
+        <Button
+          title="Reset"
+          disabled={time == 0}
+          color={"grey"}
+          onPress={reset}
+        ></Button>
+      </View>
+      <View style={styles.buttonContainer}>
+        <Button title="Lap" disabled={time == 0} onPress={lap}></Button>
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  buttonContainer: {
-    width: "60%",
-    height: "20%",
+  buttonsContainer: {
+    width: "100%",
+    height: "8%",
     display: "flex",
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "space-evenly",
     alignItems: "center",
+  },
+  buttonContainer: {
+    width: "20%",
+    height: "100%",
   },
 });

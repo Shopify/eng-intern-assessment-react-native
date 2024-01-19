@@ -15,13 +15,13 @@ export default function StopWatch() {
 const styles = StyleSheet.create({
   timeContainer: {
     width: "100%",
-    height: "40%",
+    height: "50%",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
   },
   timeText: {
     fontSize: 50,
-    top: 40,
+    top: 30,
   },
 });
