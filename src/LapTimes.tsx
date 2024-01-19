@@ -1,51 +1,52 @@
-import React from 'react';
-import { View, Text, ScrollView, StyleSheet } from 'react-native';
-import { formatTime } from './util/formatTime';
+import {
+  View,
+  StyleSheet,
+  Text,
+  ScrollView,
+} from "react-native";
+import { formatTime } from "./util/formatTime";
 
-interface LapTimesProps {
-    lapTimes: number[];
+interface myButtonProps {
+  lapTimes: number[];
 }
 
-const LapTimes: React.FC<LapTimesProps> = ({ lapTimes }) => {
+const LapTimes: React.FC<myButtonProps> = ({ lapTimes }) => {
   return (
     <View style={styles.laps}>
       <ScrollView>
         {lapTimes.map((lapTime, index) => (
-          <View key={index} style={styles.lapTime}>
-            <Text style={styles.lapTimeText}>Lap {lapTimes.length - index}</Text>
-            <Text style={styles.lapTimeText}>{formatTime(lapTime)}</Text>
+          <View style={styles.lapTime}>
+            <Text style={{ fontSize: 20 }}>
+              Lap {lapTimes.length - index}
+            </Text>
+            <Text style={{ fontSize: 20 }} key={index}>
+              {formatTime(lapTime)}{" "}
+            </Text>
           </View>
         ))}
       </ScrollView>
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   laps: {
-    borderTopColor: 'gray',
+    borderTopColor: "gray",
     borderTopWidth: 1,
-    borderBottomColor: 'gray',
+    borderBottomColor: "gray",
     borderBottomWidth: 1,
     marginTop: 20,
-    height: '40%',
-    width: '90%',
-    alignContent: 'center',
-    alignItems: 'center',
-    textAlign: 'center',
-    justifyContent: 'center',
+    height: "40%",
+    width: "90%",
   },
   lapTime: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
     gap: 150,
     paddingVertical: 5,
     borderBottomWidth: 1,
-    borderBottomColor: 'gray',
+    borderBottomColor: "gray",
   },
-  lapTimeText: {
-    fontSize: 20,
-  }
 });
 
 export default LapTimes;
