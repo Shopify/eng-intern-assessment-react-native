@@ -1,11 +1,14 @@
 import React from 'react';
 import {ScrollView, StyleSheet, Text, View} from 'react-native';
-import {formatTime} from "./utils/timeUtils";
+import {formatTime} from "../utils/timeUtils";
 
 interface LapsTableProps {
   lapTimes: number[];
 }
 
+/**
+ * Displays a list of lap times with a lap number and time column.
+ * */
 export default function LapsTable(props: LapsTableProps) {
   const {lapTimes} = props;
   if (lapTimes.length === 0) {

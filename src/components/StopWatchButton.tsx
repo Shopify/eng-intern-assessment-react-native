@@ -2,20 +2,26 @@ import React from 'react';
 import {SafeAreaView, StyleSheet, Text, TouchableOpacity} from 'react-native';
 
 interface StopWatchButtonProps {
-  title: string;
-  onClick: (button: string) => void;
+  title: string; // title for the button
+  onClick: () => void;
   color: string;
   isDisabled?: boolean;
 }
 
-export default function StopWatchButton(props: StopWatchButtonProps) {
+/**
+ * A reusable button component for the stopwatch.
+ *
+ * @param {StopWatchButtonProps} props - The props for the component.
+ * @returns {React.ReactNode} The stopwatch button component.
+ */
+export default function StopWatchButton(props: StopWatchButtonProps): React.ReactNode {
   const {title, onClick, color, isDisabled = false} = props;
 
   return (
     <SafeAreaView style={styles.button}>
       <TouchableOpacity
-        style={[styles.buttonShape, {backgroundColor: color}]}
-        onPress={() => onClick(title)}
+        style={[styles.buttonShape, {backgroundColor: color}]} // Allows button color to change dynamically
+        onPress={onClick}
         accessibilityLabel={title}
         disabled={isDisabled}
       >

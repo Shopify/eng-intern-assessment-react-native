@@ -1,9 +1,13 @@
 import React, {useState, useEffect} from 'react';
 import {SafeAreaView, View, Image, StyleSheet, Text} from 'react-native';
-import StopWatchButton from "./StopWatchButton";
-import StopWatchDisplay from "./StopWatchTimeDisplay";
-import LapsTable from "./LapsTable";
+import StopWatchButton from "./components/StopWatchButton";
+import StopWatchDisplay from "./components/StopWatchTimeDisplay";
+import LapsTable from "./components/LapsTable";
 
+/**
+ * Stopwatch component with start, stop, reset, and lap functionalities.
+ * It displays the current time, lap times, and controls for the stopwatch.
+ */
 export default function StopWatch() {
 
   const [isRunning, setIsRunning] = useState(false);
@@ -17,47 +21,44 @@ export default function StopWatch() {
     if (isRunning) {
       interval = setInterval(() => {
         setTimeInSeconds(prevTime => prevTime + 1);
-      }, 1000);
+      }, 1000); // Add one second to time every 1000ms (1 second)
     }
 
     return () => clearInterval(interval);
   }, [isRunning]);
 
-  const handleButtonClick = (buttonTitle: string) => {
-    switch (buttonTitle) {
-      case 'Start':
-        setHasStarted(true);
-        setTimeInSeconds(0);
-        setIsRunning(true);
-        break;
-      case 'Stop':
-        setHasStarted(false);
-        setIsRunning(false);
-        setTimeInSeconds(-1);
-        setLapTime(lapTimes => []);
-        break;
-      case 'Reset':
-        setHasStarted(false);
-        setIsRunning(false);
-        setTimeInSeconds(0);
-        setLapTime(lapTimes => []);
-        break;
-      case 'Pause':
-        setIsRunning(false);
-        break;
-      case 'Resume':
-        if (hasStarted) {
-          setIsRunning(true);
-        }
-        break;
-      case 'Lap':
-        if (hasStarted && isRunning) {
-          setLapTime(lapTimes => [...lapTimes, timeInSeconds]);
-        }
-        break;
-      default:
-        break;
-    }
+  const startStopwatch: () => void = () => {
+    setHasStarted(true);
+    setTimeInSeconds(0);
+    setIsRunning(true);
+  };
+
+  // Stop button nullifies the time display as directed in the test cases.
+  // This explains the -1 time, signalling for the TimeDisplay to become empty.
+  const stopStopwatch: () => void = () => {
+    setHasStarted(false);
+    setIsRunning(false);
+    setTimeInSeconds(-1);
+    setLapTime(lapTimes => []);
+  };
+
+  const resetStopwatch: () => void = () => {
+    setHasStarted(false);
+    setIsRunning(false);
+    setTimeInSeconds(0);
+    setLapTime(lapTimes => []);
+  };
+
+  const pauseStopwatch: () => void = () => {
+    setIsRunning(false);
+  };
+
+  const resumeStopwatch: () => void = () => {
+    setIsRunning(true);
+  };
+
+  const handleLapPress: () => void = () => {
+    setLapTime(lapTimes => [...lapTimes, timeInSeconds]);
   };
 
   return (
@@ -75,24 +76,24 @@ export default function StopWatch() {
       <View style={styles.buttonContainer}>
         <StopWatchButton
           title={'Reset'}
-          onClick={handleButtonClick}
+          onClick={resetStopwatch}
           color={'#98bb52'}
         />
         <StopWatchButton
           title={isRunning ? 'Stop' : 'Start'}
-          onClick={handleButtonClick}
+          onClick={isRunning ? stopStopwatch : startStopwatch}
           color={isRunning ? 'red' : '#98bb52'}
         />
         <StopWatchButton
           title={'Lap'}
-          onClick={handleButtonClick}
-          color={(hasStarted && isRunning) ? '#98bb52' : 'darkgrey'}
+          onClick={handleLapPress}
+          color={(hasStarted && isRunning) ? '#98bb52' : 'darkgrey'} // color reflective of disabled status
           isDisabled={!(hasStarted && isRunning)}
         />
         <StopWatchButton
           title={isRunning ? 'Pause' : 'Resume'}
-          onClick={handleButtonClick}
-          color={hasStarted ? '#98bb52' : 'darkgrey'}
+          onClick={isRunning ? pauseStopwatch : resumeStopwatch}
+          color={hasStarted ? '#98bb52' : 'darkgrey'} // color reflective of disabled status
           isDisabled={!hasStarted}
         />
       </View>

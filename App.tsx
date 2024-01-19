@@ -6,8 +6,8 @@ import StopWatch from "./src/StopWatch";
 export default function App() {
   return (
     <SafeAreaView style={styles.container}>
-      <StopWatch></StopWatch>
-      <StatusBar style="auto" />
+      <StopWatch/>
+      <StatusBar style="auto"/>
     </SafeAreaView>
   );
 }
@@ -17,6 +17,5 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'white',
     alignItems: 'center',
-    paddingTop: Platform.OS === 'android' ? StatusBar.length : 0,
   },
 });
