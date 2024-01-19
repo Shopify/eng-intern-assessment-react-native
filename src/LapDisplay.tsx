@@ -9,12 +9,18 @@ export default function LapDisplay(props: any) {
     for (let i = 0; i < props.laps.length; i++) {
       displayedLaps.push(
         <View key={i} style={styles.lapContainer}>
-          <Text style={styles.lapText}>{"Lap " + (i + 1) + ": "}</Text>
-          <Text style={styles.lapText}>{formatTime(props.laps[i])}</Text>
+          <Text style={[styles.lapText, { marginLeft: 10, textAlign: "left" }]}>
+            {"Lap " + (i + 1) + ": "}
+          </Text>
+          <Text
+            style={[styles.lapText, { marginRight: 10, textAlign: "right" }]}
+          >
+            {formatTime(props.laps[i])}
+          </Text>
         </View>
       );
     }
-    return displayedLaps;
+    return displayedLaps.reverse();
   };
 
   return (
@@ -43,8 +49,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
   },
   lapText: {
+    width: "40%",
     fontSize: 20,
-    marginLeft: 10,
-    marginRight: 10,
   },
 });

@@ -9,7 +9,7 @@ export default function StopWatchButton(props: any) {
 
   const startTimer = () => {
     const timer = setInterval(() => {
-      // A callback inside setTime has to be used to access the correct time as we are using a setInterval
+      // A callback inside setTime has to be used to access the correct time as we are using setInterval (with no callback the initial time will always be used)
       props.setTime((time: number) => {
         // 359999 is the maximum time that can be displayed (59:59:99)
         if (time == 359999) {
