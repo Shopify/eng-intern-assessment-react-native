@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react-native';
+import {fireEvent, render, within} from '@testing-library/react-native';
 import Stopwatch from '../src/Stopwatch';
 
 describe('Stopwatch', () => {
@@ -20,15 +20,18 @@ describe('Stopwatch', () => {
     expect(queryByText(/(\d{2}:){2}\d{2}/)).toBeNull();
   });
 
-  test('pauses and resumes the stopwatch', () => {
+  test('pauses and resumes the stopwatch', async () => {
     const { getByText } = render(<Stopwatch />);
     
     fireEvent.press(getByText('Start'));
     fireEvent.press(getByText('Pause'));
-    const pausedTime = getByText(/(\d{2}:){2}\d{2}/).textContent;
+    const pausedTime = getByText(/(\d{2}:){2}\d{2}/).props.children;
 
     fireEvent.press(getByText('Resume'));
-    expect(getByText(/(\d{2}:){2}\d{2}/).textContent).not.toBe(pausedTime);
+
+    // Wait for 2 seconds before checking the expectation (checks if timer actually resumed)
+    await new Promise(resolve => setTimeout(resolve, 2000));
+    expect(getByText(/(\d{2}:){2}\d{2}/).props.children).not.toBe(pausedTime);
   });
 
   test('records and displays lap times', () => {
@@ -36,10 +39,14 @@ describe('Stopwatch', () => {
     
     fireEvent.press(getByText('Start'));
     fireEvent.press(getByText('Lap'));
-    expect(getByTestId('lap-list')).toContainElement(getByText(/(\d{2}:){2}\d{2}/));
+
+    // update test to use react-native testing library methods instead of web-based methods like .toContainElement()
+    expect(within(getByTestId('lap-list')).getByText(/(\d{2}:){2}\d{2}/));
+    // Should only be one lap time in lap-list
+    expect(within(getByTestId('lap-list')).getAllByText(/(\d{2}:){2}\d{2}/).length).toBe(1);
 
     fireEvent.press(getByText('Lap'));
-    expect(getByTestId('lap-list').children.length).toBe(2);
+    expect(within(getByTestId('lap-list')).getAllByText(/(\d{2}:){2}\d{2}/).length).toBe(2);
   });
 
   test('resets the stopwatch', () => {
