@@ -7,7 +7,7 @@ export default function StopWatch() {
   const { time } = React.useContext(AppContext);
   return (
     <View style={styles.timeContainer}>
-      <Text>{formatTime(time)}</Text>
+      <Text style={styles.timeText}>{formatTime(time)}</Text>
     </View>
   );
 }
@@ -19,5 +19,9 @@ const styles = StyleSheet.create({
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
+  },
+  timeText: {
+    fontSize: 50,
+    top: 40,
   },
 });

@@ -12,8 +12,8 @@ export default function MainView() {
     for (let i = 0; i < laps.length; i++) {
       displayedLaps.push(
         <View key={i} style={styles.lapContainer}>
-          <Text>{"Lap " + (i + 1) + ": "}</Text>
-          <Text>{formatTime(laps[i])}</Text>
+          <Text style={styles.lapText}>{"Lap " + (i + 1) + ": "}</Text>
+          <Text style={styles.lapText}>{formatTime(laps[i])}</Text>
         </View>
       );
     }
@@ -52,5 +52,13 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+    borderBottomColor: "black",
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    backgroundColor: "#fff",
+  },
+  lapText: {
+    fontSize: 20,
+    marginLeft: 10,
+    marginRight: 10,
   },
 });

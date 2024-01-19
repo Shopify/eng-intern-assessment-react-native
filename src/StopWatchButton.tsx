@@ -32,9 +32,9 @@ export default function StopWatchButton() {
   };
   return (
     <View style={styles.buttonContainer}>
-      <Button title="Start" onPress={start}></Button>
-      <Button title="Stop" onPress={stop}></Button>
-      <Button title="Reset" onPress={reset}></Button>
+      <Button title="Start" color={"green"} onPress={start}></Button>
+      <Button title="Stop" color={"red"} onPress={stop}></Button>
+      <Button title="Reset" color={"grey"} onPress={reset}></Button>
       <Button title="Lap" onPress={lap}></Button>
     </View>
   );
