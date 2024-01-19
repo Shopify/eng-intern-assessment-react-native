@@ -1,13 +1,15 @@
 import React, {useState, useEffect} from 'react';
-import {SafeAreaView, View, Image, StyleSheet} from 'react-native';
+import {SafeAreaView, View, Image, StyleSheet, Text} from 'react-native';
 import StopWatchButton from "./StopWatchButton";
 import StopWatchDisplay from "./StopWatchTimeDisplay";
+import LapsTable from "./LapsTable";
 
 export default function StopWatch() {
 
   const [isRunning, setIsRunning] = useState(false);
   const [hasStarted, setHasStarted] = useState(false);
   const [timeInSeconds, setTimeInSeconds] = useState(0);
+  const [lapTimes, setLapTime] = useState<number[]>([])
 
   useEffect(() => {
     let interval = 0;
@@ -32,17 +34,26 @@ export default function StopWatch() {
         setHasStarted(false);
         setIsRunning(false);
         setTimeInSeconds(-1);
+        setLapTime(lapTimes => []);
         break;
       case 'Reset':
         setHasStarted(false);
         setIsRunning(false);
         setTimeInSeconds(0);
+        setLapTime(lapTimes => []);
         break;
       case 'Pause':
         setIsRunning(false);
         break;
       case 'Resume':
-        setIsRunning(true);
+        if (hasStarted) {
+          setIsRunning(true);
+        }
+        break;
+      case 'Lap':
+        if (hasStarted && isRunning) {
+          setLapTime(lapTimes => [...lapTimes, timeInSeconds]);
+        }
         break;
       default:
         break;
@@ -76,13 +87,20 @@ export default function StopWatch() {
           title={'Lap'}
           onClick={handleButtonClick}
           color={(hasStarted && isRunning) ? '#98bb52' : 'darkgrey'}
+          isDisabled={!(hasStarted && isRunning)}
         />
         <StopWatchButton
           title={isRunning ? 'Pause' : 'Resume'}
           onClick={handleButtonClick}
           color={hasStarted ? '#98bb52' : 'darkgrey'}
+          isDisabled={!hasStarted}
         />
       </View>
+      <View style={styles.headerRow}>
+        <Text style={styles.headerText}>Lap Number</Text>
+        <Text style={styles.headerText}>Time</Text>
+      </View>
+      <LapsTable lapTimes={lapTimes}/>
     </SafeAreaView>
   );
 }
@@ -106,9 +124,22 @@ const styles = StyleSheet.create({
     margin: 0
   },
   buttonContainer: {
-    flex: 2,
+    flex: 0.8,
     flexDirection: 'row',
     justifyContent: 'center',
-    flexWrap: "wrap"
+    flexWrap: "wrap",
+  },
+  headerRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    padding: 10,
+    borderBottomColor: 'darkgrey',
+    borderBottomWidth: 2,
+    width: '90%',
+    alignSelf: 'center'
+  },
+  headerText: {
+    fontWeight: 'bold',
+    fontSize: 16,
   },
 });

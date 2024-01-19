@@ -5,10 +5,11 @@ interface StopWatchButtonProps {
   title: string;
   onClick: (button: string) => void;
   color: string;
+  isDisabled?: boolean;
 }
 
 export default function StopWatchButton(props: StopWatchButtonProps) {
-  const {title, onClick, color} = props;
+  const {title, onClick, color, isDisabled = false} = props;
 
   return (
     <SafeAreaView style={styles.button}>
@@ -16,6 +17,7 @@ export default function StopWatchButton(props: StopWatchButtonProps) {
         style={[styles.buttonShape, {backgroundColor: color}]}
         onPress={() => onClick(title)}
         accessibilityLabel={title}
+        disabled={isDisabled}
       >
         <Text style={styles.text}>{title}</Text>
       </TouchableOpacity>
