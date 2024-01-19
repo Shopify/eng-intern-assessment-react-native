@@ -1,9 +1,6 @@
-import { StatusBar } from "expo-status-bar";
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import StopWatch from "./src/StopWatch";
-import StopWatchButton from "./src/StopWatchButton";
-import MainView from "./src/MainView";
 import AppContext from "./src/utils/AppContext";
 
 export default function App() {
@@ -19,7 +16,7 @@ export default function App() {
       }}
     >
       <View style={styles.container}>
-        <MainView />
+        <StopWatch />
       </View>
     </AppContext.Provider>
   );

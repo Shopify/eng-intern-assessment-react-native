@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Button, StyleSheet, View } from "react-native";
 import AppContext from "./utils/AppContext";
 
@@ -10,7 +10,14 @@ export default function StopWatchButton() {
 
   const start = () => {
     const timer = setInterval(() => {
-      setTime((time: number) => time + 1);
+      setTime((time: number) => {
+        // 359999 is the maximum time that can be displayed
+        if (time == 359999) {
+          stop();
+          return 0;
+        }
+        return time + 1;
+      });
     }, 10);
     timerId.current = timer;
     setStarted(true);
@@ -30,6 +37,7 @@ export default function StopWatchButton() {
   const lap = () => {
     setLaps((laps: any) => [...laps, time]);
   };
+
   return (
     <View style={styles.buttonsContainer}>
       <View style={styles.buttonContainer}>
