@@ -27,7 +27,7 @@ export default function App() {
 
   return (
     <View style={styles.container} onLayout={onLayoutRootView}>
-      <StopWatch />
+      <StopWatch formatTimeMultiplier={10} />
     </View>
   );
 }
