@@ -1,13 +1,9 @@
-import {
-  View,
-  StyleSheet,
-  Text,
-  ScrollView,
-} from "react-native";
+import { View, StyleSheet, Text, ScrollView } from "react-native";
 import { formatTime } from "./util/formatTime";
 
+// props for laptime
 interface myButtonProps {
-  lapTimes: number[];
+  lapTimes: number[]; //array of laptimes
 }
 
 const LapTimes: React.FC<myButtonProps> = ({ lapTimes }) => {
@@ -15,19 +11,17 @@ const LapTimes: React.FC<myButtonProps> = ({ lapTimes }) => {
     <View style={styles.laps}>
       <ScrollView>
         {lapTimes.map((lapTime, index) => (
-          <View style={styles.lapTime}>
-            <Text style={{ fontSize: 20 }}>
-              Lap {lapTimes.length - index}
-            </Text>
+          <View style={styles.lapTime} key={index}>
+            <Text style={{ fontSize: 20 }}>Lap {lapTimes.length - index}</Text>
             <Text style={{ fontSize: 20 }} key={index}>
-              {formatTime(lapTime)}{" "}
+              {formatTime(lapTime)}
             </Text>
           </View>
         ))}
       </ScrollView>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   laps: {

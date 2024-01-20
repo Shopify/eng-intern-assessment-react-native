@@ -6,12 +6,12 @@
  */
 
 export const formatTime = (time: number): string => {
-    // Constants for time conversion
+    // constants for time conversion
     const MS_PER_SECOND = 1000;
     const SECONDS_PER_MINUTE = 60;
     const MINUTES_PER_HOUR = 60;
   
-    // Helper function to format time component
+    // helper function to format time
     const formatComponent = (component: number): string => component < 10 ? `0${component}` : `${component}`;
   
     const seconds = Math.floor(time / MS_PER_SECOND) % SECONDS_PER_MINUTE;
