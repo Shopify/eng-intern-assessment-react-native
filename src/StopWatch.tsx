@@ -152,26 +152,27 @@ export default function StopWatch(
       <View style={styles.timeDisplayContainer}>
         <View style={styles.timeSegment}>
           <Text style={styles.timeLabel}>hr.</Text>
-          <Text style={styles.smallTimeDisplay}>{formattedHours}</Text>
+          <Text style={styles.smallTimeDisplay} testID='hr-display'>{formattedHours}</Text>
         </View>
         <View style={styles.timeSegment}>
           <Text style={styles.timeLabel}>min.</Text>
-          <Text style={styles.timeDisplay}>{formattedMins}</Text>
+          <Text style={styles.timeDisplay} testID='min-display'>{formattedMins}</Text>
         </View>
         <Text style={styles.timeColon}>:</Text>
         <View style={styles.timeSegment}>
           <Text style={styles.timeLabel}>sec.</Text>
-          <Text style={styles.timeDisplay}>{formattedSecs}</Text>
+          <Text style={styles.timeDisplay} testID='sec-display'>{formattedSecs}</Text>
         </View>
         <View style={styles.timeSegment}>
           <Text style={styles.timeLabel}>1/10s.</Text>
-          <Text style={styles.smallTimeDisplay}>{formattedMilliseconds}</Text>
+          <Text style={styles.smallTimeDisplay} testID='ms-display'>{formattedMilliseconds}</Text>
         </View>
       </View>
       <ScrollView 
         ref={scrollViewRef} 
         style={styles.lapsContainer} 
         contentContainerStyle={styles.scrollContentContainer}
+        testID='lap-list'
       >
         {formattedLapTimes.map((lap) => (
           <View key={lap.lapNumber} style={styles.lap} testID={`lap-${lap.lapNumber}`}>

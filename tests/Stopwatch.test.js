@@ -1,55 +1,161 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react-native';
-import Stopwatch from '../src/Stopwatch';
+import { render, fireEvent, act } from '@testing-library/react-native';
+import StopWatch from '../src/StopWatch';
+
+const HOUR_INDEX = 0;
+const MINUTE_INDEX = 1;
+const SECOND_INDEX = 2;
+const MILLISECOND_INDEX = 3;
 
 describe('Stopwatch', () => {
+
+  beforeEach(() => {
+    jest.useFakeTimers();
+  });
+
   test('renders initial state correctly', () => {
-    const { getByText, queryByTestId } = render(<Stopwatch />);
+    const { getByText, getByTestId, getAllByTestId, queryAllByTestId } = render(<StopWatch />);
+
+    // Check each time segment separately for initial zero values
+    expect(getByText('hr.')).toBeTruthy();
+    expect(getByText('min.')).toBeTruthy();
+    expect(getByText('sec.')).toBeTruthy();
+    expect(getByText('1/10s.')).toBeTruthy();
+
+    const hrDisplay = getByTestId('hr-display');
+    const minDisplay = getByTestId('min-display');
+    const secDisplay = getByTestId('sec-display');
+    const msDisplay = getByTestId('ms-display');
+
+    expect(hrDisplay.children[0]).toBe('00');
+    expect(minDisplay.children[0]).toBe('00');
+    expect(secDisplay.children[0]).toBe('00');
+    expect(msDisplay.children[0]).toBe('00');
     
-    expect(getByText('00:00:00')).toBeTruthy();
-    expect(queryByTestId('lap-list')).toBeNull();
+    expect(queryAllByTestId(/lap-\d/).length).toBe(0);
   });
 
-  test('starts and stops the stopwatch', () => {
-    const { getByText, queryByText } = render(<Stopwatch />);
+  test('starts and stops the stopwatch', async () => {
+    const { getByText, getAllByText } = render(<StopWatch />);
+    const allZeros = getAllByText('00');
+  
+    act(() => {
+      fireEvent.press(getByText('Start'));
+    });
+    act(() => {
+      jest.advanceTimersByTime(2000);
+    });
     
-    fireEvent.press(getByText('Start'));
-    expect(queryByText(/(\d{2}:){2}\d{2}/)).toBeTruthy();
-
-    fireEvent.press(getByText('Stop'));
-    expect(queryByText(/(\d{2}:){2}\d{2}/)).toBeNull();
+    const secondsText = allZeros[SECOND_INDEX].children[0];
+    expect(secondsText).not.toBe('00');
+  
+    act(() => {
+      fireEvent.press(getByText('Pause'));
+    });
   });
 
-  test('pauses and resumes the stopwatch', () => {
-    const { getByText } = render(<Stopwatch />);
-    
-    fireEvent.press(getByText('Start'));
-    fireEvent.press(getByText('Pause'));
-    const pausedTime = getByText(/(\d{2}:){2}\d{2}/).textContent;
+  it('pauses and resumes the stopwatch', async () => {
+    const { getByText, getAllByText } = render(<StopWatch />);
+    const allZeros = getAllByText('00');
+  
+    // Start the stopwatch
+    act(() => {
+      fireEvent.press(getByText('Start'));
+    });
+    act(() => {
+      jest.advanceTimersByTime(2000);
+    });
+  
+    // Pause the stopwatch
+    act(() => {
+      fireEvent.press(getByText('Pause'));
+    });
+    act(() => {
+      jest.advanceTimersByTime(1000);
+    });
 
-    fireEvent.press(getByText('Resume'));
-    expect(getByText(/(\d{2}:){2}\d{2}/).textContent).not.toBe(pausedTime);
+    const secondsText = allZeros[SECOND_INDEX].children[0];
+  
+    // Resume the stopwatch
+    act(() => {
+      fireEvent.press(getByText('Resume'));
+    });
+    act(() => {
+      jest.advanceTimersByTime(1000);
+    });
+  
+    // Find the time after resuming
+    const resumedTime = allZeros[SECOND_INDEX].children[0];
+    expect(resumedTime).not.toBe(secondsText);
   });
 
   test('records and displays lap times', () => {
-    const { getByText, getByTestId } = render(<Stopwatch />);
+    const { getByText, getAllByTestId } = render(<StopWatch />);
     
-    fireEvent.press(getByText('Start'));
-    fireEvent.press(getByText('Lap'));
-    expect(getByTestId('lap-list')).toContainElement(getByText(/(\d{2}:){2}\d{2}/));
+    act(() => {
+      fireEvent.press(getByText('Start'));
+    });
+    act(() => {
+      fireEvent.press(getByText('Lap'));
+    });
 
-    fireEvent.press(getByText('Lap'));
-    expect(getByTestId('lap-list').children.length).toBe(2);
+    expect(getAllByTestId(/lap-\d/).length).toBe(1);
+
+    act(() => {
+      fireEvent.press(getByText('Lap'));
+    });
+
+    expect(getAllByTestId(/lap-\d/).length).toBe(2);
   });
 
-  test('resets the stopwatch', () => {
-    const { getByText, queryByTestId } = render(<Stopwatch />);
-    
-    fireEvent.press(getByText('Start'));
-    fireEvent.press(getByText('Lap'));
-    fireEvent.press(getByText('Reset'));
-
-    expect(getByText('00:00:00')).toBeTruthy();
-    expect(queryByTestId('lap-list')).toBeNull();
+  test('resets the stopwatch', async () => {
+    const { getByText, queryAllByTestId, getAllByText } = render(<StopWatch />);
+  
+    act(() => {
+      fireEvent.press(getByText('Start'));
+    });
+    act(() => {
+      jest.advanceTimersByTime(2000);
+    });
+    act(() => {
+      fireEvent.press(getByText('Lap'));
+    });
+    act(() => {
+      fireEvent.press(getByText('Pause'));
+    });
+    act(() => {
+      fireEvent.press(getByText('Reset'));
+    });
+  
+    // Check if the stopwatch has reset to initial state
+    const allZeros = getAllByText('00');
+    expect(allZeros.length).toBe(4);
+    expect(queryAllByTestId(/lap-\d/).length).toBe(0);
   });
+
+  test('displays the correct time', async () => {
+    const { getByText, getByTestId } = render(<StopWatch />);
+  
+    act(() => {
+      fireEvent.press(getByText('Start'));
+    });
+    act(() => {
+      jest.advanceTimersByTime(9224055);
+    });
+
+    const hrDisplay = getByTestId('hr-display').children[0];
+    const minDisplay = getByTestId('min-display').children[0];
+    const secDisplay = getByTestId('sec-display').children[0];
+    const msDisplay = getByTestId('ms-display').children[0];
+
+    expect(hrDisplay).toBe('02');
+    expect(minDisplay).toBe('33');
+    expect(secDisplay).toBe('44');
+    expect(msDisplay).toBe('55');
+  
+    act(() => {
+      fireEvent.press(getByText('Pause'));
+    });
+  });
+
 });
