@@ -21,10 +21,12 @@ export default function StopWatch(
   },
 ) {
   const [isActive, setIsActive] = useState(initialProps && initialProps.isActive || false);
-  const [lapTimes, setLapTimes] = useState<Lap[]>(initialProps && initialProps.lapTimes || []);
+  const [lapList, setLapList] = useState<Lap[]>(initialProps && initialProps.lapTimes || []);
   const [millisecondsElapsedTotal, setMillisecondsElapsedTotal] = useState(initialProps && initialProps.millisecondsElapsedTotal || 0);
   const [millisecondsElapsedCurrentLap, setMillisecondsElapsedCurrentLap] = useState(initialProps && initialProps.millisecondsElapsedCurrentLap || 0);
-  const [{ formattedHours, formattedMins, formattedSecs, formattedMilliseconds }, setFormattedTime] = useState<FormattedTime>({ formattedHours: '00', formattedMins: '00', formattedSecs: '00', formattedMilliseconds: '00' });
+  const [{ formattedHours, formattedMins, formattedSecs, formattedMilliseconds }, setFormattedTime] = useState<FormattedTime>(
+    { formattedHours: '00', formattedMins: '00', formattedSecs: '00', formattedMilliseconds: '00' },
+  );
   const [startPauseButtonText, setStartPauseButtonText] = useState('Start');
   const [lapResetButtonText, setLapResetButtonText] = useState('Lap');
   const [bestTime, setBestTime] = useState<number>(Number.POSITIVE_INFINITY);
@@ -52,10 +54,10 @@ export default function StopWatch(
 
   // Create a new lap
   const createLap = () => {
-    const nextLapNumber = lapTimes.length + 1;
-    setLapTimes([...lapTimes, {
+    const nextLapNumber = lapList.length + 1;
+    setLapList([...lapList, {
       lapNumber: nextLapNumber,
-      lapTime: formatTime(millisecondsElapsedCurrentLap),
+      lapTime: formatTime(millisecondsElapsedCurrentLap, initialProps && initialProps.formatTimeMultiplier || 1),
       millisecondsElapsedCurrentLap,
     }]);
     setMillisecondsElapsedCurrentLap(0);
@@ -67,7 +69,9 @@ export default function StopWatch(
     setIsActive(false);
     setMillisecondsElapsedTotal(0);
     setMillisecondsElapsedCurrentLap(0);
-    setLapTimes([]);
+    setLapList([]);
+    setBestTime(Number.POSITIVE_INFINITY);
+    setWorstTime(Number.NEGATIVE_INFINITY);
   };
 
   // Timer effect
@@ -94,19 +98,18 @@ export default function StopWatch(
   useEffect(() => {
     updateBestAndWorstTimes();
     updateButtonTexts();
-  }, [isActive, lapTimes]);
+  }, [isActive, lapList]);
 
   // Update best and worst times
   const updateBestAndWorstTimes = () => {
     let newBestTime = bestTime;
     let newWorstTime = worstTime;
 
-    lapTimes.forEach((lap) => {
+    lapList.forEach((lap) => {
       const currentLapTime: number = lap.millisecondsElapsedCurrentLap;
       if (currentLapTime < newBestTime) {
         newBestTime = currentLapTime;
-      }
-      if (currentLapTime > newWorstTime) {
+      } else if (currentLapTime > newWorstTime) {
         newWorstTime = currentLapTime;
       }
     });
@@ -115,7 +118,7 @@ export default function StopWatch(
     setWorstTime(newWorstTime);
   };
 
-  // // Update button texts
+  // Update button texts
   const updateButtonTexts = () => {
     setStartPauseButtonText(isActive ? 'Pause' : (millisecondsElapsedTotal === 0 ? 'Start' : 'Resume'));
     setLapResetButtonText(isActive ? 'Lap' : 'Reset');
@@ -124,7 +127,7 @@ export default function StopWatch(
   const formattedLapTimes = useMemo(() => {
     // console.log(`dateTime: ${new Date().toISOString()} - formattedLapTimes called`);
 
-    return lapTimes.map((lap) => {
+    return lapList.map((lap) => {
       const isBestTime = lap.millisecondsElapsedCurrentLap === bestTime;
       const isWorstTime = lap.millisecondsElapsedCurrentLap === worstTime;
   
@@ -145,7 +148,7 @@ export default function StopWatch(
         lapTimeStyle: lapTimeStyle,
       };
     });
-  }, [lapTimes, bestTime, worstTime, styles]);
+  }, [lapList, bestTime, worstTime]);
 
   return (
     <View style={styles.container}>
