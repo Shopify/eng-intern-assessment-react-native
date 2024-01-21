@@ -2,17 +2,23 @@ import { Text, TouchableOpacity, StyleSheet } from "react-native";
 
 // StopWatchButton Component: Renders a button for the stopwatch
 export default function StopWatchButton({
+  testID,
   buttonText,
   onPress,
   style,
 }: {
+  testID?: string | undefined;
   buttonText: string; // Text to be displayed on the button
   onPress: () => void; // Function to be called when the button is pressed
   style?: object; // Optional additional styling to be applied to the button
 }) {
   // Component render
   return (
-    <TouchableOpacity style={[styles.button, style]} onPress={onPress}>
+    <TouchableOpacity
+      testID={testID}
+      style={[styles.button, style]}
+      onPress={onPress}
+    >
       <Text style={styles.buttonText}>{buttonText}</Text>
     </TouchableOpacity>
   );
