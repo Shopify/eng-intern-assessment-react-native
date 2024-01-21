@@ -16,7 +16,7 @@ export default function LapList({laptimes}: LapListProps){
     return (
         <ScrollView>
             {laptimes.map((laptime, index) => 
-                <LapListItem laptime={laptime} lapNum={index + 1} key={index}></LapListItem>
+                <LapListItem laptime={laptime} lapNum={laptimes.length - index} key={index}></LapListItem>
             )}
         </ScrollView>
     );
