@@ -49,47 +49,21 @@ export default function StopWatch() {
   }
 
   return (
-    <Box backgroundColor='mainBackground' flex={0}>
-      <Box>
-        <Text>{timeStr}</Text>
+    <Box backgroundColor='mainBackground'>
+      <Box alignItems='center' padding='xl'>
+        <Text variant='header'>{timeStr}</Text>
       </Box>
-      <Box>
-        <StopWatchButton varient='start' onPress={() => {setIsRunning(true)}}/>
-        <StopWatchButton varient='stop' onPress={() => {setIsRunning(false)}}/>
-        <StopWatchButton varient='lap' onPress={() => {handleAddLap(time)}}/>
-        <StopWatchButton varient='reset' onPress={() => {handleReset()}}/>
+      <Box flexDirection='row' justifyContent='center' gap='xl' margin='l'>
+        {isRunning ? <StopWatchButton label='Stop' variant='stop' onPress={() => {setIsRunning(false)}}/>
+          : <StopWatchButton label='Start' variant='start' onPress={() => {setIsRunning(true)}}/>
+        }
+        {isRunning ? <StopWatchButton label='Lap' variant='lap' onPress={() => {handleAddLap(time)}}/>
+          : <StopWatchButton label='Reset' variant='reset' onPress={() => {handleReset()}}/>
+        }
       </Box>
-      <Box backgroundColor='mainBackground'>
+      <Box width='100%' height='60%'>
         <LapList laptimes={laptimes}/>
-
       </Box>
     </Box>
   );
 }
-
-const styles = StyleSheet.create({
-  mainContainer: {
-    flex: 0,
-    flexDirection: 'column',
-  },
-  buttonGroup: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'center',
-  },
-  
-  timeContainer: {
-    width: '100%',
-    height: 200,
-    marginLeft: 50,
-    backgroundColor: 'mainBackground',
-  },
-  
-  lapListContainer: {
-    flex: 1,
-    marginLeft: 50,
-
-  },
-
-
-});
