@@ -1,21 +1,27 @@
-import { TouchableOpacity, StyleSheet, Text, View } from 'react-native';
-import theme from './theme';
+import { 
+  TouchableOpacity,
+  StyleSheet,
+  Text,
+} from 'react-native';
+import { 
+  createRestyleComponent,
+  createVariant,
+} from '@shopify/restyle';
+import { Theme } from './theme';
+import Box from './Box';
+
 
 type StopWatchButtonProps = {
-  varient: 'Start' | 'Stop' | 'Lap' | 'Reset';
+  varient: 'start' | 'stop' | 'lap' | 'reset';
   onPress: () => void;
 };
 
 export default function StopWatchButton({varient, onPress}: StopWatchButtonProps) {
   
-  
-
   return (
       <TouchableOpacity style={styles.buttonContainer} onPress={onPress}>
         <Text>{varient}</Text>
       </TouchableOpacity>
-
-    
   );
 }
 

@@ -1,4 +1,5 @@
 import {createTheme} from '@shopify/restyle';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 const palette = {
 
@@ -30,6 +31,9 @@ const theme = createTheme({
     l: 24,
     xl: 40,
   },
+  border: {
+
+  },
   textVariants: {
     header: {
       fontWeight: 'bold',
@@ -40,9 +44,24 @@ const theme = createTheme({
       lineHeight: 24,
     },
     defaults: {
-      // We can define a default text variant here.
+      fontSize: 20,
+      color: 'textLight',
     },
   },
+  buttonVariants: {
+    defaults: {
+      backgroundColor: 'buttonRegular',
+    },
+    start: {
+      backgroundColor: 'buttonPrimary',
+    },
+    stop: {
+      backgroundColor: 'buttonCritical',
+    },
+    lap: {
+      backgroundColor: 'buttonSecondary',
+    }
+  }
 });
 
 export type Theme = typeof theme;

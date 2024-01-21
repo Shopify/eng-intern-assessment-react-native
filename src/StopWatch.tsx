@@ -2,11 +2,12 @@ import { useState, useEffect } from 'react';
 import { SafeAreaView, 
         StyleSheet,
         View,
-        Text,
        } from 'react-native';
 import StopWatchButton from './StopWatchButton';
 import { formatTimeStr } from './utils/timeUtils';
 import LapList from './LapList';
+import Box from './Box';
+import Text from './Text';
 
 export default function StopWatch() {
   
@@ -48,21 +49,21 @@ export default function StopWatch() {
   }
 
   return (
-    <SafeAreaView >
-      <View style={styles.timeContainer}>
+    <Box backgroundColor='mainBackground' flex={0}>
+      <Box>
         <Text>{timeStr}</Text>
-      </View>
-      <View style={styles.buttonGroup}>
-        <StopWatchButton varient='Start' onPress={() => {setIsRunning(true)}}/>
-        <StopWatchButton varient='Stop' onPress={() => {setIsRunning(false)}}/>
-        <StopWatchButton varient='Lap' onPress={() => {handleAddLap(time)}}/>
-        <StopWatchButton varient='Reset' onPress={() => {handleReset()}}/>
-      </View>
-      <View style={styles.lapListContainer}>
+      </Box>
+      <Box>
+        <StopWatchButton varient='start' onPress={() => {setIsRunning(true)}}/>
+        <StopWatchButton varient='stop' onPress={() => {setIsRunning(false)}}/>
+        <StopWatchButton varient='lap' onPress={() => {handleAddLap(time)}}/>
+        <StopWatchButton varient='reset' onPress={() => {handleReset()}}/>
+      </Box>
+      <Box backgroundColor='mainBackground'>
         <LapList laptimes={laptimes}/>
 
-      </View>
-    </SafeAreaView>
+      </Box>
+    </Box>
   );
 }
 
@@ -81,12 +82,13 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 200,
     marginLeft: 50,
+    backgroundColor: 'mainBackground',
   },
   
   lapListContainer: {
     flex: 1,
     marginLeft: 50,
-    
+
   },
 
 

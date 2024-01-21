@@ -1,13 +1,7 @@
 import React from 'react';
-import {
-  SafeAreaView,
-  View,
-  ScrollView,
-  StyleSheet,
-  Text,
-  StatusBar,
-} from 'react-native';
 import { formatTimeStr } from './utils/timeUtils';
+import Text from './Text';
+import Box from './Box';
 
 type LapListItemProps = {
     laptime: number,
@@ -16,9 +10,14 @@ type LapListItemProps = {
 
 export default function LapListItem ({laptime, lapNum}: LapListItemProps) {
     return (
-        <View>
+        <Box 
+            backgroundColor='mainBackground' 
+            flex={1}
+            flexDirection='row'
+            justifyContent='space-between'
+            >
+            <Text>Lap {lapNum}</Text>
             <Text>{formatTimeStr(laptime)}</Text>
-            <Text>{lapNum}</Text>
-        </View>
+        </Box>
     );
 }
