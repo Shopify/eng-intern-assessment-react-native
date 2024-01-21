@@ -1,4 +1,5 @@
 import {createTheme} from '@shopify/restyle';
+import { PlatformColor } from 'react-native';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 const palette = {
@@ -15,6 +16,8 @@ const palette = {
 const theme = createTheme({
   colors: {
     mainBackground: palette.darkGrey,
+    listBorder: palette.white,
+    
     textLight: palette.white,
     textDark: palette.black,
 
@@ -22,7 +25,7 @@ const theme = createTheme({
     buttonSecondary: palette.bluePrimary,
     buttonRegular: palette.white,
     buttonCritical: palette.redPrimary,
-
+    buttonShadow: palette.black,
 
   },
   spacing: {
@@ -37,7 +40,7 @@ const theme = createTheme({
   textVariants: {
     header: {
       fontWeight: 'bold',
-      fontSize: 34,
+      fontSize: 42,
     },
     body: {
       fontSize: 16,
@@ -47,19 +50,47 @@ const theme = createTheme({
       fontSize: 20,
       color: 'textLight',
     },
+    start: {
+      color: 'textLight',
+      
+    },
+    stop: {
+      color: 'textLight',
+    },
+    lap: {
+      color: 'textLight',
+    },
+    reset: {
+      color: 'textDark',
+    }
   },
   buttonVariants: {
     defaults: {
       backgroundColor: 'buttonRegular',
+      width: 106,
+      borderRadius: 15,
+      alignItems: 'center',
+      justifyContent: 'center',
+      padding: 'l',
+
+      shadowColor: 'buttonShadow',
+      shadowOffset: {width: 4, height: 4},
+      shadowOpacity: 0.5,
+      shadowRadius: 3,
     },
     start: {
       backgroundColor: 'buttonPrimary',
+      
     },
     stop: {
       backgroundColor: 'buttonCritical',
     },
     lap: {
       backgroundColor: 'buttonSecondary',
+    },
+    reset: {
+      backgroundColor: 'buttonRegular',
+      color: 'textDark',
     }
   }
 });

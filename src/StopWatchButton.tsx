@@ -1,43 +1,35 @@
 import { 
   TouchableOpacity,
   StyleSheet,
-  Text,
 } from 'react-native';
 import { 
   createRestyleComponent,
   createVariant,
+  VariantProps,
+  textRestyleFunctions
 } from '@shopify/restyle';
 import { Theme } from './theme';
 import Box from './Box';
+import Text from './Text';
 
-
-type StopWatchButtonProps = {
-  varient: 'start' | 'stop' | 'lap' | 'reset';
-  onPress: () => void;
+type Props = VariantProps<Theme, "buttonVariants"> & {
+  label: string;
+  onPress?: () => void;
 };
 
-export default function StopWatchButton({varient, onPress}: StopWatchButtonProps) {
+const ButtonContainer = createRestyleComponent<
+  VariantProps<Theme, "buttonVariants"> & React.ComponentProps<typeof Box> & React.ComponentProps<typeof Text>,
+  Theme
+>([createVariant({ themeKey: "buttonVariants" })], Box);
+
+
+export default function StopWatchButton({label, variant, onPress, ...rest}: Props) {
   
   return (
-      <TouchableOpacity style={styles.buttonContainer} onPress={onPress}>
-        <Text>{varient}</Text>
+      <TouchableOpacity onPress={onPress}>
+        <ButtonContainer variant={variant} {...rest}>
+          <Text variant={variant}>{label}</Text>
+        </ButtonContainer>
       </TouchableOpacity>
   );
 }
-
-const styles = StyleSheet.create({
-  buttonContainer: {
-    width: 106,
-    height: 75,
-    flex: 0,
-    justifyContent: 'center',
-    backgroundColor: '#A0A0A0',
-    flexDirection: 'row',
-  },
-  Text: {
-    fontSize: 32,
-
-  },
-
-});
-
