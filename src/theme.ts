@@ -1,6 +1,4 @@
 import {createTheme} from '@shopify/restyle';
-import { PlatformColor } from 'react-native';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 const palette = {
 

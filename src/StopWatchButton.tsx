@@ -1,12 +1,10 @@
 import { 
   TouchableOpacity,
-  StyleSheet,
 } from 'react-native';
 import { 
   createRestyleComponent,
   createVariant,
   VariantProps,
-  textRestyleFunctions
 } from '@shopify/restyle';
 import { Theme } from './theme';
 import Box from './Box';

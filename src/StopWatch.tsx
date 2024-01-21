@@ -1,8 +1,4 @@
 import { useState, useEffect } from 'react';
-import { SafeAreaView, 
-        StyleSheet,
-        View,
-       } from 'react-native';
 import StopWatchButton from './StopWatchButton';
 import { formatTimeStr } from './utils/timeUtils';
 import LapList from './LapList';
