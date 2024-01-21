@@ -7,7 +7,7 @@ export default function StopWatchButton({
   onPress,
   style,
 }: {
-  testID?: string | undefined;
+  testID?: string | undefined; // Test ID for identifying respective buttons
   buttonText: string; // Text to be displayed on the button
   onPress: () => void; // Function to be called when the button is pressed
   style?: object; // Optional additional styling to be applied to the button

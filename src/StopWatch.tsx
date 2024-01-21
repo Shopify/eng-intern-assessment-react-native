@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, ScrollView } from "react-native";
 import StopWatchButton from "./StopWatchButton";
 import { formatTime } from "../utils/utils";
 
+// StopWatch Component: Renders the stopwatch component
 export default function StopWatch() {
   // State declarations
   const [startTime, setStartTime] = useState<number | null>(null); // Start time of the stopwatch
@@ -69,6 +70,7 @@ export default function StopWatch() {
     };
   }, [isRunning, startTime]);
 
+  // Component render
   return (
     <View style={styles.container}>
       <View style={styles.stopWatchTextContainer}>
