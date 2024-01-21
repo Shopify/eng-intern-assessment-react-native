@@ -15,6 +15,10 @@ export default function LapListItem ({laptime, lapNum}: LapListItemProps) {
             flex={1}
             flexDirection='row'
             justifyContent='space-between'
+            paddingVertical='s'
+            paddingHorizontal='xl'
+            borderTopWidth={2}
+            borderColor='listBorder'
             >
             <Text>Lap {lapNum}</Text>
             <Text>{formatTimeStr(laptime)}</Text>
