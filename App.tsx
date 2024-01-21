@@ -1,20 +1,22 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StatusBar } from "expo-status-bar";
+import { StyleSheet, View } from "react-native";
+import StopWatch from "./src/StopWatch";
 
+// Main App Component
 export default function App() {
+  // Component render
   return (
     <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
       <StatusBar style="auto" />
+      <StopWatch />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  // Main container style for the entire app view
   container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    flex: 1, // Flex grow to fill the screen
+    backgroundColor: "#ffffff", // White background color for the app
   },
 });
