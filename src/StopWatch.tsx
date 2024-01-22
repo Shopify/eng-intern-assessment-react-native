@@ -36,7 +36,7 @@ export default function StopWatch() {
     // Update time elapsed every 10 milliseconds (every centisecond)
     // Using Date.now() and startTime instead of relying on the milliseconds parameter of setInterval 
     // to track time ensures that lag or the JS event loop do not give inaccurate timing
-    intervalRef.current = setInterval(() => setTimeElapsed(Date.now() - startTime.current), 1);
+    intervalRef.current = setInterval(() => setTimeElapsed(Date.now() - startTime.current), 10);
     setRunning(true);
     setReset(false);
   };
