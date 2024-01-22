@@ -16,8 +16,8 @@ const { width: deviceWidth } = Dimensions.get('window');
 const buttonSize = deviceWidth * 0.25;
 
 /**
- * Returns the width of the device screen.
- * @returns The width of the device screen.
+ * Returns the styles for the app.
+ * @returns The styles for the app.
  */
 export const getStyles = () => {
   return StyleSheet.create({

@@ -9,6 +9,15 @@ import { StopWatchButton } from './StopWatchButton';
 import { getStyles } from './utils/theme';
 import { formatTime } from './utils/timeUtils';
 
+// Constants
+const formattedTimeInitialState = {
+  formattedHours: '00',
+  formattedMins: '00',
+  formattedSecs: '00',
+  formattedMilliseconds: '00',
+};
+
+// Styles
 const styles = getStyles();
 
 export default function StopWatch(
@@ -24,35 +33,19 @@ export default function StopWatch(
   const [lapList, setLapList] = useState<Lap[]>(initialProps && initialProps.lapTimes || []);
   const [millisecondsElapsedTotal, setMillisecondsElapsedTotal] = useState(initialProps && initialProps.millisecondsElapsedTotal || 0);
   const [millisecondsElapsedCurrentLap, setMillisecondsElapsedCurrentLap] = useState(initialProps && initialProps.millisecondsElapsedCurrentLap || 0);
-  const [{ formattedHours, formattedMins, formattedSecs, formattedMilliseconds }, setFormattedTime] = useState<FormattedTime>(
-    { formattedHours: '00', formattedMins: '00', formattedSecs: '00', formattedMilliseconds: '00' },
-  );
+  const [{ formattedHours, formattedMins, formattedSecs, formattedMilliseconds }, setFormattedTime] = useState<FormattedTime>(formattedTimeInitialState);
   const [startPauseButtonText, setStartPauseButtonText] = useState('Start');
   const [lapResetButtonText, setLapResetButtonText] = useState('Lap');
   const [bestTime, setBestTime] = useState<number>(Number.POSITIVE_INFINITY);
   const [worstTime, setWorstTime] = useState<number>(Number.NEGATIVE_INFINITY);
   const scrollViewRef = useRef<ScrollView>(null);
 
-  // Helper function
+  // Helper function to scroll to the bottom of the lap list when a new lap is created
   const scrollToBottom = () => {
     scrollViewRef.current?.scrollToEnd({ animated: true });
   };
 
-  // Start or stop the stopwatch
-  const handleStartStop = () => {
-    setIsActive(!isActive);
-  };
-
-  // Handle the creation of a lap or resetting the stopwatch
-  const handleLapReset = () => {
-    if (isActive) {
-      createLap();
-    } else {
-      resetStopwatch();
-    }
-  };
-
-  // Create a new lap
+  // Create a new lap and scroll to the bottom of the lap list
   const createLap = () => {
     const nextLapNumber = lapList.length + 1;
     setLapList([...lapList, {
@@ -64,7 +57,7 @@ export default function StopWatch(
     scrollToBottom();
   };
 
-  // Reset the stopwatch
+  // Reset the stopwatch and lap list to their initial states
   const resetStopwatch = () => {
     setIsActive(false);
     setMillisecondsElapsedTotal(0);
@@ -73,32 +66,6 @@ export default function StopWatch(
     setBestTime(Number.POSITIVE_INFINITY);
     setWorstTime(Number.NEGATIVE_INFINITY);
   };
-
-  // Timer effect
-  useEffect(() => {
-    let interval: NodeJS.Timeout | null = null;
-    if (isActive) {
-      interval = setInterval(() => {
-        setMillisecondsElapsedTotal((prev) => prev + 1);
-        setMillisecondsElapsedCurrentLap((prev) => prev + 1);
-      }, 1);
-    }
-    return () => {
-      if (interval) clearInterval(interval);
-    };
-  }, [isActive]);
-
-  useEffect(() => {
-    if (millisecondsElapsedTotal % 10 === 0) {
-      setFormattedTime(formatTime(millisecondsElapsedTotal, initialProps && initialProps.formatTimeMultiplier || 1));
-    }
-  } , [millisecondsElapsedTotal]);
-
-  // Effect for best and worst times and button texts
-  useEffect(() => {
-    updateBestAndWorstTimes();
-    updateButtonTexts();
-  }, [isActive, lapList]);
 
   // Update best and worst times
   const updateBestAndWorstTimes = () => {
@@ -124,9 +91,48 @@ export default function StopWatch(
     setLapResetButtonText(isActive ? 'Lap' : 'Reset');
   };
 
-  const formattedLapTimes = useMemo(() => {
-    // console.log(`dateTime: ${new Date().toISOString()} - formattedLapTimes called`);
+   // Start or stop the stopwatch
+   const handleStartStop = () => {
+    setIsActive(!isActive);
+  };
 
+  // Handle the creation of a lap or resetting the stopwatch
+  const handleLapReset = () => {
+    if (isActive) {
+      createLap();
+    } else {
+      resetStopwatch();
+    }
+  };
+
+  // Timer effect for the stopwatch
+  useEffect(() => {
+    let interval: NodeJS.Timeout | null = null;
+    if (isActive) {
+      interval = setInterval(() => {
+        setMillisecondsElapsedTotal((prev) => prev + 1);
+        setMillisecondsElapsedCurrentLap((prev) => prev + 1);
+      }, 1);
+    }
+    return () => {
+      if (interval) clearInterval(interval);
+    };
+  }, [isActive]);
+
+  // Effect for the stopwatch time display
+  useEffect(() => {
+    if (millisecondsElapsedTotal % 10 === 0) {
+      setFormattedTime(formatTime(millisecondsElapsedTotal, initialProps && initialProps.formatTimeMultiplier || 1));
+    }
+  } , [millisecondsElapsedTotal]);
+
+  // Effect for best and worst times and button texts
+  useEffect(() => {
+    updateBestAndWorstTimes();
+    updateButtonTexts();
+  }, [isActive, lapList]);
+
+  const formattedLapTimes = useMemo(() => {
     return lapList.map((lap) => {
       const isBestTime = lap.millisecondsElapsedCurrentLap === bestTime;
       const isWorstTime = lap.millisecondsElapsedCurrentLap === worstTime;
