@@ -3,7 +3,7 @@ import { View } from 'react-native';
 import StopWatch from './src/StopWatch';
 import { useCallback } from 'react';
 import * as SplashScreen from 'expo-splash-screen';
-import { getStyles } from "./src/utils/theme";
+import globalStyle from "./src/styles/globalStyle";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -23,11 +23,9 @@ export default function App() {
     return null;
   }
 
-  const styles = getStyles();
-
   return (
-    <View style={styles.container} onLayout={onLayoutRootView}>
-      <StopWatch formatTimeMultiplier={10} />
+    <View style={globalStyle.container} onLayout={onLayoutRootView}>
+        <StopWatch formatTimeMultiplier={10} />
     </View>
   );
 }

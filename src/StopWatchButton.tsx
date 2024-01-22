@@ -4,7 +4,7 @@
  */
 
 import { Text, TouchableOpacity, View } from "react-native";
-import { getStyles } from "./utils/theme";
+import { getStyles } from "./styles/theme";
 
 export function StopWatchButton({
   text,

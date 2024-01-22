@@ -6,7 +6,7 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { View, Text, ScrollView } from 'react-native';
 import { StopWatchButton } from './StopWatchButton';
-import { getStyles } from './utils/theme';
+import { getStyles } from './styles/theme';
 import { formatTime } from './utils/timeUtils';
 
 // Constants
