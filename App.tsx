@@ -1,9 +1,10 @@
 import { StatusBar } from 'expo-status-bar';
 import { useState, useRef } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { default as StopWatch } from './src/StopWatch';
-import { default as StopWatchButton } from './src/StopWatchButton';
-import { default as csToFormattedTime } from './src/format';
+import StopWatch from './src/StopWatch';
+import StopWatchButton from './src/StopWatchButton';
+import csToFormattedTime from './src/format';
+import LapList from './src/LapList';
 
 export default function App() {
   // Time when we last started the stopwatch
@@ -22,6 +23,8 @@ export default function App() {
   const intervalRef = useRef<number>(0);
   // Whether stopwatch is currently running
   const [running, setRunning] = useState(false);
+  // List of lap times
+  const [lapList, setLapList] = useState<string[]>([]);
 
   const onStart = () => {
     startTime.current = Date.now();
@@ -41,10 +44,11 @@ export default function App() {
 
   const onReset = () => {
     setStopDisplayTime(0);
+    setLapList([]);
   };
 
   const onLap = () => {
-    console.log('onLap');
+    setLapList(lapList => [formattedTime, ...lapList]);
   };
 
   return (
@@ -59,10 +63,13 @@ export default function App() {
           onPress={running ? onLap : onReset}
         />
         <StopWatchButton
-          text={running ? 'Stop' : 'Start'}
+          text={running ? 'Stop' : displayTime === 0 ? 'Start' : 'Resume'}
           onPress={running ? onStop : onStart}
         />
-      </View> 
+      </View>
+      <LapList 
+        lapList={lapList}
+      /> 
     </View>
   );
 }
