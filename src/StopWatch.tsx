@@ -1,12 +1,15 @@
 import { useRef, useState } from 'react';
-import { View, StyleSheet, Text } from 'react-native';
-import StopWatchButton from './StopWatchButton';
-import { formatTimeSegment } from './utils';
+import { StyleSheet, View } from 'react-native';
+import ButtonGroup from './ButtonGroup';
+import Laps from './Laps';
+import Timestamp from './Timestamp';
+import { convertCentisToSegments, convertSegmentsToCentis, getTotalRecordedLapTime } from './utils';
 
 export default function StopWatch() {
 
   const [time, setTime] = useState([0, 0, 0]);
   const [isRecording, setIsRecording] = useState(false);
+  const [laps, setLaps] = useState<number[][]>([]);
 
   const intervalIdRef = useRef<number>();
 
@@ -17,23 +20,25 @@ export default function StopWatch() {
     }
   })
 
+  const getNextTimeSegments = (time: number[]) => {
+    const [min, sec, centis] = time;
+    let newMin = min, newSec = sec, newCentis;
+    newCentis = centis + 1;
+    if (newCentis === 100) {
+      newSec = sec + 1;
+      newCentis = 0
+    }
+    if (newSec === 60) {
+      newMin = min + 1;
+      newSec = 0;
+    }
+    return [newMin, newSec, newCentis]
+  }
+
   const startRecording = () => {
     setIsRecording(true);
     const intervalId = setInterval(() => {
-      setTime((time) => {
-        const [min, sec, centis] = time;
-        let newMin = min, newSec = sec, newCentis;
-        newCentis = centis + 1;
-        if (newCentis === 100) {
-          newSec = sec + 1;
-          newCentis = 0
-        }
-        if (newSec === 60) {
-          newMin = min + 1;
-          newSec = 0;
-        }
-        return [newMin, newSec, newCentis]
-      })
+      setTime(getNextTimeSegments)
     }, 10);
 
     intervalIdRef.current = intervalId;
@@ -48,19 +53,35 @@ export default function StopWatch() {
   const resetRecording = () => {
     setTime([0, 0, 0]);
     const intervalId = intervalIdRef.current;
-    if(intervalId) clearInterval(intervalId)
+    if (intervalId) clearInterval(intervalId);
+    setLaps([])
+  }
+
+  const getCurrentLapSegments = () => {
+    const totalLapSegments = getTotalRecordedLapTime(laps);
+    const totalLapCentis = convertSegmentsToCentis(totalLapSegments);
+    const currentTimeCentis = convertSegmentsToCentis(time);
+    const diff = currentTimeCentis - totalLapCentis;
+    return convertCentisToSegments(diff);
+  }
+
+  const recordLap = () => {
+    setLaps(laps => {
+      const currentLapSegments = getCurrentLapSegments();
+      return [...laps, currentLapSegments]
+    })
   }
 
   return (
     <View style={styles.container}>
-      <Text>{formatTimeSegment(time[0])}:{formatTimeSegment(time[1])}:{formatTimeSegment(time[2])}</Text>
-      <StopWatchButton
-        onPress={isRecording ? stopRecording : startRecording}
-        text={isRecording ? "Stop" : "Start"}
-      />
-      <StopWatchButton
-        onPress={resetRecording}
-        text="Reset"
+      <Laps laps={laps} />
+      <Timestamp time={time} />
+      <ButtonGroup
+        isRecording={isRecording}
+        onPressStart={startRecording}
+        onPressStop={stopRecording}
+        onPressReset={resetRecording}
+        onPressLap={recordLap}
       />
     </View>
   );
