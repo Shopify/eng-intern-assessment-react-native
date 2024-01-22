@@ -19,12 +19,12 @@ export default function StopWatchButton(props: StopWatchButtonProps) {
 
 const styles = StyleSheet.create({
   button: {
-    width: 100,
+    width: 80,
     height: 50,
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 100,
     backgroundColor: "#FFCCCB",
-    marginHorizontal: 25,
+    marginHorizontal: 10,
   },
 });
