@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import ButtonGroup from './ButtonGroup';
-import Laps from './Laps';
+import LapList from './Laps';
 import Timestamp from './Timestamp';
 import { convertCentisToSegments, convertSegmentsToCentis, getTotalRecordedLapTime } from './utils';
 
@@ -72,10 +72,14 @@ export default function StopWatch() {
     })
   }
 
+  const isDefaultTimestamp = () => time.every(segment => segment === 0);
+
+  const isTimestampVisible = (isRecording && !laps.length) || isDefaultTimestamp() && !isRecording
+
   return (
     <View style={styles.container}>
-      <Laps laps={laps} />
-      <Timestamp time={time} />
+      {!!laps.length && <LapList laps={laps} />}
+      {isTimestampVisible && <Timestamp time={time} />}
       <ButtonGroup
         isRecording={isRecording}
         onPressStart={startRecording}
