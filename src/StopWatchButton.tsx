@@ -1,8 +1,14 @@
-import { View } from 'react-native';
+import { Pressable, Text } from 'react-native';
 
-export default function StopWatchButton() {
+export default function StopWatchButton(
+  { text, onPress }:
+    {
+      text: string;
+      onPress: () => void
+    }) {
   return (
-    <View >
-    </View>
+    <Pressable onPress={onPress}>
+      <Text>{text}</Text>
+    </Pressable>
   );
 }
