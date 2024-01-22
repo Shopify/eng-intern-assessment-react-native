@@ -4,7 +4,8 @@ import { formatTime } from '../utils/formatTime';
 export const useStopwatch = () => {
   const [isRunning, setIsRunning] = useState<boolean>(false);
   const [startTime, setStartTime] = useState<number | null>(null);
-  const [lapCount, setLaps] = useState<string[]>([]);
+  const [lapTimes, setLapTimes] = useState<string[]>([]); // Changed to lapTimes for clarity
+  const [lastLapTime, setLastLapTime] = useState<number>(0); // New state for the last lap time
   const [time, setTime] = useState<number>(0);
 
   useEffect(() => {
@@ -13,7 +14,7 @@ export const useStopwatch = () => {
     if (isRunning && startTime !== null) {
       interval = setInterval(() => {
         setTime(Date.now() - startTime);
-      }, 10); // Consider using a larger interval for better performance
+      }, 10);
     }
 
     return () => {
@@ -24,6 +25,9 @@ export const useStopwatch = () => {
   const start = () => {
     setStartTime(Date.now() - time);
     setIsRunning(true);
+    if (time === 0) {
+      setLastLapTime(0); // Reset last lap time when starting from 0
+    }
   };
 
   const stop = () => {
@@ -33,12 +37,18 @@ export const useStopwatch = () => {
   const reset = () => {
     setIsRunning(false);
     setTime(0);
+    setLapTimes([]);
     setStartTime(null);
+    setLastLapTime(0);
   };
 
   const lap = () => {
-    setLaps(prevLaps => [...prevLaps, formatTime(time)]);
+    if (time > 0) {
+        const lapTime = time - lastLapTime;
+        setLapTimes(prevLaps => [...prevLaps, formatTime(lapTime)]);
+        setLastLapTime(time);
+    }
   }
 
-  return { time, start, stop, reset, lap, lapCount, isRunning };
+  return { time, start, stop, reset, lap, lapTimes, isRunning };
 };

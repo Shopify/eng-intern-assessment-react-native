@@ -6,11 +6,11 @@ import { useStopwatch } from './src/hooks/useStopwatch';
 
 export default function App() {
 
-  const { time, start, stop, reset, lap, lapCount } = useStopwatch();
+  const { time, start, stop, reset, lap, lapTimes } = useStopwatch();
 
   return (
     <View style={styles.container}>
-      <Stopwatch time={time} laps={lapCount} />
+      <Stopwatch time={time} laps={lapTimes} />
       <StopwatchButton onStart={start} onStop={stop} onReset={reset} onLap={lap} />    
     </View>
   );
