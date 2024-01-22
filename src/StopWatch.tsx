@@ -26,7 +26,7 @@ export default function StopWatch() {
   // List of lap times
   const [lapList, setLapList] = useState<string[]>([]);
 
-  // clean up setInterval on unmount
+  // Clean up setInterval on unmount
   useEffect(() => {
     return () => clearInterval(intervalRef.current);
   }, [])
@@ -78,12 +78,9 @@ export default function StopWatch() {
           onPress={running ? onStop : onStart}
         />
       </View>
-      <View style={styles.grid}>
-      
-      </View>
-      <LapList 
+      <LapList
         lapList={lapList}
-      /> 
+      />
     </View>
   );
 }

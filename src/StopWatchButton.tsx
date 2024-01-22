@@ -3,12 +3,12 @@ import { StopWatchButtonProps } from './types';
 
 export default function StopWatchButton(props: StopWatchButtonProps) {
   const {
-    onPress = () => {},
+    onPress = () => { },
     text
   } = props;
 
   return (
-    <TouchableOpacity 
+    <TouchableOpacity
       style={styles.button}
       onPress={onPress}
     >

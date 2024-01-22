@@ -10,8 +10,8 @@ export default function LapList(props: LapListProps) {
     (lap, i) => <Text key={i} style={styles.text}> Lap {lapList.length - i}:       {lap} </Text>
   )
 
-  const scrollView = 
-    <ScrollView 
+  const scrollView =
+    <ScrollView
       contentContainerStyle={styles.container}
       testID='lap-list'
     >
@@ -19,7 +19,7 @@ export default function LapList(props: LapListProps) {
     </ScrollView>
 
   return (
-    <View 
+    <View
       style={styles.scrollable}
     >
       {!!lapList?.length && scrollView}
