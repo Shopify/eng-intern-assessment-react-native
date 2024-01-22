@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react';
 import { View, StyleSheet, Text } from 'react-native';
 import StopWatchButton from './StopWatchButton';
+import { formatTimeSegment } from './utils';
 
 export default function StopWatch() {
 
@@ -52,7 +53,7 @@ export default function StopWatch() {
 
   return (
     <View style={styles.container}>
-      <Text>{time[0]} {time[1]} {time[2]}</Text>
+      <Text>{formatTimeSegment(time[0])}:{formatTimeSegment(time[1])}:{formatTimeSegment(time[2])}</Text>
       <StopWatchButton
         onPress={isRecording ? stopRecording : startRecording}
         text={isRecording ? "Stop" : "Start"}
