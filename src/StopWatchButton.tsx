@@ -1,8 +1,20 @@
-import { View } from 'react-native';
+import React from 'react';
+import { View, Button } from 'react-native';
 
-export default function StopWatchButton() {
+interface StopwatchButtonProps {
+  onStart: () => void;
+  onStop: () => void;
+  onReset: () => void;
+  onLap: () => void;
+}
+
+export default function StopwatchButton({ onStart, onStop, onReset, onLap }: StopwatchButtonProps) {
   return (
-    <View >
+    <View>
+      <Button onPress={onStart} title="Start" />
+      <Button onPress={onStop} title="Stop" />
+      <Button onPress={onReset} title="Reset" />
+      <Button onPress={onLap} title="Lap" />
     </View>
   );
 }
