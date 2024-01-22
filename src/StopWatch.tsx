@@ -1,11 +1,7 @@
 import React from 'react';
 import { Text, View } from 'react-native';
 import { formatTime } from './utils/formatTime'
-
-interface StopwatchProps {
-  time: number;
-  laps: string[];
-}
+import { StopwatchProps } from './types/types'
 
 export default function Stopwatch({ time = 0, laps = [] }: StopwatchProps) {
   return (

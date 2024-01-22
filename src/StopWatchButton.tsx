@@ -1,12 +1,6 @@
 import React from 'react';
 import { View, Button } from 'react-native';
-
-interface StopwatchButtonProps {
-  onStart: () => void;
-  onStop: () => void;
-  onReset: () => void;
-  onLap: () => void;
-}
+import { StopwatchButtonProps } from './types/types';
 
 export default function StopwatchButton({ onStart, onStop, onReset, onLap }: StopwatchButtonProps) {
   return (
