@@ -2,6 +2,7 @@ import { View, Text } from 'react-native';
 import { useState, useEffect } from 'react';
 import { StyleSheet } from 'react-native';
 import StopWatchButton from './StopWatchButton';
+import LapsList from './LapsList';
 
 enum StopWatchStates {
   NOT_RUNNING,
@@ -47,6 +48,10 @@ export default function StopWatch() {
     setStopWatchState(StopWatchStates.PAUSED)
   }
 
+  function handleLap() {
+    setLaps((prevLaps) => [...prevLaps, timeInCentiseconds]);
+  }
+
   return (
     <View >
       <View>
@@ -59,7 +64,9 @@ export default function StopWatch() {
         { stopWatchState == StopWatchStates.STOPPED ? <StopWatchButton buttonTappedHandler={handleStart} label={'Start'} />   : null }
         <StopWatchButton buttonTappedHandler={handleStop} label={'Stop'}/>
         <StopWatchButton buttonTappedHandler={handleReset} label={'Reset'}/>
+        <StopWatchButton buttonTappedHandler={handleLap} label={'Lap'}/>
       </View>
+      <LapsList laps={laps}/>
     </View>
     </View>
     </View>
