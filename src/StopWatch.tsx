@@ -37,14 +37,28 @@ export default function StopWatch() {
     setStopWatchState(StopWatchStates.STOPPED)
   }
 
+  function handleReset() {
+    setStopWatchState(StopWatchStates.NOT_RUNNING)
+    setLaps([])
+    setTimeInCentiseconds(0)
+  }
+
+  function handlePause() {
+    setStopWatchState(StopWatchStates.PAUSED)
+  }
+
   return (
     <View >
       <View>
       <View style={styles.container}>
       { stopWatchState == StopWatchStates.STOPPED ? null : <Text>{formattedTime(timeInCentiseconds)}</Text>}
       <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center' }}>
-        <StopWatchButton buttonTappedHandler={handleStart} label={'Start'} />
-        <StopWatchButton buttonTappedHandler={handleStop} label={'Stop'} />
+      { stopWatchState == StopWatchStates.NOT_RUNNING ? <StopWatchButton buttonTappedHandler={handleStart} label={'Start'} />   : null }
+        { stopWatchState == StopWatchStates.RUNNING  ? <StopWatchButton buttonTappedHandler={handlePause} label={'Pause'} />  : null }
+        { stopWatchState == StopWatchStates.PAUSED ? <StopWatchButton buttonTappedHandler={handleStart} label={'Resume'} /> : null }
+        { stopWatchState == StopWatchStates.STOPPED ? <StopWatchButton buttonTappedHandler={handleStart} label={'Start'} />   : null }
+        <StopWatchButton buttonTappedHandler={handleStop} label={'Stop'}/>
+        <StopWatchButton buttonTappedHandler={handleReset} label={'Reset'}/>
       </View>
     </View>
     </View>
@@ -57,7 +71,6 @@ function formattedTime(timeInCentiseconds: number): string {
   const minutes = Math.floor(totalSeconds / 60);
   const seconds = totalSeconds % 60;
   const centiseconds = timeInCentiseconds % 100;
-
   const formattedTime = `${padWithZero(minutes)}:${padWithZero(seconds)}:${padWithZero(centiseconds)}`;
   return formattedTime;
 }
