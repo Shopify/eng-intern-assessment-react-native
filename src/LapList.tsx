@@ -11,11 +11,10 @@ type LapListProps = {
 
 export default function LapList({laptimes}: LapListProps){
 
-
     return (
         <ScrollView testID='lap-list'>
             {laptimes.map((laptime, index) => 
-                <LapListItem laptime={laptime} lapNum={laptimes.length - index} key={index}></LapListItem>
+                <LapListItem laptime={laptime} lapNum={laptimes.length - index} key={index}/>
             )}
         </ScrollView>
     );
