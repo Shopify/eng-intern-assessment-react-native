@@ -3,6 +3,14 @@ import { fireEvent, act, within } from '@testing-library/react-native';
 import { render } from '../src/utils/testUtils';
 import StopWatch from '../src/StopWatch';
 
+/*
+  Note: Some small updates were made to the original file to better suit the project requirements.
+  The largest changes include:
+    - Changed 'pause and resume' test to use the 'Stop' and 'Start' buttons rather that 'pause' and 'resume' buttons.
+    - Changed 'records and displays laptimes' .toContainElement() in favour of within()
+    - Created a testUtils file to add the Restyled ThemeProvider as a wrapper
+    
+*/
 
 describe('Stopwatch', () => {
 
@@ -72,7 +80,7 @@ describe('Stopwatch', () => {
     jest.useRealTimers();
   });
 
-  // Test case 4: Reecords laptimes
+  // Test case 4: Records laptimes
   test('records and displays lap times', () => {
     const { getByText, getAllByText, getByTestId } = render(<StopWatch />);
     
@@ -83,8 +91,7 @@ describe('Stopwatch', () => {
     act(() => jest.advanceTimersByTime(2000));
 
     fireEvent.press(getByText('Lap'));
-
-    console.log(getByTestId('lap-list').props.children);
+    // expect that there will be only one lap recorded.
     expect(within(getByTestId('lap-list')).getAllByText(/(\d{2}:){2}\d{2}/).length).toBe(1);
 
     act(() => jest.advanceTimersByTime(2000));
@@ -92,6 +99,7 @@ describe('Stopwatch', () => {
     fireEvent.press(getByText('Lap'));
     fireEvent.press(getByText('Lap'));
 
+    // expect that there will be two more laps for a total of 3 recorded.
     expect(within(getByTestId('lap-list')).getAllByText(/(\d{2}:){2}\d{2}/).length).toBe(3);
 
     jest.useRealTimers();
@@ -110,7 +118,9 @@ describe('Stopwatch', () => {
     fireEvent.press(getByText('Stop'));
     fireEvent.press(getByText('Reset'));
 
+    // expect that the timer is set back to the inital state
     expect(getByText('00:00:00')).toBeTruthy();
+    // expect that the laplist is cleared
     expect(queryByTestId('lap-list')).toBeNull();
   });
 });
