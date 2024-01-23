@@ -1,4 +1,4 @@
-import { View } from "react-native";
+import { View, StyleSheet } from "react-native";
 import StopWatchButton from "./StopWatchButton";
 
 
@@ -21,7 +21,7 @@ const ButtonGroup = ({
 }) => {
 
     return (
-        <View>
+        <View style={styles.container}>
             <StopWatchButton
                 disabled={isRecording}
                 onPress={onPressStart}
@@ -49,5 +49,13 @@ const ButtonGroup = ({
         </View>
     )
 }
+
+const styles = StyleSheet.create({
+    container: {
+        marginTop: 25,
+        height: 250,
+        justifyContent: "space-between",
+    }
+})
 
 export default ButtonGroup;

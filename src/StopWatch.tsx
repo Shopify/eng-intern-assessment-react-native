@@ -90,8 +90,8 @@ export default function StopWatch() {
 
   return (
     <View style={styles.container}>
-      {!!laps.length && <LapList laps={laps} />}
-      {isTimestampVisible && <Timestamp time={time} />}
+      <LapList laps={laps} visible={!!laps.length} />
+      <Timestamp time={time} visible={isTimestampVisible} />
       <ButtonGroup
         isInitial={isDefaultTimestamp}
         isRecording={isRecording}
