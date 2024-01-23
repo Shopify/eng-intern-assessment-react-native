@@ -37,6 +37,7 @@ const ButtonGroup = ({
                 text={"Stop"}
             />
             <StopWatchButton
+                disabled={isInitial}
                 onPress={onPressReset}
                 text="Reset"
             />
