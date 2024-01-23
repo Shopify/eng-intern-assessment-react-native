@@ -58,7 +58,8 @@ export default function StopWatch() {
         }
       </Box>
       <Box width='100%' height='60%'>
-        <LapList laptimes={laptimes}/>
+        {(laptimes.length > 0) ? <LapList laptimes={laptimes}/>
+          : <></>}
       </Box>
     </Box>
   );
