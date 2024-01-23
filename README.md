@@ -1,3 +1,18 @@
+# My Implementation
+(Original Instructions below)
+
+<details open>
+<summary>Video Demo</summary>
+<br>
+https://github.com/Robert336/eng-intern-assessment-react-native/assets/49876190/cd07435b-5fec-47d7-a8d2-4e9eba730fb1
+</details>
+
+- Implemented Shopify's Restyled library to provide modularity and maintainability to styling components.
+- Updated `StopWatchButton` component to use Restyled variants for modularity.
+- Created `utils` folder containing `testUtils.tsx` and `timeUtils.ts` which provide helper functions.
+- Created `LapList` (using ScrollView) and `LapListItem` components.
+- States and button 'handle' functions are managed within the `StopWatch` component.
+
 # Technical Instructions
 1. Fork this repo to your local Github account.
 2. Create a new branch to complete all your work in.
