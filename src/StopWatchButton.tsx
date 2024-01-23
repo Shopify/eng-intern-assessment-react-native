@@ -1,13 +1,14 @@
 import { Pressable, Text } from 'react-native';
 
 export default function StopWatchButton(
-  { text, onPress }:
+  { text, onPress, disabled }:
     {
-      text: string;
+      disabled?: boolean,
       onPress: () => void
+      text: string;
     }) {
   return (
-    <Pressable onPress={onPress}>
+    <Pressable disabled={disabled} onPress={onPress}>
       <Text>{text}</Text>
     </Pressable>
   );

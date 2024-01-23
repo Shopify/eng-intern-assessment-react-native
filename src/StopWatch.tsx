@@ -5,10 +5,12 @@ import LapList from './Laps';
 import Timestamp from './Timestamp';
 import { convertCentisToSegments, convertSegmentsToCentis, getTotalRecordedLapTime } from './utils';
 
+type StopwatchState = "stopped" | "paused" | "recording"
+
 export default function StopWatch() {
 
   const [time, setTime] = useState([0, 0, 0]);
-  const [isRecording, setIsRecording] = useState(false);
+  const [stopwatchState, setStopwatchState] = useState<StopwatchState>("stopped");
   const [laps, setLaps] = useState<number[][]>([]);
 
   const intervalIdRef = useRef<number>();
@@ -35,8 +37,14 @@ export default function StopWatch() {
     return [newMin, newSec, newCentis]
   }
 
+  const pauseRecording = () => {
+    setStopwatchState("paused")
+    const intervalId = intervalIdRef.current;
+    if (intervalId) clearInterval(intervalId);
+  }
+
   const startRecording = () => {
-    setIsRecording(true);
+    setStopwatchState("recording")
     const intervalId = setInterval(() => {
       setTime(getNextTimeSegments)
     }, 10);
@@ -45,7 +53,7 @@ export default function StopWatch() {
   }
 
   const stopRecording = () => {
-    setIsRecording(false);
+    setStopwatchState("stopped")
     const intervalId = intervalIdRef.current;
     if (intervalId) clearInterval(intervalId);
   }
@@ -55,6 +63,7 @@ export default function StopWatch() {
     const intervalId = intervalIdRef.current;
     if (intervalId) clearInterval(intervalId);
     setLaps([])
+    setStopwatchState("stopped")
   }
 
   const getCurrentLapSegments = () => {
@@ -72,16 +81,21 @@ export default function StopWatch() {
     })
   }
 
-  const isDefaultTimestamp = () => time.every(segment => segment === 0);
+  const isDefaultTimestamp = time.every(segment => segment === 0);
+  const isStopped = stopwatchState === "stopped";
+  const isRecording = stopwatchState === "recording";
+  const isPaused = stopwatchState === "paused";
 
-  const isTimestampVisible = (isRecording && !laps.length) || isDefaultTimestamp() && !isRecording
+  const isTimestampVisible = (isRecording && !laps.length) || isDefaultTimestamp && isStopped || isPaused
 
   return (
     <View style={styles.container}>
       {!!laps.length && <LapList laps={laps} />}
       {isTimestampVisible && <Timestamp time={time} />}
       <ButtonGroup
+        isInitial={isDefaultTimestamp}
         isRecording={isRecording}
+        onPressPause={pauseRecording}
         onPressStart={startRecording}
         onPressStop={stopRecording}
         onPressReset={resetRecording}
