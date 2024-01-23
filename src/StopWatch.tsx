@@ -22,8 +22,20 @@ export default function StopWatch() {
     }
   })
 
-  const getNextTimeSegments = (time: number[]) => {
-    const [min, sec, centis] = time;
+  const deleteTimerInterval = () => {
+    const intervalId = intervalIdRef.current;
+    if (intervalId) clearInterval(intervalId);
+  }
+
+  const startTimerInterval = () => {
+    const intervalId = setInterval(() => {
+      setTime(getNextTimeSegments)
+    }, 10);
+
+    intervalIdRef.current = intervalId;
+  }
+
+  const getNextTimeSegments = ([min, sec, centis]: number[]) => {
     let newMin = min, newSec = sec, newCentis;
     newCentis = centis + 1;
     if (newCentis === 100) {
@@ -39,31 +51,23 @@ export default function StopWatch() {
 
   const pauseRecording = () => {
     setStopwatchState("paused")
-    const intervalId = intervalIdRef.current;
-    if (intervalId) clearInterval(intervalId);
+    deleteTimerInterval()
   }
 
   const startRecording = () => {
     setStopwatchState("recording")
-    const intervalId = setInterval(() => {
-      setTime(getNextTimeSegments)
-    }, 10);
-
-    intervalIdRef.current = intervalId;
+    startTimerInterval()
   }
 
   const stopRecording = () => {
     setStopwatchState("stopped")
-    const intervalId = intervalIdRef.current;
-    if (intervalId) clearInterval(intervalId);
+    deleteTimerInterval()
   }
 
   const resetRecording = () => {
     setTime([0, 0, 0]);
-    const intervalId = intervalIdRef.current;
-    if (intervalId) clearInterval(intervalId);
     setLaps([])
-    setStopwatchState("stopped")
+    stopRecording();
   }
 
   const getCurrentLapSegments = () => {

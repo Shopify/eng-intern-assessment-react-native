@@ -1,7 +1,6 @@
 import { View, StyleSheet } from "react-native";
 import StopWatchButton from "./StopWatchButton";
 
-
 const ButtonGroup = ({
     isInitial, // Indicates that the stopwatch is in its initial state
     isRecording,
