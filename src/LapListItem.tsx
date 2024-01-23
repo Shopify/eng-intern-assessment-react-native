@@ -8,6 +8,7 @@ type LapListItemProps = {
     lapNum: number,
 }
 
+// Component to display a lap number and accociated laptime for use in a ScrollView or list.
 export default function LapListItem ({laptime, lapNum}: LapListItemProps) {
     return (
         <Box 

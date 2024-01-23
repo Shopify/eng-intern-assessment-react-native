@@ -33,11 +33,13 @@ export default function StopWatch() {
   // Convert 'time' state (number) to a formatted time string (HH:MM:SS)
   const timeStr = formatTimeStr(time);
   
+  // manages updating the laptimes state when given a new laptime entry
   function handleAddLap(time: number) {
     const newLaptime = time - laptimes.reduce((partialSum, a) => partialSum + a, 0);
     setLaptimes([newLaptime, ...laptimes]);
   }
 
+  // reset all states
   function handleReset(){
     setTime(0);
     setLaptimes([]);

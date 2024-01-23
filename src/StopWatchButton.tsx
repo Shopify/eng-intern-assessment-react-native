@@ -15,12 +15,13 @@ type Props = VariantProps<Theme, "buttonVariants"> & {
   onPress?: () => void;
 };
 
+// need to create a Restyled component to access the buttonVariants
 const ButtonContainer = createRestyleComponent<
   VariantProps<Theme, "buttonVariants"> & React.ComponentProps<typeof Box> & React.ComponentProps<typeof Text>,
   Theme
 >([createVariant({ themeKey: "buttonVariants" })], Box);
 
-
+// StopWatchButton component with varients for different use cases
 export default function StopWatchButton({label, variant, onPress, ...rest}: Props) {
   
   return (

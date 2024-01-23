@@ -9,6 +9,8 @@ type LapListProps = {
     laptimes: Array<number>
 }
 
+// Used as a wrapper to the testing renderer to support the Restyled theme.
+// if not used components will not be able to resolve the styling values, such as colors
 export default function LapList({laptimes}: LapListProps){
 
     return (
