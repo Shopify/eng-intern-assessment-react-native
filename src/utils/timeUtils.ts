@@ -11,6 +11,14 @@
  *          and milliseconds. Each component is a string padded with leading zeros if needed.
  */
 export const formatTime = (milliseconds: number, multiplier: number = 1) => {
+  if (milliseconds < 0) {
+    return {
+      formattedHours: '00',
+      formattedMins: '00',
+      formattedSecs: '00',
+      formattedMilliseconds: '00'
+    };
+  }
   // Adjust the milliseconds by multiplying in order to account for performance
   const adjustedMilliseconds = milliseconds * multiplier;
 
@@ -23,6 +31,6 @@ export const formatTime = (milliseconds: number, multiplier: number = 1) => {
     formattedHours: hours.toString().padStart(2, '0').slice(0, 2),
     formattedMins: minutes.toString().padStart(2, '0').slice(0, 2),
     formattedSecs: seconds.toString().padStart(2, '0').slice(0, 2),
-    formattedMilliseconds: ms.toString().padStart(2, '0').slice(0, 2),
+    formattedMilliseconds: ms.toString().slice(-2).padStart(2, '0')
   };
 };
