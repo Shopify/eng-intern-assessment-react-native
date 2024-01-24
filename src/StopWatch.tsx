@@ -12,6 +12,8 @@ export default function StopWatch() {
   const [isOn, setIsOn] = useState(false);
   // To keep track of time
   const [time, setTime] = useState(0);
+  // To keep track of last time
+  const [lastTime, setLastTime] = useState(0);
   // To keep track of laps
   const [laps, setLaps] = useState<{[key: string]: string}>({});
 
@@ -80,8 +82,9 @@ export default function StopWatch() {
   const lap = () => {
     if(isOn) {
       setLaps((previousLaps) => ({
-        [`Lap${Object.keys(previousLaps).length + 1}`]: displayTime(time), ...previousLaps
+        [`Lap${Object.keys(previousLaps).length + 1}`]: displayTime(time-lastTime), ...previousLaps
       }))
+      setLastTime(time)
     }
   };
 
