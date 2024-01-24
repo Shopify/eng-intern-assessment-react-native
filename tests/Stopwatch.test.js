@@ -25,8 +25,15 @@ describe('Stopwatch', () => {
     
     fireEvent.press(getByText('Start'));
     fireEvent.press(getByText('Pause'));
-    const pausedTime = getByText(/(\d{2}:){2}\d{2}/).textContent;
 
+    // const pausedTime = getByText(/(\d{2}:){2}\d{2}/).textContent;
+    // The returned type of getByText() is ReactTestInstance, which does not have a textContent property.
+    // The text content can be obtained using `props.children`. 
+    // See: https://callstack.github.io/react-native-testing-library/docs/api-queries#by-text
+    const pausedTime = getByText(/(\d{2}:){2}\d{2}/).props.children;
+    console.log(getByText(/(\d{2}:){2}\d{2}/))
+
+    // Likely would need a delay before clicking the resume button to allow at least one second to pass before resuming.
     fireEvent.press(getByText('Resume'));
     expect(getByText(/(\d{2}:){2}\d{2}/).textContent).not.toBe(pausedTime);
   });

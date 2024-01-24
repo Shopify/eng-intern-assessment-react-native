@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { Pressable, Text, View } from 'react-native';
+import { LapContainer } from './LapContainer';
 
 type Status = 'initial' | 'started' | 'paused' | 'stopped' | 'reset'
 
@@ -11,6 +12,7 @@ export default function StopWatch() {
   const [elapsedPausedTime, setElapsedPausedTime] = useState<number>(0); // to keep track of the elapsed time while stopped
   const [displayTime, setDisplayTime] = useState("00:00:00")
   const [status, setStatus] = useState<Status>('initial')
+  const [laps, setLaps] = useState<Array<string>>([])
 
   const startInterval = () => {
     startTime.current = new Date().getTime() - elapsedPausedTime;
@@ -55,6 +57,7 @@ export default function StopWatch() {
   const stop = () => {
     clearInterval(stopwatchInterval.current)
     setElapsedPausedTime(0)
+    setLaps([]);
     setStatus('stopped')
     console.log('Stopped') 
   }
@@ -70,6 +73,10 @@ export default function StopWatch() {
     setDisplayTime("00:00:00")
     setStatus('reset')
     console.log('Reset')
+  }
+
+  const lap = () => {
+    setLaps((prevLaps) => [...prevLaps, displayTime])
   }
 
   return (
@@ -91,7 +98,12 @@ export default function StopWatch() {
         <Pressable onPress={start}>
           <Text>Resume</Text>
         </Pressable>
+        <Pressable onPress={lap}>
+          <Text>Lap</Text>
+        </Pressable>
       </View>
+
+      <LapContainer laps={laps} />
     </View>
   );
 }
