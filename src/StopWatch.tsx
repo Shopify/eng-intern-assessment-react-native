@@ -7,7 +7,7 @@ export default function StopWatch(props: Readonly<StopWatchProps>) {
 
     return (
         <View>
-            <Text>{`${formatTime(props.minutes)}:${formatTime(props.seconds)}:${formatTime(props.milliseconds)}`}</Text>
+            <Text>{`${formatTime(props.minutes)}:${formatTime(props.seconds)}:${formatTime(props.milliseconds/10)}`}</Text>
         </View>
     );
 };
