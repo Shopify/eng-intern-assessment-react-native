@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Pressable, Text, View } from 'react-native';
 import { LapContainer } from './LapContainer';
 
-type Status = 'initial' | 'started' | 'paused' | 'stopped' | 'reset'
+type Status = 'COUNTING' | 'NOT_COUNTING' | 'PAUSED' | 'STOPPED'
 
 export default function StopWatch() {
 
@@ -11,7 +11,7 @@ export default function StopWatch() {
 
   const [elapsedPausedTime, setElapsedPausedTime] = useState<number>(0); // to keep track of the elapsed time while stopped
   const [displayTime, setDisplayTime] = useState("00:00:00")
-  const [status, setStatus] = useState<Status>('initial')
+  const [status, setStatus] = useState<Status>('NOT_COUNTING')
   const [laps, setLaps] = useState<Array<string>>([])
 
   const startInterval = () => {
@@ -44,34 +44,29 @@ export default function StopWatch() {
     return (num < 10 ? "0" : "") + num
   }
 
-  
-  const isNotCounting = () => {
-    return status === 'stopped' || status === 'reset' || status === 'initial'
-  }
-
   const start = () => {
     startInterval()
-    setStatus('started');
+    setStatus('COUNTING');
     console.log('Started')
   }
   const stop = () => {
     clearInterval(stopwatchInterval.current)
     setElapsedPausedTime(0)
     setLaps([]);
-    setStatus('stopped')
+    setStatus('STOPPED')
     console.log('Stopped') 
   }
   const pause = () => {
     clearInterval(stopwatchInterval.current)
     setElapsedPausedTime(new Date().getTime() - startTime.current)
-    setStatus('paused')
+    setStatus('PAUSED')
     console.log('Paused')
   }
   const reset = () => { 
     clearInterval(stopwatchInterval.current)
     setElapsedPausedTime(0)
     setDisplayTime("00:00:00")
-    setStatus('reset')
+    setStatus('NOT_COUNTING')
     console.log('Reset')
   }
 
@@ -81,22 +76,21 @@ export default function StopWatch() {
 
   return (
     <View>
-      <Text>{status != 'stopped' && displayTime}</Text>
+      <View>
+        {
+          status != 'STOPPED' &&
+          <Text>{displayTime}</Text>
+        }
+      </View>
       <View style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row', columnGap: 20, marginTop: 30 }}>
-        <Pressable onPress={start}>
-          <Text>Start</Text>
-        </Pressable>
+        {(status === 'NOT_COUNTING' || status === 'STOPPED') && <Pressable onPress={start}><Text>Start</Text></Pressable>}
+        {status === 'COUNTING' && <Pressable onPress={pause}><Text>Pause</Text></Pressable>}
+        {status === 'PAUSED' && <Pressable onPress={start}><Text>Resume</Text></Pressable>}
         <Pressable onPress={stop}>
           <Text>Stop</Text>
         </Pressable>
         <Pressable onPress={reset}>
           <Text>Reset</Text>
-        </Pressable>
-        <Pressable onPress={pause}>
-          <Text>Pause</Text>
-        </Pressable>
-        <Pressable onPress={start}>
-          <Text>Resume</Text>
         </Pressable>
         <Pressable onPress={lap}>
           <Text>Lap</Text>
