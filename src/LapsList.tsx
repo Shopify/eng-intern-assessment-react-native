@@ -33,4 +33,4 @@ export default function LapsList({ laps }: LapsListProps) {
     lapListScrollContainer: {
         height: 50, 
         marginVertical: 50
-    }})
+    }});

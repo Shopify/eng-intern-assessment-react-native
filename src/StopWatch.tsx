@@ -15,45 +15,45 @@ enum StopWatchStates {
 const screenWidth = Dimensions.get('window').width
 
 export default function StopWatch() {
-  const [stopWatchState, setStopWatchState] = useState(StopWatchStates.NOT_RUNNING)
+  const [stopWatchState, setStopWatchState] = useState(StopWatchStates.NOT_RUNNING);
   const [timeInSeconds, setTimeInSeconds] = useState(0);
-  const [laps, setLaps] = useState<number[]>([])
+  const [laps, setLaps] = useState<number[]>([]);
 
   // when the watch is running, the timer is incremented every 1000 milliseconds (1 second)
   useEffect(() => {
     let timer: number = 0;
     if (stopWatchState == StopWatchStates.RUNNING) {
       timer = setInterval(() => {
-        setTimeInSeconds((prevTime) => prevTime + 1)
-      }, 1000)
+        setTimeInSeconds((prevTime) => prevTime + 1);
+      }, 1000);
     }
     return () => {
       clearInterval(timer);
     };
-  }, [stopWatchState])
+  }, [stopWatchState]);
 
   // starts running the timer
   function handleStart() {
-    setStopWatchState(StopWatchStates.RUNNING)
+    setStopWatchState(StopWatchStates.RUNNING);
   }
 
   // stops the timer and resets laps
   function handleStop() {
-    setTimeInSeconds(0)
-    setLaps([])
-    setStopWatchState(StopWatchStates.STOPPED)
+    setTimeInSeconds(0);
+    setLaps([]);
+    setStopWatchState(StopWatchStates.STOPPED);
   }
 
   // stops the timer and resets laps
   function handleReset() {
-    setStopWatchState(StopWatchStates.NOT_RUNNING)
-    setLaps([])
-    setTimeInSeconds(0)
+    setStopWatchState(StopWatchStates.NOT_RUNNING);
+    setLaps([]);
+    setTimeInSeconds(0);
   }
 
   // pauses the timer
   function handlePause() {
-    setStopWatchState(StopWatchStates.PAUSED)
+    setStopWatchState(StopWatchStates.PAUSED);
   }
 
   // adds a lap
@@ -70,10 +70,10 @@ export default function StopWatch() {
         }
       </View>
       <View style={styles.buttonContainer}>
-        {stopWatchState === StopWatchStates.NOT_RUNNING && <StopWatchButton buttonTappedHandler={handleStart} label={'Start'} style={styles.button} />}
-        {stopWatchState === StopWatchStates.RUNNING && <StopWatchButton buttonTappedHandler={handlePause} label={'Pause'} style={styles.button} />}
-        {stopWatchState === StopWatchStates.PAUSED && <StopWatchButton buttonTappedHandler={handleStart} label={'Resume'} style={styles.button} />}
-        {stopWatchState === StopWatchStates.STOPPED && <StopWatchButton buttonTappedHandler={handleStart} label={'Start'} style={styles.button} />}
+        {stopWatchState === StopWatchStates.NOT_RUNNING && <StopWatchButton buttonTappedHandler={handleStart} label={'Start'} />}
+        {stopWatchState === StopWatchStates.RUNNING && <StopWatchButton buttonTappedHandler={handlePause} label={'Pause'}  />}
+        {stopWatchState === StopWatchStates.PAUSED && <StopWatchButton buttonTappedHandler={handleStart} label={'Resume'} />}
+        {stopWatchState === StopWatchStates.STOPPED && <StopWatchButton buttonTappedHandler={handleStart} label={'Start'} />}
         <StopWatchButton buttonTappedHandler={handleStop} label={'Stop'} />
         <StopWatchButton buttonTappedHandler={handleReset} label={'Reset'} />
         <StopWatchButton buttonTappedHandler={handleLap} label={'Lap'} />

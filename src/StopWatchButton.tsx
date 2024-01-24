@@ -9,7 +9,7 @@ interface StopWatchButtonProps {
 export default function StopWatchButton({ buttonTappedHandler, label }: StopWatchButtonProps) {
 
   function handlePress() {
-    buttonTappedHandler()
+    buttonTappedHandler();
   }
 
   return (
