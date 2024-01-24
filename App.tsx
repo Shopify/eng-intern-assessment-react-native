@@ -1,31 +1,32 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import Stopwatch from './src/components/Stopwatch/Stopwatch';
 import { useStopwatch } from './src/hooks/useStopwatch';
 import * as Font from 'expo-font';
 
 export default function App() {
+  // State and methods from the custom hook for stopwatch functionality.
   const { time, start, stop, pause, reset, lap, lapTimes, isRunning, showTime, hasStarted } = useStopwatch();
+
+  // State to track if custom fonts have been loaded.
   const [fontsLoaded, setFontsLoaded] = useState(false);
 
+  // Async function to load fonts.
   const loadFonts = async () => {
     await Font.loadAsync({
       'Roboto': require('./fonts/Roboto-Regular.ttf'),
     });
-    setFontsLoaded(true);
+    setFontsLoaded(true); // Update state once fonts are loaded.
   };
 
+  // Effect hook to load fonts on component mount.
   useEffect(() => {
     loadFonts();
   }, []);
 
-  // // Render the app UI only after the fonts are loaded
-  // if (!fontsLoaded) {
-  //   return <View><Text>Loading Fonts...</Text></View>;
-  // }
-
   return (
     <View style={styles.container}>
+      {/* Stopwatch component with all necessary props passed down */}
       <Stopwatch
         fontsLoaded={fontsLoaded}
         time={time}
@@ -43,6 +44,7 @@ export default function App() {
   );
 }
 
+// Styles for the App component.
 const styles = StyleSheet.create({
   container: {
     flex: 1,

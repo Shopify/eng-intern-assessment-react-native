@@ -40,7 +40,6 @@ export default StyleSheet.create({
     timeText: {
       fontSize: 76,
       color: '#FFF',
-      // fontFamily: 'Roboto',
       textAlign: 'center',
       width: 300,
     },
