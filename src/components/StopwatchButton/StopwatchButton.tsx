@@ -12,7 +12,7 @@ const RenderButton: React.FC<ButtonProps> = ({ title, onPress, additionalStyle }
   </TouchableOpacity>
 );
 
-export default function StopwatchButton({ 
+export default function StopWatchButton({ 
   isRunning, 
   hasStarted, 
   onStart, 

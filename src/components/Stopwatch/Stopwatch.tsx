@@ -1,11 +1,11 @@
 import React from 'react';
 import { Text, View, FlatList } from 'react-native';
 import { formatTime } from '../../utils/formatTime';
-import StopwatchButton from '../StopwatchButton/StopwatchButton';
+import StopWatchButton from '../StopWatchButton/StopWatchButton';
 import { StopwatchProps } from '../../types/types';
 import styles from './styles';
 
-export default function Stopwatch({ fontsLoaded, time = 0, laps = [], onStart, onStop, onPause, onReset, onLap, showTime, isRunning, hasStarted }: StopwatchProps) {
+export default function StopWatch({ fontsLoaded, time = 0, laps = [], onStart, onStop, onPause, onReset, onLap, showTime, isRunning, hasStarted }: StopwatchProps) {
   
     // Conditional styling: If fonts are loaded, use custom font, otherwise use default.
   const timeTextStyle = fontsLoaded ? [styles.timeText, { fontFamily: 'Roboto' }] : styles.timeText;
@@ -44,7 +44,7 @@ export default function Stopwatch({ fontsLoaded, time = 0, laps = [], onStart, o
 
       {/* Container for the stopwatch buttons */}
       <View style={styles.buttonContainer}>
-        <StopwatchButton
+        <StopWatchButton
           hasStarted={hasStarted}
           isRunning={isRunning}
           onStart={onStart}

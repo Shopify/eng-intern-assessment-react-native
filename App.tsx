@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
-import Stopwatch from './src/components/Stopwatch/Stopwatch';
-import { useStopwatch } from './src/hooks/useStopwatch';
+import Stopwatch from './src/components/StopWatch/StopWatch';
+import { useStopwatch } from './src/hooks/useStopWatch';
 import * as Font from 'expo-font';
 
 export default function App() {
