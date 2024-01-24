@@ -1,4 +1,5 @@
 export interface StopwatchProps {
+    fontsLoaded: boolean;
     time: number;
     laps: string[];
     onStart: () => void;

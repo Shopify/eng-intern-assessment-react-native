@@ -1,95 +1,82 @@
 import React from 'react';
-import { render, fireEvent, act, within } from '@testing-library/react-native'
+import { render, fireEvent, act, waitFor, within } from '@testing-library/react-native'
 import App from '../App';
 
 describe('Stopwatch', () => {
+  let getByText, queryByText, getByTestId, queryByTestId;
+
+  // Common setup before each test
+  beforeEach(async () => {
+    jest.useFakeTimers();
+    const utils = render(<App />);
+    await waitFor(() => {
+      getByText = utils.getByText;
+      queryByText = utils.queryByText;
+      getByTestId = utils.getByTestId;
+      getAllByText = utils.getAllByText;
+      queryByTestId = utils.queryByTestId;
+    });
+  });
+
   test('renders initial state correctly', () => {
-    const { getByText, queryByTestId } = render(<App />);
-    
     expect(getByText('00:00:00')).toBeTruthy();
     expect(queryByTestId('lap-list')).toBeNull();
   });
 
   test('starts and stops the stopwatch', () => {
-  
-    const { getByText, queryByText } = render(<App />);
-    
     fireEvent.press(getByText('Start'));
-
     expect(queryByText(/(\d{2}:){2}\d{2}/)).toBeTruthy();
 
     fireEvent.press(getByText('Stop'));
-
     expect(queryByText(/(\d{2}:){2}\d{2}/)).toBeNull();
   });
   
-  test('pauses and resumes the stopwatch', async () => {
-    jest.useFakeTimers();
-    const { getAllByText, getByText } = render(<App />);
-    
+  test('pauses and resumes the stopwatch', () => {
     fireEvent.press(getByText('Start'));
-  
-    act( () => {
+
+    act(() => {
       jest.advanceTimersByTime(1000);
     });
     fireEvent.press(getByText('Pause'));
-    const pausedTime = getAllByText(/(\d{2}:){2}\d{2}/)[0].props.children;
-  
-    act( () => {
+    const pausedTime = getByText(/(\d{2}:){2}\d{2}/).children[0];
+
+    act(() => {
       jest.advanceTimersByTime(2000);
     });
 
     fireEvent.press(getByText('Resume'));
 
-    act( () => {
+    act(() => {
       jest.advanceTimersByTime(1000);
     });
 
-    const newUnPausedTime = getAllByText(/(\d{2}:){2}\d{2}/)[0].props.children;
-  
-    expect(newUnPausedTime !== pausedTime);
+    const resumedTime = getByText(/(\d{2}:){2}\d{2}/).children[0];
+    expect(resumedTime).not.toEqual(pausedTime);
   });
 
   test('records and displays lap times', () => {
-    jest.useFakeTimers();
-  
-    const { getByText, getByTestId } = render(<App />);
-
     fireEvent.press(getByText('Start'));
-
-    // Advance timer by 1 second
-    act( () => {
+    
+    act(() => {
       jest.advanceTimersByTime(1000);
     });
 
     fireEvent.press(getByText('Lap'));
-  
-    // Query within the 'lap-list' element
     const lapList = getByTestId('lap-list');
-    
-    // Retrieve all lap time components
-    const lapTimeComponents = within(lapList).getAllByText(/(\d{2}:){2}\d{2}/);
-  
-    const latestLapTimeText = lapTimeComponents[0].props.children;
-  
-    expect(latestLapTimeText).toBe("00:01:00");
-  
-    // Advance timer by 3 seconds
-    act( () => {
+    let scopedQueries = within(lapList);
+    const firstLapTime = scopedQueries.getAllByText(/(\d{2}:){2}\d{2}/)[0].children[0];
+    expect(firstLapTime).toBe("00:01:00");
+
+    act(() => {
       jest.advanceTimersByTime(3000);
     });
+
     fireEvent.press(getByText('Lap'));
-  
-    // Check if the number of lap times recorded is as expected
-    const updatedLapTimeComponents = within(lapList).getAllByText(/(\d{2}:){2}\d{2}/);
-    expect(updatedLapTimeComponents.length).toBe(2);
+    const secondLapTime = scopedQueries.getAllByText(/(\d{2}:){2}\d{2}/)[1].children[0];
+    expect(secondLapTime).toBe("00:03:00");
   });
-  
-  
 
   test('resets the stopwatch', () => {
-    const { getByText, queryByTestId } = render(<App />);
-    
     fireEvent.press(getByText('Start'));
     fireEvent.press(getByText('Lap'));
     fireEvent.press(getByText('Reset'));

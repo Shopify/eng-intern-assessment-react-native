@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View } from 'react-native';
-import Stopwatch from './src/Stopwatch';
+import { StyleSheet, View, Text } from 'react-native';
+import Stopwatch from './src/components/Stopwatch/Stopwatch';
 import { useStopwatch } from './src/hooks/useStopwatch';
 import * as Font from 'expo-font';
 
@@ -19,9 +19,15 @@ export default function App() {
     loadFonts();
   }, []);
 
+  // // Render the app UI only after the fonts are loaded
+  // if (!fontsLoaded) {
+  //   return <View><Text>Loading Fonts...</Text></View>;
+  // }
+
   return (
     <View style={styles.container}>
       <Stopwatch
+        fontsLoaded={fontsLoaded}
         time={time}
         laps={lapTimes}
         onStart={start}
