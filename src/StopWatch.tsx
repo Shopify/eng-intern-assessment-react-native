@@ -50,6 +50,7 @@ export default function StopWatch() {
     if (isOn) {
       setTime(0);
       setIsOn(false);
+      setLastTime(0);
     }
     else if (time===0){
       setIsOn(true);
@@ -73,6 +74,7 @@ export default function StopWatch() {
     setIsOn(false);
     setTime(0);
     setLaps({});
+    setLastTime(0);
   };
 
   /**
@@ -83,8 +85,8 @@ export default function StopWatch() {
     if(isOn) {
       setLaps((previousLaps) => ({
         [`Lap${Object.keys(previousLaps).length + 1}`]: displayTime(time-lastTime), ...previousLaps
-      }))
-      setLastTime(time)
+      }));
+      setLastTime(time);
     }
   };
 
