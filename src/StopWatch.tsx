@@ -1,21 +1,22 @@
 import { useEffect, useRef, useState } from 'react';
 import { Pressable, Text, View } from 'react-native';
 
+type Status = 'initial' | 'started' | 'paused' | 'stopped' | 'reset'
+
 export default function StopWatch() {
 
   const stopwatchInterval = useRef<number>(0) // to keep track of the interval
   const startTime = useRef<number>(0); // to keep track of the start time  
 
   const [elapsedPausedTime, setElapsedPausedTime] = useState<number>(0); // to keep track of the elapsed time while stopped
-  const [isCounting, setIsCounting] = useState<boolean>(false)
   const [displayTime, setDisplayTime] = useState("00:00:00")
+  const [status, setStatus] = useState<Status>('initial')
 
   const startInterval = () => {
     startTime.current = new Date().getTime() - elapsedPausedTime;
 
     function updateStopwatch() {
       setDisplayTime(getDisplayTime())
-      !isCounting && setIsCounting(true);
     }
     stopwatchInterval.current = setInterval(updateStopwatch, 1000);
   }
@@ -42,41 +43,53 @@ export default function StopWatch() {
   }
 
   
+  const isNotCounting = () => {
+    return status === 'stopped' || status === 'reset' || status === 'initial'
+  }
+
   const start = () => {
     startInterval()
+    setStatus('started');
     console.log('Started')
   }
   const stop = () => {
     clearInterval(stopwatchInterval.current)
+    setElapsedPausedTime(0)
+    setStatus('stopped')
+    console.log('Stopped') 
+  }
+  const pause = () => {
+    clearInterval(stopwatchInterval.current)
     setElapsedPausedTime(new Date().getTime() - startTime.current)
-    setIsCounting(false)
-    console.log('Stopped')
+    setStatus('paused')
+    console.log('Paused')
   }
   const reset = () => { 
     clearInterval(stopwatchInterval.current)
     setElapsedPausedTime(0)
-    setIsCounting(false)
     setDisplayTime("00:00:00")
+    setStatus('reset')
     console.log('Reset')
-  }
-
-  const startOrStop = () => {
-    if (isCounting) {
-      stop()
-    } else {
-      start()
-    }
   }
 
   return (
     <View>
-      <Text>{displayTime}</Text>
-      <View style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row', columnGap: 40, marginTop: 30 }}>
-        <Pressable onPress={startOrStop}>
-          <Text>{!isCounting ? 'Start' : 'Stop'}</Text>
+      <Text>{status != 'stopped' && displayTime}</Text>
+      <View style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row', columnGap: 20, marginTop: 30 }}>
+        <Pressable onPress={start}>
+          <Text>Start</Text>
+        </Pressable>
+        <Pressable onPress={stop}>
+          <Text>Stop</Text>
         </Pressable>
         <Pressable onPress={reset}>
           <Text>Reset</Text>
+        </Pressable>
+        <Pressable onPress={pause}>
+          <Text>Pause</Text>
+        </Pressable>
+        <Pressable onPress={start}>
+          <Text>Resume</Text>
         </Pressable>
       </View>
     </View>
