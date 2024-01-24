@@ -1,8 +1,9 @@
-import { View, Text } from 'react-native';
+import { View, Text, Dimensions } from 'react-native';
 import { useState, useEffect } from 'react';
 import { StyleSheet } from 'react-native';
 import StopWatchButton from './StopWatchButton';
 import LapsList from './LapsList';
+import { formatDisplayTimeFromSeconds } from '../utils/timeDisplayUtils';
 
 enum StopWatchStates {
   NOT_RUNNING,
@@ -11,86 +12,98 @@ enum StopWatchStates {
   STOPPED
 }
 
+const screenWidth = Dimensions.get('window').width
+
 export default function StopWatch() {
   const [stopWatchState, setStopWatchState] = useState(StopWatchStates.NOT_RUNNING)
-  const [timeInCentiseconds, setTimeInCentiseconds] = useState(0);
+  const [timeInSeconds, setTimeInSeconds] = useState(0);
   const [laps, setLaps] = useState<number[]>([])
 
+  // when the watch is running, the timer is incremented every 1000 milliseconds (1 second)
   useEffect(() => {
     let timer: number = 0;
     if (stopWatchState == StopWatchStates.RUNNING) {
       timer = setInterval(() => {
-        setTimeInCentiseconds((prevTime) => prevTime + 1)
-      }, 10)
+        setTimeInSeconds((prevTime) => prevTime + 1)
+      }, 1000)
     }
     return () => {
       clearInterval(timer);
     };
   }, [stopWatchState])
 
+  // starts running the timer
   function handleStart() {
     setStopWatchState(StopWatchStates.RUNNING)
   }
 
+  // stops the timer and resets laps
   function handleStop() {
-    setTimeInCentiseconds(0)
+    setTimeInSeconds(0)
     setLaps([])
     setStopWatchState(StopWatchStates.STOPPED)
   }
 
+  // stops the timer and resets laps
   function handleReset() {
     setStopWatchState(StopWatchStates.NOT_RUNNING)
     setLaps([])
-    setTimeInCentiseconds(0)
+    setTimeInSeconds(0)
   }
 
+  // pauses the timer
   function handlePause() {
     setStopWatchState(StopWatchStates.PAUSED)
   }
 
+  // adds a lap
   function handleLap() {
-    setLaps((prevLaps) => [...prevLaps, timeInCentiseconds]);
+    setLaps((prevLaps) => [...prevLaps, timeInSeconds]);
   }
 
+  // certain buttons are dynamically rendered. e.g. the rendering of Start, Pause, and Resume are mutually exclusive
   return (
-    <View >
-      <View>
-      <View style={styles.container}>
-      { stopWatchState == StopWatchStates.STOPPED ? null : <Text>{formattedTime(timeInCentiseconds)}</Text>}
-      <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center' }}>
-      { stopWatchState == StopWatchStates.NOT_RUNNING ? <StopWatchButton buttonTappedHandler={handleStart} label={'Start'} />   : null }
-        { stopWatchState == StopWatchStates.RUNNING  ? <StopWatchButton buttonTappedHandler={handlePause} label={'Pause'} />  : null }
-        { stopWatchState == StopWatchStates.PAUSED ? <StopWatchButton buttonTappedHandler={handleStart} label={'Resume'} /> : null }
-        { stopWatchState == StopWatchStates.STOPPED ? <StopWatchButton buttonTappedHandler={handleStart} label={'Start'} />   : null }
-        <StopWatchButton buttonTappedHandler={handleStop} label={'Stop'}/>
-        <StopWatchButton buttonTappedHandler={handleReset} label={'Reset'}/>
-        <StopWatchButton buttonTappedHandler={handleLap} label={'Lap'}/>
+    <View style={styles.container}>
+      <View style={styles.timeContainer}>
+        {stopWatchState !== StopWatchStates.STOPPED && 
+          <Text style={styles.timeText}>{formatDisplayTimeFromSeconds(timeInSeconds)}</Text>
+        }
       </View>
-      <LapsList laps={laps}/>
-    </View>
-    </View>
+      <View style={styles.buttonContainer}>
+        {stopWatchState === StopWatchStates.NOT_RUNNING && <StopWatchButton buttonTappedHandler={handleStart} label={'Start'} style={styles.button} />}
+        {stopWatchState === StopWatchStates.RUNNING && <StopWatchButton buttonTappedHandler={handlePause} label={'Pause'} style={styles.button} />}
+        {stopWatchState === StopWatchStates.PAUSED && <StopWatchButton buttonTappedHandler={handleStart} label={'Resume'} style={styles.button} />}
+        {stopWatchState === StopWatchStates.STOPPED && <StopWatchButton buttonTappedHandler={handleStart} label={'Start'} style={styles.button} />}
+        <StopWatchButton buttonTappedHandler={handleStop} label={'Stop'} />
+        <StopWatchButton buttonTappedHandler={handleReset} label={'Reset'} />
+        <StopWatchButton buttonTappedHandler={handleLap} label={'Lap'} />
+      </View>
+      <LapsList laps={laps} />
     </View>
   );
-}
-
-function formattedTime(timeInCentiseconds: number): string {
-  const totalSeconds = Math.floor(timeInCentiseconds / 100);
-  const minutes = Math.floor(totalSeconds / 60);
-  const seconds = totalSeconds % 60;
-  const centiseconds = timeInCentiseconds % 100;
-  const formattedTime = `${padWithZero(minutes)}:${padWithZero(seconds)}:${padWithZero(centiseconds)}`;
-  return formattedTime;
-}
-
-function padWithZero(num: number): string {
-  return num.toString().padStart(2, '0');
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
     justifyContent: 'center',
+    alignItems: 'center',
+    marginVertical: screenWidth * 0.5
+  },
+  timeContainer: {
+    marginBottom: 20,
+  },
+  timeText: {
+    fontSize: 60,
+    fontWeight: 'bold',
+    justifyContent: 'center',
+    alignSelf: 'center',
+    textAlign: 'center',
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
   },
 });
+

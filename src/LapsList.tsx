@@ -1,35 +1,36 @@
-import { View, Text, ScrollView } from 'react-native';
+import { View, ScrollView, StyleSheet } from 'react-native';
 import React from 'react';
+import LapCell from './LapCell';
 
 interface LapsListProps {
   laps: number[];
 }
 
+// this component is a table that renders all of the laps
 export default function LapsList({ laps }: LapsListProps) {
   return (
-    <View>
-        {laps.length > 0 && 
-        <View>
-            <Text>Laps:</Text>
-            <View testID="lap-list">
-                    {laps.map((lapTime, index) => (
-                        <Text key={index} >{`Lap ${index + 1}: ${formattedTime(lapTime)}`}</Text>
-                    ))}
-            </View>
-        </View>
-        }
-    </View>
+    <ScrollView style={styles.lapListScrollContainer}>
+      {laps.length > 0 && (
+          <View testID="lap-list" >
+            {laps.map((lapTime, index) => (
+                <LapCell lapTimeInSeconds={lapTime} index={index} key={index}/>
+            ))}
+          </View>
+      )}
+    </ScrollView>
   );
 }
 
-function formattedTime(timeInSeconds: number) {
-    const hours = Math.floor(timeInSeconds/3600);
-    const minutes = Math.floor((timeInSeconds % 3600) / 60);
-    const seconds = timeInSeconds % 60;
-    const formattedTime = `${padWithZero(hours)}:${padWithZero(minutes)}:${padWithZero(seconds)}`
-    return formattedTime
-  }
-  
-  function padWithZero(value: number) {
-    return value < 10 ? `0${value}` : `${value}`
-  }
+  const styles = StyleSheet.create({
+    lapCell: {
+        fontSize: 16,
+        marginBottom: 5,
+        borderWidth: 1,
+        borderColor: 'black',
+        padding: 8,
+        borderRadius: 5,
+    }, 
+    lapListScrollContainer: {
+        height: 50, 
+        marginVertical: 50
+    }})
