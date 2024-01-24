@@ -20,4 +20,3 @@ export interface StopwatchButtonProps {
     onReset: () => void;
     onLap: () => void;
 }
-  
