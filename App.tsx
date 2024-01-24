@@ -40,18 +40,27 @@ export default function App() {
 
   const startStopWatch = () => {
     setIsTimerRunning(true);
-  }
+  };
 
   const stopStopWatch = () => {
     setIsTimerRunning(false);
-  }
+  };
 
   return (
     <View style={styles.container}>
       <StopWatch {...convertMillisToClockTime(elapsedTime)} />
       <View>
-        <StopWatchButton type="lap" onClick={lapStopWatch}/>
-        <StopWatchButton type="start" onClick={startStopWatch}/>
+        {!isTimerRunning ? (
+          <>
+            <StopWatchButton type="reset" onClick={resetStopWatch} isDisabled={elapsedTime == 0}/>
+            <StopWatchButton type="start" onClick={startStopWatch} />
+          </>
+        ) : (
+          <>
+            <StopWatchButton type="lap" onClick={lapStopWatch} />
+            <StopWatchButton type="stop" onClick={stopStopWatch} />
+          </>
+        )}
       </View>
     </View>
   );
