@@ -1,17 +1,23 @@
-import { Button, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { StyleSheet, Text, TouchableOpacity } from "react-native";
 
 export default function StopWatchButton(props: Readonly<StopWatchButtonProps>) {
-  switch (props.type) {
+  switch (props.type) { // switch case to check which button should be returned
     case "start":
       return (
         <TouchableOpacity style={styles.StartButton} onPress={props.onClick}>
           <Text style={styles.ButtonTextDark}>{"Start"}</Text>
         </TouchableOpacity>
       );
-    case "stop":
+    case "pause":
       return (
-        <TouchableOpacity style={styles.StopButton} onPress={props.onClick}>
-          <Text style={styles.ButtonTextDark}>{"Stop"}</Text>
+        <TouchableOpacity style={styles.GenericButton} onPress={props.onClick}>
+          <Text style={styles.ButtonTextDark}>{"Pause"}</Text>
+        </TouchableOpacity>
+      );
+    case "resume":
+      return (
+        <TouchableOpacity style={styles.GenericButton} onPress={props.onClick}>
+          <Text style={styles.ButtonTextDark}>{"Resume"}</Text>
         </TouchableOpacity>
       );
     case "reset":
@@ -33,8 +39,11 @@ export default function StopWatchButton(props: Readonly<StopWatchButtonProps>) {
   }
 }
 
+/*
+ * props for stopwatch buttons
+ */
 type StopWatchButtonProps = {
-  type?: "start" | "stop" | "reset" | "lap";
+  type?: "start" | "pause" | "resume" | "reset" | "lap"; // only supports these types
   onClick?: () => void;
   isDisabled?: boolean;
 };
@@ -54,7 +63,7 @@ const styles = StyleSheet.create({
     width: 80,
     borderRadius: 40,
     color: "#d6ebe6",
-    backgroundColor: "green",
+    backgroundColor: "#29bf12",
     justifyContent: "center",
     alignItems: "center",
     margin: 25,
@@ -64,17 +73,17 @@ const styles = StyleSheet.create({
     width: 80,
     borderRadius: 40,
     color: "#d6ebe6",
-    backgroundColor: "#bc4749",
+    backgroundColor: "#d80032",
     justifyContent: "center",
     alignItems: "center",
     margin: 25,
   },
   ButtonTextDark: {
     color: "#dad7cd",
-    fontSize: 18
+    fontSize: 18,
   },
   ButtonTextLight: {
     color: "#ffffff",
-    fontSize: 18
-  }
+    fontSize: 18,
+  },
 });

@@ -1,17 +1,9 @@
-import { ScrollView, StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import { convertMillisToClockTimeString } from "../util/TimeConverter";
 
 export default function StopWatchLap(props: Readonly<StopWatchLapProps>) {
   return (
-    <ScrollView style={styles.stopWatchLapContainer}>
-      <View style={styles.lapContainer}>
-        <Text style={styles.latestLapText}>{`Lap ${
-          props.allLaps.length + 1
-        }`}</Text>
-        <Text style={styles.lapTimerText}>
-          {convertMillisToClockTimeString(props.latestLap)}
-        </Text>
-      </View>
+    <View style={styles.stopWatchLapContainer} testID="lap-list">
       {props.allLaps.map((lap, i) => (
         <View style={styles.lapContainer} key={i}>
           <Text style={styles.lapTimerText}>{`Lap ${
@@ -22,20 +14,24 @@ export default function StopWatchLap(props: Readonly<StopWatchLapProps>) {
           </Text>
         </View>
       ))}
-    </ScrollView>
+    </View>
   );
 }
 
+/*
+ * props for stopwatch laps
+ */
 type StopWatchLapProps = {
-  latestLap: number;
   allLaps: number[];
 };
 
 const styles = StyleSheet.create({
   stopWatchLapContainer: {
-    flex: 2,
-    width: "100%",
+    flex: 3,
+    width: "90%",
     overflow: "scroll",
+    borderTopWidth: 1,
+    borderColor: "#e5e5e5",
   },
   latestLapText: {
     color: "#fca311",
@@ -47,5 +43,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     padding: 15,
+    borderBottomWidth: 1,
+    borderColor: "#e5e5e5",
   },
 });
