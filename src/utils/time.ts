@@ -1,24 +1,24 @@
 /**
  * Formats a number of seconds to be displayed for the stopwatch.
- * @param seconds The number of seconds to be formatted and displayed
- * @returns A formatted time as a string with hours, minutes, and seconds
+ * @param milliseconds The number of milliseconds to be formatted and displayed
+ * @returns A formatted time as a string with minutes, seconds, and milliseconds
  */
-export const formatTime = (seconds: number) => {
-    // 3600 seconds in hour
-    const hours = Math.floor(seconds / 3600);
-    // Get remainder after hour get, 60 seconds in 1 min
-    const minutes = Math.floor((seconds % 3600) / 60);
-    // Leftover will be the remaining seconds
-    const remainingSeconds = seconds % 60;
-    return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(
+export const formatTime = (milliseconds: number) => {
+    // 6000 milliseconds in 1 minute
+    const minutes = Math.floor(milliseconds / 6000);
+    // Get remainder after minutes, 100 milliseconds in 1 second
+    const seconds = Math.floor((milliseconds % 6000) / 100);
+    // Leftover will be the remaining milliseconds
+    const remainingMilliseconds = milliseconds % 100;
+    return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(
         2,
         "0"
-    )}:${String(remainingSeconds).padStart(2, "0")}`;
+    )}:${String(remainingMilliseconds).padStart(2, "0").slice(0, 2)}`;
 };
 
 /**
  * Returns the worst time (ie the highest time)
- * @param times list of times in seconds
+ * @param times list of times in milliseconds
  * @returns the  worst time
  */
 export const getWorstTime = (times: number[]): number | undefined => {
@@ -30,7 +30,7 @@ export const getWorstTime = (times: number[]): number | undefined => {
 
 /**
  * Returns the best time (ie the lowest time)
- * @param times list of times in seconds
+ * @param times list of times in milliseconds
  * @returns the best time
  */
 export const getBestTime = (times: number[]): number | undefined => {

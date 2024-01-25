@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
     Dimensions,
     SafeAreaView,
@@ -28,34 +28,35 @@ export default function StopWatch() {
     const [lastLapTime, setLastLapTime] = useState<number | undefined>();
     const [worstTime, setWorstTime] = useState<number | undefined>();
     const [bestTime, setBestTime] = useState<number | undefined>();
-
-    useEffect(() => {
-        let interval: number;
-
-        // If the stopwatch is running, set the interval with 1 second in between
-        if (isRunning) {
-            interval = setInterval(() => {
-                setTime((prevTime) => prevTime + 1);
-            }, 1000);
-        }
-
-        return () => clearInterval(interval);
-    }, [isRunning]);
+    const referenceTimeRef = useRef<number>(0);
+    const intervalRef = useRef<number | null>(null);
 
     const handleStart = () => {
+        referenceTimeRef.current = Date.now() - time * 10;
+
+        // The interval is not always going to fire exactly once every 10 ms. We can find the exact time by referencing the time when we started the time (is start or resume)
+        intervalRef.current = setInterval(() => {
+            setTime(Math.floor((Date.now() - referenceTimeRef.current) / 10));
+        }, 10);
         setIsTimerReset(false);
         setIsRunning(true);
     };
 
     const handlePause = () => {
+        if (intervalRef.current) {
+            clearInterval(intervalRef.current);
+        }
         setIsRunning(false);
     };
 
     const handleResume = () => {
-        setIsRunning(true);
+        handleStart();
     };
 
     const handleReset = () => {
+        if (intervalRef.current) {
+            clearInterval(intervalRef.current);
+        }
         setIsTimerReset(true);
         setIsRunning(false);
         setLaps([]);
@@ -88,6 +89,7 @@ export default function StopWatch() {
                             lap={lap}
                             bestTime={bestTime}
                             worstTime={worstTime}
+                            key={lap.index}
                         />
                     );
                 })}

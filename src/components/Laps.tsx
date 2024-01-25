@@ -12,8 +12,6 @@ interface LapProps {
 
 /**
  * Component that renders an individual lap. Includes the lap number, time, and if it was increased or decreased from the previous time
- * @param param0
- * @returns
  */
 export default function LapDisplay({
     lap: { index, time },
@@ -23,16 +21,18 @@ export default function LapDisplay({
     let colour = "black";
     // In the case of a tie, we don't want to update the UI
     if (bestTime !== worstTime) {
+        // Best times will be displayed in green
         if (time === bestTime) {
             colour = "green";
         }
+        // Worst times in red
         if (time === worstTime) {
             colour = "red";
         }
     }
     return (
         <View
-            key={index}
+            // Alternating background colour to make it easier to read
             style={{
                 ...styles.lap,
                 backgroundColor: index % 2 === 0 ? "lightblue" : "lightcyan",
