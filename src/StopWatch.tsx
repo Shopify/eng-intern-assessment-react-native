@@ -1,5 +1,5 @@
 import { View, Text} from 'react-native';
-import StopWatchButton from "./StopWatchButton";
+import StopWatchButton from "./components/StopWatchButton";
 import React, {useState,useEffect} from "react";
 export default function StopWatch() {
   const [isRunning, setIsRunning] = useState(false);
