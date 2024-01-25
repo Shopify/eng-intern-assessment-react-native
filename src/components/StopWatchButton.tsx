@@ -17,6 +17,7 @@ const StopWatchButton: React.FC<Props> = ({
 }) => (
   <View style={styles.buttonContainer}>
     <TouchableOpacity
+      testID="lap-reset"
       style={[styles.button, styles.grayButton]}
       onPress={isRunning ? onLap : onReset}
     >
@@ -25,6 +26,7 @@ const StopWatchButton: React.FC<Props> = ({
       </Text>
     </TouchableOpacity>
     <TouchableOpacity
+      testID="start-stop"
       style={[styles.button, isRunning ? styles.redButton : styles.greenButton]}
       onPress={onStartStop}
     >

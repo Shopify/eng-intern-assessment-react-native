@@ -12,7 +12,7 @@ const StopWatchDigitalCounter: React.FC<Props> = ({ time }) => {
 
   return (
     <View style={styles.container}>
-      <Text testID="counter-text" style={styles.counter}>
+      <Text testID="counter" style={styles.counter}>
         {formattedTime}
       </Text>
     </View>
