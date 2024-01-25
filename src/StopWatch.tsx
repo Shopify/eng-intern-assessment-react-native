@@ -1,19 +1,23 @@
-import { Text, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
+import { convertMillisToClockTimeString } from "../util/TimeConverter";
 
 export default function StopWatch(props: Readonly<StopWatchProps>) {
-    const formatTime = (time: number) => {
-        return String(time).padStart(2, "0");
-    };
-
     return (
-        <View>
-            <Text>{`${formatTime(props.minutes)}:${formatTime(props.seconds)}:${formatTime(props.milliseconds/10)}`}</Text>
+        <View style={styles.mainClock}>
+            <Text>{convertMillisToClockTimeString(props.milliseconds)}</Text>
         </View>
     );
 };
 
+const styles = StyleSheet.create({
+    mainClock: {
+        flex: 2,
+        alignItems: 'center', // Center items horizontally
+        justifyContent: 'center',
+    },
+});
+
 type StopWatchProps = {
-    minutes: number;
-    seconds: number;
     milliseconds: number;
 };
+

@@ -2,8 +2,8 @@ import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
 import StopWatch from "./src/StopWatch";
 import { useEffect, useState } from "react";
-import { convertMillisToClockTime } from "./util/TimeConverter";
 import StopWatchButton from "./src/StopWatchButton";
+import StopWatchLap from "./src/StopWatchLap";
 
 export default function App() {
   const [elapsedTime, setElapsedTime] = useState(0);
@@ -48,8 +48,8 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      <StopWatch {...convertMillisToClockTime(elapsedTime)} />
-      <View>
+      <StopWatch milliseconds={elapsedTime}/>
+      <View style={styles.buttons}>
         {!isTimerRunning ? (
           <>
             <StopWatchButton type="reset" onClick={resetStopWatch} isDisabled={elapsedTime == 0}/>
@@ -62,6 +62,7 @@ export default function App() {
           </>
         )}
       </View>
+      <StopWatchLap latestLap={elapsedTime - previousLap} allLaps={lapTimes}/>
     </View>
   );
 }
@@ -73,4 +74,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  buttons: {
+    flex: 1
+  }
 });
