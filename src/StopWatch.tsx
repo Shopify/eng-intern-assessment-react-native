@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { View, StyleSheet } from "react-native";
-import StopWatchButton from "./StopWatchButton";
-import StopWatchDigitalCounter from "./StopWatchDigitalCounter";
-import StopWatchLaps from "./StopWatchLaps";
+import StopWatchButton from "./components/StopWatchButton";
+import StopWatchDigitalCounter from "./components/StopWatchDigitalCounter";
+import StopWatchLaps from "./components/StopWatchLaps";
 import { colors } from "./styles";
 
 export default function StopWatch() {
