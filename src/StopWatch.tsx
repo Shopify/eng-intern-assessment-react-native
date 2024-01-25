@@ -77,6 +77,8 @@ export default function StopWatch() {
     const handleReset = () => {
         if (laps.length > 1) {
             setShowResults(true);
+        } else {
+            setLaps([]);
         }
         if (intervalRef.current) {
             clearInterval(intervalRef.current);
