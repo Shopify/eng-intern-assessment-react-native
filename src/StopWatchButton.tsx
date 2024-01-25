@@ -15,6 +15,10 @@ export default function StopWatchButton({ children, onPressHandler }: StopWatchB
 
 const styles = StyleSheet.create({
   button: {
-    color: '#fff'
+    color: '#000',
+    backgroundColor: '#fff',
+    padding: 7,
+    borderRadius: 5,
+    fontSize: 16
   }
 })
