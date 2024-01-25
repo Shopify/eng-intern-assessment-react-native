@@ -1,4 +1,4 @@
-import { Text } from 'react-native'
+import { StyleSheet, Text } from 'react-native'
 import React from 'react'
 
 interface LapProps {
@@ -7,6 +7,15 @@ interface LapProps {
 
 export const Lap = ({ lapTime }: LapProps) => {
   return (
-    <Text>{lapTime}</Text>
+    <Text style={styles.lap}>{lapTime}</Text>
   )
 }
+
+const styles = StyleSheet.create({
+  lap: {
+    color: "#fff",
+    borderBottomColor: '#fffb',
+    borderBottomWidth: 1,
+    fontSize: 18
+  }
+})

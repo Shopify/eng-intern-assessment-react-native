@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
-import { Pressable, Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { LapContainer } from './LapContainer';
+import StopWatchButton from './StopWatchButton';
 
 type Status = 'COUNTING' | 'NOT_COUNTING' | 'PAUSED' | 'STOPPED'
 
@@ -10,7 +11,7 @@ export default function StopWatch() {
   const startTime = useRef<number>(0); // to keep track of the start time  
 
   const [elapsedPausedTime, setElapsedPausedTime] = useState<number>(0); // to keep track of the elapsed time while stopped
-  const [displayTime, setDisplayTime] = useState("00:00:00")
+  const [displayTime, setDisplayTime] = useState("00:00:00") // formatted time displayed on the app
   const [status, setStatus] = useState<Status>('NOT_COUNTING')
   const [laps, setLaps] = useState<Array<string>>([])
 
@@ -75,29 +76,60 @@ export default function StopWatch() {
   }
 
   return (
-    <View>
-      <View>
+    <View style={styles.stopWatchContainer}>
+      <View style={styles.header}>
+        <Text style={styles.headerText}>STOPWATCH</Text>
+      </View>
+      <View style={styles.timeAndButtonsContainer}>
         {
           status != 'STOPPED' &&
-          <Text>{displayTime}</Text>
+          <Text style={styles.displayTime}>{displayTime}</Text>
         }
+        <View style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row', columnGap: 20, marginTop: 30 }}>
+          {(status === 'NOT_COUNTING' || status === 'STOPPED') && <StopWatchButton onPressHandler={start}>Start</StopWatchButton>}
+          {status === 'COUNTING' && <StopWatchButton onPressHandler={pause}>Pause</StopWatchButton>}
+          {status === 'PAUSED' && <StopWatchButton onPressHandler={start}>Resume</StopWatchButton>}
+          <StopWatchButton onPressHandler={stop}>Stop</StopWatchButton>
+          <StopWatchButton onPressHandler={reset}>Reset</StopWatchButton>
+          <StopWatchButton onPressHandler={lap}>Lap</StopWatchButton>
+        </View>
       </View>
-      <View style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row', columnGap: 20, marginTop: 30 }}>
-        {(status === 'NOT_COUNTING' || status === 'STOPPED') && <Pressable onPress={start}><Text>Start</Text></Pressable>}
-        {status === 'COUNTING' && <Pressable onPress={pause}><Text>Pause</Text></Pressable>}
-        {status === 'PAUSED' && <Pressable onPress={start}><Text>Resume</Text></Pressable>}
-        <Pressable onPress={stop}>
-          <Text>Stop</Text>
-        </Pressable>
-        <Pressable onPress={reset}>
-          <Text>Reset</Text>
-        </Pressable>
-        <Pressable onPress={lap}>
-          <Text>Lap</Text>
-        </Pressable>
+      <View style={styles.lapsContainer}>
+        <LapContainer laps={laps} />
       </View>
-
-      <LapContainer laps={laps} />
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  stopWatchContainer: {
+    backgroundColor: 'black',
+    flex: 1,
+    width: "100%",
+  },
+  header: {
+    flex: 2,
+    backgroundColor: '#fff',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  headerText: {
+    fontSize: 20,
+    fontWeight: '500',
+  },
+  timeAndButtonsContainer: {
+    paddingTop: 50,
+    flex: 2,
+    alignItems: 'center',
+    marginHorizontal: 'auto',
+  },
+  displayTime: {
+    fontSize: 40,
+    fontWeight: '700',
+    color: '#fff'
+  },
+  lapsContainer: {
+    flex: 6,
+    alignItems: 'center'
+  }
+})

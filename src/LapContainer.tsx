@@ -1,4 +1,4 @@
-import { ScrollView } from 'react-native'
+import { ScrollView, StyleSheet, View } from 'react-native'
 import React from 'react'
 import { Lap } from './Lap'
 
@@ -8,12 +8,18 @@ interface LapContainerProps {
 
 export const LapContainer = ({ laps }: LapContainerProps) => {
   return (
-    <ScrollView>
-        {
-            laps.map((lapTime, index) => (
-              <Lap lapTime={lapTime} key={index} />
-            ))
-        }
+    <ScrollView testID='lap-list'>
+      <View style={styles.lapContainer}>
+        {laps.map((lapTime, index) => (
+          <Lap lapTime={lapTime} key={index} />
+        ))}
+      </View>
     </ScrollView>
   )
 }
+
+const styles = StyleSheet.create({
+  lapContainer: {
+    rowGap: 10
+  }
+})

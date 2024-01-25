@@ -1,8 +1,20 @@
-import { View } from 'react-native';
+import { Pressable, StyleSheet, Text } from 'react-native';
 
-export default function StopWatchButton() {
+interface StopWatchButtonProps {
+  children: string
+  onPressHandler: () => any
+}
+
+export default function StopWatchButton({ children, onPressHandler }: StopWatchButtonProps) {
   return (
-    <View >
-    </View>
+    <Pressable onPress={onPressHandler}>
+      <Text style={styles.button}>{children}</Text>
+    </Pressable>
   );
 }
+
+const styles = StyleSheet.create({
+  button: {
+    color: '#fff'
+  }
+})
