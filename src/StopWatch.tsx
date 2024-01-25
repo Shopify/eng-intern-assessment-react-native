@@ -41,17 +41,22 @@ export default function StopWatch() {
     const referenceTimeRef = useRef<number>(0);
     const intervalRef = useRef<number | null>(null);
 
-    const handleStart = () => {
-        // Need this data to persist until restarted to show results from previous session
-        setLaps([]);
-
-        setShowResults(false);
+    const startTimer = () => {
         referenceTimeRef.current = Date.now() - time * 10;
 
         // The interval is not always going to fire exactly once every 10 ms. We can find the exact time by referencing the time when we started the time (is start or resume)
         intervalRef.current = setInterval(() => {
             setTime(Math.floor((Date.now() - referenceTimeRef.current) / 10));
         }, 10);
+    };
+
+    const handleStart = () => {
+        // Need this data to persist until restarted to show results from previous session
+        setLaps([]);
+
+        setShowResults(false);
+        startTimer();
+
         setIsTimerReset(false);
         setIsRunning(true);
     };
@@ -64,7 +69,9 @@ export default function StopWatch() {
     };
 
     const handleResume = () => {
-        handleStart();
+        startTimer();
+        setIsTimerReset(false);
+        setIsRunning(true);
     };
 
     const handleReset = () => {

@@ -38,9 +38,18 @@ export default function LapDisplay({
                 backgroundColor: index % 2 === 0 ? "lightblue" : "lightcyan",
             }}
         >
-            <Text style={{ ...styles.lapText, color: colour }}>
-                Lap {index}
-            </Text>
+            <View style={styles.textContainer}>
+                <Text
+                    style={{
+                        ...styles.lapText,
+                        color: colour,
+                        fontWeight: "bold",
+                    }}
+                >
+                    Lap {index}
+                </Text>
+            </View>
+
             <Text style={{ ...styles.lapText, color: colour }}>
                 {formatTime(time)}
             </Text>
@@ -57,10 +66,17 @@ const styles = StyleSheet.create({
         alignContent: "center",
         justifyContent: "space-between",
     },
+    textContainer: {
+        justifyContent: "center",
+        alignContent: "center",
+        alignItems: "center",
+        alignSelf: "center",
+    },
     lapText: {
         flexDirection: "column",
         fontSize: 20,
         height: "100%",
         margin: "auto",
+        alignSelf: "center",
     },
 });
