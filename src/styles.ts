@@ -1,3 +1,4 @@
+// Constant colors styles
 export const colors = {
   black: "#000",
   gray: "#333",
@@ -6,8 +7,4 @@ export const colors = {
   lightGreen: '#2ED259',
   red:  '#340E0B',
   lightRed: '#FF4539',
-};
-
-export const fonts = {
-  main: 'monospace',
 };

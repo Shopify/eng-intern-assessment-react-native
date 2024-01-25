@@ -94,7 +94,6 @@ const styles = StyleSheet.create({
   },
   lapText: {
     fontSize: 20,
-    fontFamily: fonts.main,
   },
   maxLap: {
     color: colors.lightRed,

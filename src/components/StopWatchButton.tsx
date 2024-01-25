@@ -67,12 +67,12 @@ const styles = StyleSheet.create({
     marginBottom: 30,
   },
   button: {
-    width: 80,
-    height: 80,
+    width: 100,
+    height: 100,
     borderRadius: 50,
     alignItems: "center",
     justifyContent: "center",
-    marginHorizontal: 10,
+    marginHorizontal: 20,
   },
   // Styles for different button states
   redButton: {
@@ -86,7 +86,6 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 20,
-    fontFamily: fonts.main,
   },
   redText: {
     color: colors.lightRed,
