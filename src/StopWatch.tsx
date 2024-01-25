@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import {
     Dimensions,
     SafeAreaView,
@@ -15,6 +15,7 @@ import {
     mapLapsToTimes,
 } from "./utils/time";
 import LapDisplay from "./components/Laps";
+import DisplayTime from "./components/DisplayTime";
 
 // Used to ensure the app is the same width as the screen
 const { width: screenWidth } = Dimensions.get("screen");
@@ -80,7 +81,7 @@ export default function StopWatch() {
     return (
         // Use safe area to avoid insets on device
         <SafeAreaView style={{ width: screenWidth, ...styles.container }}>
-            <Text style={styles.time}>{formatTime(time)}</Text>
+            <DisplayTime time={formatTime(time)} />
             <ScrollView style={styles.lapContainer}>
                 {laps.map((lap) => {
                     return (
@@ -152,9 +153,6 @@ const styles = StyleSheet.create({
         flexDirection: "column",
         width: "100%",
         paddingVertical: 10,
-    },
-    time: {
-        fontSize: 50,
     },
 
     buttonContainer: {
