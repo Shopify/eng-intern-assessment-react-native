@@ -41,6 +41,24 @@ export const getBestTime = (times: number[]): number | undefined => {
 };
 
 /**
+ * Returns the average time for a list of times.
+ * @param times list of times in milliseconds
+ * @returns the average time
+ */
+export const getAverageTime = (times: number[]): number | undefined => {
+    if (times.length < 1) {
+        return;
+    }
+    // Calculate the sum of all numbers in the array
+    const sum = times.reduce((acc, num) => acc + num, 0);
+
+    // Calculate the average
+    const average = sum / times.length;
+
+    return average;
+};
+
+/**
  * Maps laps objects to an array of number of their corresponding times
  * @param laps List of lap objects
  * @returns List of times as numbers

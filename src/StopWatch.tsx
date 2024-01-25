@@ -16,6 +16,7 @@ import {
 } from "./utils/time";
 import LapDisplay from "./components/Laps";
 import DisplayTime from "./components/DisplayTime";
+import DisplayResults from "./components/DisplayResults";
 
 // Used to ensure the app is the same width as the screen
 const { width: screenWidth } = Dimensions.get("screen");
@@ -25,14 +26,26 @@ export default function StopWatch() {
     const [time, setTime] = useState<number>(0);
     // Tracks when to reset the state (ie first render and when reset pressed)
     const [isTimerReset, setIsTimerReset] = useState<boolean>(true);
+
+    // State variables to track laps
     const [laps, setLaps] = useState<{ index: number; time: number }[]>([]);
     const [lastLapTime, setLastLapTime] = useState<number | undefined>();
+
+    // State variables to keep track of performance
     const [worstTime, setWorstTime] = useState<number | undefined>();
     const [bestTime, setBestTime] = useState<number | undefined>();
+
+    const [showResults, setShowResults] = useState<boolean>(false);
+
+    // Refs to ensure timer is accurate
     const referenceTimeRef = useRef<number>(0);
     const intervalRef = useRef<number | null>(null);
 
     const handleStart = () => {
+        // Need this data to persist until restarted to show results from previous session
+        setLaps([]);
+
+        setShowResults(false);
         referenceTimeRef.current = Date.now() - time * 10;
 
         // The interval is not always going to fire exactly once every 10 ms. We can find the exact time by referencing the time when we started the time (is start or resume)
@@ -55,12 +68,14 @@ export default function StopWatch() {
     };
 
     const handleReset = () => {
+        if (laps.length > 1) {
+            setShowResults(true);
+        }
         if (intervalRef.current) {
             clearInterval(intervalRef.current);
         }
         setIsTimerReset(true);
         setIsRunning(false);
-        setLaps([]);
         setTime(0);
         setLastLapTime(undefined);
     };
@@ -82,19 +97,26 @@ export default function StopWatch() {
         // Use safe area to avoid insets on device
         <SafeAreaView style={{ width: screenWidth, ...styles.container }}>
             <DisplayTime time={formatTime(time)} />
-            <ScrollView style={styles.lapContainer}>
-                {laps.map((lap) => {
-                    return (
-                        // Shouldn't use index, but should be fine for this simple app
-                        <LapDisplay
-                            lap={lap}
-                            bestTime={bestTime}
-                            worstTime={worstTime}
-                            key={lap.index}
-                        />
-                    );
-                })}
-            </ScrollView>
+            {showResults ? (
+                <ScrollView style={styles.resultContainer}>
+                    <DisplayResults lapTimes={mapLapsToTimes(laps)} />
+                </ScrollView>
+            ) : (
+                <ScrollView style={styles.lapContainer}>
+                    {laps.map((lap) => {
+                        return (
+                            // Shouldn't use index, but should be fine for this simple app
+                            <LapDisplay
+                                lap={lap}
+                                bestTime={bestTime}
+                                worstTime={worstTime}
+                                key={lap.index}
+                            />
+                        );
+                    })}
+                </ScrollView>
+            )}
+
             <View style={styles.buttonContainer}>
                 {/* Only show start if the timer has not begun */}
                 {!isRunning && time === 0 && (
@@ -148,6 +170,12 @@ const styles = StyleSheet.create({
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
+    },
+    resultContainer: {
+        flexDirection: "column",
+        alignContent: "center",
+        width: "100%",
+        paddingVertical: 10,
     },
     lapContainer: {
         flexDirection: "column",
