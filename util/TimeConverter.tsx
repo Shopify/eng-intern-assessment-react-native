@@ -15,5 +15,5 @@ const formatTime = (time: number) => {
 };
 
 export function convertMillisToClockTimeString(milliseconds: number) {
-    return `${formatTime(convertMillisToClockTime(milliseconds).minutes)}:${formatTime(convertMillisToClockTime(milliseconds).seconds)}:${formatTime(convertMillisToClockTime(milliseconds).milliseconds / 10)}`
+    return `${formatTime(convertMillisToClockTime(milliseconds).minutes)}:${formatTime(convertMillisToClockTime(milliseconds).seconds)}.${formatTime(convertMillisToClockTime(milliseconds).milliseconds / 10)}`
 }

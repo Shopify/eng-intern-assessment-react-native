@@ -3,17 +3,22 @@ import { convertMillisToClockTimeString } from "../util/TimeConverter";
 
 export default function StopWatch(props: Readonly<StopWatchProps>) {
     return (
-        <View style={styles.mainClock}>
-            <Text>{convertMillisToClockTimeString(props.milliseconds)}</Text>
+        <View style={styles.mainClockContainer}>
+            <Text style={styles.clockText}>{convertMillisToClockTimeString(props.milliseconds)}</Text>
         </View>
     );
 };
 
 const styles = StyleSheet.create({
-    mainClock: {
-        flex: 2,
-        alignItems: 'center', // Center items horizontally
+    mainClockContainer: {
+        flex: 3,
+        alignItems: 'center',
         justifyContent: 'center',
+    },
+    clockText: {
+        fontSize: 48,
+        fontVariant: ['tabular-nums'],
+        color: "#fca311"
     },
 });
 

@@ -49,10 +49,10 @@ export default function App() {
   return (
     <View style={styles.container}>
       <StopWatch milliseconds={elapsedTime}/>
-      <View style={styles.buttons}>
+      <View style={styles.buttonsContainer}>
         {!isTimerRunning ? (
           <>
-            <StopWatchButton type="reset" onClick={resetStopWatch} isDisabled={elapsedTime == 0}/>
+            <StopWatchButton  type="reset" onClick={resetStopWatch} isDisabled={elapsedTime == 0}/>
             <StopWatchButton type="start" onClick={startStopWatch} />
           </>
         ) : (
@@ -70,11 +70,14 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#000000",
     alignItems: "center",
     justifyContent: "center",
   },
-  buttons: {
-    flex: 1
+  buttonsContainer: {
+    flex: 1,
+    width: "100%",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   }
 });

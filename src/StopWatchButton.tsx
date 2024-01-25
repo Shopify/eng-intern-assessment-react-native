@@ -1,15 +1,35 @@
-import { Button, View } from "react-native";
+import { Button, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 export default function StopWatchButton(props: Readonly<StopWatchButtonProps>) {
   switch (props.type) {
     case "start":
-      return <View><Button onPress={props.onClick} title="Start"/></View>;
+      return (
+        <TouchableOpacity style={styles.StartButton} onPress={props.onClick}>
+          <Text style={styles.ButtonTextDark}>{"Start"}</Text>
+        </TouchableOpacity>
+      );
     case "stop":
-        return <View><Button onPress={props.onClick} title="Stop"/></View>;
+      return (
+        <TouchableOpacity style={styles.StopButton} onPress={props.onClick}>
+          <Text style={styles.ButtonTextDark}>{"Stop"}</Text>
+        </TouchableOpacity>
+      );
     case "reset":
-        return <View><Button onPress={props.onClick} title="Reset" disabled={props.isDisabled}/></View>;
+      return (
+        <TouchableOpacity
+          style={styles.GenericButton}
+          onPress={props.onClick}
+          disabled={props.isDisabled}
+        >
+          <Text style={styles.ButtonTextLight}>{"Reset"}</Text>
+        </TouchableOpacity>
+      );
     case "lap":
-        return <View><Button onPress={props.onClick} title="Lap"/></View>;
+      return (
+        <TouchableOpacity style={styles.GenericButton} onPress={props.onClick}>
+          <Text style={styles.ButtonTextLight}>{"Lap"}</Text>
+        </TouchableOpacity>
+      );
   }
 }
 
@@ -18,3 +38,43 @@ type StopWatchButtonProps = {
   onClick?: () => void;
   isDisabled?: boolean;
 };
+
+const styles = StyleSheet.create({
+  GenericButton: {
+    height: 80,
+    width: 80,
+    borderRadius: 40,
+    backgroundColor: "#14213d",
+    justifyContent: "center",
+    alignItems: "center",
+    margin: 25,
+  },
+  StartButton: {
+    height: 80,
+    width: 80,
+    borderRadius: 40,
+    color: "#d6ebe6",
+    backgroundColor: "green",
+    justifyContent: "center",
+    alignItems: "center",
+    margin: 25,
+  },
+  StopButton: {
+    height: 80,
+    width: 80,
+    borderRadius: 40,
+    color: "#d6ebe6",
+    backgroundColor: "#bc4749",
+    justifyContent: "center",
+    alignItems: "center",
+    margin: 25,
+  },
+  ButtonTextDark: {
+    color: "#dad7cd",
+    fontSize: 18
+  },
+  ButtonTextLight: {
+    color: "#ffffff",
+    fontSize: 18
+  }
+});
