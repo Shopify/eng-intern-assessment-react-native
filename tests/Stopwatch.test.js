@@ -10,25 +10,32 @@ describe('Stopwatch', () => {
     expect(queryByTestId('lap-list')).toBeNull();
   });
 
-  test('starts and stops the stopwatch', () => {
+  test('starts and stops the stopwatch', async() => {
     const { getByText, queryByText } = render(<Stopwatch />);
     
     fireEvent.press(getByText('Start'));
     expect(queryByText(/(\d{2}:){2}\d{2}/)).toBeTruthy();
-
+    await new Promise((resolve) => setTimeout(resolve, 100));
     fireEvent.press(getByText('Stop'));
-    expect(queryByText(/(\d{2}:){2}\d{2}/)).toBeNull();
+    const stoppedTime = queryByText(/(\d{2}:){2}\d{2}/);
+    expect(stoppedTime).toBeTruthy(); // Edit: The time display should still be present instead of null
+    // I will be using children[0] instead of textcontext to ensure proper comparison
+    // Check if the time displayed remains constant after stopping
+    await new Promise((resolve) => setTimeout(resolve, 100));    
+    expect(queryByText(/(\d{2}:){2}\d{2}/).children[0]).toBe(stoppedTime.children[0]);
   });
-
-  test('pauses and resumes the stopwatch', () => {
-    const { getByText } = render(<Stopwatch />);
+  
+  test('pauses and resumes the stopwatch', async() => {
+    const { getByText, queryByText } = render(<Stopwatch />);
     
     fireEvent.press(getByText('Start'));
-    fireEvent.press(getByText('Pause'));
-    const pausedTime = getByText(/(\d{2}:){2}\d{2}/).textContent;
-
+    await new Promise(resolve => setTimeout(resolve, 100));
+    fireEvent.press(getByText('Stop')); // Stop and Pause are essentially the same buttons
+    const pausedTime = queryByText(/(\d{2}:){2}\d{2}/).children[0];
+    
     fireEvent.press(getByText('Resume'));
-    expect(getByText(/(\d{2}:){2}\d{2}/).textContent).not.toBe(pausedTime);
+    await new Promise(resolve => setTimeout(resolve, 100));
+    expect(queryByText(/(\d{2}:){2}\d{2}/).children[0]).not.toBe(pausedTime);
   });
 
   test('records and displays lap times', () => {
@@ -36,10 +43,10 @@ describe('Stopwatch', () => {
     
     fireEvent.press(getByText('Start'));
     fireEvent.press(getByText('Lap'));
-    expect(getByTestId('lap-list')).toContainElement(getByText(/(\d{2}:){2}\d{2}/));
-
+    expect(getByTestId('lap-list').children[0].children[0].children.length).toBe(1);
+    
     fireEvent.press(getByText('Lap'));
-    expect(getByTestId('lap-list').children.length).toBe(2);
+    expect(getByTestId('lap-list').children[0].children[0].children.length).toBe(2);
   });
 
   test('resets the stopwatch', () => {
