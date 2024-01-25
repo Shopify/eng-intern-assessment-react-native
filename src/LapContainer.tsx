@@ -8,12 +8,16 @@ interface LapContainerProps {
 
 export const LapContainer = ({ laps }: LapContainerProps) => {
   return (
-    <ScrollView testID='lap-list'>
-      <View style={styles.lapContainer}>
-        {laps.map((lapTime, index) => (
-          <Lap lapTime={lapTime} key={index} />
-        ))}
-      </View>
+    <ScrollView>
+      {
+        laps.length ? (
+          <View style={styles.lapContainer} testID='lap-list'>
+            {laps.map((lapTime, index) => (
+              <Lap lapTime={lapTime} key={index} />
+            ))}
+          </View>
+        ) : null
+      }
     </ScrollView>
   )
 }

@@ -3,20 +3,20 @@ import { StyleSheet, Text, View } from 'react-native';
 import { LapContainer } from './LapContainer';
 import StopWatchButton from './StopWatchButton';
 
-type Status = 'COUNTING' | 'NOT_COUNTING' | 'PAUSED' | 'STOPPED'
+type StopWatchStatus = 'COUNTING' | 'NOT_COUNTING' | 'PAUSED' | 'STOPPED'
 
 export default function StopWatch() {
 
   const stopwatchInterval = useRef<number>(0) // to keep track of the interval
   const startTime = useRef<number>(0); // to keep track of the start time  
+  const elapsedPausedTime = useRef<number>(0); // to keep track of the elapsed time while stopped
 
-  const [elapsedPausedTime, setElapsedPausedTime] = useState<number>(0); // to keep track of the elapsed time while stopped
   const [displayTime, setDisplayTime] = useState("00:00:00") // formatted time displayed on the app
-  const [status, setStatus] = useState<Status>('NOT_COUNTING')
+  const [stopWatchStatus, setStopWatchStatus] = useState<StopWatchStatus>('NOT_COUNTING')
   const [laps, setLaps] = useState<Array<string>>([])
 
   const startInterval = () => {
-    startTime.current = new Date().getTime() - elapsedPausedTime;
+    startTime.current = new Date().getTime() - elapsedPausedTime.current;
 
     function updateStopwatch() {
       setDisplayTime(getDisplayTime())
@@ -47,28 +47,26 @@ export default function StopWatch() {
 
   const start = () => {
     startInterval()
-    setStatus('COUNTING');
-    console.log('Started')
+    setStopWatchStatus('COUNTING');
   }
   const stop = () => {
     clearInterval(stopwatchInterval.current)
-    setElapsedPausedTime(0)
+    elapsedPausedTime.current = 0
+    setDisplayTime("00:00:00")
+    setStopWatchStatus('STOPPED')
     setLaps([]);
-    setStatus('STOPPED')
-    console.log('Stopped') 
   }
   const pause = () => {
     clearInterval(stopwatchInterval.current)
-    setElapsedPausedTime(new Date().getTime() - startTime.current)
-    setStatus('PAUSED')
-    console.log('Paused')
+    elapsedPausedTime.current = new Date().getTime() - startTime.current
+    setStopWatchStatus('PAUSED')
   }
   const reset = () => { 
     clearInterval(stopwatchInterval.current)
-    setElapsedPausedTime(0)
+    elapsedPausedTime.current = 0
     setDisplayTime("00:00:00")
-    setStatus('NOT_COUNTING')
-    console.log('Reset')
+    setStopWatchStatus('NOT_COUNTING')
+    setLaps([]);
   }
 
   const lap = () => {
@@ -82,13 +80,13 @@ export default function StopWatch() {
       </View>
       <View style={styles.timeAndButtonsContainer}>
         {
-          status != 'STOPPED' &&
+          stopWatchStatus != 'STOPPED' &&
           <Text style={styles.displayTime}>{displayTime}</Text>
         }
-        <View style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row', columnGap: 20, marginTop: 30 }}>
-          {(status === 'NOT_COUNTING' || status === 'STOPPED') && <StopWatchButton onPressHandler={start}>Start</StopWatchButton>}
-          {status === 'COUNTING' && <StopWatchButton onPressHandler={pause}>Pause</StopWatchButton>}
-          {status === 'PAUSED' && <StopWatchButton onPressHandler={start}>Resume</StopWatchButton>}
+        <View style={styles.buttonGroup}>
+          {(stopWatchStatus === 'NOT_COUNTING' || stopWatchStatus === 'STOPPED') && <StopWatchButton onPressHandler={start}>Start</StopWatchButton>}
+          {stopWatchStatus === 'COUNTING' && <StopWatchButton onPressHandler={pause}>Pause</StopWatchButton>}
+          {stopWatchStatus === 'PAUSED' && <StopWatchButton onPressHandler={start}>Resume</StopWatchButton>}
           <StopWatchButton onPressHandler={stop}>Stop</StopWatchButton>
           <StopWatchButton onPressHandler={reset}>Reset</StopWatchButton>
           <StopWatchButton onPressHandler={lap}>Lap</StopWatchButton>
@@ -127,6 +125,13 @@ const styles = StyleSheet.create({
     fontSize: 40,
     fontWeight: '700',
     color: '#fff'
+  },
+  buttonGroup: { 
+    justifyContent: 'space-between', 
+    alignItems: 'center', 
+    flexDirection: 'row', 
+    columnGap: 20, 
+    marginTop: 50 
   },
   lapsContainer: {
     flex: 6,
