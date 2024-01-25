@@ -1,18 +1,19 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
 import StopWatch from './src/StopWatch';
+import { SafeAreaView, StyleSheet } from 'react-native';
 
 export default function App() {
   return (
-    <StopWatch/>
+    <SafeAreaView style={styles.screen}>
+      <StatusBar/>
+      <StopWatch/>
+    </SafeAreaView>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+const styles = StyleSheet.create({ 
+screen:{
+  flex:1
+}
 });
+
