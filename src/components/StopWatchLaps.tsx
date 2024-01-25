@@ -1,6 +1,6 @@
 import React from "react";
 import { ScrollView, Text, StyleSheet, View } from "react-native";
-import { colors, fonts } from "../styles";
+import { colors } from "../styles";
 import { formatTime } from "../utils/utils";
 
 /**
