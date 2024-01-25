@@ -1,6 +1,6 @@
 import React, { useMemo } from "react";
 import { View, Text, StyleSheet } from "react-native";
-import { colors, fonts } from "../styles";
+import { colors } from "../styles";
 import { formatTime } from "../utils/utils";
 
 /**
