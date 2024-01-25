@@ -1,18 +1,29 @@
 import { StyleSheet, Text, View } from "react-native";
 
+/**
+ * Component that displays the time with a fixed width. Will always be the ame width
+ */
 export default function DisplayTime({ time }: { time: string }) {
+    // Want to separate out the different units to display them in their own fixed width 'boxes'
     const [minutes, seconds, milliseconds] = time.split(":");
 
     return (
         <View style={styles.container}>
+            {/* Minutes */}
             <View style={styles.timeContainer}>
                 <Text style={styles.time}>{minutes}</Text>
             </View>
+
             <Text style={styles.separator}>:</Text>
+
+            {/* Seconds */}
             <View style={styles.timeContainer}>
                 <Text style={styles.time}>{seconds}</Text>
             </View>
+
             <Text style={styles.separator}>:</Text>
+
+            {/* Milliseconds */}
             <View style={styles.timeContainer}>
                 <Text style={styles.time}>{milliseconds}</Text>
             </View>
