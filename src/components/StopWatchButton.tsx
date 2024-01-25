@@ -2,13 +2,26 @@ import React from "react";
 import { View, StyleSheet, TouchableOpacity, Text } from "react-native";
 import { colors, fonts } from "../styles";
 
+/**
+ * Props for StopWatchButton component.
+ */
 interface Props {
-  onStartStop: () => void;
-  onReset: () => void;
-  onLap: () => void;
-  isRunning: boolean;
+  onStartStop: () => void; // Function to handle start/stop actions
+  onReset: () => void; // Function to handle reset action
+  onLap: () => void; // Function to handle lap action
+  isRunning: boolean; // State to indicate if the stopwatch is running
 }
 
+/**
+ * StopWatchButton component.
+ *
+ * This component renders the stopwatch buttons for Start/Stop, Reset/Lap.
+ * It dynamically changes the appearance and function of the buttons based on
+ * the running state of the stopwatch.
+ *
+ * @param {Props} props The props for the component.
+ * @return {object} The style object.
+ */
 const StopWatchButton: React.FC<Props> = ({
   onStartStop,
   onReset,
@@ -16,6 +29,7 @@ const StopWatchButton: React.FC<Props> = ({
   isRunning,
 }) => (
   <View style={styles.buttonContainer}>
+    {/* Button for Lap or Reset */}
     <TouchableOpacity
       testID="lap-reset"
       style={[styles.button, styles.grayButton]}
@@ -25,6 +39,8 @@ const StopWatchButton: React.FC<Props> = ({
         {isRunning ? "Lap" : "Reset"}
       </Text>
     </TouchableOpacity>
+
+    {/* Button for Start or Stop */}
     <TouchableOpacity
       testID="start-stop"
       style={[styles.button, isRunning ? styles.redButton : styles.greenButton]}
@@ -39,6 +55,9 @@ const StopWatchButton: React.FC<Props> = ({
   </View>
 );
 
+/**
+ * Styles for the StopWatchButton component.
+ */
 const styles = StyleSheet.create({
   buttonContainer: {
     width: "100%",
@@ -55,6 +74,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     marginHorizontal: 10,
   },
+  // Styles for different button states
   redButton: {
     backgroundColor: colors.red,
   },
