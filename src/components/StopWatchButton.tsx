@@ -66,6 +66,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 20,
+    fontFamily: fonts.main,
   },
   redText: {
     color: colors.lightRed,

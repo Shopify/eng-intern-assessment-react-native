@@ -20,30 +20,33 @@ const StopWatchLaps: React.FC<Props> = ({ laps, maxLapIndex, minLapIndex }) => {
     }
   };
 
+  if (!laps || laps.length === 0) {
+    return null;
+  }
+
   return (
     <ScrollView
       testID="lap-list"
       style={styles.container}
       contentContainerStyle={styles.contentContainer}
     >
-      {laps &&
-        laps
-          .slice()
-          .reverse()
-          .map((lap, index) => (
-            <View key={laps.length - index - 1} style={styles.lap}>
-              <Text
-                style={[styles.lapText, getLapStyle(laps.length - index - 1)]}
-              >
-                Lap {laps.length - index}
-              </Text>
-              <Text
-                style={[styles.lapText, getLapStyle(laps.length - index - 1)]}
-              >
-                {formatTime(lap)}
-              </Text>
-            </View>
-          ))}
+      {laps
+        .slice()
+        .reverse()
+        .map((lap, index) => (
+          <View key={laps.length - index - 1} style={styles.lap}>
+            <Text
+              style={[styles.lapText, getLapStyle(laps.length - index - 1)]}
+            >
+              Lap {laps.length - index}
+            </Text>
+            <Text
+              style={[styles.lapText, getLapStyle(laps.length - index - 1)]}
+            >
+              {formatTime(lap)}
+            </Text>
+          </View>
+        ))}
     </ScrollView>
   );
 };
@@ -52,7 +55,6 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.black,
     width: "100%",
-    height: "20%",
   },
   contentContainer: {
     flexDirection: "column",

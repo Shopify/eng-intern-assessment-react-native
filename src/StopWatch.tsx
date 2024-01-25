@@ -55,13 +55,15 @@ export default function StopWatch() {
 
   return (
     <View style={styles.container}>
-      <StopWatchDigitalCounter time={timeElapsed} />
-      <StopWatchButton
-        onStartStop={handleStartStop}
-        onReset={handleReset}
-        onLap={handleLap}
-        isRunning={isRunning}
-      />
+      <View style={styles.staticContainer}>
+        <StopWatchDigitalCounter time={timeElapsed} />
+        <StopWatchButton
+          onStartStop={handleStartStop}
+          onReset={handleReset}
+          onLap={handleLap}
+          isRunning={isRunning}
+        />
+      </View>
       <StopWatchLaps
         laps={lapDurations}
         maxLapIndex={maxLapIndex}
@@ -75,8 +77,10 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.black,
     flex: 1,
-    justifyContent: "center",
     alignItems: "center",
     width: "100%",
+  },
+  staticContainer: {
+    height: "45%",
   },
 });
