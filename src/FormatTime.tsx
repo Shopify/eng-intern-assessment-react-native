@@ -14,7 +14,7 @@ const FormatTime: React.FC<FormatTimeProps> = ({
   const milliseconds = Math.floor((timeInMilliseconds % 1000) / 10);
 
   return (
-    <View style={styles.formatTimeContainer}>
+    <View style={styles.formatTimeContainer} testID="timer">
       <Text
         style={[
           styles.individualTimer,

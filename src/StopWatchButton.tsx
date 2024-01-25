@@ -20,17 +20,17 @@ const StopWatchButton: React.FC<StopWatchButtonProps> = ({
 }) => {
   const [isFirst, setIsFirst] = useState<boolean>(true);
   const [intervalId, setIntervalId] = useState<number>(0);
-  const [stopped, setStopped] = useState<number>(0);
+  const [stoppedAt, setStoppedAt] = useState<number>(0);
   return (
     <View>
       <View style={styles.buttonView}>
         <TouchableOpacity
           style={styles.buttonStyle}
           onPress={() => {
-            if (isFirst || stopped > 0) {
+            if (isFirst || stoppedAt > 0) {
               setIsFirst(false);
               const current = new Date().getTime();
-              setInitialTime(current - stopped);
+              setInitialTime(current - stoppedAt);
               setFinalTime(current);
               clearInterval(intervalId);
               setIntervalId(
@@ -38,19 +38,19 @@ const StopWatchButton: React.FC<StopWatchButtonProps> = ({
                   setFinalTime(new Date().getTime());
                 }, 10)
               );
-              setStopped(0);
+              setStoppedAt(0);
             }
           }}
         >
           <Text style={styles.boldText}>
-            {stopped > 0 ? "Resume" : "Start"}
+            {stoppedAt > 0 ? "Resume" : "Start"}
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.buttonStyle}
           onPress={() => {
             clearInterval(intervalId);
-            setStopped(finalTime - initialTime);
+            setStoppedAt(finalTime - initialTime);
           }}
         >
           <Text style={styles.boldText}>Stop</Text>
@@ -69,7 +69,7 @@ const StopWatchButton: React.FC<StopWatchButtonProps> = ({
             clearInterval(intervalId);
             setInitialTime(0);
             setFinalTime(0);
-            setStopped(0);
+            setStoppedAt(0);
             setIsFirst(true);
             setLaps([]);
           }}
