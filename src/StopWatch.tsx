@@ -1,11 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import {
-  FlatList,
-  StyleSheet,
-  Text,
-  View,
-} from "react-native";
+import { FlatList, StyleSheet, Text, View } from "react-native";
 import StopWatchButton from "./StopWatchButton";
+import { formatTime } from "./util/time";
 
 const styles = StyleSheet.create({
   buttonContainer: {
@@ -21,18 +17,12 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   lapList: {
-    height: 300,
     width: "100%",
   },
   lapText: {
     flexDirection: "row",
     gap: 10,
     alignSelf: "stretch",
-  },
-  cellLeft: {
-    flexGrow: 1,
-    fontSize: 20,
-    textAlign: "left",
   },
   cellRight: {
     flexGrow: 1,
@@ -94,10 +84,7 @@ export default function StopWatch() {
   }, [laps]);
 
   // display
-  const displaytime = useMemo(() => {
-    const format = (x: number) => String(x.toFixed(0)).padStart(2, "0");
-    return `${format(time / 3600)}:${format((time / 60) % 60)}:${format(time % 60)}`;
-  }, [time]);
+  const displaytime = useMemo(() => formatTime(time), [time]);
 
   return (
     <View style={styles.stopWatchContainer}>
@@ -106,13 +93,10 @@ export default function StopWatch() {
       )}
       <View style={styles.buttonContainer}>
         {state === "running" && (
-          <>
-            <StopWatchButton
-              type="lap"
-              onPress={() => setLaps([...laps, time])}
-            />
-            <StopWatchButton type="pause" onPress={() => setState("paused")} />
-          </>
+          <StopWatchButton
+            type="lap"
+            onPress={() => setLaps([...laps, time])}
+          />
         )}
         <StopWatchButton
           type="reset"
@@ -126,32 +110,22 @@ export default function StopWatch() {
           (state == "running" && (
             <StopWatchButton type="stop" onPress={() => setState("stopped")} />
           ))}
-        {state == "initial" && (
+
+        {state == "initial" ? (
           <StopWatchButton type="start" onPress={() => setState("running")} />
-        )}
+        ) : state == "running" ? (
+          <StopWatchButton type="pause" onPress={() => setState("paused")} />
+        ) : state == "paused" ? (
+          <StopWatchButton type="resume" onPress={() => setState("running")} />
+        ) : null}
       </View>
-      {laps.length === 0 ? null : (
+      {lapDiff.length === 0 ? null : (
         <View testID="lap-list" style={styles.lapList}>
-          <FlatList
-            data={laps}
-            style={styles.lapList}
-            ListHeaderComponent={() => (
-              <View style={styles.lapText}>
-                <Text style={styles.cellLeft}>Round</Text>
-                <Text style={styles.cellRight}>Time Recorded</Text>
-                <Text style={styles.cellRight}>Duration</Text>
-              </View>
-            )}
-            renderItem={({ item, index }) => (
-              <View key={index} style={styles.lapText}>
-                <Text style={styles.cellLeft}>Round {index + 1}</Text>
-                <Text style={styles.cellRight}>{item.toFixed(3)}s</Text>
-                <Text style={styles.cellRight}>
-                  {lapDiff[index].toFixed(3)}s
-                </Text>
-              </View>
-            )}
-          />
+          {lapDiff.map((time, index) => (
+            <Text key={index} style={styles.cellRight}>
+              {formatTime(time)}
+            </Text>
+          ))}
         </View>
       )}
     </View>
