@@ -1,46 +1,29 @@
 import React, { useState } from "react";
-import { View } from "react-native";
+import { Text, View } from "react-native";
+import calculateTimer from "./utils/timeutils";
 
-type Props = {
-  currentTime: number;
-  setTime: Function;
-};
+interface StopWatchProps {
+  name: string;
+  onPress: () => void;
+}
 
-export default function StopWatchButton(props: Props) {
-  const { setTime, currentTime } = props;
-  const [intervalId, setIntervalId] = useState<number>(0);
-  const [lapData] = useState<Object[]>([]);
-
-  const handleStart = () => {
-    let interval: any = setInterval(() => {
-      setTime((prev: number) => prev + 1);
-    }, 1);
-
-    setIntervalId(interval);
-  };
-
-  const handleStop = () => {
-    clearInterval(intervalId);
-  };
-
-  const handleReset = () => {
-    clearInterval(intervalId);
-    setTime(0);
-  };
-
-  const handleLap = (currentTime: number) => {
-    lapData.push({
-      lapTime: lapData.length,
-      currentLapTime: currentTime,
-    });
-  };
-
+export default function StopWatchButton({
+  name,
+  onPress,
+}: Readonly<StopWatchProps>) {
   return (
     <View>
-      <button onClick={handleStart}>Start</button>
-      <button onClick={handleStop}>Stop</button>
-      <button onClick={handleReset}>Reset</button>
-      <button onClick={handleLap(currentTime)}>Lap</button>
+      <Text
+        onPress={onPress}
+        style={{
+          padding: 10,
+          borderWidth: 1,
+          borderColor: "blue",
+          display: "flex",
+        }}
+      >
+        {name}
+      </Text>
     </View>
   );
 }

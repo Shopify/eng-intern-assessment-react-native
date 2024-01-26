@@ -2,7 +2,6 @@ import { StatusBar } from "expo-status-bar";
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import StopWatch from "./src/StopWatch";
-import StopWatchButton from "./src/StopWatchButton";
 
 export default function App() {
   return (
@@ -15,9 +14,9 @@ export default function App() {
 
 const styles = StyleSheet.create({
   container: {
+    top: 300,
     flex: 1,
-    backgroundColor: "#fff",
     alignItems: "center",
-    justifyContent: "center",
+    backgroundColor: "#fff",
   },
 });

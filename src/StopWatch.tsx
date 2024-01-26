@@ -1,49 +1,103 @@
 import React, { useEffect, useState } from "react";
-import { View } from "react-native";
+import { FlatList, StyleSheet, Text, View } from "react-native";
 import StopWatchButton from "./StopWatchButton";
+import calculateTimer from "./utils/timeUtils";
+
+type LapData = {
+  lapTime: number;
+  lapDuration: number;
+};
 
 export default function StopWatch() {
   const [currentTime, setCurrentTime] = useState<number>(0);
-  const [timeArray, setTimeArray] = useState<Array<number | String>>([]);
+  const [timeString, setTimeString] = useState<string>("");
+  const [intervalId, setIntervalId] = useState<number>(0);
+  const [running, setRunning] = useState<boolean>(false);
+  const [lapData, setLapData] = useState<LapData[]>([]);
+  const [stopped, setStopped] = useState<boolean>(false);
 
-  function calculateTimer(currentTime: number): Array<number | String> {
-    let totalMilliseconds: number = Math.floor(currentTime);
+  // starts or resumes the stopwatch
+  const handleStart = () => {
+    setStopped(false);
+    if (!running) {
+      const interval: any = setInterval(() => {
+        setCurrentTime((prev: number) => prev + 1);
+      }, 1);
 
-    let hours: number = Math.floor(totalMilliseconds / (3600 * 1000));
-    let minutes: number = Math.floor(
-      (totalMilliseconds % (3600 * 1000)) / (60 * 1000)
+      setRunning(true);
+      setIntervalId(interval);
+    }
+  };
+
+  // stops the stopwatch
+  const handleStop = () => {
+    setStopped(true);
+    clearInterval(intervalId);
+    setRunning(false);
+  };
+
+  const handleReset = () => {
+    // resets the stopwatch and clears both the time and laps
+    clearInterval(intervalId);
+    setRunning(false);
+    setCurrentTime(0);
+    setLapData([]);
+  };
+
+  const handleLap = () => {
+    // Calculates the total lap duration
+    const totalLapDuration = lapData.reduce(
+      (total, lap) => total + lap.lapDuration,
+      0
     );
-    let seconds: number = Math.floor((totalMilliseconds % (60 * 1000)) / 1000);
-    let milliseconds: number = totalMilliseconds % 1000;
+    if (lapData.length === 0) {
+      // If it's the first lap store the current time as the lap duration
+      setLapData([{ lapTime: 1, lapDuration: currentTime }]);
+    } else {
+      // Calculate the lap duration as the difference between the current time and the total lap time
+      const lapDuration = currentTime - totalLapDuration;
 
-    let formatHours = hours < 10 ? `0${hours}` : hours;
-    let formatMinutes = minutes < 10 ? `0${minutes}` : minutes;
-    let formatSeconds = seconds < 10 ? `0${seconds}` : seconds;
-    let formatMilliseconds =
-      milliseconds < 10
-        ? `00${milliseconds}`
-        : milliseconds < 100
-        ? `0${milliseconds}`
-        : `${milliseconds}`;
-
-    return [formatHours, formatMinutes, formatSeconds, formatMilliseconds];
-  }
+      // Adds lap data to the array
+      setLapData((prevLapData) => [
+        ...prevLapData,
+        { lapTime: lapData.length + 1, lapDuration },
+      ]);
+    }
+  };
 
   useEffect(() => {
-    let timeArray: Array<number | String> = calculateTimer(currentTime);
-    setTimeArray(timeArray);
+    let timeString: string = calculateTimer(currentTime);
+    setTimeString(timeString);
   }, [currentTime]);
 
   return (
     <View>
-      <p>{timeArray[0]}</p>
-      <span>:</span>
-      <p>{timeArray[1]}</p>
-      <span>:</span>
-      <p>{timeArray[2]}</p>
-      <span>:</span>
-      <p>{timeArray[3]}</p>
-      <StopWatchButton setTime={setCurrentTime} currentTime={currentTime} />
+      <Text style={styles.time}>{timeString}</Text>
+      <StopWatchButton
+        name={stopped ? "Resume" : "Start"}
+        onPress={handleStart}
+      />
+      <StopWatchButton name="Stop" onPress={handleStop} />
+      <StopWatchButton name="Reset" onPress={handleReset} />
+      <StopWatchButton name="Lap" onPress={handleLap} />
+
+      <FlatList
+        data={lapData}
+        keyExtractor={(item) => item.lapTime.toString()}
+        renderItem={({ item }) => (
+          <Text>{`Lap ${item.lapTime}: ${calculateTimer(
+            item.lapDuration
+          )}`}</Text>
+        )}
+      />
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  time: {
+    margin: 50,
+    fontSize: 30,
+    fontWeight: "bold",
+  },
+});
