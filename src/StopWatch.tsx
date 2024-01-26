@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
 export default function StopWatch() {
   // counting funcionality
   const [timeMs, setTimeMs] = useState(0);
-  const [lastTimeMs, setLastTimeMs] = useState<number | null>(null);
+  const lastTimeMs = useRef<number | null>(null);
 
   const frameId = useRef<number | null>(null);
 
@@ -56,23 +56,24 @@ export default function StopWatch() {
   useEffect(() => {
     const tick = (time: number) => {
       const currentTime = time / 1000;
-      if (lastTimeMs === null) {
-        setLastTimeMs(currentTime);
+      if (lastTimeMs.current === null) {
+        lastTimeMs.current = currentTime;
+        frameId.current = requestAnimationFrame(tick);
         return;
       }
-      const diff = currentTime - lastTimeMs;
+      const diff = currentTime - lastTimeMs.current;
       if (isRunning) {
-        setTimeMs(timeMs + diff);
+        setTimeMs((time) => time + diff);
       }
 
-      setLastTimeMs(currentTime);
+      lastTimeMs.current = currentTime;
 
       frameId.current = requestAnimationFrame(tick);
     };
 
     frameId.current = requestAnimationFrame(tick);
     return () => {
-      setLastTimeMs(null);
+      lastTimeMs.current = null;
       if (frameId.current) {
         cancelAnimationFrame(frameId.current);
       }
@@ -123,7 +124,7 @@ export default function StopWatch() {
             <View style={styles.lapText}>
               <Text style={styles.cellLeft}>Round</Text>
               <Text style={styles.cellRight}>Time Recorded</Text>
-              <Text style={styles.cellRight}>Difference</Text>
+              <Text style={styles.cellRight}>Duration</Text>
             </View>
           )}
           renderItem={({ item, index }) => (
