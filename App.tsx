@@ -3,8 +3,9 @@
 
 
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Button } from 'react-native';
+import { View, Text, StyleSheet, Image } from 'react-native';
 import Stopwatch from './src/StopWatch';
+
 import StopwatchButton from './src/StopWatchButton';
 
 const App: React.FC = () => {
@@ -52,8 +53,15 @@ const App: React.FC = () => {
   // Render the main application UI
   return (
     <View style={styles.container}>
+      {/* Add an image */}
+      <Image
+        source={require('./assets/image.png')} // replace with the actual path to your image
+        style={styles.logo}
+        resizeMode="contain" // Adjust the resizeMode based on your image requirements
+      />
 
-<Text style={styles.title}>Asadullah: Shopify Engineering Assessment</Text>
+      <Text style={styles.title}>Asadullah Mohammed</Text>
+      <Text style={styles.title}>Shopify Engineering Assessment</Text>
 
       <Stopwatch elapsedTime={elapsedTime} />
       <StopwatchButton
@@ -82,21 +90,32 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#9bce39',
+    padding: 20,
+  },
+  logo: {
+    width: 200, // 
+    height: 200, // 
+    marginBottom: 20,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    color: 'black',
+    marginBottom: 20,
+  },
+  stopwatchContainer: {
+    marginBottom: 20,
   },
   lapsContainer: {
     marginTop: 20,
   },
   lapText: {
     fontSize: 18,
-    marginBottom: 5,
-  },
-
-  title: {
-    fontSize: 20,
     fontWeight: 'bold',
-    textAlign: 'center',
-    color: 'white',
-    },
+    marginBottom: 10,
+    color: '#ffffff', // white color
+  },
 });
 
 export default App;
