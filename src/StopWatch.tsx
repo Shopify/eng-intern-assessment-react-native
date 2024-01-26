@@ -1,84 +1,131 @@
-import { View, Text} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {SafeAreaView, View, Image, StyleSheet, Text} from 'react-native';
 import StopWatchButton from "./components/StopWatchButton";
-import React, {useState,useEffect} from "react";
+import TimeDisplay from "./components/timeDisplay";
+import LapsRecord from "./components/LapRecord";
 export default function StopWatch() {
   const [isRunning, setIsRunning] = useState(false);
-  const [lapTimes, setLapTimes] = useState<number[]>([]);
+  const [started,setStarted] = useState(false);
   const [time, setTime] = useState(0);
-  // @ts-ignore
-  const [timerId, setTimerId] = useState<NodeJS.Timeout | null>(null);
+  const [lapTimes, setLapTimes] = useState<number[]>([]);
 
-  const start = () => {
-    if(timerId === null) {
-      const id = setInterval(() =>{
-        setTime((prevTime) => prevTime +10);
-      }, 10);
-      setTimerId(10);
-      setIsRunning(true);
+  useEffect(() => {
+    let interval = 0;
+    if (isRunning) {
+      interval = setInterval(() => {
+        setTime(prevTime => prevTime + 1);
+      }, 1000);
     }
-  };
+
+    return () => clearInterval(interval);
+  }, [isRunning]);
+
+  const start: () => void = () => {
+    setStarted(true);
+    setTime(0);
+    setIsRunning(true);
+  }
 
   const stop = () => {
-    if (timerId !== null) {
-      clearInterval(timerId);
-      setTimerId(null);
-      setIsRunning(false);
-    }
+    setIsRunning(false);
+    setStarted(false);
+    setTime(-1);
+    setLapTimes(lapTimes => []);
   };
 
   const reset = () => {
-    stop();
+    setStarted(false);
+    setIsRunning(false);
     setTime(0);
-    setLapTimes([]);
-  }
-
-  const lap = () => {
-    setLapTimes((prevLapTimes) => [...prevLapTimes, time]);
+    setLapTimes(lapTimes => []);
   };
 
-  useEffect(() => {
-    return () => {
-      if(timerId !== null) {
-        clearInterval(timerId);
-      }
-    }
-  }, [timerId]);
+  const pause = () => {
+    setIsRunning(false);
+  }
+  const resume = () => {
+    setIsRunning(true);
+  }
 
-  useEffect(() => {
-    if(isRunning && time %10 === 10) {
-      const id = setTimeout(() =>{
-        setTime((prevTime) => prevTime + 10);
-      }, 10);
-      setTimerId(id);
-    }
+  const handleLaps = () => {
+    setLapTimes(lapTimes => [...lapTimes, time])
+  };
 
-    return () => {
-      if (timerId !== null) {
-        clearTimeout(timerId);
-      }
-    };
-  }, [isRunning, time]);
-
+  //main Body for the app page of Stopwatch
   return (
-    <View>
-      <Text style={{ fontSize: 32, fontWeight: 'bold' }}>
-        {('0' + Math.floor((time / 60000) % 60)).slice(-2)}:
-        {('0' + Math.floor((time / 1000) % 60)).slice(-2)}:
-        {('0' + ((time / 10) % 100)).slice(-2)}
-      </Text>
-      <StopWatchButton
-        title={isRunning ? 'Lap' : 'Start'}
-        onPress={isRunning ? lap : start}
-      />
-      <StopWatchButton title="Stop" onPress={stop} />
-      <StopWatchButton title="Reset" onPress={reset} />
-      <View>
-        {lapTimes.map((lapTime, index) => (
-          <Text key={index} style={{ fontSize: 16 }}>
-            Lap {index + 1}: {(lapTime / 10).toFixed(2)}
-          </Text>
-        ))}
+    <SafeAreaView style={styles.container}>
+      <Text onLongPress={start}>Stopwatch</Text>
+      <View style={styles.timerDisplay}>
+        <TimeDisplay timeInSeconds={time}/>
       </View>
-    </View>
+      <View style={styles.buttonContainer}>
+        <StopWatchButton
+          title={'Reset'}
+          onClick={reset}
+          color={'#373a33'}
+        />
+        <StopWatchButton
+          title={isRunning ? 'Stop' : 'Start'}
+          onClick={isRunning ? stop : start}
+          color={isRunning ? 'red' : '#373A33FF'}  // Update the color value here
+        />
+
+        <StopWatchButton
+          title={'Lap'}
+          onClick={handleLaps}
+          color={(started && isRunning) ? '#373A33FF' : 'darkgrey'}
+          isDisabled={!(started && isRunning)}
+        />
+        <StopWatchButton
+          title={isRunning ? 'Pause' : 'Resume'}
+          onClick={isRunning ? pause : resume}
+          color={started ? '#373A33FF' : 'darkgrey'}
+          isDisabled={!started}
+        />
+      </View>
+      <View style={styles.headerRow}>
+        <Text style={styles.headerText}>Lap Number</Text>
+        <Text style={styles.headerText}>Time</Text>
+      </View>
+      <LapsRecord lapTimes={lapTimes}/>
+    </SafeAreaView>
   );
 }
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    width: '100%',
+    justifyContent: 'flex-start'
+  },
+  logoContainer: {
+    flex: 0.8,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  logo: {
+    width: '70%'
+  },
+  timerDisplay: {
+    flex: 0.6,
+    margin: 0
+  },
+  buttonContainer: {
+    flex: 0.8,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    flexWrap: "wrap",
+  },
+  headerRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    padding: 10,
+    borderBottomColor: 'darkgrey',
+    borderBottomWidth: 2,
+    width: '90%',
+    alignSelf: 'center'
+  },
+  headerText: {
+    fontWeight: 'bold',
+    fontSize: 16,
+  },
+});

@@ -2,8 +2,8 @@ import React from 'react';
 import {SafeAreaView, Text, StyleSheet} from 'react-native';
 import {formatTime} from '../utils/timeUtils';
 
-interface timeDisplayProps {
-  timeInMilliSeconds: number;
+interface TimeDisplayProps {
+  timeInSeconds: number;
 }
 
 /**
@@ -11,14 +11,14 @@ interface timeDisplayProps {
  * making use of formatTime() from timeUtils. When time is -1, this is a 'cleared state' to adhere to the
  * requirements of the testing file for a null state when the stop button is pressed.
  * */
-export default function TimeDisplay(props: timeDisplayProps) {
-  const {timeInMilliSeconds} = props;
+export default function TimeDisplay(props: Readonly<TimeDisplayProps>) {
+  const {timeInSeconds} = props;
   return (
     <SafeAreaView style={styles.container}>
       <Text
         style={styles.timeText}
       >
-        {timeInMilliSeconds === -1 ? '' : formatTime(timeInMilliSeconds)}
+        {timeInSeconds === -1 ? '' : formatTime(timeInSeconds)}
       </Text>
     </SafeAreaView>
   );

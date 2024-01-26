@@ -2,14 +2,14 @@ import React from 'react';
 import {ScrollView, StyleSheet, Text, View} from 'react-native';
 import {formatTime} from "../utils/timeUtils";
 
-interface lapRecordProps {
+interface LapRecordProps {
   lapTimes: number[];
 }
 
 /**
  * Displays a list of lap times with a lap number and time column.
  * */
-export default function lapsRecord(props: lapRecordProps) {
+export default function LapsRecord(props: LapRecordProps) {
   const {lapTimes} = props;
   if (lapTimes.length === 0) {
     return <ScrollView style={styles.container}/>
