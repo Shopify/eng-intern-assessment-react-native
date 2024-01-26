@@ -1,28 +1,43 @@
-import { useEffect, useState } from "react";
-import { Text, View } from "react-native";
+import { useEffect, useMemo, useState } from "react";
+import { Button, Text, View } from "react-native";
 
-const getCurrentTimeMs = () => {
-  return Date.now() / 100_000_000_000_000;
+const getCurrentTime = () => {
+  return Date.now() / 1000;
 };
 
 export default function StopWatch() {
+  // counting funcionality
   const [timeMs, setTimeMs] = useState(0);
   const [lastTimeMs, setLastTimeMs] = useState(0);
 
+  // start/stop funcitonality
+  const [isRunning, setIsRunning] = useState(false);
+
   useEffect(() => {
-    setLastTimeMs(getCurrentTimeMs());
+    setLastTimeMs(getCurrentTime());
+    console.log("isRunning", isRunning);
     const interval = setInterval(() => {
-      const newTimeMs = getCurrentTimeMs();
+      const newTimeMs = getCurrentTime();
       const diff = newTimeMs - lastTimeMs;
-      setTimeMs((time) => time + diff);
+      if (isRunning) {
+        setTimeMs(timeMs + diff);
+      }
       setLastTimeMs(newTimeMs);
     }, 1);
     return () => clearInterval(interval);
-  }, []);
+  }, [isRunning]);
+
+  // display
+  const displayTimeMs = useMemo(() => timeMs.toFixed(3), [timeMs]);
 
   return (
     <View>
-      <Text>{timeMs.toFixed(3)}s</Text>
+      <Text>{displayTimeMs}s</Text>
+      {isRunning ? (
+        <Button title="Stop" onPress={() => setIsRunning(false)} />
+      ) : (
+        <Button title="Start" onPress={() => setIsRunning(true)} />
+      )}
     </View>
   );
 }
