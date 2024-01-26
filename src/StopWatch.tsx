@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Button, StyleSheet, Text, View } from "react-native";
 
 const styles = StyleSheet.create({
@@ -14,29 +14,41 @@ const styles = StyleSheet.create({
   },
 });
 
-const getCurrentTime = () => {
-  return Date.now() / 1000;
-};
-
 export default function StopWatch() {
   // counting funcionality
   const [timeMs, setTimeMs] = useState(0);
-  const [lastTimeMs, setLastTimeMs] = useState(0);
+  const [lastTimeMs, setLastTimeMs] = useState<number | null>(null);
+
+  const frameId = useRef<number | null>(null);
 
   // start/stop funcitonality
   const [isRunning, setIsRunning] = useState(false);
 
   useEffect(() => {
-    setLastTimeMs(getCurrentTime());
-    const interval = setInterval(() => {
-      const newTimeMs = getCurrentTime();
-      const diff = newTimeMs - lastTimeMs;
+    setLastTimeMs(Date.now());
+
+    const tick = (time: number) => {
+      const currentTime = time / 1000;
+      setLastTimeMs(currentTime);
+
+      if (lastTimeMs === null) {
+        return;
+      }
+      const diff = currentTime - lastTimeMs;
       if (isRunning) {
         setTimeMs(timeMs + diff);
       }
-      setLastTimeMs(newTimeMs);
-    }, 1);
-    return () => clearInterval(interval);
+
+      frameId.current = requestAnimationFrame(tick);
+    };
+
+    frameId.current = requestAnimationFrame(tick);
+    return () => {
+      setLastTimeMs(null);
+      if (frameId.current) {
+        cancelAnimationFrame(frameId.current);
+      }
+    };
   }, [isRunning]);
 
   // laps
