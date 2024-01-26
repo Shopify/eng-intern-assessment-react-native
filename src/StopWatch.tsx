@@ -1,16 +1,44 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Button, StyleSheet, Text, View } from "react-native";
+import {
+  Button,
+  FlatList,
+  StyleSheet,
+  Text,
+  View,
+  ViewStyle,
+} from "react-native";
 
 const styles = StyleSheet.create({
   buttonContainer: {
     flexDirection: "row",
+    gap: 10,
   },
   stopWatchContainer: {
     alignItems: "center",
+    gap: 10,
+  },
+  timeCounter: {
+    fontSize: 50,
+    fontWeight: "bold",
+  },
+  lapList: {
+    height: 300,
+    width: "100%",
   },
   lapText: {
     flexDirection: "row",
     gap: 10,
+    alignSelf: "stretch",
+  },
+  cellLeft: {
+    flexGrow: 1,
+    fontSize: 20,
+    textAlign: "left",
+  },
+  cellRight: {
+    flexGrow: 1,
+    fontSize: 20,
+    textAlign: "right",
   },
 });
 
@@ -64,7 +92,7 @@ export default function StopWatch() {
 
   return (
     <View style={styles.stopWatchContainer}>
-      <Text>{displayTimeMs}s</Text>
+      <Text style={styles.timeCounter}>{displayTimeMs}s</Text>
       <View style={styles.buttonContainer}>
         {isRunning ? (
           <Button title="Lap" onPress={() => setLaps([...laps, timeMs])} />
@@ -84,14 +112,25 @@ export default function StopWatch() {
           <Button title="Start" onPress={() => setIsRunning(true)} />
         )}
       </View>
-      <View>
-        {laps.map((lap, index) => (
-          <View key={index} style={styles.lapText}>
-            <Text>{index + 1}</Text>
-            <Text>{lap.toFixed(3)}</Text>
-            <Text>{lapDiff[index].toFixed(3)}</Text>
-          </View>
-        ))}
+      <View style={styles.lapList}>
+        <FlatList
+          data={laps}
+          style={styles.lapList}
+          StickyHeaderComponent={() => (
+            <View style={styles.lapText}>
+              <Text style={styles.cellLeft}>Round</Text>
+              <Text style={styles.cellRight}>Time Recorded</Text>
+              <Text style={styles.cellRight}>Difference</Text>
+            </View>
+          )}
+          renderItem={({ item, index }) => (
+            <View key={index} style={styles.lapText}>
+              <Text style={styles.cellLeft}>Round {index + 1}</Text>
+              <Text style={styles.cellRight}>{item.toFixed(3)}</Text>
+              <Text style={styles.cellRight}>{lapDiff[index].toFixed(3)}</Text>
+            </View>
+          )}
+        />
       </View>
     </View>
   );
