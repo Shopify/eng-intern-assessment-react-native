@@ -129,8 +129,8 @@ export default function StopWatch() {
           renderItem={({ item, index }) => (
             <View key={index} style={styles.lapText}>
               <Text style={styles.cellLeft}>Round {index + 1}</Text>
-              <Text style={styles.cellRight}>{item.toFixed(3)}</Text>
-              <Text style={styles.cellRight}>{lapDiff[index].toFixed(3)}</Text>
+              <Text style={styles.cellRight}>{item.toFixed(3)}s</Text>
+              <Text style={styles.cellRight}>{lapDiff[index].toFixed(3)}s</Text>
             </View>
           )}
         />
