@@ -45,8 +45,8 @@ const styles = StyleSheet.create({
 
 export default function StopWatch() {
   // counting funcionality
-  const [timeMs, setTimeMs] = useState(0);
-  const lastTimeMs = useRef<number | null>(null);
+  const [time, setTime] = useState(0);
+  const lastTime = useRef<number | null>(null);
 
   const frameId = useRef<number | null>(null);
 
@@ -58,17 +58,17 @@ export default function StopWatch() {
       const currentTime = time / 1000;
 
       // get current time on first walkthrough
-      if (lastTimeMs.current === null) {
-        lastTimeMs.current = currentTime;
+      if (lastTime.current === null) {
+        lastTime.current = currentTime;
         frameId.current = requestAnimationFrame(tick);
         return;
       }
-      const diff = currentTime - lastTimeMs.current;
+      const diff = currentTime - lastTime.current;
       if (isRunning) {
-        setTimeMs((time) => time + diff);
+        setTime((time) => time + diff);
       }
 
-      lastTimeMs.current = currentTime;
+      lastTime.current = currentTime;
 
       // request next frame
       frameId.current = requestAnimationFrame(tick);
@@ -77,7 +77,7 @@ export default function StopWatch() {
     frameId.current = requestAnimationFrame(tick);
     return () => {
       // reset last time state
-      lastTimeMs.current = null;
+      lastTime.current = null;
       if (frameId.current) {
         cancelAnimationFrame(frameId.current);
       }
@@ -94,23 +94,26 @@ export default function StopWatch() {
   }, [laps]);
 
   // display
-  const displayTimeMs = useMemo(() => timeMs.toFixed(3), [timeMs]);
+  const displaytime = useMemo(() => {
+    const format = (x: number) => String(x.toFixed(0)).padStart(2, "0");
+    return `${format(time / 3600)}:${format((time / 60) % 60)}:${format(time % 60)}`;
+  }, [time]);
 
   return (
     <View style={styles.stopWatchContainer}>
-      <Text style={styles.timeCounter}>{displayTimeMs}s</Text>
+      <Text style={styles.timeCounter}>{displaytime}</Text>
       <View style={styles.buttonContainer}>
         {isRunning ? (
           <StopWatchButton
             type="lap"
-            onPress={() => setLaps([...laps, timeMs])}
+            onPress={() => setLaps([...laps, time])}
           />
         ) : (
           <StopWatchButton
             type="reset"
             onPress={() => {
               setLaps([]);
-              setTimeMs(0);
+              setTime(0);
             }}
           />
         )}
@@ -120,26 +123,30 @@ export default function StopWatch() {
           <StopWatchButton type="start" onPress={() => setIsRunning(true)} />
         )}
       </View>
-      <View style={styles.lapList}>
-        <FlatList
-          data={laps}
-          style={styles.lapList}
-          ListHeaderComponent={() => (
-            <View style={styles.lapText}>
-              <Text style={styles.cellLeft}>Round</Text>
-              <Text style={styles.cellRight}>Time Recorded</Text>
-              <Text style={styles.cellRight}>Duration</Text>
-            </View>
-          )}
-          renderItem={({ item, index }) => (
-            <View key={index} style={styles.lapText}>
-              <Text style={styles.cellLeft}>Round {index + 1}</Text>
-              <Text style={styles.cellRight}>{item.toFixed(3)}s</Text>
-              <Text style={styles.cellRight}>{lapDiff[index].toFixed(3)}s</Text>
-            </View>
-          )}
-        />
-      </View>
+      {laps.length === 0 ? null : (
+        <View testID="lap-list" style={styles.lapList}>
+          <FlatList
+            data={laps}
+            style={styles.lapList}
+            ListHeaderComponent={() => (
+              <View style={styles.lapText}>
+                <Text style={styles.cellLeft}>Round</Text>
+                <Text style={styles.cellRight}>Time Recorded</Text>
+                <Text style={styles.cellRight}>Duration</Text>
+              </View>
+            )}
+            renderItem={({ item, index }) => (
+              <View key={index} style={styles.lapText}>
+                <Text style={styles.cellLeft}>Round {index + 1}</Text>
+                <Text style={styles.cellRight}>{item.toFixed(3)}s</Text>
+                <Text style={styles.cellRight}>
+                  {lapDiff[index].toFixed(3)}s
+                </Text>
+              </View>
+            )}
+          />
+        </View>
+      )}
     </View>
   );
 }
