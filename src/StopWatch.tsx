@@ -25,12 +25,24 @@ const formatTime = (time: number): string => {
 // Styles for the Stopwatch component
 const styles = StyleSheet.create({
   stopwatchContainer: {
+    backgroundColor: '#fff',
+    padding: 20,
+    borderRadius: 10,
     marginBottom: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    elevation: 5,
   },    // Styles for the Stopwatch container
 
-  
+
   stopwatchText: {
     fontSize: 36,
+    fontWeight: 'bold',
+    color: '#333',
   },    // Styles for the Stopwatch Text 
 });
 
