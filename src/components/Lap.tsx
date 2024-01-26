@@ -1,17 +1,17 @@
 import {StyleSheet, Text, View} from "react-native";
 import {formatTime} from "../Utils";
 
-interface LapProps {
-    label: string
+export interface LapProps {
+    title: string
     time: number
 
 }
 
-export default function Lap({label, time}: LapProps) {
+export default function Lap({title, time}: LapProps) {
     const displayTime = formatTime(time)
     return (
         <View style={styles.container}>
-            <Text style={styles.text}>{label}</Text>
+            <Text style={styles.text}>{title}</Text>
             <Text
                 style={styles.text}>{`${displayTime.minutes}:${displayTime.seconds}:${displayTime.milliSeconds}`}</Text>
         </View>
