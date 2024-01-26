@@ -7,6 +7,7 @@ import {
   View,
   ViewStyle,
 } from "react-native";
+import StopWatchButton from "./StopWatchButton";
 
 const styles = StyleSheet.create({
   buttonContainer: {
@@ -95,11 +96,13 @@ export default function StopWatch() {
       <Text style={styles.timeCounter}>{displayTimeMs}s</Text>
       <View style={styles.buttonContainer}>
         {isRunning ? (
-          <Button title="Lap" onPress={() => setLaps([...laps, timeMs])} />
+          <StopWatchButton
+            type="lap"
+            onPress={() => setLaps([...laps, timeMs])}
+          />
         ) : (
-          <Button
-            title="Reset"
-            disabled={isRunning}
+          <StopWatchButton
+            type="reset"
             onPress={() => {
               setLaps([]);
               setTimeMs(0);
@@ -107,16 +110,16 @@ export default function StopWatch() {
           />
         )}
         {isRunning ? (
-          <Button title="Stop" onPress={() => setIsRunning(false)} />
+          <StopWatchButton type="stop" onPress={() => setIsRunning(false)} />
         ) : (
-          <Button title="Start" onPress={() => setIsRunning(true)} />
+          <StopWatchButton type="start" onPress={() => setIsRunning(true)} />
         )}
       </View>
       <View style={styles.lapList}>
         <FlatList
           data={laps}
           style={styles.lapList}
-          StickyHeaderComponent={() => (
+          ListHeaderComponent={() => (
             <View style={styles.lapText}>
               <Text style={styles.cellLeft}>Round</Text>
               <Text style={styles.cellRight}>Time Recorded</Text>
