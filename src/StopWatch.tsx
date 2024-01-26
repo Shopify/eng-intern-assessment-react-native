@@ -25,19 +25,18 @@ export default function StopWatch() {
   const [isRunning, setIsRunning] = useState(false);
 
   useEffect(() => {
-    setLastTimeMs(Date.now());
-
     const tick = (time: number) => {
       const currentTime = time / 1000;
-      setLastTimeMs(currentTime);
-
       if (lastTimeMs === null) {
+        setLastTimeMs(currentTime);
         return;
       }
       const diff = currentTime - lastTimeMs;
       if (isRunning) {
         setTimeMs(timeMs + diff);
       }
+
+      setLastTimeMs(currentTime);
 
       frameId.current = requestAnimationFrame(tick);
     };
