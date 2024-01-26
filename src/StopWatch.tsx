@@ -14,13 +14,14 @@ const Stopwatch: React.FC<StopwatchProps> = ({ elapsedTime }) => {
   );
 };
 
-// Function to format the time as MM:SS
+// Function to format the time as HH:mm:ss
 const formatTime = (time: number): string => {
-  const minutes = Math.floor(time / 60);
+  const hours = Math.floor(time / 3600);
+  const minutes = Math.floor((time % 3600) / 60);
   const seconds = time % 60;
-  return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+  
+  return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
 };
-
 
 // Styles for the Stopwatch component
 const styles = StyleSheet.create({
@@ -36,14 +37,13 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 4,
     elevation: 5,
-  },    // Styles for the Stopwatch container
-
+  }, // Styles for the Stopwatch container
 
   stopwatchText: {
     fontSize: 36,
     fontWeight: 'bold',
     color: '#333',
-  },    // Styles for the Stopwatch Text 
+  }, // Styles for the Stopwatch Text
 });
 
 export default Stopwatch;
