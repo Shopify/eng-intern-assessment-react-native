@@ -61,7 +61,10 @@ export default function StopWatch() {
           <Button
             title="Reset"
             disabled={isRunning}
-            onPress={() => setTimeMs(0)}
+            onPress={() => {
+              setLaps([]);
+              setTimeMs(0);
+            }}
           />
         )}
         {isRunning ? (
@@ -73,7 +76,7 @@ export default function StopWatch() {
       <View>
         {laps.map((lap, index) => (
           <View key={index} style={styles.lapText}>
-            <Text>{index}</Text>
+            <Text>{index + 1}</Text>
             <Text>{lap.toFixed(3)}</Text>
             <Text>{lapDiff[index].toFixed(3)}</Text>
           </View>
