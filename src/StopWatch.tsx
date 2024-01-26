@@ -1,5 +1,14 @@
 import { useEffect, useMemo, useState } from "react";
-import { Button, Text, View } from "react-native";
+import { Button, StyleSheet, Text, View } from "react-native";
+
+const styles = StyleSheet.create({
+  buttonContainer: {
+    flexDirection: "row",
+  },
+  stopWatchContainer: {
+    alignItems: "center",
+  },
+});
 
 const getCurrentTime = () => {
   return Date.now() / 1000;
@@ -15,7 +24,6 @@ export default function StopWatch() {
 
   useEffect(() => {
     setLastTimeMs(getCurrentTime());
-    console.log("isRunning", isRunning);
     const interval = setInterval(() => {
       const newTimeMs = getCurrentTime();
       const diff = newTimeMs - lastTimeMs;
@@ -31,13 +39,20 @@ export default function StopWatch() {
   const displayTimeMs = useMemo(() => timeMs.toFixed(3), [timeMs]);
 
   return (
-    <View>
+    <View style={styles.stopWatchContainer}>
       <Text>{displayTimeMs}s</Text>
-      {isRunning ? (
-        <Button title="Stop" onPress={() => setIsRunning(false)} />
-      ) : (
-        <Button title="Start" onPress={() => setIsRunning(true)} />
-      )}
+      <View style={styles.buttonContainer}>
+        <Button
+          title="Reset"
+          disabled={isRunning}
+          onPress={() => setTimeMs(0)}
+        />
+        {isRunning ? (
+          <Button title="Stop" onPress={() => setIsRunning(false)} />
+        ) : (
+          <Button title="Start" onPress={() => setIsRunning(true)} />
+        )}
+      </View>
     </View>
   );
 }
