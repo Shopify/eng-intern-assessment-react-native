@@ -1,6 +1,6 @@
 import { Button, ButtonProps, View, ViewStyle } from "react-native";
 
-type StopWatchButtonTypes = "start" | "stop" | "lap" | "reset";
+type StopWatchButtonTypes = "start" | "stop" | "lap" | "reset" | "pause";
 
 const buttonProps: { [type in StopWatchButtonTypes]: ButtonProps } = {
   start: {
@@ -18,6 +18,10 @@ const buttonProps: { [type in StopWatchButtonTypes]: ButtonProps } = {
   reset: {
     title: "Reset",
     color: "black",
+  },
+  pause: {
+    title: "Pause",
+    color: "orange",
   },
 };
 

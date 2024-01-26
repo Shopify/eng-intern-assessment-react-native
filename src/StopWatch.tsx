@@ -1,11 +1,9 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
-  Button,
   FlatList,
   StyleSheet,
   Text,
   View,
-  ViewStyle,
 } from "react-native";
 import StopWatchButton from "./StopWatchButton";
 
@@ -43,6 +41,8 @@ const styles = StyleSheet.create({
   },
 });
 
+type StopWatchStates = "initial" | "running" | "stopped" | "paused";
+
 export default function StopWatch() {
   // counting funcionality
   const [time, setTime] = useState(0);
@@ -50,8 +50,8 @@ export default function StopWatch() {
 
   const frameId = useRef<number | null>(null);
 
-  // start/stop funcitonality
-  const [isRunning, setIsRunning] = useState(false);
+  // start/pause/stop funcitonality
+  const [state, setState] = useState<StopWatchStates>("initial");
 
   useEffect(() => {
     const tick = (time: number) => {
@@ -64,7 +64,7 @@ export default function StopWatch() {
         return;
       }
       const diff = currentTime - lastTime.current;
-      if (isRunning) {
+      if (state == "running") {
         setTime((time) => time + diff);
       }
 
@@ -82,7 +82,7 @@ export default function StopWatch() {
         cancelAnimationFrame(frameId.current);
       }
     };
-  }, [isRunning]);
+  }, [state]);
 
   // laps
   const [laps, setLaps] = useState<number[]>([]);
@@ -101,26 +101,33 @@ export default function StopWatch() {
 
   return (
     <View style={styles.stopWatchContainer}>
-      <Text style={styles.timeCounter}>{displaytime}</Text>
+      {state !== "stopped" && (
+        <Text style={styles.timeCounter}>{displaytime}</Text>
+      )}
       <View style={styles.buttonContainer}>
-        {isRunning ? (
-          <StopWatchButton
-            type="lap"
-            onPress={() => setLaps([...laps, time])}
-          />
-        ) : (
-          <StopWatchButton
-            type="reset"
-            onPress={() => {
-              setLaps([]);
-              setTime(0);
-            }}
-          />
+        {state === "running" && (
+          <>
+            <StopWatchButton
+              type="lap"
+              onPress={() => setLaps([...laps, time])}
+            />
+            <StopWatchButton type="pause" onPress={() => setState("paused")} />
+          </>
         )}
-        {isRunning ? (
-          <StopWatchButton type="stop" onPress={() => setIsRunning(false)} />
-        ) : (
-          <StopWatchButton type="start" onPress={() => setIsRunning(true)} />
+        <StopWatchButton
+          type="reset"
+          onPress={() => {
+            setState("initial");
+            setLaps([]);
+            setTime(0);
+          }}
+        />
+        {state == "paused" ||
+          (state == "running" && (
+            <StopWatchButton type="stop" onPress={() => setState("stopped")} />
+          ))}
+        {state == "initial" && (
+          <StopWatchButton type="start" onPress={() => setState("running")} />
         )}
       </View>
       {laps.length === 0 ? null : (
