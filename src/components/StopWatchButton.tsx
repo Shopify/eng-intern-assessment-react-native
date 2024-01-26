@@ -1,17 +1,45 @@
-import { View, Text } from 'react-native';
-import React from "react";
+import React from 'react';
+import {SafeAreaView, StyleSheet, Text, TouchableOpacity} from 'react-native';
 
-
-interface StopwatchButtonProps {
+interface StopWatchButtonProps {
   title: string,
-  onPress: () => void;
+  onClick: () => void,
+  color: string,
+  isDisabled?: boolean,
 }
-export default function StopWatchButton({title, onPress} : Readonly<StopwatchButtonProps>) {
+
+export default function StopWatchButton(props: Readonly<StopWatchButtonProps>): React.ReactNode {
+  const {title, onClick, color, isDisabled = false} = props;
+
   return (
-    <View >
-      <Text onPress={onPress} style={{padding: 10, borderWidth:1, borderColor: 'gray'}}>
-        {title}
-      </Text>
-    </View>
+    <SafeAreaView style={styles.button}>
+      <TouchableOpacity
+        style={[styles.buttonShape, {backgroundColor: color}]}
+        onPress={onClick}
+        accessibilityLabel={title}
+        disabled={isDisabled}
+      >
+        <Text style={styles.text}>{title}</Text>
+      </TouchableOpacity>
+    </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  button: {
+    margin: 10,
+    paddingHorizontal: 10
+  },
+  buttonShape: {
+    width: 100,
+    height: 50,
+    borderRadius: 4,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#98bb52'
+  },
+  text: {
+    color: 'white',
+    fontWeight: '600'
+  }
+});
