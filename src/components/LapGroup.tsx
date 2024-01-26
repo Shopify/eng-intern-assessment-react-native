@@ -26,7 +26,7 @@ export default function LapGroup({laps}: LapGroupProps) {
 const styles = StyleSheet.create({
     container: {
         width: '100%',
-        paddingHorizontal: 10
+        paddingHorizontal: 10,
     },
 
     text: {
