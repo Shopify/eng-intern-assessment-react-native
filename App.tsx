@@ -65,11 +65,11 @@ const App: React.FC = () => {
 
       <Stopwatch elapsedTime={elapsedTime} />
       <StopwatchButton
-        isRunning={isRunning}
-        onStart={handleStart}
-        onStop={handleStop}
-        onReset={handleReset}
-        onLap={handleLap}
+        isRunning={isRunning}   // Passes the current running state to determine button behavior
+        onStart={handleStart}  // Event handler for the start button
+        onStop={handleStop}   // Event handler for the stop button
+        onReset={handleReset}   // Event handler for the reset button
+        onLap={handleLap}   // Event handler for the lap button
       />
       <View style={styles.lapsContainer}>
         {/* Render laps recorded */}
@@ -85,37 +85,49 @@ const App: React.FC = () => {
 
 // Styles for the main application
 const styles = StyleSheet.create({
+  // Overall container styling
   container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#9bce39',
-    padding: 20,
+    backgroundColor: '#9bce39', // Background color of the entire screen
+    padding: 20, // Padding for the entire container
   },
+
+  // Logo styling
   logo: {
-    width: 200, // 
-    height: 200, // 
-    marginBottom: 20,
+    width: 200, // width of the image
+    height: 200, //  height of the image
+    marginBottom: 20, // Margin at the bottom of the logo
   },
+
+  // Title styling
   title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    color: 'black',
-    marginBottom: 20,
+    fontSize: 24, // Font size of the title
+    fontWeight: 'bold', // Bold font weight
+    textAlign: 'center', // Center-align the text
+    color: 'black', // Text color
+    marginBottom: 20, // Margin at the bottom of the title
   },
+
+  // Stopwatch container styling
   stopwatchContainer: {
-    marginBottom: 20,
+    marginBottom: 20, // Margin at the bottom of the stopwatch container
   },
+
+  // Laps container styling
   lapsContainer: {
-    marginTop: 20,
+    marginTop: 20, // Margin at the top of the laps container
   },
+
+  // Lap text styling
   lapText: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 10,
-    color: '#ffffff', // white color
+    fontSize: 18, // Font size of the lap text
+    fontWeight: 'bold', // Bold font weight
+    marginBottom: 10, // Margin at the bottom of each lap text
+    color: '#ffffff', // White text color
   },
 });
+
 
 export default App;
