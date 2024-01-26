@@ -8,6 +8,10 @@ const styles = StyleSheet.create({
   stopWatchContainer: {
     alignItems: "center",
   },
+  lapText: {
+    flexDirection: "row",
+    gap: 10,
+  },
 });
 
 const getCurrentTime = () => {
@@ -35,6 +39,15 @@ export default function StopWatch() {
     return () => clearInterval(interval);
   }, [isRunning]);
 
+  // laps
+  const [laps, setLaps] = useState<number[]>([]);
+  const lapDiff = useMemo(() => {
+    return laps.map(
+      (cur, index, arr) => (index != 0 ? cur - arr[index - 1] : cur),
+      [],
+    );
+  }, [laps]);
+
   // display
   const displayTimeMs = useMemo(() => timeMs.toFixed(3), [timeMs]);
 
@@ -42,16 +55,29 @@ export default function StopWatch() {
     <View style={styles.stopWatchContainer}>
       <Text>{displayTimeMs}s</Text>
       <View style={styles.buttonContainer}>
-        <Button
-          title="Reset"
-          disabled={isRunning}
-          onPress={() => setTimeMs(0)}
-        />
+        {isRunning ? (
+          <Button title="Lap" onPress={() => setLaps([...laps, timeMs])} />
+        ) : (
+          <Button
+            title="Reset"
+            disabled={isRunning}
+            onPress={() => setTimeMs(0)}
+          />
+        )}
         {isRunning ? (
           <Button title="Stop" onPress={() => setIsRunning(false)} />
         ) : (
           <Button title="Start" onPress={() => setIsRunning(true)} />
         )}
+      </View>
+      <View>
+        {laps.map((lap, index) => (
+          <View key={index} style={styles.lapText}>
+            <Text>{index}</Text>
+            <Text>{lap.toFixed(3)}</Text>
+            <Text>{lapDiff[index].toFixed(3)}</Text>
+          </View>
+        ))}
       </View>
     </View>
   );
