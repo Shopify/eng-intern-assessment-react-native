@@ -52,6 +52,9 @@ const App: React.FC = () => {
   // Render the main application UI
   return (
     <View style={styles.container}>
+
+<Text style={styles.title}>Asadullah: Shopify Engineering Assessment</Text>
+
       <Stopwatch elapsedTime={elapsedTime} />
       <StopwatchButton
         isRunning={isRunning}
@@ -78,6 +81,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: '#9bce39',
   },
   lapsContainer: {
     marginTop: 20,
@@ -86,6 +90,13 @@ const styles = StyleSheet.create({
     fontSize: 18,
     marginBottom: 5,
   },
+
+  title: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    color: 'white',
+    },
 });
 
 export default App;
