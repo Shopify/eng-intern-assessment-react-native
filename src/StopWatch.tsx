@@ -56,6 +56,8 @@ export default function StopWatch() {
   useEffect(() => {
     const tick = (time: number) => {
       const currentTime = time / 1000;
+
+      // get current time on first walkthrough
       if (lastTimeMs.current === null) {
         lastTimeMs.current = currentTime;
         frameId.current = requestAnimationFrame(tick);
@@ -68,11 +70,13 @@ export default function StopWatch() {
 
       lastTimeMs.current = currentTime;
 
+      // request next frame
       frameId.current = requestAnimationFrame(tick);
     };
 
     frameId.current = requestAnimationFrame(tick);
     return () => {
+      // reset last time state
       lastTimeMs.current = null;
       if (frameId.current) {
         cancelAnimationFrame(frameId.current);
