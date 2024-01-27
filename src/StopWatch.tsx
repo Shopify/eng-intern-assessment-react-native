@@ -54,7 +54,6 @@ export default function StopWatch() {
     elapsedPausedTime.current = 0
     setDisplayTime("00:00:00")
     setStopWatchStatus('STOPPED')
-    setLaps([]);
   }
   const pause = () => {
     clearInterval(stopwatchInterval.current)
