@@ -15,21 +15,21 @@ export default function StopWatch() {
   const [running, setRunning] = useState<boolean>(false);
   const [lapData, setLapData] = useState<LapData[]>([]);
   const [stopped, setStopped] = useState<boolean>(false);
+  const [started, setStarted] = useState<boolean>(false);
 
   // starts or resumes the stopwatch
   const handleStart = () => {
     setStopped(false);
     setRunning(true);
     setCurrentTime(0);
+    setStarted(true);
   };
 
   // stops the stopwatch
   const handleStop = () => {
-    if (running) {
-      setStopped(true);
-      clearInterval(intervalId);
-      setRunning(false);
-    }
+    setStopped(true);
+    clearInterval(intervalId);
+    setRunning(false);
   };
 
   const handleReset = () => {
@@ -37,6 +37,7 @@ export default function StopWatch() {
     clearInterval(intervalId);
     setStopped(false);
     setRunning(false);
+    setStarted(true);
     setCurrentTime(0);
     setLapData([]);
   };
@@ -107,7 +108,10 @@ export default function StopWatch() {
             {running && (
               <View style={{ alignItems: "center", flexDirection: "row" }}>
                 <StopWatchButton name="Lap" onPress={handleLap} />
-                <StopWatchButton name="Stop" onPress={handleStop} />
+                <StopWatchButton
+                  name={started ? "Pause" : "Stop"}
+                  onPress={handleStop}
+                />
               </View>
             )}
           </View>
