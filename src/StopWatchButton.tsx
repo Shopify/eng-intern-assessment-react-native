@@ -5,27 +5,42 @@ export default function StopWatchButton(props: any) {
 
   const [running, setRunning] = useState(false);
 
+  const start = () => {
+    setRunning(true);
+    props.onStart();
+  }
+
+  const stop = () => {
+    setRunning(false);
+    props.onStop();
+  }
+
+  const reset = () => {
+    setRunning(false);
+    props.onReset();
+  }
+
   return (
     <View style={styles.container}>
 
       {
         !running ?
         <>
-          <Pressable onPress={() => setRunning(true)} style={styles.startButton}>
+          <Pressable onPress={() => start()} style={styles.startButton}>
             <Text style={styles.text}>Start</Text>
           </Pressable>
 
-          <Pressable style={styles.resetButton}>
+          <Pressable onPress={() => reset()} style={styles.resetButton}>
             <Text style={styles.text}>Reset</Text>
           </Pressable>
         </>
             :
             <>
-              <Pressable style={styles.startButton}>
+              <Pressable onPress={() => stop()} style={styles.startButton}>
                 <Text style={styles.text}>Stop</Text>
               </Pressable>
 
-              <Pressable style={styles.lapButton}>
+              <Pressable onPress={() => props.onLap()} style={styles.lapButton}>
                 <Text style={styles.text}>Lap</Text>
               </Pressable>
             </>
