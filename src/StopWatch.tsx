@@ -1,6 +1,6 @@
 // StopWatch.tsx
 import React, { useState, useEffect } from 'react';
-import { View, Text, Button, StyleSheet, ScrollView, Image } from 'react-native';
+import { StatusBar, SafeAreaView, View, Text, Button, StyleSheet, ScrollView, Image } from 'react-native';
 import StopWatchButton from './StopWatchButton';
 
 export default function StopWatch() {
@@ -39,12 +39,11 @@ export default function StopWatch() {
   };
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
             <Image
           source={require('./clock.png')}
           style={[styles.clock, clockArmRotation]}
         />
-        
 
 
       <Text style={styles.timerText}>{formatTime(time)}</Text>
@@ -62,7 +61,7 @@ export default function StopWatch() {
           </Text>
         ))}
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 }
 
@@ -80,40 +79,41 @@ const circleSize = 100;
 
 const styles = StyleSheet.create({
   container: {
+    width: '100%',
+    length:'100%',
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'black',
   },
   timerText: {
-    fontSize: 35,
+    fontSize: 45,
     color: 'white',
-    fontFamily: 'Nunito',
     textAlign: 'center',
     marginTop: 10,
     marginBottom: 50
   },
   buttonContainer: {
+    width: '70%',
     flexDirection: 'row',
     justifyContent: 'space-around',
     marginTop: 10,
   },
   lapsContainer: {
     marginTop: 20,
-    flex: 1, // Let the ScrollView take all the available space
+    flex: 1, 
     alignSelf: 'stretch', // Stretch the ScrollView to fill the width
   },
   lapText: {
-    fontSize: 13,
+    fontSize: 16,
     marginBottom: 5,
     color: 'white',
-    fontFamily: 'Nunito',
     textAlign: 'center' 
   },
   clock: {
     marginTop:100,
-    width: 100,
-    height: 100
+    width: 120,
+    height: 120
   },
   clockContainer: {
     marginTop: 100,
