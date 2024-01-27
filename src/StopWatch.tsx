@@ -26,7 +26,7 @@ const Stopwatch: React.FC<StopwatchProps> = () => {
     };
   }, [running]);
 
-  const format = (time: number): string => {
+  const formatTime = (time: number): string => {
     let hours: string | number = Math.floor(time / 3600);
     let minutes: string | number = Math.floor((time % 3600) / 60);
     let seconds: string | number = Math.floor(time % 60);
@@ -38,8 +38,32 @@ const Stopwatch: React.FC<StopwatchProps> = () => {
     return `${hours}:${minutes}:${seconds}`;
   };
 
-  const recordLap = () => {
+  const handleRecordLap = () => {
     setLapTimes((prevLapTimes) => [time, ...prevLapTimes]);
+  };
+
+  const handleStartStop = () => {
+    if (running) {
+      stopTimer();
+      setIsTimerActive(false);
+    } else {
+      startTimer();
+      setIsTimerActive(true);
+    }
+  };
+
+  const handlePauseResume = () => {
+    setRunning(!running);
+  };
+
+  const handleReset = () => {
+    stopTimer();
+    setTime(0);
+    setLapTimes([]);
+  };
+
+  const startTimer = () => {
+    setRunning(true);
   };
 
   const stopTimer = () => {
@@ -47,7 +71,7 @@ const Stopwatch: React.FC<StopwatchProps> = () => {
       clearInterval(timer.current);
     }
     setRunning(false);
-    setTime(0)
+    setTime(0);
   };
 
   const styles = StyleSheet.create({
@@ -55,61 +79,29 @@ const Stopwatch: React.FC<StopwatchProps> = () => {
       flex: 1,
       paddingTop: 200,
     },
-    item: {
-      padding: 10,
-      fontSize: 18,
-      height: 44,
-    },
-    list:{
-      height:100
-    },
-    timer:{
+    timer: {
       textAlign: 'center',
       fontSize: 64,
       fontWeight: '500',
-    }
+    },
   });
-  
+
   return (
     <View style={styles.container}>
       <View>
-      {isTimerActive && <Text style={styles.timer}>{format(time)}</Text>}
+        {isTimerActive && <Text style={styles.timer}>{formatTime(time)}</Text>}
       </View>
       <View>
-        <StopwatchButton label="Lap" onPress={recordLap} />
-        <StopwatchButton
-          label={running ? "Stop" : "Start"}
-          onPress={() => {
-            if (running) {
-              stopTimer()
-              setIsTimerActive(false)
-            }
-            else {
-              setRunning(true)
-              setIsTimerActive(true)
-            };
-          }}
-        />
-        <StopwatchButton
-          label={running ? "Pause" : "Resume"}
-          onPress={() => {
-            setRunning(!running);
-          }}
-        />
-        <StopwatchButton
-          label='Reset'
-          onPress={() => {
-            stopTimer();
-            setTime(0);
-            setLapTimes([]);
-          }}
-        />
+        <StopwatchButton label="Lap" onPress={handleRecordLap} />
+        <StopwatchButton label={running ? "Stop" : "Start"} onPress={handleStartStop} />
+        <StopwatchButton label={running ? "Pause" : "Resume"} onPress={handlePauseResume} />
+        <StopwatchButton label='Reset' onPress={handleReset} />
       </View>
       <ScrollView>
         {lapTimes.length ? (
           <View testID='lap-list'>
-            {lapTimes.map((item) => (
-              <Text key={item}>{format(item)}</Text>
+            {lapTimes.map((item, index) => (
+              <Text key={index}>{formatTime(item)}</Text>
             ))}
           </View>
         ) : null}
