@@ -3,14 +3,16 @@ import React, { useState, useEffect } from 'react';
 import { StatusBar, SafeAreaView, View, Text, Button, StyleSheet, ScrollView, Image, Platform } from 'react-native';
 import StopWatchButton from './StopWatchButton';
 
+// Functional component representing the main stopwatch screen
 export default function StopWatch() {
   const [isRunning, setIsRunning] = useState(false);
   const [time, setTime] = useState(0);
   const [laps, setLaps] = useState([]);
 
+  // Effect hook to update the time every 10 milliseconds when the stopwatch is running
   useEffect(() => {
     let interval: number;
-
+      
     if (isRunning) {
       interval = setInterval(() => {
         setTime((prevTime) => prevTime + 10); // Increment by 10 milliseconds
@@ -20,24 +22,29 @@ export default function StopWatch() {
     return () => clearInterval(interval);
   }, [isRunning]);
 
+  // Toggle the running state of the stopwatch (Start/Stop/Resume)
   const handleStartStop = () => {
     setIsRunning((prevIsRunning) => !prevIsRunning);
   };
 
+  // Record the current time as a lap
   const handleLap = () => {
     setLaps((prevLaps) => [time, ...prevLaps]);
   };
 
+  // Reset the stopwatch by setting time to 0, clearing lap records, and stopping the stopwatch
   const handleReset = () => {
     setTime(0);
     setLaps([]);
     setIsRunning(false);
   };
 
+  // Calculate the rotation of the clock arm based on the elapsed time
     const clockArmRotation = {
     transform: [{ rotate: `${(time / 1000) * 6}deg` }],
   };
 
+  // Render the UI for the stopwatch
   return (
     <SafeAreaView style={styles.container}>
             <Image
@@ -49,15 +56,15 @@ export default function StopWatch() {
       <Text style={styles.timerText}>{formatTime(time)}</Text>
       <View style={styles.buttonContainer}>
       <StopWatchButton onPress={handleStartStop}
-  title={isRunning ? 'Stop' : time === 0 ? 'Start' : 'Resume'}
+  title={isRunning ? 'Pause' : time === 0 ? 'Start' : 'Resume'}
 />
         <StopWatchButton onPress={handleLap} title="Lap" />
         <StopWatchButton onPress={handleReset} title="Reset" />
       </View>
-      <ScrollView style={styles.lapsContainer} contentContainerStyle={styles.lapsContent}>
+      <ScrollView style={styles.lapsContainer} contentContainerStyle={styles.lapText}>
         {laps.map((lap, index) => (
-          <Text key={index} style={styles.lapText}>
-            Lap {laps.length - index}: {formatTime(lap)}
+          <Text key={index} style={styles.lapText} testID= "lap-list">
+            Lap {laps.length - index}: {formatTime(lap) }
           </Text>
         ))}
       </ScrollView>
@@ -65,6 +72,7 @@ export default function StopWatch() {
   );
 }
 
+// Format time in milliseconds into a readable time format (mm:ss.SS or hh:mm:ss.SS)
   const formatTime = (timeInMilliseconds: number) => {
   const hours = Math.floor(timeInMilliseconds / 3600000);
   const minutes = Math.floor(timeInMilliseconds / 60000);
@@ -76,13 +84,13 @@ export default function StopWatch() {
       milliseconds
     ).slice(0, 2).padStart(2, '0')}`;
   } else {
-    return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}.${String(milliseconds).slice(0, 2).padStart(2, '0')}`;
+    return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}:${String(milliseconds).slice(0, 2).padStart(2, '0')}`;
   }
 };
 
-const circleSize = 100;
-
+// Styles for the components
 const styles = StyleSheet.create({
+  // Main container style
   container: {
     width: '100%',
     length:'100%',
@@ -91,31 +99,37 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: 'black',
   },
+  // Style for the timer text
   timerText: {
     fontSize: 45,
     color: 'white',
     textAlign: 'center',
     marginTop: 30,
-    marginBottom: 50,
+    marginBottom: 30,
     fontFamily: Platform.OS === 'ios' ? 'ArialMT' : undefined,
   },
+  // Style for the button container
   buttonContainer: {
     width: '70%',
     flexDirection: 'row',
     justifyContent: 'space-around',
     marginTop: 10,
+    marginBottom:10
   },
+  // Style for the lap records container
   lapsContainer: {
     marginTop: 20,
     flex: 1, 
     alignSelf: 'stretch', // Stretch the ScrollView to fill the width
   },
+  // Style for individual lap record text
   lapText: {
     fontSize: 16,
     marginBottom: 5,
     color: 'white',
     textAlign: 'center' 
   },
+  // Style for the clock image
   clock: {
     marginTop:100,
     width: 120,

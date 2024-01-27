@@ -8,11 +8,12 @@ interface StopWatchButtonProps {
   title: string;
 }
 
-
+// Functional component representing the StopWatchButton
 const StopWatchButton: React.FC<StopWatchButtonProps> = ({ onPress, title }) => {
   let buttonColor, textColor;
 
   switch (title.toLowerCase()) {
+    case 'pause':
     case 'stop':
       buttonColor = '#e74c3c'; // Red for stop
       textColor = '#fff';
@@ -31,6 +32,7 @@ const StopWatchButton: React.FC<StopWatchButtonProps> = ({ onPress, title }) => 
       textColor = '#fff';
   }
 
+ // Render the button with dynamic styles based on the provided title
   return (
     <TouchableOpacity style={[styles.button, { backgroundColor: buttonColor }]} onPress={onPress}>
       <Text style={[styles.buttonText, { color: textColor }]}>{title}</Text>
@@ -38,6 +40,7 @@ const StopWatchButton: React.FC<StopWatchButtonProps> = ({ onPress, title }) => 
   );
 };
 
+// Styles for the StopWatchButton component
 const styles = StyleSheet.create({
   button: {
     width: 75,
