@@ -1,6 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
 import StopWatch from "./src/StopWatch";
 
 export default function App() {
@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
   container: {
     top: 300,
     flex: 1,
-    alignItems: "center",
     backgroundColor: "#fff",
+    overflow: "scroll",
   },
 });

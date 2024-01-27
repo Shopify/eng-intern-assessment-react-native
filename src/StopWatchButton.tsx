@@ -1,29 +1,26 @@
-import React, { useState } from "react";
-import { Text, View } from "react-native";
-import calculateTimer from "./utils/timeutils";
+import React from "react";
+import { Text, TouchableOpacity, View } from "react-native";
 
 interface StopWatchProps {
   name: string;
   onPress: () => void;
 }
 
-export default function StopWatchButton({
-  name,
-  onPress,
-}: Readonly<StopWatchProps>) {
+export default function StopWatchButton({ name, onPress }: StopWatchProps) {
   return (
     <View>
-      <Text
+      <TouchableOpacity
         onPress={onPress}
         style={{
-          padding: 10,
-          borderWidth: 1,
-          borderColor: "blue",
-          display: "flex",
+          width: 140,
+          margin: 10,
+          padding: 12,
+          borderRadius: 50,
+          backgroundColor: "#89cff0",
         }}
       >
-        {name}
-      </Text>
+        <Text style={{ textAlign: "center", fontSize: 30 }}>{name}</Text>
+      </TouchableOpacity>
     </View>
   );
 }

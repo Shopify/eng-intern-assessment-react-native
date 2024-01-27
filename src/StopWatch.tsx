@@ -19,26 +19,23 @@ export default function StopWatch() {
   // starts or resumes the stopwatch
   const handleStart = () => {
     setStopped(false);
-    if (!running) {
-      const interval: any = setInterval(() => {
-        setCurrentTime((prev: number) => prev + 1);
-      }, 1);
-
-      setRunning(true);
-      setIntervalId(interval);
-    }
+    setRunning(true);
+    setCurrentTime(0);
   };
 
   // stops the stopwatch
   const handleStop = () => {
-    setStopped(true);
-    clearInterval(intervalId);
-    setRunning(false);
+    if (running) {
+      setStopped(true);
+      clearInterval(intervalId);
+      setRunning(false);
+    }
   };
 
   const handleReset = () => {
     // resets the stopwatch and clears both the time and laps
     clearInterval(intervalId);
+    setStopped(false);
     setRunning(false);
     setCurrentTime(0);
     setLapData([]);
@@ -66,28 +63,72 @@ export default function StopWatch() {
   };
 
   useEffect(() => {
-    let timeString: string = calculateTimer(currentTime);
-    setTimeString(timeString);
+    setTimeString(calculateTimer(currentTime));
   }, [currentTime]);
 
-  return (
-    <View>
-      <Text style={styles.time}>{timeString}</Text>
-      <StopWatchButton
-        name={stopped ? "Resume" : "Start"}
-        onPress={handleStart}
-      />
-      <StopWatchButton name="Stop" onPress={handleStop} />
-      <StopWatchButton name="Reset" onPress={handleReset} />
-      <StopWatchButton name="Lap" onPress={handleLap} />
+  useEffect(() => {
+    let interval: number | undefined;
+    if (running) {
+      interval = setInterval(() => {
+        setCurrentTime((prev: number) => prev + 1);
+      }, 1);
+    } else if (interval) {
+      clearInterval(interval);
+    }
 
+    return () => {
+      if (interval) {
+        clearInterval(interval);
+      }
+    };
+  }, [running]);
+
+  return (
+    <View style={{ alignItems: "center" }}>
+      <Text style={styles.time}>{timeString}</Text>
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "space-evenly",
+          alignItems: "center",
+        }}
+      >
+        {!running && (
+          <StopWatchButton
+            name={stopped ? "Resume" : "Start"}
+            onPress={handleStart}
+          />
+        )}
+
+        {stopped ? (
+          <StopWatchButton name="Reset" onPress={handleReset} />
+        ) : (
+          <View>
+            {running && (
+              <View style={{ alignItems: "center", flexDirection: "row" }}>
+                <StopWatchButton name="Lap" onPress={handleLap} />
+                <StopWatchButton name="Stop" onPress={handleStop} />
+              </View>
+            )}
+          </View>
+        )}
+      </View>
       <FlatList
         data={lapData}
         keyExtractor={(item) => item.lapTime.toString()}
         renderItem={({ item }) => (
-          <Text>{`Lap ${item.lapTime}: ${calculateTimer(
-            item.lapDuration
-          )}`}</Text>
+          <Text
+            style={{
+              width: 300,
+              textAlign: "center",
+              fontSize: 30,
+              borderColor: "#89cff0",
+              borderWidth: 3,
+              borderRadius: 30,
+              padding: 8,
+              margin: 5,
+            }}
+          >{`Lap ${item.lapTime}: ${calculateTimer(item.lapDuration)}`}</Text>
         )}
       />
     </View>
@@ -97,7 +138,7 @@ export default function StopWatch() {
 const styles = StyleSheet.create({
   time: {
     margin: 50,
-    fontSize: 30,
+    fontSize: 50,
     fontWeight: "bold",
   },
 });
