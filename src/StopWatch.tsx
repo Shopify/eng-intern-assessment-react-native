@@ -1,6 +1,6 @@
 // StopWatch.tsx
 import React, { useState, useEffect } from 'react';
-import { View, Text, Button, StyleSheet } from 'react-native';
+import { View, Text, Button, StyleSheet, ScrollView, Image } from 'react-native';
 import StopWatchButton from './StopWatchButton';
 
 export default function StopWatch() {
@@ -34,8 +34,19 @@ export default function StopWatch() {
     setIsRunning(false);
   };
 
+    const clockArmRotation = {
+    transform: [{ rotate: `${(time / 1000) * 6}deg` }],
+  };
+
   return (
     <View style={styles.container}>
+            <Image
+          source={require('./clock.png')}
+          style={[styles.clock, clockArmRotation]}
+        />
+        
+
+
       <Text style={styles.timerText}>{formatTime(time)}</Text>
       <View style={styles.buttonContainer}>
       <StopWatchButton onPress={handleStartStop}
@@ -44,13 +55,13 @@ export default function StopWatch() {
         <StopWatchButton onPress={handleLap} title="Lap" />
         <StopWatchButton onPress={handleReset} title="Reset" />
       </View>
-      <View style={styles.lapsContainer}>
+      <ScrollView style={styles.lapsContainer} contentContainerStyle={styles.lapsContent}>
         {laps.map((lap, index) => (
           <Text key={index} style={styles.lapText}>
             Lap {laps.length - index}: {formatTime(lap)}
           </Text>
         ))}
-      </View>
+      </ScrollView>
     </View>
   );
 }
@@ -59,34 +70,55 @@ export default function StopWatch() {
   const minutes = Math.floor(timeInMilliseconds / 60000);
   const seconds = Math.floor((timeInMilliseconds % 60000) / 1000);
   const milliseconds = timeInMilliseconds % 1000;
-
-
   
   return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}.${String(
     milliseconds
   ).slice(0,2).padStart(2, '0')}`;
 };
 
+const circleSize = 100;
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: 'black',
   },
   timerText: {
-    fontSize: 40,
-    fontWeight: 'bold',
+    fontSize: 35,
+    color: 'white',
+    fontFamily: 'Nunito',
+    textAlign: 'center',
+    marginTop: 10,
+    marginBottom: 50
   },
   buttonContainer: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-    marginTop: 20,
+    marginTop: 10,
   },
   lapsContainer: {
     marginTop: 20,
+    flex: 1, // Let the ScrollView take all the available space
+    alignSelf: 'stretch', // Stretch the ScrollView to fill the width
   },
   lapText: {
-    fontSize: 18,
+    fontSize: 13,
     marginBottom: 5,
+    color: 'white',
+    fontFamily: 'Nunito',
+    textAlign: 'center' 
   },
+  clock: {
+    marginTop:100,
+    width: 100,
+    height: 100
+  },
+  clockContainer: {
+    marginTop: 100,
+    justifyContent: 'center',
+    alignItems: 'center',
+
+  }
 });
