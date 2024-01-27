@@ -1,6 +1,6 @@
 // StopWatch.tsx
 import React, { useState, useEffect } from 'react';
-import { StatusBar, SafeAreaView, View, Text, Button, StyleSheet, ScrollView, Image } from 'react-native';
+import { StatusBar, SafeAreaView, View, Text, Button, StyleSheet, ScrollView, Image, Platform } from 'react-native';
 import StopWatchButton from './StopWatchButton';
 
 export default function StopWatch() {
@@ -66,13 +66,18 @@ export default function StopWatch() {
 }
 
   const formatTime = (timeInMilliseconds: number) => {
+  const hours = Math.floor(timeInMilliseconds / 3600000);
   const minutes = Math.floor(timeInMilliseconds / 60000);
   const seconds = Math.floor((timeInMilliseconds % 60000) / 1000);
   const milliseconds = timeInMilliseconds % 1000;
   
-  return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}.${String(
-    milliseconds
-  ).slice(0,2).padStart(2, '0')}`;
+  if (hours > 0) {
+    return `${String(hours).padStart(2, '0')}h:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}.${String(
+      milliseconds
+    ).slice(0, 2).padStart(2, '0')}`;
+  } else {
+    return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}.${String(milliseconds).slice(0, 2).padStart(2, '0')}`;
+  }
 };
 
 const circleSize = 100;
@@ -90,8 +95,9 @@ const styles = StyleSheet.create({
     fontSize: 45,
     color: 'white',
     textAlign: 'center',
-    marginTop: 10,
-    marginBottom: 50
+    marginTop: 30,
+    marginBottom: 50,
+    fontFamily: Platform.OS === 'ios' ? 'ArialMT' : undefined,
   },
   buttonContainer: {
     width: '70%',
