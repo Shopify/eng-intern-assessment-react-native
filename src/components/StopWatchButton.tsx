@@ -28,23 +28,23 @@ export default function StopWatchButton(props: Readonly<StopWatchButtonProps>): 
 const styles = StyleSheet.create({
   buttonContainer: {
     margin: 10,
-    paddingHorizontal: 10,
+    paddingHorizontal: 2,
   },
   button: {
-    width: 60,
-    height: 60,
-    borderRadius: 30,
+    width: 70,
+    height: 70,
+    borderRadius: 100,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#98bb52',
-    elevation: 5, // Add elevation for drop shadow on Android
-    shadowColor: '#000',
+    backgroundColor: '#008fff',
+    elevation: 6, // Add elevation for drop shadow on Android
+    shadowColor: '#ffffff',
     shadowOffset: {
-      width: 0,
+      width: 2,
       height: 2,
     },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
+    shadowOpacity: 0.35,
+    shadowRadius: 5,
   },
   text: {
     color: 'white',

@@ -19,3 +19,5 @@ L
 src/components/lapRecord.tsx,e\8\e810bec05de2e07aba965ef9006b6e14a8911284
 N
 src/components/timeDisplay.tsx,d\6\d6c40e8fc54af48b0707277cd5dd3203f7508dcb
+L
+src/components/LapRecord.tsx,8\b\8bfa30bad7383a22568cefde0155b4d0a48d379e

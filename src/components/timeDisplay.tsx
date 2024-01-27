@@ -31,8 +31,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   timeText: {
-    color: 'black',
+    color: '#ecf0f1', // Set text color
     fontWeight: '500',
     fontSize: 50,
+    textShadowColor: 'rgb(194,219,239)', // Set text shadow color
+    textShadowOffset: { width: 2, height: 2 }, // Set text shadow offset
+    textShadowRadius: 5, // Set text shadow radius
   },
 });

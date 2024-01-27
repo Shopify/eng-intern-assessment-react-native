@@ -54,7 +54,12 @@ export default function StopWatch() {
   //main Body for the app page of Stopwatch
   return (
     <SafeAreaView style={styles.container}>
-      <Text onLongPress={start}>Stopwatch</Text>
+      <Text
+        onPress={start}
+        onLongPress={stop}
+        style={headingStyles.headingText}
+      >Stopwatch
+      </Text>
       <View style={styles.timerDisplay}>
         <TimeDisplay timeInSeconds={time}/>
       </View>
@@ -62,24 +67,24 @@ export default function StopWatch() {
         <StopWatchButton
           title={'Reset'}
           onClick={reset}
-          color={'#373a33'}
+          color={'#001F3FFF'}
         />
         <StopWatchButton
           title={isRunning ? 'Stop' : 'Start'}
           onClick={isRunning ? stop : start}
-          color={isRunning ? 'red' : '#373A33FF'}  // Update the color value here
+          color={isRunning ? 'red' : '#001F3FFF'}  // Update the color value here
         />
 
         <StopWatchButton
           title={'Lap'}
           onClick={handleLaps}
-          color={(started && isRunning) ? '#373A33FF' : 'darkgrey'}
+          color={(started && isRunning) ? '#001F3FFF' : 'darkgrey'}
           isDisabled={!(started && isRunning)}
         />
         <StopWatchButton
           title={isRunning ? 'Pause' : 'Resume'}
           onClick={isRunning ? pause : resume}
-          color={started ? '#373A33FF' : 'darkgrey'}
+          color={started ? '#001F3FFF' : 'darkgrey'}
           isDisabled={!started}
         />
       </View>
@@ -97,23 +102,15 @@ const styles = StyleSheet.create({
     width: '100%',
     justifyContent: 'flex-start'
   },
-  logoContainer: {
-    flex: 0.8,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  logo: {
-    width: '70%'
-  },
   timerDisplay: {
     flex: 0.6,
     margin: 0
   },
   buttonContainer: {
-    flex: 0.8,
+    flex: 1,
     flexDirection: 'row',
     justifyContent: 'center',
-    flexWrap: "wrap",
+    alignItems: "center",
   },
   headerRow: {
     flexDirection: 'row',
@@ -126,6 +123,16 @@ const styles = StyleSheet.create({
   },
   headerText: {
     fontWeight: 'bold',
+    color: "white",
     fontSize: 16,
+  },
+});
+const headingStyles = StyleSheet.create({
+  headingText: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    color: 'white', // Change the color to your desired text color
+    marginBottom: 5,
   },
 });

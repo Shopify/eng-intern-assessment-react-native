@@ -35,10 +35,11 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingHorizontal: 30,
+    paddingHorizontal: 40,
     paddingVertical: 15
   },
   text: {
     fontSize: 18,
+    color: "white",
   }
 });
