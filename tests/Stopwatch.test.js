@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react-native';
+import { render, fireEvent, within } from '@testing-library/react-native';
 import Stopwatch from '../src/Stopwatch';
 
 describe('Stopwatch', () => {
@@ -25,8 +25,14 @@ describe('Stopwatch', () => {
     
     fireEvent.press(getByText('Start'));
     fireEvent.press(getByText('Pause'));
-    const pausedTime = getByText(/(\d{2}:){2}\d{2}/).textContent;
 
+    // const pausedTime = getByText(/(\d{2}:){2}\d{2}/).textContent;
+    // The returned type of getByText() is ReactTestInstance, which does not have a textContent property.
+    // The text content can be obtained using `props.children`. 
+    // See: https://callstack.github.io/react-native-testing-library/docs/api-queries#by-text
+    const pausedTime = getByText(/(\d{2}:){2}\d{2}/).props.children;
+
+    // Likely would need a delay before clicking the resume button to allow at least one second to pass before resuming.
     fireEvent.press(getByText('Resume'));
     expect(getByText(/(\d{2}:){2}\d{2}/).textContent).not.toBe(pausedTime);
   });
@@ -36,7 +42,13 @@ describe('Stopwatch', () => {
     
     fireEvent.press(getByText('Start'));
     fireEvent.press(getByText('Lap'));
-    expect(getByTestId('lap-list')).toContainElement(getByText(/(\d{2}:){2}\d{2}/));
+
+    // expect(getByTestId('lap-list')).toContainElement(getByText(/(\d{2}:){2}\d{2}/));
+    // The `toContainElement()` method is not a defined method. 
+    // Instead, use 'within()' to narrow the search to the component with test id 'lap-list'. 
+    // See: https://testing-library.com/docs/dom-testing-library/api-within/
+    const lapListContainer = within(getByTestId('lap-list'))
+    expect(lapListContainer.getByText(/(\d{2}:){2}\d{2}/)).toBeTruthy();
 
     fireEvent.press(getByText('Lap'));
     expect(getByTestId('lap-list').children.length).toBe(2);
