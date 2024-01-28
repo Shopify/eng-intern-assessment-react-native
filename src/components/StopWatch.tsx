@@ -99,10 +99,11 @@ export default function StopWatch() {
           onReset={resetStopwatch}
         />
       </View>
+      {/* orders laps in reverse order so most recent lap is at top*/}
       <ScrollView style={styles.lapList}>
-        {laps.map((lap, index) => (
+        {laps.slice().reverse().map((lap, index) => (
           <View key={index} style={styles.lapContainer}>
-            <Text style={styles.lapNumber}>Lap {index + 1}</Text>
+            <Text style={styles.lapNumber}>Lap {laps.length - index}</Text>
             <Text style={styles.lapTime}>{lap}</Text>
           </View>
         ))}
