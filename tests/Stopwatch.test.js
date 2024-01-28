@@ -28,13 +28,7 @@ describe("Stopwatch", () => {
     const pausedTime = getByText(/(\d{2}:){2}\d{2}/).textContent;
 
     fireEvent.press(getByText("Resume"));
-    const resumedTime = getByText(/(\d{2}:){2}\d{2}/).textContent;
-
-    // Check that both pausedTime and resumedTime are defined before comparing
-    expect(pausedTime && resumedTime).toBeTruthy();
-    if (pausedTime && resumedTime) {
-      expect(pausedTime).not.toBe(resumedTime);
-    }
+    expect(getByText(/(\d{2}:){2}\d{2}/).textContent).not.toBe(pausedTime);
   });
 
   test("records and displays lap times", () => {
