@@ -24,6 +24,11 @@ export default function StopWatchButton(props: any) {
     <View style={styles.container}>
 
       {
+        /*
+        * Render button sets depending on timer state. If the timer is running then we can render
+        * the stop and lap button.
+        * If the timer is off then we render start and reset buttons.
+        *  */
         !running ?
         <>
           <Pressable onPress={() => start()} style={styles.startButton}>
@@ -36,7 +41,7 @@ export default function StopWatchButton(props: any) {
         </>
             :
             <>
-              <Pressable onPress={() => stop()} style={styles.startButton}>
+              <Pressable onPress={() => stop()} style={styles.stopButton}>
                 <Text style={styles.text}>Stop</Text>
               </Pressable>
 
@@ -45,7 +50,6 @@ export default function StopWatchButton(props: any) {
               </Pressable>
             </>
       }
-
 
     </View>
   );
@@ -85,5 +89,12 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginTop: 20,
     marginLeft: "auto"
-  }
+  },
+  stopButton: {
+    backgroundColor: "red",
+    paddingHorizontal: 20,
+    paddingVertical: 5,
+    borderRadius: 10,
+    marginTop: 20
+  },
 });

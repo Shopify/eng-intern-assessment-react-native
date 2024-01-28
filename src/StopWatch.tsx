@@ -1,22 +1,20 @@
-import {ScrollView, StyleSheet, Text, View} from 'react-native';
+import {FlatList, StyleSheet, Text, View} from 'react-native';
 import StopWatchButton from "./StopWatchButton";
 import {useState} from "react";
 import Formatted from "./Formated";
 
+/* Stopwatch is running when true */
 let state: boolean = false;
 
+{/* Create our interface for our lap, using JSON for simplicity */}
 interface Lap {
     lap: number,
     time: number
 }
 
 export default function StopWatch() {
-    const [milliseconds, setMilliseconds] = useState<number>(0);
-    const [seconds, setSeconds] = useState<number>(55);
-    const [minutes, setMinutes] = useState<number>(0);
     const [lapNumber, setLapNumber] = useState<number>(1);
     const [lapData, setLapData] = useState<Lap[]>([]);
-
 
     const [initialTime, setInitialTime] = useState(0);
     const [finalTime, setFinalTime] = useState(0);
@@ -38,34 +36,6 @@ export default function StopWatch() {
 
     const onStart = () => {
         state = true;
-       /* let mm: number = minutes;
-        let s: number = seconds;
-        let m: number = minutes;
-
-        let timer: number = setInterval(() => {
-            if(!state){
-                clearInterval(timer);
-                return;
-            }
-
-            mm+=1;
-
-            if(mm === 60){
-                mm = 0;
-                s+=1;
-                setSeconds(s);
-
-                if(s === 60){
-                    s = 0;
-                    m+=1;
-                    setMinutes(m);
-                }
-            }
-
-
-            setMilliseconds(mm);
-
-        }, 1);*/
 
         let currentTime = new Date().getTime();
 
@@ -73,8 +43,8 @@ export default function StopWatch() {
         setFinalTime(currentTime);
         setStoppedAt(0);
 
-        console.log(finalTime);
 
+        {/* Create the millisecond animation. This is only an effect, actual time calculation is made through system time difference */}
         let timer = setInterval(() => {
             if(!state){
                 clearInterval(timer);
@@ -86,10 +56,6 @@ export default function StopWatch() {
     }
 
     const reset = () => {
-        /*setMinutes(0);
-        setMilliseconds(0);
-        setSeconds(0);
-        */
 
         setLapNumber(1);
         setLapData([]);
@@ -105,6 +71,15 @@ export default function StopWatch() {
         setStoppedAt(finalTime - initialTime);
     }
 
+    /* Lap render function for the FlatList*/
+    const renderLap = ({item} : { item: Lap }) => {
+        return(
+            <View style={styles.lapRow} key={item.lap}>
+                <Text>{item.lap}</Text>
+                <Formatted style={{fontSize: 15, marginLeft: 'auto', marginRight: '15%'}} time={item.time} />
+            </View>
+        )
+    }
 
   return (
       <>
@@ -113,28 +88,19 @@ export default function StopWatch() {
         </View>
 
 
+          {/* Render our buttons with callbacks  */}
         <StopWatchButton onStop={() => stop()} onStart={() => onStart()} onReset={() => reset()} onLap={() => newLap()}/>
 
-
-          {
+          {    /* Only render our laps if the laps array length is > 1*/
               lapData.length !== 0 ?
                   <>
                       <View style={styles.lapContainer}>
                           <Text style={styles.lapText}>Lap Number</Text>
                           <Text style={styles.lapTime}>Time</Text>
                       </View>
-                      <ScrollView>
-                          {
-                              lapData.map((entry: Lap) => {
-                                  return(
-                                      <View style={styles.lapRow} key={entry.lap}>
-                                          <Text>{entry.lap}</Text>
-                                          <Formatted style={{fontSize: 15, marginLeft: 'auto', marginRight: '15%'}} time={entry.time} />
-                                      </View>
-                                  )
-                              })
-                          }
-                      </ScrollView>
+
+                      {/* Render our laps in a FlatList rather than a ScrollView to reduce computation power*/}
+                      <FlatList style={{height: "30%"}} data={lapData} renderItem={renderLap}/>
                   </>
                   :
                   null
