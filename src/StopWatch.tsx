@@ -19,7 +19,7 @@ export default function StopWatch() {
     }
     intervalRef.current = setInterval(() => {
         setElapsedTime(Date.now() - now);
-    }, 10);
+    }, 100);
   };
 
   const pauseStopwatch = () => {
@@ -73,7 +73,7 @@ export default function StopWatch() {
 
 
   return (
-    <View>
+    <View style={styles.container}>
       <View style={styles.topContainer}>
         <Text style={styles.timeText}>
           {formatTime(elapsedTime)}
@@ -94,6 +94,12 @@ export default function StopWatch() {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#000',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
   topContainer: {
     flex: 1,
     alignItems: 'center',
@@ -101,7 +107,6 @@ const styles = StyleSheet.create({
   },
   bottomContainer: {
     flex: 1,
-    alignItems: 'center',
     width: '100%'
   },
   timeText: {
