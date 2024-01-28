@@ -29,7 +29,7 @@ export default function StopWatch() {
     if (lapIntervalRef.current !== null) {
       clearInterval(lapIntervalRef.current);
     }
-    
+
     intervalRef.current = setInterval(() => {
       setElapsedTime(Date.now() - now);
     }, 100);
@@ -68,7 +68,7 @@ export default function StopWatch() {
   };
 
   const lapStopwatch = () => {
-    setLapList(prevList => [...prevList, formatTime(elapsedLapTime)]);
+    setLapList(prevList => [formatTime(elapsedLapTime), ...prevList]);
     if (lapIntervalRef.current !== null) {
       clearInterval(lapIntervalRef.current);
       lapIntervalRef.current = null;

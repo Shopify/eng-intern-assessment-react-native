@@ -11,7 +11,7 @@ export default function StopWatchLapTable({ lapList }: Props) {
       <ScrollView contentContainerStyle={styles.scrollViewContent}>
         {lapList.map((item, index) => (
           <Text key={index} style={styles.item}>
-            Lap {index+1}:           {item}
+            Lap {lapList.length - index}:           {item}
           </Text>
         ))}
       </ScrollView>
