@@ -8,6 +8,7 @@ interface StopWatchButtonProps {
 const StopWatchButton = ({ title, onPress }: StopWatchButtonProps) => {
   let backgroundColor, borderColor, textColor;
 
+  // Set the button colors based on the title
   if (title === "Start") {
     backgroundColor = "rgba(144, 238, 144, 0.5)";
     borderColor = "darkgreen";

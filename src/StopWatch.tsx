@@ -7,11 +7,19 @@ const screenWidth = Dimensions.get("window").width;
 const screenHeight = Dimensions.get("window").height;
 
 const StopWatch = () => {
+  // Time in milliseconds
   const [time, setTime] = useState(0);
+
+  // Boolean to check if timer is running
   const [isRunning, setIsRunning] = useState(false);
+
+  // Array of lap records
   const [laps, setLaps] = useState<number[]>([]);
+
+  // Reference to the counter
   const counterRef = useRef<number | null>(null);
 
+  // Starts the timer
   const handleStartTime = () => {
     setIsRunning(true);
     counterRef.current = setInterval(() => {
@@ -19,16 +27,19 @@ const StopWatch = () => {
     }, 10);
   };
 
+  // Stops the timer
   const handleStopTimer = () => {
     clearInterval(counterRef.current as number);
     setIsRunning(false);
   };
 
+  // Resets the timer to 00:00.00 and lap records
   const handleResetTimer = () => {
     setTime(0);
     setLaps([]);
   };
 
+  // Records the current time when the lap button is pressed
   const handleLapTimer = () => {
     setLaps([...laps, time]);
   };

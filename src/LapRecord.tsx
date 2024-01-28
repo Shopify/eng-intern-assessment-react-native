@@ -6,7 +6,9 @@ interface LapRecordProps {
 }
 
 const LapRecord = ({ laps, formatTime }: LapRecordProps) => {
+  // Reverse the array of laps so that the most recent lap is on top
   const reversedLaps = [...laps].reverse();
+
   return (
     <ScrollView>
       {reversedLaps.map((lap, index) => (
