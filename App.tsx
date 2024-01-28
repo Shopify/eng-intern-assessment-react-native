@@ -5,8 +5,7 @@ import StopwatchButton from "./src/StopWatchButton";
 import { StatusBar } from "expo-status-bar";
 import { formatTime } from "./src/StopWatch";
 
-// This file should take components from StopWatchButton and StopWatch and tie them together.
-// The logic that was missing from the previous 2 files should be defined here.
+// App.tsx should manage the state and logic of the overall app. 
 
 export default function App() {
   const [isRunning, setIsRunning] = useState<boolean>(false);
