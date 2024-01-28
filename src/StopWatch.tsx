@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native';
 import StopwatchButton from './StopWatchButton';
 
 interface StopwatchProps {}
@@ -75,23 +75,54 @@ const Stopwatch: React.FC<StopwatchProps> = () => {
   };
 
   const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      paddingTop: 200,
+    body:{
+      alignItems: "center", 
+    },
+    heading:{
+      paddingTop: 20,
+      fontSize: 16,
+      fontWeight: '500',
+
     },
     timer: {
-      textAlign: 'center',
       fontSize: 64,
       fontWeight: '500',
+      paddingTop: 80
+    },
+    timerView:{
+      paddingBottom: 36,
+    },
+    buttonView:{
+      flexDirection: 'row',
+    },
+    lap:{
+      paddingTop:10,
+      width: 300,
+    },
+    lapItem: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      borderBottomWidth: 1,
+      borderBottomColor: '#ccc',
+      paddingVertical: 5,
+    },
+    lapText: {
+      fontSize: 18,
+      textAlign: 'center',
+      marginVertical: 5,
+      borderBottomWidth: 1,
+      borderBottomColor: '#ccc',
+      paddingVertical: 5,
     },
   });
 
   return (
-    <View style={styles.container}>
-      <View>
+    <SafeAreaView style={styles.body}>
+      <Text style={styles.heading}>Stopwatch</Text>
+      <View style={styles.timerView}>
         {isTimerActive && <Text style={styles.timer}>{formatTime(time)}</Text>}
       </View>
-      <View>
+      <View style={styles.buttonView}>
         <StopwatchButton label="Lap" onPress={handleRecordLap} />
         <StopwatchButton label={running ? "Stop" : "Start"} onPress={handleStartStop} />
         <StopwatchButton label={running ? "Pause" : "Resume"} onPress={handlePauseResume} />
@@ -99,14 +130,17 @@ const Stopwatch: React.FC<StopwatchProps> = () => {
       </View>
       <ScrollView>
         {lapTimes.length ? (
-          <View testID='lap-list'>
-            {lapTimes.map((item, index) => (
-              <Text key={index}>{formatTime(item)}</Text>
+          <View testID='lap-list' style={styles.lap}>
+             {lapTimes.slice().reverse().map((item, index) => (
+              <View key={index} style={styles.lapItem}>
+                <Text style={styles.lapText}>{`Lap ${index + 1}`}</Text>
+                <Text style={styles.lapText}>{formatTime(item)}</Text>
+              </View>
             ))}
           </View>
         ) : null}
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 };
 

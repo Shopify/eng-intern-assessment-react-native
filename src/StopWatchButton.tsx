@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
   buttonContainer: {
     width: 80,
     height: 80,
-    marginHorizontal: 20,
+    marginHorizontal: 6,
     alignItems: 'center',
     justifyContent: 'center',
     padding: 3,
@@ -32,11 +32,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'row',
-    backgroundColor: 'green'
+    backgroundColor: '#96bf48'
   },
   buttonLabel: {
     color: '#fff',
-    fontSize: 16,
   },
 });
 
