@@ -11,7 +11,7 @@ export default function App() {
   const [startTime, setStartTime] = useState(0);
   const [elapsedTime, setElapsedTime] = useState(0);
   const intervalRef = useRef<number | null>(null);
-  const [lapList, setLapList] = useState<string[]>(['00:00:00', '00:00:00', '00:00:00']);
+  const [lapList, setLapList] = useState<string[]>([]);
 
   const startStopwatch = () => {
     const now = Date.now() - elapsedTime;
@@ -40,10 +40,11 @@ export default function App() {
     }
     setStartTime(0);
     setElapsedTime(0);
+    setLapList([])
   };
 
   const lapStopwatch = () => {
-
+    setLapList(prevList => [...prevList, formatTime(elapsedTime)]);
   }
 
   useEffect(() => {
