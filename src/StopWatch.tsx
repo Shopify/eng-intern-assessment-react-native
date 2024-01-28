@@ -4,21 +4,40 @@ import StopWatchButton from "./StopWatchButton";
 
 const StopWatch: React.FC = () => {
   const [isRunning, setIsRunning] = useState(false);
+  const [isPaused, setIsPaused] = useState(false);
   const [startTime, setStartTime] = useState<number | null>(null);
   const [elapsedTime, setElapsedTime] = useState(0);
   const [laps, setLaps] = useState<number[]>([]);
+  const [pauseTime, setPauseTime] = useState<number>(0);
 
   const startStopwatch = () => {
-    setIsRunning(true);
-    setStartTime(Date.now() - elapsedTime);
+    if (isPaused) {
+      // Resume
+      setStartTime((prevStartTime) => (prevStartTime ?? 0) + Date.now() - pauseTime);
+      setIsPaused(false);
+    } else {
+      // Start
+      setStartTime(Date.now() - elapsedTime);
+      setIsRunning(true);
+    }
+  };
+
+  const pauseStopwatch = () => {
+    setIsPaused(true);
+    setPauseTime(Date.now());
   };
 
   const stopStopwatch = () => {
     setIsRunning(false);
+    setIsPaused(false);
+    setStartTime(null);
+    setElapsedTime(0);
+    setLaps([]);
   };
 
   const resetStopwatch = () => {
     setIsRunning(false);
+    setIsPaused(false);
     setStartTime(null);
     setElapsedTime(0);
     setLaps([]);
@@ -26,17 +45,22 @@ const StopWatch: React.FC = () => {
 
   const recordLap = () => {
     if (startTime !== null) {
-      setLaps([...laps, elapsedTime]);
+      setLaps((prevLaps) => [...(prevLaps || []), elapsedTime]);
     }
   };
 
   useEffect(() => {
     let interval: number | undefined;
 
-    if (isRunning) {
-      interval = setInterval(() => {
+    if (isRunning && !isPaused) {
+      const updateElapsedTime = () => {
         setElapsedTime(Date.now() - (startTime || 0));
-      }, 100);
+      };
+
+      interval = setInterval(updateElapsedTime, 100);
+
+      // Immediately update elapsed time after starting or resuming to avoid delay
+      updateElapsedTime();
     } else if (interval !== undefined) {
       clearInterval(interval);
     }
@@ -46,7 +70,7 @@ const StopWatch: React.FC = () => {
         clearInterval(interval);
       }
     };
-  }, [isRunning, startTime]);
+  }, [isRunning, isPaused, startTime]);
 
   const formatTime = (time: number) => {
     const minutes = Math.floor(time / 60000);
@@ -63,17 +87,28 @@ const StopWatch: React.FC = () => {
     <View style={styles.container}>
       <Text style={styles.timer}>{formatTime(elapsedTime)}</Text>
       <View style={styles.buttonsContainer}>
+        {!isRunning && !isPaused && (
+          <StopWatchButton label="Start" onPress={startStopwatch} color="green"/>
+        )}
+        {isRunning && (
+          <StopWatchButton
+            label={isRunning && !isPaused ? "Pause" : "Resume"}
+            onPress={isRunning && !isPaused ? pauseStopwatch : startStopwatch}
+            color="orange"
+          />
+        )}
         <StopWatchButton
-          label={isRunning ? "Stop" : "Start"}
-          onPress={isRunning ? stopStopwatch : startStopwatch}
+          label="Reset"
+          onPress={resetStopwatch}
+          color="plum"
         />
-        <StopWatchButton label="Reset" onPress={resetStopwatch} />
-        <StopWatchButton label="Lap" onPress={recordLap} />
+        <StopWatchButton label="Lap" onPress={recordLap} color="dodgerblue"/>
+        <StopWatchButton label="Stop" onPress={stopStopwatch} color="red"/>
       </View>
       <View style={styles.lapsContainer}>
         {laps.map((lapTime, index) => (
-          <Text style={styles.lapText} key={index}>
-            Lap {index + 1}: {formatTime(lapTime)}
+          <Text style={styles.lapText} key={index} testID="lap-list">
+            Lap {index + 1}: {formatTime(Number(lapTime))}
           </Text>
         ))}
       </View>
