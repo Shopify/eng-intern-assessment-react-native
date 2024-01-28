@@ -87,22 +87,12 @@ describe("Stopwatch", () => {
 
     const lapList = getByTestId("lap-list");
 
-    console.log(
-      "Number of laps after the first lap: ",
-      lapList.props.children[1].props.children
-    );
-
     expect(lapList.props.children[1].props.children.length).toBe(1);
 
     // Introduce a delay (500 milliseconds)
     await new Promise((resolve) => setTimeout(resolve, 500));
 
     fireEvent.press(getByText("Lap"));
-
-    console.log(
-      "Number of laps after the second lap: ",
-      lapList.props.children[1].props.children
-    );
 
     expect(lapList.props.children[1].props.children.length).toBe(2);
   });

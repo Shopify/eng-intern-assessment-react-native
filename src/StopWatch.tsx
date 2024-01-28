@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { View, Text, StyleSheet, ScrollView } from "react-native";
+import { act } from '@testing-library/react-native';
 import StopWatchButton from "./StopWatchButton";
 import { COLORS } from "./../constants/colors"
 
@@ -12,7 +13,6 @@ const StopWatch: React.FC = () => {
   const [pauseTime, setPauseTime] = useState<number>(0);
 
   const startStopwatch = () => {
-    console.log("Start");
     if (isPaused) {
       // Resume
       setStartTime(
@@ -27,19 +27,16 @@ const StopWatch: React.FC = () => {
   };
 
   const pauseStopwatch = () => {
-    console.log("Pause");
     setIsPaused(true);
     setPauseTime(Date.now());
   };
 
   const stopStopwatch = () => {
-    console.log("Stop");
     setIsRunning(false);
     setIsPaused(false);
   };
 
   const resetStopwatch = () => {
-    console.log("Reset");
     setIsRunning(false);
     setIsPaused(false);
     setStartTime(null);
@@ -62,7 +59,9 @@ const StopWatch: React.FC = () => {
   
     if (isRunning && !isPaused) {
       interval = setInterval(() => {
-        setElapsedTime(prevTime => prevTime + 100);
+        act(() => {
+          setElapsedTime(prevTime => prevTime + 100);
+        });
       }, 100);
   
       // Immediately update elapsed time after starting or resuming to avoid delay
