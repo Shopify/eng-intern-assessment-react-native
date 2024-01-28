@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Button, StyleSheet } from "react-native";
 
-// StopWatchButton.tsx should be purely a presentational component - it should only be responsible for rendering buttons.
+// StopWatchButton.tsx should be purely a presentational component; it should only be responsible for rendering buttons.
 // This allows for separation of concerns and also allows this component to be more SFB (safe from bugs), RFC (ready for change), ETU (easy to understand).
 
 type Props = {
@@ -17,7 +17,6 @@ export default function StopwatchButton({
   onReset,
   isRunning,
 }: Props) {
-  // May need to change the texts of these based on what is written in the tests file
   return (
     <View style={styles.container}>
       <Button onPress={onStartStop} title={isRunning ? "Stop" : "Start"} />

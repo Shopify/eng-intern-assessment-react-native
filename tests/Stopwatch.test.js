@@ -34,8 +34,9 @@ describe('Stopwatch', () => {
       jest.advanceTimersByTime(2000);
     })
   
-    // Now we expect the timer to show 2 seconds have passed. We need to assert the exact time.
-    // Since the time format is '00:00:02', we'll use that string.
+    // Now we expect the timer to show 2 seconds have passed. 
+    // We need to assert this exact time.
+    // Since the time format is '00:00:02', we will use that string.
   
     let timeDisplay = findByText('00:00:02');
    
@@ -44,12 +45,12 @@ describe('Stopwatch', () => {
     // Stop the stopwatch
     fireEvent.press(getByText('Stop'));
   
-    // Advance time by 5 more second to ensure it has stopped
+    // Advance time by 5 more seconds
     act(() => {
       jest.advanceTimersByTime(5000);
     })
   
-    // The time should still be '00:00:02' because the stopwatch has stopped.
+    // If the application is correctly programmed, the time should still be '00:00:02' because the stopwatch is stopped. 
     timeDisplay = findByText('00:00:02');
     expect(timeDisplay).toBeTruthy();
   });
@@ -86,7 +87,7 @@ describe('Stopwatch', () => {
 
     console.log('the resumedTime is', resumedTime);
 
-    // The resumed time should be greater than the paused time, indicating the stopwatch has resumed
+    // The resumed time should be greater than the paused time which indicates that the stopwatch is resumed counting
     expect(resumedTime).not.toBe(pausedTime);
   });
 
