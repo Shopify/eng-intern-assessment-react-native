@@ -5,18 +5,23 @@ type StopWatchButtonProps = {
   onStartPress: () => void
   onStopPress: () => void
   onResetPress: () => void
+  onLapPress: () => void
 }
 
-const StopWatchButton: React.FC<StopWatchButtonProps> = ({isRunning, onStartPress, onStopPress, onResetPress}) => {
+const StopWatchButton: React.FC<StopWatchButtonProps> = ({isRunning, onStartPress, onStopPress, onResetPress, onLapPress}) => {
   return (
     <View style={styles.container}>
-      <Button title='Lap'/>
-      <Button title='Reset' onPress={onResetPress}/>
       {
         isRunning ? ( 
-          <Button title='Stop' color='red' onPress={onStopPress}/>
+          <>
+            <Button title='Lap' onPress={onLapPress}/>
+            <Button title='Stop' color='red' onPress={onStopPress}/>
+          </>
         ) : (
-          <Button title='Start' color='green' onPress={onStartPress}/>
+          <>
+            <Button title='Reset' onPress={onResetPress}/>
+            <Button title='Start' color='green' onPress={onStartPress}/>
+          </>
         )
       }
     </View>
