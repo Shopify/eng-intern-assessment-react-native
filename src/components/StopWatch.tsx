@@ -2,8 +2,11 @@ import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
 import * as Font from 'expo-font';
 import { styles } from '../styles/styles';
+
 import LapResetButton from './LapResetButton';
 import StopWatchButton from './StopWatchButton';
+import FastestLap from './FastestLap';
+import SlowestLap from './SlowestLap';
 
 const customFonts = {
   Roboto: require('../../assets/fonts/Roboto-Thin.ttf'),
@@ -16,7 +19,8 @@ export default function StopWatch() {
   }
 
   const [displayTime, setDisplayTime] = useState<string>('00:00:00');
-  const [laps, setLaps] = useState<string[]>([]);
+  const [laps, setLaps] = useState<number[]>([]);
+  const [indexLaps, setIndexLaps] = useState<string[]>([]);
 
   const [running, setRunning] = useState(false);
   const [timeElapsed, setTimeElapsed] = useState(0);
@@ -43,6 +47,43 @@ export default function StopWatch() {
     return timeString;
   };
 
+  const handleLap = () => {
+    const currentTime = Date.now();
+    const lastLapTime = laps.length > 0 ? laps[laps.length - 1] : startTimeRef.current;
+    const newLapTime = currentTime - lastLapTime;
+  
+    setLaps(previousLaps => [...previousLaps, currentTime]); 
+    const formattedLapTime = formatTime(newLapTime);
+    setIndexLaps(previousFormattedLaps => [...previousFormattedLaps, formattedLapTime]);
+  };
+
+  // fastest and slowest indices
+  const getLapIndices = (lapTimestamps: number[]) => {
+    const lapDurations = lapTimestamps.map((endTime, index) => 
+      endTime - (index === 0 ? startTimeRef.current : lapTimestamps[index - 1])
+    );
+
+    let fastestLapTime = Number.MAX_SAFE_INTEGER;
+    let slowestLapTime = 0; 
+    let fastestLapIndex = -1;
+    let slowestLapIndex = -1;
+
+    lapDurations.forEach((duration, index) => {
+      if (duration < fastestLapTime) {
+        fastestLapTime = duration;
+        fastestLapIndex = index;
+      }
+      if (duration > slowestLapTime) {
+        slowestLapTime = duration;
+        slowestLapIndex = index;
+      }
+    });
+
+    return { fastestLapIndex, slowestLapIndex };
+  };
+
+  const { fastestLapIndex, slowestLapIndex } = getLapIndices(laps);
+  
   // start and stop timer
   const toggleStopwatch = () => {
     if (!running) {
@@ -59,12 +100,14 @@ export default function StopWatch() {
 
   const resetStopwatch = () => {
     clearInterval(timerRef.current);
-    startTimeRef.current = 0;
+    startTimeRef.current = Date.now(); 
     setTimeElapsed(0);
     setRunning(false);
     setDisplayTime('00:00:00');
-    setLaps([]);
+    setLaps([]); 
+    setIndexLaps([]); 
   };
+  
 
   useEffect(() => {
     
@@ -80,10 +123,6 @@ export default function StopWatch() {
     }
   }, [running]);
 
-  const handleLap = () => {
-    const newLap = `${displayTime}`;
-    setLaps(previousLaps => [...previousLaps, newLap]);
-  };
 
   return (
     <View style={styles.container}>
@@ -101,12 +140,21 @@ export default function StopWatch() {
       </View>
       {/* orders laps in reverse order so most recent lap is at top*/}
       <ScrollView style={styles.lapList}>
-        {laps.slice().reverse().map((lap, index) => (
-          <View key={index} style={styles.lapContainer}>
-            <Text style={styles.lapNumber}>Lap {laps.length - index}</Text>
-            <Text style={styles.lapTime}>{lap}</Text>
-          </View>
-        ))}
+        {indexLaps.slice().reverse().map((formattedLap, index) => {
+          const lapIndex = indexLaps.length - index - 1; 
+          if (lapIndex === fastestLapIndex) {
+            return <FastestLap key={lapIndex} lapTime={formattedLap} index={lapIndex + 1} />;
+          } else if (lapIndex === slowestLapIndex) {
+            return <SlowestLap key={lapIndex} lapTime={formattedLap} index={lapIndex + 1} />;
+          } else {
+            return (
+              <View key={lapIndex} style={styles.lapContainer}>
+                <Text style={styles.lapNumber}>Lap {lapIndex + 1}</Text>
+                <Text style={styles.lapTime}>{formattedLap}</Text>
+              </View>
+            );
+          }
+        })}
       </ScrollView>
     </View>
   );

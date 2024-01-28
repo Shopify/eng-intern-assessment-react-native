@@ -115,6 +115,13 @@ export const styles = StyleSheet.create({
       color: '#fff',
       fontSize: 20,
     },
+    fastestLap: {
+      color: '#00E100',
+    },
+    slowestLap: {
+      color: '#ff0000',
+    },
   });
+
   
   
