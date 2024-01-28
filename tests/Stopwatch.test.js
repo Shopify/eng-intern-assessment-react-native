@@ -37,7 +37,7 @@ describe("Stopwatch", () => {
     // paused and resume should be the same time displayed
     expect(pausedTime && resumedTime).toBeTruthy();
     if (pausedTime && resumedTime) {
-      expect(pausedTime).toBe(resumedTime); 
+      expect(pausedTime).toBe(resumedTime);
     }
   });
 

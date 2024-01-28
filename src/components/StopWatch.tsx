@@ -104,7 +104,7 @@ export default function StopWatch() {
       setRunning(false);
     }
   };
-  
+
 
   const resetStopwatch = () => {
     clearInterval(timerRef.current);
@@ -147,10 +147,10 @@ export default function StopWatch() {
           onLap={handleLap}
         />
         <ResetButton
-        isRunning={running}
-        onReset={resetStopwatch}
-        onStop={() => toggleStopwatch()} 
-      />
+          isRunning={running}
+          onReset={resetStopwatch}
+          onStop={() => toggleStopwatch()}
+        />
       </View>
       {/* orders laps in reverse order so most recent lap is at top*/}
       <ScrollView style={styles.lapList} testID='lap-list'>
@@ -162,7 +162,7 @@ export default function StopWatch() {
             return <SlowestLap key={lapIndex} lapTime={formattedLap} index={lapIndex + 1} />;
           } else {
             return (
-              <View key={lapIndex} style={styles.lapContainer } testID='lap-text'>
+              <View key={lapIndex} style={styles.lapContainer} testID='lap-text'>
                 <Text style={styles.lapNumber}>Lap {lapIndex + 1}</Text>
                 <Text style={styles.lapTime}>{formattedLap}</Text>
               </View>

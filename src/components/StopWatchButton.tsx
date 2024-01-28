@@ -15,9 +15,9 @@ const StopWatchButton: React.FC<StopWatchButtonProps> = ({ running, hasStarted, 
       onPress={toggleStopwatch}
     >
       <Text
-      style={running ? styles.buttonTextPause : hasStarted ? styles.buttonTextResume : styles.buttonTextStop }>
+        style={running ? styles.buttonTextPause : hasStarted ? styles.buttonTextResume : styles.buttonTextStop}>
         {running ? 'Pause' : hasStarted ? 'Resume' : 'Start'}
-      
+
       </Text>
     </TouchableOpacity>
   );
