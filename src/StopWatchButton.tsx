@@ -8,38 +8,69 @@ interface Props {
   lapStopwatch: () => void;
   isRunning: Boolean;
   isPaused: Boolean;
+  isStopped: Boolean;
 }
 
 export default function StopWatchButton({ startStopwatch, pauseStopwatch, stopStopwatch, resetStopwatch,
-  lapStopwatch, isRunning, isPaused }: Props) {
+  lapStopwatch, isRunning, isPaused, isStopped }: Props) {
   return (
-    <View style={styles.buttonContainer}>
-      {!isRunning ? (
-        <>
-          <TouchableOpacity style={[styles.button, styles.resetButton]} onPress={resetStopwatch}>
-            <Text style={styles.buttonText}>Reset</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={[styles.button, styles.startButton]} onPress={startStopwatch}>
-            <Text style={styles.buttonText}>{isPaused ? 'Resume' : 'Start'}</Text>
-          </TouchableOpacity>
-        </>
-      ) : (
-        <>
-          <TouchableOpacity style={[styles.button, styles.resetButton]} onPress={resetStopwatch}>
-            <Text style={styles.buttonText}>Reset</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={[styles.button, styles.lapButton]} onPress={lapStopwatch}>
-            <Text style={styles.buttonText}>Lap</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={[styles.button, styles.pauseButton]} onPress={stopStopwatch}>
-            <Text style={styles.buttonText}>Stop</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={[styles.button, styles.pauseButton]} onPress={pauseStopwatch}>
-            <Text style={styles.buttonText}>Pause</Text>
-          </TouchableOpacity>
-        </>
-      )}
-    </View>
+    <>
+      <View style={styles.buttonContainer}>
+        {!isRunning ? (
+          <>
+            
+            {isStopped ? (
+              <TouchableOpacity style={[styles.button, styles.resetButton]} onPress={resetStopwatch}>
+                <Text style={styles.buttonText}>Reset</Text>
+              </TouchableOpacity>
+            ) : (
+              <>
+                <TouchableOpacity style={[styles.button, styles.invisibleButton]}/>
+              </>
+            )}
+            {!isStopped ? (
+              <TouchableOpacity style={[styles.button, styles.startButton]} onPress={startStopwatch}>
+                <Text style={styles.buttonText}>{isPaused ? 'Resume' : 'Start'}</Text>
+              </TouchableOpacity>
+            ) : (
+            <>
+              <TouchableOpacity style={[styles.button, styles.invisibleButton]}/>
+            </>
+            )}
+            
+          </>
+        ) : (
+          <>
+            <TouchableOpacity style={[styles.button, styles.lapButton]} onPress={lapStopwatch}>
+              <Text style={styles.buttonText}>Lap</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={[styles.button, styles.pauseButton]} onPress={pauseStopwatch}>
+              <Text style={styles.buttonText}>Pause</Text>
+            </TouchableOpacity>
+          </>
+        )}
+      </View>
+      <View style={styles.buttonContainer}>
+        {!isRunning? (
+            <>
+              {isPaused && !isStopped? (
+                <TouchableOpacity style={[styles.button, styles.stopButton]} onPress={stopStopwatch}>
+                  <Text style={styles.buttonText}>Stop</Text>
+                </TouchableOpacity>
+              ) : (
+              <>
+                <TouchableOpacity style={[styles.button, styles.invisibleButton]}/>
+              </>
+              )}
+            </>
+          ) : (
+            <TouchableOpacity style={[styles.button, styles.stopButton]} onPress={stopStopwatch}>
+              <Text style={styles.buttonText}>Stop</Text>
+            </TouchableOpacity>
+        )}
+      </View>
+    </>
+    
   );
 }
 
@@ -60,6 +91,17 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: '#fff',
   },
+  invisibleButton: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    minWidth: 100,
+    height: 50,
+    marginHorizontal: 10,
+    borderRadius: 25,
+    borderWidth: 2,
+    borderColor: '#000',
+    backgroundColor: '#000'
+  },
   buttonText: {
     color: '#fff',
     fontSize: 16,
@@ -73,7 +115,10 @@ const styles = StyleSheet.create({
   resetButton: {
     backgroundColor: '#D32F2F', // Red color
   },
+  stopButton: {
+    backgroundColor: '#D32F2F', // Red color
+  },
   lapButton: {
     backgroundColor: '#1976D2', // Blue color
-  },
+  }
 });

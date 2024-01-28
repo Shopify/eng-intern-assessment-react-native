@@ -152,6 +152,7 @@ export default function StopWatch() {
           lapStopwatch={lapStopwatch}
           isRunning={isRunning}
           isPaused={isPaused}
+          isStopped={isStoped}
         />
       </View>
       
