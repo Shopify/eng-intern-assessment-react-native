@@ -10,20 +10,22 @@ const StopWatch = () => {
   const counterRef = useRef<number | null>(null);
 
   const handleStartTime = () => {
-    if (!isRunning) {
-      setIsRunning(true);
-      counterRef.current = setInterval(() => {
-        setTime((prevTime) => prevTime + 10);
-      }, 10);
-    }
+    setIsRunning(true);
+    counterRef.current = setInterval(() => {
+      setTime((prevTime) => prevTime + 10);
+    }, 10);
   };
 
   const handleStopTimer = () => {
-    if (isRunning) {
-      clearInterval(counterRef.current as number);
-      setIsRunning(false);
-    }
+    clearInterval(counterRef.current as number);
+    setIsRunning(false);
   };
+
+  const handleResetTimer = () => {
+    setTime(0);
+  };
+
+  const handleLapTimer = () => {};
 
   // Format time to 00:00.00
   const formatTime = (time: number) => {
@@ -42,7 +44,7 @@ const StopWatch = () => {
       <View style={styles.buttonRow}>
         <StopWatchButton
           title={isRunning ? "Lap" : "Reset"}
-          onPress={() => {}}
+          onPress={isRunning ? handleLapTimer : handleResetTimer}
         ></StopWatchButton>
         <StopWatchButton
           title={isRunning ? "Stop" : "Start"}
