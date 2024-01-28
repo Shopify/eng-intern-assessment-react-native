@@ -38,30 +38,33 @@ export default function StopWatchButton({ startStopwatch, pauseStopwatch, resetS
 const styles = StyleSheet.create({
   buttonContainer: {
     flexDirection: 'row',
-    marginTop: 50,
+    justifyContent: 'center',
+    marginTop: 20,
   },
   button: {
     justifyContent: 'center',
     alignItems: 'center',
-    minWidth: 80,
-    height: 80,
+    minWidth: 100,
+    height: 50,
     marginHorizontal: 10,
-    borderRadius: 40,
+    borderRadius: 25,
+    borderWidth: 2,
+    borderColor: '#fff',
   },
   buttonText: {
     color: '#fff',
     fontSize: 16,
   },
   startButton: {
-    backgroundColor: '#4CAF50',
+    backgroundColor: '#388E3C', // Green color
   },
   pauseButton: {
-    backgroundColor: '#FFC107',
+    backgroundColor: '#FFA000', // Orange color
   },
   resetButton: {
-    backgroundColor: '#F44336',
+    backgroundColor: '#D32F2F', // Red color
   },
   lapButton: {
-    backgroundColor: '#2196F3',
+    backgroundColor: '#1976D2', // Blue color
   },
 });
