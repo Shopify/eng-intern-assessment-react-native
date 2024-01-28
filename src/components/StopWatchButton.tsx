@@ -8,13 +8,13 @@ interface StopWatchButtonProps {
 
 export default function StopWatchButton({ btnTitle, onPressButton, disabled }:StopWatchButtonProps) {
   const defineBgColor = (btnTitle: string): ColorValue => {
-  const colorMap: { [key: string]: ColorValue } = {
-    Reset: 'orange',
-    Lap: 'blue',
-    Stop: 'red',
-  };
+    const colorMap: { [key: string]: ColorValue } = {
+      Reset: 'orange',
+      Lap: '#89CFF0',
+      Stop: '#E34234',
+    };
 
-  return colorMap[btnTitle] || '#50C878';
+    return colorMap[btnTitle] || '#50C878';
   };
 
   const bgColor = defineBgColor(btnTitle);
