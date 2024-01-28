@@ -4,6 +4,7 @@ import { useRef, useState } from "react";
 import LapRecord from "./LapRecord";
 
 const screenWidth = Dimensions.get("window").width;
+const screenHeight = Dimensions.get("window").height;
 
 const StopWatch = () => {
   const [time, setTime] = useState(0);
@@ -44,19 +45,24 @@ const StopWatch = () => {
   };
 
   return (
-    <View>
-      <Text style={styles.timer}>{formatTime(time)}</Text>
-      <View style={styles.buttonRow}>
-        <StopWatchButton
-          title={isRunning ? "Lap" : "Reset"}
-          onPress={isRunning ? handleLapTimer : handleResetTimer}
-        ></StopWatchButton>
-        <StopWatchButton
-          title={isRunning ? "Stop" : "Start"}
-          onPress={isRunning ? handleStopTimer : handleStartTime}
-        ></StopWatchButton>
+    <View style={styles.container}>
+      <View style={styles.timerSection}>
+        <Text style={styles.timer}>{formatTime(time)}</Text>
+        <View style={styles.buttonRow}>
+          <StopWatchButton
+            title={isRunning ? "Lap" : "Reset"}
+            onPress={isRunning ? handleLapTimer : handleResetTimer}
+          />
+          <StopWatchButton
+            title={isRunning ? "Stop" : "Start"}
+            onPress={isRunning ? handleStopTimer : handleStartTime}
+          />
+        </View>
       </View>
-      <LapRecord laps={laps} formatTime={formatTime} />
+
+      <View style={styles.lapRecord}>
+        <LapRecord laps={laps} formatTime={formatTime} />
+      </View>
     </View>
   );
 };
@@ -67,6 +73,7 @@ const styles = StyleSheet.create({
   timer: {
     fontSize: 80,
     textAlign: "center",
+    marginTop: screenHeight * 0.25,
   },
 
   buttonRow: {
@@ -76,5 +83,14 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     width: screenWidth * 0.9,
     padding: 10,
+  },
+
+  lapRecord: {
+    flex: 1,
+    marginBottom: 20,
+  },
+  container: {},
+  timerSection: {
+    justifyContent: "center",
   },
 });
