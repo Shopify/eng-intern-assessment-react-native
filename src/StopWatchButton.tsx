@@ -16,7 +16,7 @@ const StopWatchButton: React.FC<StopWatchButtonProps> = ({ label, onPress }) => 
 
 const styles = StyleSheet.create({
   button:{
-    backgroundColor: 'dogerblue',
+    backgroundColor: 'dodgerblue',
     padding: 15,
     borderRadius: 5,
     margin: 5,
