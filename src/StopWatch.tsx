@@ -1,13 +1,52 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import StopWatchButton from './StopWatchButton';
-import format from '@testing-library/react-native/build/helpers/format';
 
 const StopWatch: React.FC = () => {
   const [isRunning, setIsRunning] = useState(false);
   const [startTime, setStartTime] = useState<number | null>(null);
   const [elapsedTime, setElapsedTime] = useState(0);
   const [laps, setLaps] = useState<number[]>([]);
+
+  const startStopwatch = () => {
+    setIsRunning(true);
+    setStartTime(Date.now() - elapsedTime);
+  };
+
+  const stopStopwatch = () => {
+    setIsRunning(false);
+  };
+
+  const resetStopwatch = () => {
+    setIsRunning(false);
+    setStartTime(null);
+    setElapsedTime(0);
+    setLaps([]);
+  };
+
+  const recordLap = () => {
+    if (startTime !== null) {
+      setLaps([...laps, elapsedTime]);
+    }
+  };
+
+  useEffect(() => {
+    let interval: number | undefined;
+
+    if (isRunning) {
+      interval = setInterval(() => {
+        setElapsedTime(Date.now() - (startTime || 0));
+      }, 100);
+    } else if (interval !== undefined) {
+      clearInterval(interval);
+    }
+
+    return () => {
+      if (interval !== undefined) {
+        clearInterval(interval);
+      }
+    };
+  }, [isRunning, startTime]);
 
   const formatTime = (time: number) => {
     const minutes = Math.floor(time / 60000);
@@ -58,3 +97,5 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   }
 });
+
+export default StopWatch;
