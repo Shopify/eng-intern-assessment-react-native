@@ -7,7 +7,7 @@ interface StopWatchButtonProps {
 
 const StopWatchButton = ({ title, onPress }: StopWatchButtonProps) => {
   return (
-    <TouchableOpacity style={styles.button}>
+    <TouchableOpacity style={styles.button} onPress={onPress}>
       <Text>{title}</Text>
     </TouchableOpacity>
   );
