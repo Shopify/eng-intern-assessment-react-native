@@ -40,7 +40,6 @@ describe('Stopwatch', () => {
     expect(within(getByTestId('lap-list')).getByText(/(\d{2}:){2}\d{2}/));
 
     fireEvent.press(getByText('Lap'));
-    console.log('here', getByTestId('lap-list').children)
     expect(getByTestId('lap-list').children.length).toBe(2);
   });
 

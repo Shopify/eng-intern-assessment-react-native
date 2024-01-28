@@ -5,13 +5,16 @@ import StopwatchButton from './StopWatchButton';
 interface StopwatchProps {}
 
 const Stopwatch: React.FC<StopwatchProps> = () => {
+  // State variables to manage the stopwatch
   const [time, setTime] = useState<number>(0);
-  const [isTimerActive, setIsTimerActive] = useState<boolean>(true);
+  const [isTimerStopped, setIsTimerStopped] = useState<boolean>(true);
   const [running, setRunning] = useState<boolean>(false);
   const [lapTimes, setLapTimes] = useState<number[]>([]);
   
+  // Reference for the timer interval
   const timer = useRef<number | null>(null);
 
+  // useEffect to start and stop the timer based on the 'running' state
   useEffect(() => {
     if (running) {
       timer.current = setInterval(() => {
@@ -19,6 +22,7 @@ const Stopwatch: React.FC<StopwatchProps> = () => {
       }, 1000);
     }
     
+    // Cleanup function to clear the interval when the component unmounts or 'running' changes
     return () => {
       if (timer.current) {
         clearInterval(timer.current);
@@ -26,6 +30,7 @@ const Stopwatch: React.FC<StopwatchProps> = () => {
     };
   }, [running]);
 
+  // Function to format time into a readable string
   const formatTime = (time: number): string => {
     let hours: string | number = Math.floor(time / 3600);
     let minutes: string | number = Math.floor((time % 3600) / 60);
@@ -38,6 +43,7 @@ const Stopwatch: React.FC<StopwatchProps> = () => {
     return `${hours}:${minutes}:${seconds}`;
   };
 
+  // Event handlers for Timer button actions
   const handleRecordLap = () => {
     setLapTimes((prevLapTimes) => [time, ...prevLapTimes]);
   };
@@ -45,10 +51,10 @@ const Stopwatch: React.FC<StopwatchProps> = () => {
   const handleStartStop = () => {
     if (running) {
       stopTimer();
-      setIsTimerActive(false);
+      setIsTimerStopped(false);
     } else {
       startTimer();
-      setIsTimerActive(true);
+      setIsTimerStopped(true);
     }
   };
 
@@ -62,6 +68,7 @@ const Stopwatch: React.FC<StopwatchProps> = () => {
     setLapTimes([]);
   };
 
+  // Functions to start and stop the timer
   const startTimer = () => {
     setRunning(true);
   };
@@ -74,29 +81,29 @@ const Stopwatch: React.FC<StopwatchProps> = () => {
     setTime(0);
   };
 
+  // Styles for the components
   const styles = StyleSheet.create({
-    body:{
+    body: {
       alignItems: "center", 
     },
-    heading:{
+    heading: {
       paddingTop: 20,
       fontSize: 16,
       fontWeight: '500',
-
     },
     timer: {
       fontSize: 64,
       fontWeight: '500',
       paddingTop: 80
     },
-    timerView:{
+    timerView: {
       paddingBottom: 36,
     },
-    buttonView:{
+    buttonView: {
       flexDirection: 'row',
     },
-    lap:{
-      paddingTop:10,
+    lap: {
+      paddingTop: 10,
       width: 300,
     },
     lapItem: {
@@ -120,7 +127,7 @@ const Stopwatch: React.FC<StopwatchProps> = () => {
     <SafeAreaView style={styles.body}>
       <Text style={styles.heading}>Stopwatch</Text>
       <View style={styles.timerView}>
-        {isTimerActive && <Text style={styles.timer}>{formatTime(time)}</Text>}
+        {isTimerStopped && <Text style={styles.timer}>{formatTime(time)}</Text>}
       </View>
       <View style={styles.buttonView}>
         <StopwatchButton label="Lap" onPress={handleRecordLap} />
@@ -131,7 +138,7 @@ const Stopwatch: React.FC<StopwatchProps> = () => {
       <ScrollView>
         {lapTimes.length ? (
           <View testID='lap-list' style={styles.lap}>
-             {lapTimes.slice().reverse().map((item, index) => (
+            {lapTimes.slice().reverse().map((item, index) => (
               <View key={index} style={styles.lapItem}>
                 <Text style={styles.lapText}>{`Lap ${index + 1}`}</Text>
                 <Text style={styles.lapText}>{formatTime(item)}</Text>
