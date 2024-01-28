@@ -1,3 +1,4 @@
+/* component that benchmarks fastest lap time */
 import React from 'react';
 import { View, Text } from 'react-native';
 import { styles } from '../styles/styles';

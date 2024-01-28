@@ -1,3 +1,4 @@
+// component for the lap button
 import React from 'react';
 import { TouchableOpacity, Text } from 'react-native';
 import { styles } from '../styles/styles';
@@ -9,8 +10,9 @@ interface LapButtonProps {
 
 const LapButton: React.FC<LapButtonProps> = ({ isRunning, onLap }) => {
     return (
+        
         <TouchableOpacity
-            style={[isRunning ? styles.lapButton : styles.buttonDisabled]}
+            style={[isRunning ? styles.lapButton : styles.buttonDisabled]} // button disabled if stopwatch is not running
             onPress={onLap}
             disabled={!isRunning}
         >

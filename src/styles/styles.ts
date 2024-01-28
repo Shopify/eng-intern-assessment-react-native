@@ -1,6 +1,8 @@
+// global stylesheet
 import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
+  // CONTAINERS ---------------------------------
   container: {
     flex: 1,
     backgroundColor: '#000000',
@@ -17,14 +19,6 @@ export const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: '#fff',
   },
-  timerText: {
-    fontSize: 90,
-    color: '#fff',
-    fontFamily: 'Roboto',
-    letterSpacing: 2,
-    textAlign: 'center',
-    marginBottom: 10,
-  },
   buttonsContainer: {
     flexDirection: 'row',
     justifyContent: 'space-evenly',
@@ -34,6 +28,74 @@ export const styles = StyleSheet.create({
     borderBottomWidth: 4,
     borderBottomColor: 'white',
   },
+  lapContainer: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    width: '100%',
+    padding: 10,
+    borderTopWidth: 1,
+    borderTopColor: 'gray',
+  },
+  lapList: {
+    marginTop: 0,
+    maxHeight: 300,
+    width: '100%',
+  },
+
+  // TEXT ---------------------------------
+  timerText: {
+    fontSize: 90,
+    color: '#fff',
+    fontFamily: 'Roboto',
+    letterSpacing: 2,
+    textAlign: 'center',
+    marginBottom: 10,
+  },
+  buttonTextStart: {
+    fontSize: 17,
+    color: '#ff0000',
+    opacity: 1,
+  },
+  buttonTextStop: {
+    fontSize: 17,
+    color: '#00E100',
+    opacity: 1,
+  },
+  buttonTextPause: {
+    fontSize: 17,
+    color: 'yellow',
+    opacity: 1,
+  },
+  buttonTextResume: {
+    fontSize: 17,
+    color: '#00E100',
+    opacity: 1,
+  },
+  lapNumber: {
+    color: '#fff',
+    fontSize: 18,
+    width: '50%',
+    textAlign: 'left',
+  },
+  lapTime: {
+    color: '#fff',
+    fontSize: 18,
+    width: '50%',
+    textAlign: 'right',
+  },
+  buttonText: {
+    color: '#fff',
+    fontSize: 17,
+  },
+  fastestLap: {
+    color: '#00E100',
+  },
+  slowestLap: {
+    color: '#ff0000',
+  },
+
+  // BUTTONS ---------------------------------
   startButton: {
     backgroundColor: '#4CAF50',
     padding: 0,
@@ -71,52 +133,6 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     opacity: 0.9
   },
-  buttonTextStart: {
-    fontSize: 17,
-    color: '#ff0000',
-    opacity: 1,
-  },
-  buttonTextStop: {
-    fontSize: 17,
-    color: '#00E100',
-    opacity: 1,
-  },
-  buttonTextPause: {
-    fontSize: 17,
-    color: 'yellow',
-    opacity: 1,
-  },
-  buttonTextResume: {
-    fontSize: 17,
-    color: '#00E100',
-    opacity: 1,
-  },
-  lapList: {
-    marginTop: 0,
-    maxHeight: 300,
-    width: '100%',
-  },
-  lapContainer: {
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    width: '100%',
-    padding: 10,
-    borderTopWidth: 1,
-    borderTopColor: 'gray',
-  },
-  lapNumber: {
-    color: '#fff',
-    fontSize: 18,
-    width: '50%',
-    textAlign: 'left',
-  },
-  lapTime: {
-    color: '#fff',
-    fontSize: 18,
-    width: '50%',
-    textAlign: 'right',
-  },
   button: {
     width: 75,
     height: 75,
@@ -135,16 +151,6 @@ export const styles = StyleSheet.create({
   },
   resetButton: {
     backgroundColor: '#595959',
-  },
-  buttonText: {
-    color: '#fff',
-    fontSize: 17,
-  },
-  fastestLap: {
-    color: '#00E100',
-  },
-  slowestLap: {
-    color: '#ff0000',
   },
   buttonDisabled: {
     opacity: 0.5,
