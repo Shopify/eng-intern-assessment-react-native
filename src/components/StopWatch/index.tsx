@@ -1,8 +1,13 @@
 import { useState, useRef } from 'react';
-import { Text, View } from 'react-native';
+import { Text, View, FlatList } from 'react-native';
 import StopWatchButton from '../StopWatchButton';
 import { formatTime } from '../../utils/helperFunctions';
 import { styles } from './styles';
+
+type Lap = {
+  lapNumber: number;
+  duration: number;
+};
 
 export default function StopWatch() {
   const [elapsedTime, setElapsedTime] = useState<number>(0);
@@ -61,6 +66,25 @@ export default function StopWatch() {
     setLaps((prevLaps) => [...prevLaps, elapsedTime]);
   };
 
+  const lapData = laps.map((duration, index) => ({
+    lapNumber: index + 1,
+    duration: duration,
+  }));
+
+  const renderLapItem = ({ item }: { item: Lap }) => (
+    <View style={styles.lapItem}>
+      <Text style={styles.column}>{item.lapNumber}</Text>
+      <Text style={styles.column}>{formatTime(item.duration)}</Text>
+    </View>
+  );
+
+  const renderHeader = () => (
+    <View style={styles.header}>
+      <Text style={styles.column}>Lap #</Text>
+      <Text style={styles.column}>Duration</Text>
+    </View>
+  );
+
   return (
     <>
       <View>
@@ -77,12 +101,15 @@ export default function StopWatch() {
         <StopWatchButton btnTitle='Lap' onPressButton={handlePressLap} disabled={!isRunning}/>
         <StopWatchButton btnTitle='Stop' onPressButton={handlePressStop} disabled={!isRunning}/>
       </View>
-      {laps.length > 0 &&
-        <View testID='lap-list'>
-          {laps.map((lapTime, index) => (
-            <Text key={index}>{`Lap ${index + 1}: ${formatTime(lapTime)}`}</Text>
-          ))}
-        </View>
+      {laps.length > 0 && 
+        <FlatList
+          data={lapData}
+          keyExtractor={item => item.lapNumber.toString()}
+          renderItem={renderLapItem}
+          style={styles.flatList}
+          ListHeaderComponent={renderHeader}
+          testID='lap-list'
+        />
       }
     </>
   );
