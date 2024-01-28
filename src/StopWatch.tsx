@@ -10,7 +10,7 @@ type Props = {
 
 // Make a function to process the time into the desired format
 // Format time to HH:MM:SS
-function formatTime(time: number): string {
+export function formatTime(time: number): string {
   const hours = Math.floor(time / 3600);
   const minutes = Math.floor((time % 3600) / 60);
   const seconds = time % 60;
