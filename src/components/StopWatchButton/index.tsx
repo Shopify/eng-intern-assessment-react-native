@@ -1,4 +1,5 @@
 import { View, TouchableOpacity, Text, StyleSheet, ColorValue } from 'react-native';
+import { styles } from './styles';
 
 interface StopWatchButtonProps {
   btnTitle: string;
@@ -29,16 +30,3 @@ export default function StopWatchButton({ btnTitle, onPressButton, disabled }:St
   );
 }
 
-const styles = StyleSheet.create({
-  btnContainer: {
-    width: 90,
-    height: 90,
-    borderRadius: 45,
-    justifyContent: 'center'
-  },
-  title: {
-    textAlign: 'center',
-    fontSize: 20,
-    fontWeight: '600'
-  }
-});
