@@ -3,6 +3,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import StopWatch from './src/StopWatch';
 import StopWatchButton from './src/StopWatchButton';
 import { useEffect, useRef, useState } from 'react';
+import StopWatchLapTable from './src/StopWatchLapTable';
 
 export default function App() {
 
@@ -10,6 +11,7 @@ export default function App() {
   const [startTime, setStartTime] = useState(0);
   const [elapsedTime, setElapsedTime] = useState(0);
   const intervalRef = useRef<number | null>(null);
+  const [lapList, setLapList] = useState<string[]>(['00:00:00', '00:00:00', '00:00:00']);
 
   const startStopwatch = () => {
     const now = Date.now() - elapsedTime;
@@ -74,15 +76,18 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      <StopWatch
-        time={formatTime(elapsedTime)}
-      />
-      <StopWatchButton
-        startStopwatch={startStopwatch}
-        pauseStopwatch={pauseStopwatch}
-        resetStopwatch={resetStopwatch}
-        lapStopwatch={lapStopwatch}
-      />
+      <View style={styles.topContainer}>
+        <StopWatch time={formatTime(elapsedTime)} />
+        <StopWatchButton
+          startStopwatch={startStopwatch}
+          pauseStopwatch={pauseStopwatch}
+          resetStopwatch={resetStopwatch}
+          lapStopwatch={lapStopwatch}
+        />
+      </View>
+      <View style={styles.bottomContainer}>
+        <StopWatchLapTable lapList={lapList} />
+      </View>
       <StatusBar style="auto" />
     </View>
   );
@@ -93,6 +98,15 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'center'
   },
+  topContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'flex-end'
+  },
+  bottomContainer: {
+    flex: 1,
+    width: '100%'
+  }
 });
