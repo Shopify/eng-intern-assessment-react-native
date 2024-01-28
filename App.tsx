@@ -5,18 +5,17 @@ import StopWatch from "./src/StopWatch";
 
 export default function App() {
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <StopWatch />
       <StatusBar style="auto" />
-    </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    top: 300,
+    top: 200,
     flex: 1,
     backgroundColor: "#fff",
-    overflow: "scroll",
   },
 });
