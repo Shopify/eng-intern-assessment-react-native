@@ -28,6 +28,10 @@ export const styles = StyleSheet.create({
     },
     buttonText: {
       fontSize: 20,
+    },
+    scrollContainer: {
+      maxHeight: 200,
+      overflow: 'scroll',
     }
   });
   
