@@ -1,82 +1,65 @@
 import React, { useEffect, useState } from "react";
-import { FlatList, StyleSheet, Text, View } from "react-native";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
 import StopWatchButton from "./StopWatchButton";
 import calculateTimer from "./utils/timeUtils";
-
-type LapData = {
-  lapTime: number;
-  lapDuration: number;
-};
 
 export default function StopWatch() {
   const [currentTime, setCurrentTime] = useState<number>(0);
   const [timeString, setTimeString] = useState<string>("");
-  const [intervalId, setIntervalId] = useState<number>(0);
   const [running, setRunning] = useState<boolean>(false);
-  const [lapData, setLapData] = useState<LapData[]>([]);
+  const [lapData, setLapData] = useState<number[]>([]);
   const [stopped, setStopped] = useState<boolean>(false);
-  const [started, setStarted] = useState<boolean>(false);
 
   // starts or resumes the stopwatch
   const handleStart = () => {
     setStopped(false);
     setRunning(true);
-    setCurrentTime(0);
-    setStarted(true);
   };
 
   // stops the stopwatch
   const handleStop = () => {
     setStopped(true);
-    clearInterval(intervalId);
     setRunning(false);
   };
 
   const handleReset = () => {
     // resets the stopwatch and clears both the time and laps
-    clearInterval(intervalId);
     setStopped(false);
     setRunning(false);
-    setStarted(true);
     setCurrentTime(0);
     setLapData([]);
   };
 
   const handleLap = () => {
     // Calculates the total lap duration
-    const totalLapDuration = lapData.reduce(
-      (total, lap) => total + lap.lapDuration,
-      0
-    );
+    const totalLapDuration = lapData.reduce((total, lap) => total + lap, 0);
     if (lapData.length === 0) {
       // If it's the first lap store the current time as the lap duration
-      setLapData([{ lapTime: 1, lapDuration: currentTime }]);
+      setLapData([currentTime]);
     } else {
       // Calculate the lap duration as the difference between the current time and the total lap time
       const lapDuration = currentTime - totalLapDuration;
 
       // Adds lap data to the array
-      setLapData((prevLapData) => [
-        ...prevLapData,
-        { lapTime: lapData.length + 1, lapDuration },
-      ]);
+      setLapData((prevLapData) => [...prevLapData, lapDuration]);
     }
   };
 
+  // updates the time
   useEffect(() => {
     setTimeString(calculateTimer(currentTime));
   }, [currentTime]);
 
+  // sets the time
   useEffect(() => {
     let interval: number | undefined;
     if (running) {
+      // starts an interval and updates the current time accordingly
       interval = setInterval(() => {
         setCurrentTime((prev: number) => prev + 1);
       }, 1);
-    } else if (interval) {
-      clearInterval(interval);
     }
-
+    // ensures that the interval is cleared when not running
     return () => {
       if (interval) {
         clearInterval(interval);
@@ -86,6 +69,7 @@ export default function StopWatch() {
 
   return (
     <View style={{ alignItems: "center" }}>
+      {/* time display */}
       <Text style={styles.time}>{timeString}</Text>
       <View
         style={{
@@ -94,6 +78,7 @@ export default function StopWatch() {
           alignItems: "center",
         }}
       >
+        {/* Start/resume button */}
         {!running && (
           <StopWatchButton
             name={stopped ? "Resume" : "Start"}
@@ -101,6 +86,7 @@ export default function StopWatch() {
           />
         )}
 
+        {/* shows the reset or stop and lap buttons based on if the stop button was pressed */}
         {stopped ? (
           <StopWatchButton name="Reset" onPress={handleReset} />
         ) : (
@@ -108,33 +94,34 @@ export default function StopWatch() {
             {running && (
               <View style={{ alignItems: "center", flexDirection: "row" }}>
                 <StopWatchButton name="Lap" onPress={handleLap} />
-                <StopWatchButton
-                  name={started ? "Pause" : "Stop"}
-                  onPress={handleStop}
-                />
+                <StopWatchButton name="Stop" onPress={handleStop} />
               </View>
             )}
           </View>
         )}
+        {/* lap list */}
       </View>
-      <FlatList
-        data={lapData}
-        keyExtractor={(item) => item.lapTime.toString()}
-        renderItem={({ item }) => (
-          <Text
+      {lapData.length > 0 && (
+        <ScrollView testID="lap-list">
+          <View
             style={{
-              width: 300,
-              textAlign: "center",
-              fontSize: 30,
-              borderColor: "#89cff0",
-              borderWidth: 3,
-              borderRadius: 30,
-              padding: 8,
-              margin: 5,
+              width: 400,
+              height: 2,
+              backgroundColor: "black",
+              marginVertical: 30,
             }}
-          >{`Lap ${item.lapTime}: ${calculateTimer(item.lapDuration)}`}</Text>
-        )}
-      />
+          ></View>
+          {lapData.map((lap, index) => (
+            <Text
+              style={{ fontSize: 30, textAlign: "center" }}
+              testID="lap-text"
+              key={index}
+            >
+              {`Lap ${index + 1} : ${calculateTimer(lap)}`}
+            </Text>
+          ))}
+        </ScrollView>
+      )}
     </View>
   );
 }
