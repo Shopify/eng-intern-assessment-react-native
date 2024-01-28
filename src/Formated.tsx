@@ -14,7 +14,7 @@ const Formatted = (props: any) => {
 
     return(
         <>
-            <Text style={props.style}>{format()}</Text>
+            <Text testID="timer" style={props.style}>{format()}</Text>
         </>
     )
 }

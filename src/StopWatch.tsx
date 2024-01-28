@@ -73,7 +73,7 @@ export default function StopWatch() {
     /* Lap render function for the FlatList*/
     const renderLap = ({item} : { item: Lap }) => {
         return(
-            <View style={styles.lapRow} key={item.lap}>
+            <View testID={"lap-list"} style={styles.lapRow} key={item.lap}>
                 <Text>{item.lap}</Text>
                 <Formatted style={{fontSize: 15, marginLeft: 'auto', marginRight: '15%'}} time={item.time} />
             </View>
