@@ -7,7 +7,7 @@ interface Props {
 
 export default function StopWatchLapTable({ lapList }: Props) {
   return (
-    <View style={styles.container}>
+    <View style={styles.container} id='lap-list'>
       <ScrollView contentContainerStyle={styles.scrollViewContent}>
         {lapList.map((item, index) => (
           <Text key={index} style={styles.item}>
