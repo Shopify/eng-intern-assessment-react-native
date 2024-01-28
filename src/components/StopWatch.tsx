@@ -1,7 +1,7 @@
 import { useState, useRef } from 'react';
 import { Text, View } from 'react-native';
 import StopWatchButton from './StopWatchButton';
-import { formatTime } from './utils/helperFunctions';
+import { formatTime } from '../utils/helperFunctions';
 
 export default function StopWatch() {
   const [elapsedTime, setElapsedTime] = useState<number>(0);
