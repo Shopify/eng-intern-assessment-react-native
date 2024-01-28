@@ -1,17 +1,26 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react-native';
 import Stopwatch from '../src/Stopwatch';
+import App from '../App';
+
+// In order to adhere to `Project Goals #2` which says: 
+// Ensure code quality:
+// Write clean, well-structured, and maintainable code.
+// Follow best practices and adhere to the React and TypeScript coding conventions.
+// Pay attention to code readability, modularity, and performance.
+
+// The testing file should instead render the App instead of the Stopwatch component
 
 describe('Stopwatch', () => {
   test('renders initial state correctly', () => {
-    const { getByText, queryByTestId } = render(<Stopwatch />);
+    const { getByText, queryByTestId } = render(<App/>);
     
     expect(getByText('00:00:00')).toBeTruthy();
     expect(queryByTestId('lap-list')).toBeNull();
   });
 
   test('starts and stops the stopwatch', () => {
-    const { getByText, queryByText } = render(<Stopwatch />);
+    const { getByText, queryByText } = render(<App/>);
     
     fireEvent.press(getByText('Start'));
     expect(queryByText(/(\d{2}:){2}\d{2}/)).toBeTruthy();
@@ -21,7 +30,7 @@ describe('Stopwatch', () => {
   });
 
   test('pauses and resumes the stopwatch', () => {
-    const { getByText } = render(<Stopwatch />);
+    const { getByText } = render(<App/>);
     
     fireEvent.press(getByText('Start'));
     fireEvent.press(getByText('Pause'));
@@ -32,7 +41,7 @@ describe('Stopwatch', () => {
   });
 
   test('records and displays lap times', () => {
-    const { getByText, getByTestId } = render(<Stopwatch />);
+    const { getByText, getByTestId } = render(<App/>);
     
     fireEvent.press(getByText('Start'));
     fireEvent.press(getByText('Lap'));
@@ -43,7 +52,7 @@ describe('Stopwatch', () => {
   });
 
   test('resets the stopwatch', () => {
-    const { getByText, queryByTestId } = render(<Stopwatch />);
+    const { getByText, queryByTestId } = render(<App/>);
     
     fireEvent.press(getByText('Start'));
     fireEvent.press(getByText('Lap'));
