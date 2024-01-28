@@ -24,8 +24,11 @@ export default function App() {
   };
 
   const pauseStopwatch = () => {
-
-  }
+    setIsRunning(false);
+    if (intervalRef.current !== null) {
+      clearInterval(intervalRef.current);
+    }
+  };
 
   const resetStopwatch = () => {
 
