@@ -1,7 +1,8 @@
 import React from "react";
 import { View, Button, StyleSheet } from "react-native";
 
-// This file handles buttons and nothing else. Modularize code by passing in props to the renderer.
+// StopWatchButton.tsx should be purely a presentational component - it should only be responsible for rendering buttons.
+// This allows for separation of concerns and also allows this component to be more SFB (safe from bugs), RFC (ready for change), ETU (easy to understand).
 
 type Props = {
   onStartStop: () => void;

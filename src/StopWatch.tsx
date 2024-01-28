@@ -1,8 +1,8 @@
 import React from "react";
 import { Text, View, StyleSheet } from "react-native";
 
-// This file handles displaying the time and nothing else. Modularize code by passing in props to the renderer.
-// In this case, pass only the time.
+// StopWatch.tsx should be purely a presentational component - it should only be responsible for rendering the time.
+// This allows for separation of concerns and also allows this component to be more SFB (safe from bugs), RFC (ready for change), ETU (easy to understand).
 
 type Props = {
   time: number;
