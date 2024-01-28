@@ -1,18 +1,35 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useRef} from 'react';
 import { Text, View, StyleSheet } from 'react-native';
 
 import StopWatchButton from './StopWatchButton';
 
 export default function StopWatch() {
   const [isRunning, setIsRunning] = useState(false)
-  const onStartStop = () => (
-    setIsRunning(!isRunning)
-  )
+  const [time, setTime] = useState(0)
+  const intervalRef = useRef()
+
+  const onStart = () => {
+    setIsRunning(true)
+    intervalRef.current = setInterval(() => {
+      setTime(time => time + 1)
+    }, 1000)
+  }
+  const onStop = () => {
+    setIsRunning(false)
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+      setIsRunning(false);
+    }
+  }
+  const resetTimer = () => {
+    setTime(0)
+    onStop()
+  }
   
   return (
     <View>
-      <Text style={styles.text}>00:00.00</Text>
-      <StopWatchButton isRunning={isRunning} onStartStop={onStartStop}/>
+      <Text style={styles.text}>{time}</Text>
+      <StopWatchButton isRunning={isRunning} onStartPress={onStart} onStopPress={onStop} onResetPress={resetTimer}/>
     </View>
   );
 }

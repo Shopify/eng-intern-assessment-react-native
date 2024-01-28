@@ -2,15 +2,23 @@ import { Button, StyleSheet, View } from 'react-native';
 
 type StopWatchButtonProps = {
   isRunning: boolean
-  onStartStop: () => void
+  onStartPress: () => void
+  onStopPress: () => void
+  onResetPress: () => void
 }
 
-const StopWatchButton: React.FC<StopWatchButtonProps> = ({isRunning, onStartStop}) => {
+const StopWatchButton: React.FC<StopWatchButtonProps> = ({isRunning, onStartPress, onStopPress, onResetPress}) => {
   return (
     <View style={styles.container}>
       <Button title='Lap'/>
-      <Button title='Reset'/>
-      {isRunning? <Button title='Stop' color='red' onPress={onStartStop}/> : <Button title='Start' color='green' onPress={onStartStop}/>}
+      <Button title='Reset' onPress={onResetPress}/>
+      {
+        isRunning ? ( 
+          <Button title='Stop' color='red' onPress={onStopPress}/>
+        ) : (
+          <Button title='Start' color='green' onPress={onStartPress}/>
+        )
+      }
     </View>
   );
 }
