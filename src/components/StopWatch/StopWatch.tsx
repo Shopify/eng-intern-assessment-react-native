@@ -29,7 +29,6 @@ export default function StopWatch() {
       setIsRunning(false);
       setIsPaused(false);
       setIsStopped(true);
-      setElapsedTime(0);
   };
 
   const handlePressPause = () => {
@@ -65,16 +64,18 @@ export default function StopWatch() {
   return (
     <>
       <View>
-        <Text style={styles.displayText}>{isStopped ? "Timer stopped" : formatTime(elapsedTime)}</Text>
+        <Text style={styles.displayText}>{formatTime(elapsedTime)}</Text>
       </View>
-      <View>
+      <View style={styles.btnStart}>
         <StopWatchButton 
           btnTitle={isRunning ? (isPaused ? 'Resume' : 'Pause') : 'Start'}
           onPressButton={isRunning ? (isPaused ? handlePressResume : handlePressPause) : handlePressStart}
         />
-        <StopWatchButton btnTitle='Stop' onPressButton={handlePressStop} disabled={!isRunning}/>
+      </View>
+      <View style={styles.buttonsContainer}>
         <StopWatchButton btnTitle='Reset' onPressButton={handlePressReset} disabled={!isRunning && !isStopped}/>
         <StopWatchButton btnTitle='Lap' onPressButton={handlePressLap} disabled={!isRunning}/>
+        <StopWatchButton btnTitle='Stop' onPressButton={handlePressStop} disabled={!isRunning}/>
       </View>
       {laps.length > 0 &&
         <View testID='lap-list'>
