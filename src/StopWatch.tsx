@@ -1,19 +1,32 @@
-import {Text, View} from 'react-native';
-import Interval from "./Interval";
+import {Text} from 'react-native';
+import interval, {Interval} from "./Interval";
+import {useState} from "react";
+import StopWatchButton from "./StopWatchButton";
 
-type StopWatchProps = {
-    elapsedTime: Interval;
-};
+const padTimeString = (n: number) => {
+    return n < 10 ? `0${n}` : `${n}`;
+}
 
-export default function StopWatch(props: Readonly<StopWatchProps>) {
-    const {hours, minutes, seconds} = props.elapsedTime;
+export default function StopWatch() {
 
-    const pad = (n: number) => {
-        return n < 10 ? `0${n}` : `${n}`;
-    }
+    let elapsedMilliseconds = 0;
+    let [elapsedTime, setElapsedTime] = useState<interval>(Interval(0));
+    const {hours, minutes, seconds} = elapsedTime;
+
+    const startClock = () => {
+        console.log("startClock");
+        setInterval(() => {
+            console.log(elapsedTime);
+            elapsedMilliseconds += 1000;
+            setElapsedTime(Interval(elapsedMilliseconds));
+        }, 1000);
+    };
+
+
     return (
-        <View>
-            <Text>{pad(hours)}:{pad(minutes)}:{pad(seconds)}</Text>
-        </View>
+        <>
+            <Text>{padTimeString(hours)}:{padTimeString(minutes)}:{padTimeString(seconds)}</Text>
+            <StopWatchButton text="start" onClick={startClock}/>
+        </>
     );
 }
