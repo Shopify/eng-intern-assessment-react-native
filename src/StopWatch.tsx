@@ -12,6 +12,7 @@ const StopWatch: React.FC = () => {
   const [pauseTime, setPauseTime] = useState<number>(0);
 
   const startStopwatch = () => {
+    console.log("Start");
     if (isPaused) {
       // Resume
       setStartTime(
@@ -26,16 +27,19 @@ const StopWatch: React.FC = () => {
   };
 
   const pauseStopwatch = () => {
+    console.log("Pause");
     setIsPaused(true);
     setPauseTime(Date.now());
   };
 
   const stopStopwatch = () => {
+    console.log("Stop");
     setIsRunning(false);
     setIsPaused(false);
   };
 
   const resetStopwatch = () => {
+    console.log("Reset");
     setIsRunning(false);
     setIsPaused(false);
     setStartTime(null);
@@ -45,28 +49,24 @@ const StopWatch: React.FC = () => {
 
   const recordLap = () => {
     if (startTime !== null) {
-      setLaps((prevLaps) => [...(prevLaps || []), elapsedTime]);
+      setLaps([...laps, elapsedTime]);
     }
   };
 
   useEffect(() => {
     let interval: number | undefined;
-
+  
     if (isRunning && !isPaused) {
-      const updateElapsedTime = () => {
-        setElapsedTime(Date.now() - (startTime || 0));
-      };
-
-      interval = setInterval(updateElapsedTime, 100);
-
+      interval = setInterval(() => {
+        setElapsedTime(prevTime => prevTime + 100);
+      }, 100);
+  
       // Immediately update elapsed time after starting or resuming to avoid delay
-      updateElapsedTime();
-    } else if (interval !== undefined) {
-      clearInterval(interval);
+      setElapsedTime(prevTime => Date.now() - (startTime || 0));
     }
-
+  
     return () => {
-      if (interval !== undefined) {
+      if (typeof interval !== 'undefined') {
         clearInterval(interval);
       }
     };
@@ -109,9 +109,10 @@ const StopWatch: React.FC = () => {
       <ScrollView
         style={styles.lapsContainer}
         contentContainerStyle={styles.scrollContent}
+        testID="lap-list"
       >
         {laps.map((lapTime, index) => (
-          <Text style={styles.lapText} key={index} testID="lap-list">
+          <Text style={styles.lapText} key={index} testID="lap-text">
             Lap {index + 1}: {formatTime(Number(lapTime))}
           </Text>
         ))}
