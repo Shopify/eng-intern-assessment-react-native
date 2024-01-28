@@ -1,6 +1,7 @@
 import React from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 
+// interface for properties of the stopwatch buttons
 interface StopWatchProps {
   name: string;
   onPress: () => void;
@@ -9,6 +10,7 @@ interface StopWatchProps {
 export default function StopWatchButton({ name, onPress }: StopWatchProps) {
   return (
     <View>
+      {/* button structure */}
       <TouchableOpacity
         onPress={onPress}
         style={{
