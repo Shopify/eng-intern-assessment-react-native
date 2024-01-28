@@ -16,8 +16,8 @@ export default function StopWatch({time}: Props) {
 
 const styles = StyleSheet.create({
   timeText: {
-    fontSize: 80,
+    fontSize: 70,
     fontWeight: 'bold',
-    color: '#000'
+    color: '#fff'
   }
 });
