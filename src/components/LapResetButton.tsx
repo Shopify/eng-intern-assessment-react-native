@@ -1,7 +1,7 @@
 
 import React from 'react';
-import { TouchableOpacity, Text, StyleSheet } from 'react-native';
-
+import { TouchableOpacity, Text} from 'react-native';
+import { styles } from '../styles/styles'; 
 
 interface LapResetButtonProps {
   isRunning: boolean;
@@ -19,25 +19,5 @@ const LapResetButton: React.FC<LapResetButtonProps> = ({ isRunning, onLap, onRes
     </TouchableOpacity>
   );
 };
-
-const styles = StyleSheet.create({
-  button: {
-    width: 75,
-    height: 75,
-    borderRadius: 37.5,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  lapButton: {
-    backgroundColor: '#FFC107', 
-  },
-  resetButton: {
-    backgroundColor: '#595959',
-  },
-  buttonText: {
-    color: '#fff',
-    fontSize: 20,
-  },
-});
 
 export default LapResetButton;

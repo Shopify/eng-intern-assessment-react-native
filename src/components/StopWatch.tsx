@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
 import * as Font from 'expo-font';
 import { styles } from '../styles/styles';
 import LapResetButton from './LapResetButton';
+import StopWatchButton from './StopWatchButton';
 
 const customFonts = {
   Roboto: require('../../assets/fonts/Roboto-Thin.ttf'),
@@ -68,7 +69,7 @@ export default function StopWatch() {
   useEffect(() => {
     
     loadFonts();  // load custom roboto font
-    
+
     if (running) {
       const interval = setInterval(() => {
         const newTimeElapsed = Date.now() - startTimeRef.current;
@@ -88,12 +89,10 @@ export default function StopWatch() {
     <View style={styles.container}>
       <Text style={styles.timerText}>{displayTime}</Text>
       <View style={styles.buttonsContainer}>
-        <TouchableOpacity
-          style={running ? styles.stopButton : styles.startButton}
-          onPress={toggleStopwatch}
-        >
-          <Text style={running ? styles.buttonTextStart : styles.buttonTextStop}>{running ? 'Stop' : 'Start'}</Text>
-        </TouchableOpacity>
+        <StopWatchButton 
+          running={running} 
+          toggleStopwatch={toggleStopwatch} 
+        />
         <LapResetButton
           isRunning={running}
           onLap={handleLap}

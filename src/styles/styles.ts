@@ -24,7 +24,7 @@ export const styles = StyleSheet.create({
       fontFamily: 'Roboto',
       letterSpacing: 2,
       textAlign: 'center',
-      marginBottom: 40, 
+      marginBottom: 10, 
     },
     buttonsContainer: {
       flexDirection: 'row',
@@ -97,6 +97,23 @@ export const styles = StyleSheet.create({
       fontSize: 18,
       width: '50%', 
       textAlign: 'right',  
+    },
+    button: {
+      width: 75,
+      height: 75,
+      borderRadius: 37.5,
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    lapButton: {
+      backgroundColor: '#FFC107', 
+    },
+    resetButton: {
+      backgroundColor: '#595959',
+    },
+    buttonText: {
+      color: '#fff',
+      fontSize: 20,
     },
   });
   
