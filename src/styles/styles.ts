@@ -30,7 +30,10 @@ export const styles = StyleSheet.create({
       flexDirection: 'row',
       justifyContent: 'space-evenly',
       marginTop: 20, 
-      width: '100%', 
+      width: '100%',
+      paddingBottom: 30,
+      borderBottomWidth: 4,  
+      borderBottomColor: 'white', 
     },
     startButton: {
       backgroundColor: '#4CAF50',
@@ -68,6 +71,32 @@ export const styles = StyleSheet.create({
       fontSize: 20,
       color: '#00E100',
       opacity: 1,
+    },
+    lapList: {
+      marginTop: 0,
+      maxHeight: 300, 
+      width: '100%', 
+    },
+    lapContainer: {
+      flexDirection: 'row',
+      justifyContent: 'flex-start',
+      alignItems: 'center',
+      width: '100%', 
+      padding: 10,
+      borderTopWidth: 1,  
+      borderTopColor: 'gray',  
+    },
+    lapNumber: {
+      color: '#fff',
+      fontSize: 18,
+      width: '50%',  
+      textAlign: 'left',  
+    },
+    lapTime: {
+      color: '#fff',
+      fontSize: 18,
+      width: '50%', 
+      textAlign: 'right',  
     },
   });
   
