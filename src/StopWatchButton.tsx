@@ -6,9 +6,31 @@ interface StopWatchButtonProps {
 }
 
 const StopWatchButton = ({ title, onPress }: StopWatchButtonProps) => {
+  let backgroundColor, borderColor, textColor;
+
+  if (title === "Start") {
+    backgroundColor = "rgba(144, 238, 144, 0.5)";
+    borderColor = "darkgreen";
+    textColor = "darkgreen";
+  } else if (title === "Stop") {
+    backgroundColor = "rgba(238, 144, 144, 0.5)";
+    borderColor = "darkred";
+    textColor = "darkred";
+  } else {
+    backgroundColor = "white";
+    borderColor = "black";
+    textColor = "black";
+  }
+
   return (
-    <TouchableOpacity style={styles.button} onPress={onPress}>
-      <Text style={styles.text}>{title}</Text>
+    <TouchableOpacity
+      style={[
+        styles.button,
+        { backgroundColor: backgroundColor, borderColor: borderColor },
+      ]}
+      onPress={onPress}
+    >
+      <Text style={[styles.text, { color: textColor }]}>{title}</Text>
     </TouchableOpacity>
   );
 };
@@ -22,7 +44,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "white",
-    borderColor: "black",
+    borderColor: "grey",
     borderWidth: 1,
     padding: 15,
     borderRadius: 50,
