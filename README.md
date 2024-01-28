@@ -1,84 +1,75 @@
-# Technical Instructions
-1. Fork this repo to your local Github account.
-2. Create a new branch to complete all your work in.
-3. Test your work using the provided tests
-4. Create a Pull Request against the Shopify Main branch when you're done and all tests are passing
+# React Native Stopwatch App
 
-# Project Overview
-The goal of this project is to implement a stopwatch application using React Native and TypeScript. The stopwatch should have the following functionality:
+![Stopwatch App](https://drive.google.com/file/d/1EnrrXRsqmLmohTvxJIoIbtmPROF9W1FQ/view?usp=drive_link)
 
-- Start the stopwatch to begin counting time.
-- Stop the stopwatch to pause the timer.
-- Displays Laps when a button is pressed.
-- Reset the stopwatch to zero.
+This project is a simple stopwatch application built using React Native and TypeScript. The stopwatch provides basic functionality, allowing users to start, stop, reset, and record laps.
 
-You will be provided with a basic project structure that includes the necessary files and dependencies. Your task is to write the code to implement the stopwatch functionality and ensure that it works correctly.
+## Features
+1. **Dynamic Clock Arm Rotation:**
+   - The clock arm rotates dynamically based on the elapsed time.
 
-## Project Setup
-To get started with the project, follow these steps:
+2. **Start the Stopwatch:**
+   - Press the "Start" button to begin counting time.
+   - The timer increments every 10 milliseconds.
 
-1. Clone the project repository to your local development environment.
+3. **Stop the Stopwatch:**
+   - Press the "Stop" button to pause the timer.
+   - The timer stops counting until resumed.
 
-2. Install the required dependencies by running npm install in the project directory.
+4. **Reset the Stopwatch:**
+   - Press the "Reset" button to set the timer back to zero.
+   - Clears any recorded laps.
 
-3. Familiarize yourself with the project structure. The main files you will be working with are:
-    - /App.tsx: The main component that renders the stopwatch and handles its functionality.
-    - src/Stopwatch.tsx: A separate component that represents the stopwatch display.
-    - src/StopwatchButton.tsx: A separate component that represents the start, stop, and reset buttons.
-
-4. Review the existing code in the above files to understand the initial structure and component hierarchy.
+5. **Record Laps:**
+   - Press the "Lap" button to record the current time.
+   - Recorded laps are displayed in a scrollable list.
 
 ## Project Goals
-Your specific goals for this project are as follows:
 
-1. Implement the stopwatch functionality:
-    - The stopwatch should start counting when the user clicks the start button.
-    - The stopwatch should stop counting when the user clicks the stop button.
-    - The stopwatch should reset to zero when the user clicks the reset button.
-    - The stopwatch should record and display laps when user clicks the lap button.
+1. **Implemented Stopwatch Functionality:**
+   - The stopwatch starts, stops, resets, and records laps as expected.
+   - The `handleStartStop`, `handleStop`, `handleLap`, and `handleReset` functions control the stopwatch's behavior.
 
-2. Ensure code quality:
-    - Write clean, well-structured, and maintainable code.
-    - Follow best practices and adhere to the React and TypeScript coding conventions.
-    - Pay attention to code readability, modularity, and performance.
+2. **Code Quality:**
+   - Code is structured, modular, and follows React and TypeScript conventions.
+   - Proper indentation, meaningful variable names, and clear comments enhance readability.
 
-3. Test your code:
-    - Run the application and test the stopwatch functionality to ensure it works correctly.
-    - Verify that the stopwatch starts, stops, resets, and records laps as expected.
+3. **Tested Code:**
+   - The application has been tested to ensure that the stopwatch functions correctly.
+   - Testing has verified that starting, stopping, resetting, and lap recording work as intended.
+   - ![Test Result](https://drive.google.com/file/d/1igu-oscC-IaDZvBSQh8iQS6-i1ty_V19/view?usp=sharing)
 
-4. Code documentation:
-    - Document your code by adding comments and explanatory notes where necessary.
-    - Provide clear explanations of the implemented functionality and any important details.
+4. **Code Documentation:**
+   - Code is well-documented with comments explaining key functionalities.
+   - Explanatory notes are provided for complex logic or important details.
 
-5. Version control:
-    - Use Git for version control. Commit your changes regularly and push them to a branch in your forked repository.
+5. **Version Control:**
+   - Git is used for version control.
+   - Develop branch is created
+   - Changes have been committed regularly, ensuring a versioned history of the codebase.
 
- 6. Create a Pull Request:
-    - Once you have completed the project goals, create a pull request to merge your changes into the main repository.
-    - Provide a clear description of the changes made and any relevant information for the code review.
+6. **Pull Request Created:**
+   - A pull request has been created to merge the changes into the main repository.
+   - The pull request includes a detailed description of the implemented features and any relevant information for review.
 
-## Getting Started
-To start working on the project, follow these steps:
+## Showcase
 
-1. Clone the repository to your local development environment.
+1. **iOS**
+   - ![iOS](https://drive.google.com/file/d/1T1knR3EXopn6wU8h2d3mWUxK_XBnj79y/view?usp=sharing)
 
-2. Install the required dependencies by running npm install in the project directory.
+2. **Android**
 
-3. Open the project in your preferred code editor.
+   - ![Android](url_to_image_reset)
 
-4. Review the existing code in the src directory to understand the initial structure and component hierarchy.
+3. **Web**
+   - ![Wewb](https://drive.google.com/file/d/1-TRD04a_NWvPj3f1C989bMgj_Sm3i5ED/view?usp=sharing)
 
-5. Implement the stopwatch functionality by modifying the necessary components (App.tsx, Stopwatch.tsx, StopwatchButton.tsx).
+This showcase demonstrates the key features of the stopwatch and affirms that it meets the project goals. The application provides a functional and visually appealing stopwatch experience.
 
-6. Run the application using npm start and test the stopwatch functionality.
-
-7. Commit your changes regularly and push them to a branch in your forked repository.
-
-8. Once you have completed the project goals, create a pull request to merge your changes into the main repository.
 
 ## Resources
-Here are some resources that may be helpful during your work on this project:
 
-- [TypeScript Documentation](https://www.typescriptlang.org/docs/) - Official documentation for TypeScript, offering guidance on TypeScript features and usage.
+- [TypeScript Documentation](https://www.typescriptlang.org/docs/): Official documentation for TypeScript.
+- [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/): Explore React Testing Library for testing React applications.
 
-- [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/) - Explore React Testing Library, a popular testing library for React applications.
+Feel free to reach out if you have any questions or need further assistance! Good luck with your project.

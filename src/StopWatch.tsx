@@ -24,7 +24,12 @@ export default function StopWatch() {
 
   // Toggle the running state of the stopwatch (Start/Stop/Resume)
   const handleStartStop = () => {
+    setTime((prevTime) => prevTime + 10);
     setIsRunning((prevIsRunning) => !prevIsRunning);
+  };
+
+  const handleStop = () => {
+    setIsRunning(false);
   };
 
   // Record the current time as a lap
@@ -52,18 +57,16 @@ export default function StopWatch() {
           style={[styles.clock, clockArmRotation]}
         />
 
-
       <Text style={styles.timerText}>{formatTime(time)}</Text>
       <View style={styles.buttonContainer}>
-      <StopWatchButton onPress={handleStartStop}
-  title={isRunning ? 'Pause' : time === 0 ? 'Start' : 'Resume'}
-/>
+      <StopWatchButton  title={isRunning ? 'Pause' : time != 0 ? 'Resume':'Start'} onPress={handleStartStop}/>
+       <StopWatchButton onPress={handleStop} title="Stop" />
         <StopWatchButton onPress={handleLap} title="Lap" />
         <StopWatchButton onPress={handleReset} title="Reset" />
       </View>
-      <ScrollView style={styles.lapsContainer} contentContainerStyle={styles.lapText}>
+      <ScrollView style={styles.lapsContainer} contentContainerStyle={styles.lapText} testID= "lap-list">
         {laps.map((lap, index) => (
-          <Text key={index} style={styles.lapText} testID= "lap-list">
+          <Text key={index} style={styles.lapText} testID= "lap-text">
             Lap {laps.length - index}: {formatTime(lap) }
           </Text>
         ))}
@@ -110,7 +113,7 @@ const styles = StyleSheet.create({
   },
   // Style for the button container
   buttonContainer: {
-    width: '70%',
+    width: '95%',
     flexDirection: 'row',
     justifyContent: 'space-around',
     marginTop: 10,
