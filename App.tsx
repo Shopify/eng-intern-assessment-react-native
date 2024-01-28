@@ -1,14 +1,15 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
 import StopWatchButton from "./src/StopWatchButton";
+import StopWatch from "./src/StopWatch";
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <Text style={{ fontSize: 50 }}>00:00:00</Text>
+      <Text style={{ fontSize: 30 }}>Stopwatch App</Text>
       <StatusBar style="auto" />
-
-      <StopWatchButton></StopWatchButton>
+      <StopWatch></StopWatch>
+      {/* <StopWatchButton></StopWatchButton> */}
     </View>
   );
 }
