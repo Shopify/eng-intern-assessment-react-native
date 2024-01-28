@@ -60,7 +60,7 @@ export default function App() {
         <View testID="lap-list">
           {laps.map((lap, index) => (
             <Text key={index}>
-              Lap {index + 1}: {lap} seconds
+              Lap {index + 1}: {lap} 
             </Text>
           ))}
         </View>
