@@ -7,7 +7,7 @@ import StopWatchLapTable from './src/StopWatchLapTable';
 
 export default function App() {
 
-  const [isRunning, setIsRunning] = useState(false);
+  const [isRunning, setIsRunning] = useState<Boolean>(false);
   const [startTime, setStartTime] = useState(0);
   const [elapsedTime, setElapsedTime] = useState(0);
   const intervalRef = useRef<number | null>(null);
@@ -84,6 +84,7 @@ export default function App() {
           pauseStopwatch={pauseStopwatch}
           resetStopwatch={resetStopwatch}
           lapStopwatch={lapStopwatch}
+          isRunning={isRunning}
         />
       </View>
       <View style={styles.bottomContainer}>

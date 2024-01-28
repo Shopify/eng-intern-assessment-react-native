@@ -5,26 +5,35 @@ interface Props {
   pauseStopwatch: () => void;
   resetStopwatch: () => void;
   lapStopwatch: () => void;
+  isRunning: Boolean;
 }
 
-export default function StopWatchButton({ startStopwatch, pauseStopwatch, resetStopwatch, lapStopwatch }: Props) {
+export default function StopWatchButton({ startStopwatch, pauseStopwatch, resetStopwatch, lapStopwatch, isRunning }: Props) {
   return (
     <View style={styles.buttonContainer}>
-      <TouchableOpacity style={[styles.button, styles.startButton]} onPress={startStopwatch}>
-        <Text style={styles.buttonText}>Start</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={[styles.button, styles.pauseButton]} onPress={pauseStopwatch}>
-        <Text style={styles.buttonText}>Pause</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={[styles.button, styles.resetButton]} onPress={resetStopwatch}>
-        <Text style={styles.buttonText}>Reset</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={[styles.button, styles.lapButton]} onPress={lapStopwatch}>
-        <Text style={styles.buttonText}>Lap</Text>
-      </TouchableOpacity>
+      {!isRunning ? (
+        <>
+          <TouchableOpacity style={[styles.button, styles.startButton]} onPress={startStopwatch}>
+            <Text style={styles.buttonText}>Start</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={[styles.button, styles.resetButton]} onPress={resetStopwatch}>
+            <Text style={styles.buttonText}>Reset</Text>
+          </TouchableOpacity>
+        </>
+      ) : (
+        <>
+          <TouchableOpacity style={[styles.button, styles.pauseButton]} onPress={pauseStopwatch}>
+            <Text style={styles.buttonText}>Pause</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={[styles.button, styles.lapButton]} onPress={lapStopwatch}>
+            <Text style={styles.buttonText}>Lap</Text>
+          </TouchableOpacity>
+        </>
+      )}
     </View>
   );
 }
+
 
 const styles = StyleSheet.create({
   buttonContainer: {
