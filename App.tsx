@@ -6,7 +6,7 @@ import StopWatchButton from './src/StopWatchButton';
 export default function App() {
   return (
     <View style={styles.container}>
-      <StopWatch/>
+      <StopWatch time={'00:00:00'}/>
       <StopWatchButton/>
       <StatusBar style="auto" />
     </View>

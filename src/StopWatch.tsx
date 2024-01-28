@@ -1,8 +1,15 @@
-import { View } from 'react-native';
+import { Text, View } from 'react-native';
 
-export default function StopWatch() {
+interface Props {
+  time: string
+}
+
+export default function StopWatch({time}: Props) {
   return (
     <View >
+      <Text>
+        {time}
+      </Text>
     </View>
   );
 }
