@@ -1,8 +1,14 @@
-import { View } from 'react-native';
+import React from 'react';
+import { Button, GestureResponderEvent } from 'react-native';
 
-export default function StopWatchButton() {
+export default function StopWatchButton({ title, onPress } : {
+  title: string; 
+  onPress: (event: GestureResponderEvent) => void;
+}) {
   return (
-    <View >
-    </View>
+    <Button 
+      onPress={onPress}
+      title={title}
+    />
   );
 }
