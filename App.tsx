@@ -5,7 +5,7 @@ import StopwatchButton from "./src/StopWatchButton";
 import { StatusBar } from "expo-status-bar";
 import { formatTime } from "./src/StopWatch";
 
-// App.tsx should manage the state and logic of the overall app. 
+// App.tsx should manage the state and logic of the overall app.
 
 export default function App() {
   const [isRunning, setIsRunning] = useState<boolean>(false);
@@ -56,11 +56,15 @@ export default function App() {
         onReset={handleReset}
         isRunning={isRunning}
       />
-      {laps.map((lap, index) => (
-        <Text key={index}>
-          Lap {index + 1}: {lap} seconds
-        </Text>
-      ))}
+      {laps.length > 0 && (
+        <View testID="lap-list">
+          {laps.map((lap, index) => (
+            <Text key={index}>
+              Lap {index + 1}: {lap} seconds
+            </Text>
+          ))}
+        </View>
+      )}
       <StatusBar style="auto" />
     </View>
   );
