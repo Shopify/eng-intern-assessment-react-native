@@ -6,6 +6,7 @@ import { formatTime } from './utils/helperFunctions';
 export default function StopWatch() {
   const [elapsedTime, setElapsedTime] = useState<number>(0);
   const [isRunning, setIsRunning] = useState(false);
+  const [laps, setLaps] = useState<number[]>([]);
   const intervalRef = useRef<number | null>(null);
 
   const handlePressStart = () => {
@@ -24,11 +25,15 @@ export default function StopWatch() {
   };
 
   const handlePressReset = () => {
-    console.log("Reset");
+    clearInterval(intervalRef.current!);
+    setElapsedTime(0);
+    setLaps([]);
+    setIsRunning(false);
   };
 
   const handlePressLap = () => {
-    console.log("Lap");
+    if(elapsedTime === 0) return;
+    setLaps([...laps, elapsedTime]);
   };
 
   return (
@@ -42,6 +47,11 @@ export default function StopWatch() {
         <StopWatchButton btnTitle='Reset' onPressButton={handlePressReset}/>
         <StopWatchButton btnTitle='Lap' onPressButton={handlePressLap}/>
       </View>
+      {laps.length > 0 && laps.map((lapTime, index) => (
+        <View testID='lap-list'>
+          <Text key={index}>{`Lap ${index + 1}: ${formatTime(lapTime)}`}</Text>
+        </View>
+      ))}
     </>
   );
 }
