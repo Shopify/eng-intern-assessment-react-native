@@ -11,8 +11,9 @@ export default function StopWatch() {
   const onStart = () => {
     setIsRunning(true)
     intervalRef.current = setInterval(() => {
-      setTime(time => time + 1)
-    }, 1000)
+      // increase time by 10 milliseconds per 10 milliseconds, better performance than per millisecond
+      setTime(time => time + 10)
+    }, 10)
   }
   const onStop = () => {
     setIsRunning(false)
@@ -25,11 +26,22 @@ export default function StopWatch() {
     setTime(0)
     onStop()
   }
-  
+  const formatTime = (time) => {
+    const minutes = Math.floor(time / 60000).toString().padStart(2, '0');
+    const seconds = Math.floor((time % 60000) / 1000).toString().padStart(2, '0')
+    const milliseconds = Math.floor(time % 1000).toString().padStart(2, '0')
+    return `${minutes}:${seconds}:${milliseconds}`
+  }
+
   return (
     <View>
-      <Text style={styles.text}>{time}</Text>
-      <StopWatchButton isRunning={isRunning} onStartPress={onStart} onStopPress={onStop} onResetPress={resetTimer}/>
+      <Text style={styles.text}>{formatTime(time)}</Text>
+      <StopWatchButton 
+        isRunning={isRunning} 
+        onStartPress={onStart} 
+        onStopPress={onStop} 
+        onResetPress={resetTimer}
+      />
     </View>
   );
 }
