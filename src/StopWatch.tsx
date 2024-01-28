@@ -1,4 +1,4 @@
-import {GestureResponderEvent, Text, View } from 'react-native';
+import {GestureResponderEvent, ScrollView, Text, View } from 'react-native';
 import { styles } from './Styles';
 import React, { useEffect, useState } from "react";
 import StopWatchButton from './StopWatchButton';
@@ -6,7 +6,7 @@ import StopWatchButton from './StopWatchButton';
 export default function StopWatch() {
   const [isRunning, setIsRunning] = useState(false);
   const [elapsedTime, setElapsedTime] = useState(0);
-  
+  const [lapTime, setLapTime] = useState<string[]>([]);
   let id: number;
 
   useEffect(() => {
@@ -25,11 +25,11 @@ export default function StopWatch() {
   };
 
   const onReset = ():void => {
-    if (isRunning) {
+    if (isRunning == false) {
       setElapsedTime(0);
     }
     else{
-      //lapping function
+      setLapTime(lapTime.concat(formatTime(elapsedTime)));
     }
   };
 
@@ -49,6 +49,7 @@ export default function StopWatch() {
         isRunning = {isRunning}
         onStartStop={onStartStop}
         onReset={onReset}
+        lapTimes={lapTime}
       />
     </View>
   );

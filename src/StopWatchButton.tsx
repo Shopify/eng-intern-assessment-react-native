@@ -6,12 +6,14 @@ interface StopWatchButtonProps {
   isRunning: boolean;
   onStartStop: (event: GestureResponderEvent) => void;
   onReset: (event: GestureResponderEvent) => void;
+  lapTimes: string[];
 }
 
 const StopWatchButton: React.FC<StopWatchButtonProps> = ({
   isRunning, 
   onStartStop, 
-  onReset
+  onReset,
+  lapTimes
   }) => {
   return (
     <View >
@@ -21,6 +23,11 @@ const StopWatchButton: React.FC<StopWatchButtonProps> = ({
       <TouchableOpacity style={styles.button} onPress={onReset}>
         <Text style={styles.buttonText}>{isRunning ? 'Lap' : 'Reset'}</Text>
       </TouchableOpacity>
+      <View>
+        {lapTimes.map((lapTime, index) => (
+          <Text key={index}>Lap {index + 1}: {lapTime}</Text>
+        ))}
+      </View>
     </View>
   );
 };
