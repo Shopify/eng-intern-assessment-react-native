@@ -1,12 +1,14 @@
 import { Dimensions, StyleSheet, Text, View } from "react-native";
 import StopWatchButton from "./StopWatchButton";
 import { useRef, useState } from "react";
+import LapRecord from "./LapRecord";
 
 const screenWidth = Dimensions.get("window").width;
 
 const StopWatch = () => {
   const [time, setTime] = useState(0);
   const [isRunning, setIsRunning] = useState(false);
+  const [laps, setLaps] = useState<number[]>([]);
   const counterRef = useRef<number | null>(null);
 
   const handleStartTime = () => {
@@ -23,9 +25,12 @@ const StopWatch = () => {
 
   const handleResetTimer = () => {
     setTime(0);
+    setLaps([]);
   };
 
-  const handleLapTimer = () => {};
+  const handleLapTimer = () => {
+    setLaps([...laps, time]);
+  };
 
   // Format time to 00:00.00
   const formatTime = (time: number) => {
@@ -51,6 +56,7 @@ const StopWatch = () => {
           onPress={isRunning ? handleStopTimer : handleStartTime}
         ></StopWatchButton>
       </View>
+      <LapRecord laps={laps} formatTime={formatTime} />
     </View>
   );
 };
