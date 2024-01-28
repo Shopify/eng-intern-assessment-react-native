@@ -10,10 +10,9 @@ export interface LapProps {
 export default function Lap({title, time}: LapProps) {
     const displayTime = formatTime(time)
     return (
-        <View style={styles.container}>
+        <View style={styles.container} testID={"lap-item"}>
             <Text style={styles.text}>{title}</Text>
-            <Text
-                style={styles.text}>{`${displayTime.minutes}:${displayTime.seconds}:${displayTime.milliSeconds}`}</Text>
+            <Text style={styles.text}>{displayTime}</Text>
         </View>
     )
 
