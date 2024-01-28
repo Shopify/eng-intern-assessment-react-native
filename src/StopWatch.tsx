@@ -1,6 +1,6 @@
 // StopWatch.tsx
 import React, { useState, useEffect } from 'react';
-import { StatusBar, SafeAreaView, View, Text, Button, StyleSheet, ScrollView, Image, Platform } from 'react-native';
+import { SafeAreaView, View, Text, Button, StyleSheet, ScrollView, Image, Platform } from 'react-native';
 import StopWatchButton from './StopWatchButton';
 
 // Functional component representing the main stopwatch screen
@@ -138,6 +138,7 @@ const styles = StyleSheet.create({
     width: 120,
     height: 120
   },
+  //Style for clock Container
   clockContainer: {
     marginTop: 100,
     justifyContent: 'center',
