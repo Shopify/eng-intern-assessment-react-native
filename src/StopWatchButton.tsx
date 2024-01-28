@@ -3,12 +3,15 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 interface Props {
   startStopwatch: () => void;
   pauseStopwatch: () => void;
+  stopStopwatch: () => void;
   resetStopwatch: () => void;
   lapStopwatch: () => void;
   isRunning: Boolean;
+  isPaused: Boolean;
 }
 
-export default function StopWatchButton({ startStopwatch, pauseStopwatch, resetStopwatch, lapStopwatch, isRunning }: Props) {
+export default function StopWatchButton({ startStopwatch, pauseStopwatch, stopStopwatch, resetStopwatch,
+  lapStopwatch, isRunning, isPaused }: Props) {
   return (
     <View style={styles.buttonContainer}>
       {!isRunning ? (
@@ -17,13 +20,19 @@ export default function StopWatchButton({ startStopwatch, pauseStopwatch, resetS
             <Text style={styles.buttonText}>Reset</Text>
           </TouchableOpacity>
           <TouchableOpacity style={[styles.button, styles.startButton]} onPress={startStopwatch}>
-            <Text style={styles.buttonText}>Start</Text>
+            <Text style={styles.buttonText}>{isPaused ? 'Resume' : 'Start'}</Text>
           </TouchableOpacity>
         </>
       ) : (
         <>
+          <TouchableOpacity style={[styles.button, styles.resetButton]} onPress={resetStopwatch}>
+            <Text style={styles.buttonText}>Reset</Text>
+          </TouchableOpacity>
           <TouchableOpacity style={[styles.button, styles.lapButton]} onPress={lapStopwatch}>
             <Text style={styles.buttonText}>Lap</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={[styles.button, styles.pauseButton]} onPress={stopStopwatch}>
+            <Text style={styles.buttonText}>Stop</Text>
           </TouchableOpacity>
           <TouchableOpacity style={[styles.button, styles.pauseButton]} onPress={pauseStopwatch}>
             <Text style={styles.buttonText}>Pause</Text>

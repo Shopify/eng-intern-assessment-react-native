@@ -5,6 +5,8 @@ import StopWatchLapTable from './StopWatchLapTable';
 
 export default function StopWatch() {
   const [isRunning, setIsRunning] = useState<Boolean>(false);
+  const [isPaused, setIsPaused] = useState<Boolean>(false);
+  const [isStoped, setIsStoped] = useState<Boolean>(false);
 
   const [startTime, setStartTime] = useState(0);
   const [elapsedTime, setElapsedTime] = useState(0);
@@ -32,13 +34,26 @@ export default function StopWatch() {
 
     intervalRef.current = setInterval(() => {
       setElapsedTime(Date.now() - now);
-    }, 100);
+    }, 10);
     lapIntervalRef.current = setInterval(() => {
       setElapsedLapTime(Date.now() - lapNow);
-    }, 100);
+    }, 10);
   };
 
   const pauseStopwatch = () => {
+    setIsPaused(true);
+    setIsRunning(false);
+    if (intervalRef.current !== null) {
+      clearInterval(intervalRef.current);
+    }
+    if (lapIntervalRef.current !== null) {
+      clearInterval(lapIntervalRef.current);
+    }
+  };
+
+  const stopStopwatch = () => {
+    setIsStoped(true);
+    setIsPaused(true);
     setIsRunning(false);
     if (intervalRef.current !== null) {
       clearInterval(intervalRef.current);
@@ -49,6 +64,8 @@ export default function StopWatch() {
   };
 
   const resetStopwatch = () => {
+    setIsPaused(false)
+    setIsStoped(false)
     setIsRunning(false);
     if (intervalRef.current !== null) {
       clearInterval(intervalRef.current);
@@ -83,7 +100,7 @@ export default function StopWatch() {
     }
     lapIntervalRef.current = setInterval(() => {
       setElapsedLapTime(Date.now() - lapNow);
-    }, 100);
+    }, 10);
   }
 
   useEffect(() => {
@@ -125,18 +142,21 @@ export default function StopWatch() {
     <View style={styles.container}>
       <View style={styles.topContainer}>
         <Text style={styles.timeText}>
-          {formatTime(elapsedTime)}
+        {!isStoped ? formatTime(elapsedTime) : ''}
         </Text>
         <StopWatchButton
           startStopwatch={startStopwatch}
           pauseStopwatch={pauseStopwatch}
+          stopStopwatch={stopStopwatch}
           resetStopwatch={resetStopwatch}
           lapStopwatch={lapStopwatch}
           isRunning={isRunning}
+          isPaused={isPaused}
         />
       </View>
+      
       <View style={styles.bottomContainer}>
-        <StopWatchLapTable lapList={lapList} />
+      {isRunning ? (<StopWatchLapTable lapList={lapList} />) : (<></>)}
       </View>
     </View>
   );
