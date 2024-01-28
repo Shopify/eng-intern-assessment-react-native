@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { View, Text, StyleSheet, ScrollView } from "react-native";
 import StopWatchButton from "./StopWatchButton";
 import { COLORS } from "./../constants/colors"
@@ -47,9 +47,13 @@ const StopWatch: React.FC = () => {
     setLaps([]);
   };
 
+  const scrollViewRef = useRef<ScrollView>(null);
+
   const recordLap = () => {
     if (startTime !== null) {
       setLaps([...laps, elapsedTime]);
+
+      scrollViewRef.current?.scrollToEnd();
     }
   };
 
@@ -107,6 +111,7 @@ const StopWatch: React.FC = () => {
         <StopWatchButton label="Stop" onPress={stopStopwatch} color={COLORS.buttonStop} />
       </View>
       <ScrollView
+        ref={scrollViewRef}
         style={styles.lapsContainer}
         contentContainerStyle={styles.scrollContent}
         testID="lap-list"

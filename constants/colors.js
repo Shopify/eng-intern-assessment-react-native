@@ -9,5 +9,6 @@ export const COLORS = {
   timerText: "purple",
   lapContainerBorder: "purple",
   lapText: "purple",
-  appBackground: "thistle",
+  appBackground1: "thistle",
+  appBackground2: "plum",
 };

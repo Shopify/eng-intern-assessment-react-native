@@ -8,7 +8,7 @@ export default function App() {
   return (
     <View style={styles.container}>
                   <LinearGradient
-        colors={["thistle", "plum"]}
+        colors={[COLORS.appBackground1, COLORS.appBackground2]}
         style={styles.background}
       />
       <StopWatch />
@@ -20,7 +20,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.appBackground,
+    backgroundColor: COLORS.appBackground1,
     alignItems: "center",
     justifyContent: "center",
   },
