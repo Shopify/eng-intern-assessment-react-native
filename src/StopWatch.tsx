@@ -5,6 +5,7 @@ import Formatted from "./Formated";
 
 /* Stopwatch is running when true */
 let state: boolean = false;
+let lapNumber = 1;
 
 {/* Create our interface for our lap, using JSON for simplicity */}
 interface Lap {
@@ -13,9 +14,7 @@ interface Lap {
 }
 
 export default function StopWatch() {
-    const [lapNumber, setLapNumber] = useState<number>(1);
     const [lapData, setLapData] = useState<Lap[]>([]);
-
     const [initialTime, setInitialTime] = useState(0);
     const [finalTime, setFinalTime] = useState(0);
     const [stoppedAt, setStoppedAt] = useState(0);
@@ -30,7 +29,7 @@ export default function StopWatch() {
             }
 
         lapData.push(lap);
-        setLapNumber(lapNumber+1);
+        lapNumber +=1;
 
     }
 
@@ -57,7 +56,7 @@ export default function StopWatch() {
 
     const reset = () => {
 
-        setLapNumber(1);
+        lapNumber = 1;
         setLapData([]);
 
         setInitialTime(0);
