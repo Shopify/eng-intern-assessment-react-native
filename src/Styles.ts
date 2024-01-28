@@ -7,6 +7,9 @@ export const styles = StyleSheet.create({
       alignItems: 'center',
       justifyContent: 'center',
     },
+    timeContainer:{
+      margin: 24,
+    },
     stopwatchText: {
         display: "flex",
         justifyContent: "center",

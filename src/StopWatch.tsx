@@ -25,32 +25,38 @@ export default function StopWatch() {
   };
 
   const onReset = ():void => {
-    if (isRunning == false) {
-      setElapsedTime(0);
-    }
-    else{
-      setLapTime(lapTime.concat(formatTime(elapsedTime)));
-    }
+    setLapTime([]);
+    setElapsedTime(0);
   };
 
-  const formatTime = (time: number) => {
-    let hours: number = Math.floor(time/360000);
-    let minutes: number = Math.floor((time % 360000) / 6000);
-    let seconds: number = Math.floor((time % 6000) / 100);
-    let milli: number = time % 100;
-
-    return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}.${String(milli).padStart(2, '0')}`;
-  };
+  const onLap = ():void => {
+    setLapTime(lapTime.concat(formatTime(elapsedTime)))
+  }
 
   return (
-    <View >
+    <View style = {styles.container}>
+      <View style = {styles.timeContainer}>
       <Text style= {styles.stopwatchText}> {formatTime(elapsedTime)} </Text>
-      <StopWatchButton
-        isRunning = {isRunning}
-        onStartStop={onStartStop}
-        onReset={onReset}
-        lapTimes={lapTime}
-      />
+      </View>
+      <View style = {styles.buttonContainer}>
+        <StopWatchButton
+          label = {isRunning ? 'Stop' : 'Start'}
+          onClick= {onStartStop}
+        />
+        <StopWatchButton
+          label = {isRunning ? 'Lap' : 'Reset'}
+          onClick= {isRunning ? onLap: onReset}
+        />
+      </View>
     </View>
   );
+}
+
+function formatTime(time: number): string {
+  const hours: number = Math.floor(time/360000);
+  const minutes: number = Math.floor((time % 360000) / 6000);
+  const seconds: number = Math.floor((time % 6000) / 100);
+  const milli: number = time % 100;
+
+  return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}.${String(milli).padStart(2, '0')}`;
 }
