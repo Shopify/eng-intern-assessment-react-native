@@ -3,8 +3,16 @@ import { swState } from "../utils/StopWatchCounterState";
 import { useEffect, useState } from "react";
 import { theme } from "../data/theme";
 
+// we are unable to set the state of laps outside of this file
+// a workaround is to define a function that is set to the state setter
+// and can be called from outside
 let updateLapsExternal: ((laps: string[]) => void) | undefined;
 
+/**
+ * LapsView
+ * @author Vivian Dai
+ * List of laps taken by the stopwatch
+ */
 export default function LapsView() {
     const [laps, setLaps] = useState<string[]>(swState.getLaps());
 
@@ -27,6 +35,8 @@ export default function LapsView() {
 export function updateLaps() {
     if (updateLapsExternal) {
         updateLapsExternal(swState.getLaps());
+    } else {
+        console.error("updateLapsExternal is undefined");
     }
 }
 

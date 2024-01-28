@@ -1,3 +1,7 @@
+/**
+ * Theme file
+ * @author Vivian Dai
+ */
 export const theme = {
     background: "#282c34",
     text: "#fbfff4",

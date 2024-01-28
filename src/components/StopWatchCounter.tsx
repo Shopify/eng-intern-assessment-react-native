@@ -1,10 +1,13 @@
 import { StyleSheet, Text, View } from "react-native";
 import { swState } from "../utils/StopWatchCounterState";
 import { useEffect, useState } from "react";
-import { act } from "react-test-renderer";
 import { theme } from "../data/theme";
 
-
+/**
+ * StopWatchCounter
+ * @author Vivian Dai
+ * Component at the top for displaying the current time on stopwatch
+ */
 export default function StopWatchCounter() {
     const [timeString, setTimeString] = useState<string>(swState.toTimeString());
     useEffect(() => {

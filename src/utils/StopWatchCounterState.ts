@@ -1,4 +1,6 @@
 /**
+ * StopWatchCounterState
+ * @author Vivian Dai
  * Class for stop watch counter
  */
 export class StopWatchCounterState {

@@ -11,7 +11,12 @@ export default function StopWatch() {
   const [displayLaps, setDisplayLaps] = useState<boolean>(false);
   const [stopped, setStopped] = useState<boolean>(false);
 
-  function stopStartButton() {
+  /**
+   * stopStartButton
+   * there is a single button for start, pause, and resume
+   * this function handles the logic for all three
+   */
+  function startPauseResumeButton() {
     setStopped(false);
     if (swStatus === "Start") {
       setSwStatus("Pause");
@@ -25,6 +30,10 @@ export default function StopWatch() {
     }
   } 
 
+  /**
+   * resetButton
+   * handles the logic for the reset button
+   */
   function resetButton() {
     swState.reset();
     if(!swState.run) {
@@ -34,12 +43,20 @@ export default function StopWatch() {
     setDisplayLaps(false);
   }
 
+  /**
+   * lapButton
+   * handles the logic for the lap button
+   */
   function lapButton() {
     swState.lap();
     updateLaps();
     setDisplayLaps(true);
   }
 
+  /**
+   * stopButton
+   * handles the logic for the stop button
+   */
   function stopButton() {
     swState.pause();
     setSwStatus("Start");
@@ -59,7 +76,7 @@ export default function StopWatch() {
       }
       </View>
       <View style={styles.buttonsContainer}>
-        <StopWatchButton name={swStatus} action={stopStartButton}></StopWatchButton>
+        <StopWatchButton name={swStatus} action={startPauseResumeButton}></StopWatchButton>
         <StopWatchButton name={"Stop"} action={stopButton}></StopWatchButton>
         <StopWatchButton name={"Reset"} action={resetButton}></StopWatchButton>
         <StopWatchButton name={"Lap"} action={lapButton}></StopWatchButton>
