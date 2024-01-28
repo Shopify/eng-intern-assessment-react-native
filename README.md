@@ -1,7 +1,5 @@
 # React Native Stopwatch App
-![Screenshot 2024-01-28 at 12 53 33 PM](https://github.com/christiankevins/eng-intern-assessment-react-native/assets/108886830/e5115837-ddff-4113-8e08-44c6bbef76e3)
-
-
+<img src="https://github.com/christiankevins/eng-intern-assessment-react-native/assets/108886830/e5115837-ddff-4113-8e08-44c6bbef76e3"  width="300"/>
 
 This project is a simple stopwatch application built using React Native and TypeScript. The stopwatch provides basic functionality, allowing users to start, stop, reset, and record laps.
 
@@ -57,17 +55,13 @@ This project is a simple stopwatch application built using React Native and Type
 ## Showcase
 
 1. **iOS**
-https://github.com/christiankevins/eng-intern-assessment-react-native/assets/108886830/a99fa19a-6388-4936-898a-43b40b1f0e01
-
+<video src="https://github.com/christiankevins/eng-intern-assessment-react-native/assets/108886830/a99fa19a-6388-4936-898a-43b40b1f0e01"  width="400"></video>
 
 2. **Android**
-
+<video src="https://github.com/christiankevins/eng-intern-assessment-react-native/assets/108886830/d2737eae-eb12-4ae4-9f86-9474a3f08f07"  width="400"></video>
 
 3. **Web**
-https://github.com/christiankevins/eng-intern-assessment-react-native/assets/108886830/c53ce1f7-e8fc-4a68-96d7-649b5f7c822c
-
-
-
+<video src="https://github.com/christiankevins/eng-intern-assessment-react-native/assets/108886830/c53ce1f7-e8fc-4a68-96d7-649b5f7c822c"  width="400"></video>
 
 This showcase demonstrates the key features of the stopwatch and affirms that it meets the project goals. The application provides a functional and visually appealing stopwatch experience.
 
