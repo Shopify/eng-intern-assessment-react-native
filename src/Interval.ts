@@ -6,8 +6,14 @@ type interval = {
     totalMilliseconds: number;
 }
 
-export const Interval = (elpasedMilliseconds: number): interval => {
-    const interval = {
+
+/**
+ * Creates an interval object from the given milliseconds
+ * @param elapsedMilliseconds - The total number of elapsed milliseconds in this interval
+ * @constructor
+ */
+export const Interval = (elapsedMilliseconds: number): interval => {
+    return {
         get milliseconds() {
             return this.totalMilliseconds % 1000;
         },
@@ -25,9 +31,8 @@ export const Interval = (elpasedMilliseconds: number): interval => {
             return Math.trunc((this.totalMilliseconds / (1000 * 60 * 60)) % 24);
         },
 
-        totalMilliseconds: elpasedMilliseconds
+        totalMilliseconds: elapsedMilliseconds
     };
-    return interval;
 };
 
 export default interval;

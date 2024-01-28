@@ -1,32 +1,58 @@
 import {Text} from 'react-native';
 import interval, {Interval} from "./Interval";
-import {useState} from "react";
+import { useState} from "react";
 import StopWatchButton from "./StopWatchButton";
 
-const padTimeString = (n: number) => {
-    return n < 10 ? `0${n}` : `${n}`;
+function elapsedTimeString(elapsedTime: interval | null) {
+    if (elapsedTime === null)
+        return "--:--:--";
+    const padTimeString = (n: number) => n < 10 ? `0${n}` : `${n}`
+
+    const {hours, minutes, seconds} = elapsedTime;
+
+    return `${padTimeString(hours)}:${padTimeString(minutes)}:${padTimeString(seconds)}`;
+}
+
+
+
+// ! but for SOME (react 🙄) reason, this doesn't work inline
+const incrementIntervalBy1Second = (interval: interval | null): interval => {
+    if (interval === null)
+        interval = Interval(0);
+    return Interval(interval.totalMilliseconds + 1000);
 }
 
 export default function StopWatch() {
 
-    let elapsedMilliseconds = 0;
-    let [elapsedTime, setElapsedTime] = useState<interval>(Interval(0));
-    const {hours, minutes, seconds} = elapsedTime;
+    let [isRunning, setIsRunning] = useState(false);
+    // used to stop setInterval
+    let [stopwatchId, setStopwatchId] = useState(NaN);
+    // elapsed time in milliseconds
+    let [elapsedTime, setElapsedTime] = useState<interval | null>(Interval(0));
 
     const startClock = () => {
-        console.log("startClock");
-        setInterval(() => {
-            console.log(elapsedTime);
-            elapsedMilliseconds += 1000;
-            setElapsedTime(Interval(elapsedMilliseconds));
-        }, 1000);
-    };
+        if (isRunning)
+            return;
+
+        setStopwatchId(
+            setInterval(() => {
+                setElapsedTime(incrementIntervalBy1Second);
+            }, 1000)
+        );
+    }
+
+    const stopClock = () => {
+        clearInterval(stopwatchId);
+        setStopwatchId(NaN);
+        setElapsedTime(null)
+    }
 
 
     return (
         <>
-            <Text>{padTimeString(hours)}:{padTimeString(minutes)}:{padTimeString(seconds)}</Text>
-            <StopWatchButton text="start" onClick={startClock}/>
+            <Text>{elapsedTimeString(elapsedTime)}</Text>
+            <StopWatchButton text="Start" onClick={startClock}/>
+            <StopWatchButton text="Stop" onClick={stopClock}/>
         </>
     );
 }
