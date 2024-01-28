@@ -31,8 +31,14 @@ export default function App() {
   };
 
   const resetStopwatch = () => {
-
-  }
+    setIsRunning(false);
+    if (intervalRef.current !== null) {
+      clearInterval(intervalRef.current);
+      intervalRef.current = null;
+    }
+    setStartTime(0);
+    setElapsedTime(0);
+  };
 
   const lapStopwatch = () => {
 
