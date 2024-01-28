@@ -71,9 +71,10 @@ export default StopWatch;
 
 const styles = StyleSheet.create({
   timer: {
-    fontSize: 80,
+    fontSize: 70,
     textAlign: "center",
     marginTop: screenHeight * 0.25,
+    fontFamily: "Menlo",
   },
 
   buttonRow: {

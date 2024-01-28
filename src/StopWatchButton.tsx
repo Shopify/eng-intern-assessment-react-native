@@ -8,7 +8,7 @@ interface StopWatchButtonProps {
 const StopWatchButton = ({ title, onPress }: StopWatchButtonProps) => {
   return (
     <TouchableOpacity style={styles.button} onPress={onPress}>
-      <Text>{title}</Text>
+      <Text style={styles.text}>{title}</Text>
     </TouchableOpacity>
   );
 };
@@ -27,5 +27,8 @@ const styles = StyleSheet.create({
     padding: 15,
     borderRadius: 50,
     marginTop: 10,
+  },
+  text: {
+    fontFamily: "Menlo",
   },
 });

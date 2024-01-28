@@ -41,5 +41,6 @@ const styles = StyleSheet.create({
   },
   lapText: {
     fontSize: 16,
+    fontFamily: "Menlo",
   },
 });
