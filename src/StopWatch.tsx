@@ -3,7 +3,7 @@ import { Text, View, StyleSheet } from 'react-native';
 
 import StopWatchButton from './StopWatchButton';
 
-export default function StopWatch() {
+const StopWatch: React.FC = () => {
   const [isRunning, setIsRunning] = useState(false)
   const [time, setTime] = useState(0)
   const intervalRef = useRef()
@@ -29,7 +29,7 @@ export default function StopWatch() {
   const formatTime = (time) => {
     const minutes = Math.floor(time / 60000).toString().padStart(2, '0');
     const seconds = Math.floor((time % 60000) / 1000).toString().padStart(2, '0')
-    const milliseconds = Math.floor(time % 1000).toString().padStart(2, '0')
+    const milliseconds = Math.floor(time % 1000 / 10).toString().padStart(2, '0')
     return `${minutes}:${seconds}:${milliseconds}`
   }
 
@@ -60,3 +60,5 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   }
 })
+
+export default StopWatch

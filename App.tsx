@@ -2,7 +2,7 @@ import { StyleSheet, Text, View } from 'react-native';
 
 import StopWatch from './src/StopWatch';
 
-export default function App() {
+const App: React.FC = () => {
   return (
     <View style={styles.container}>
       <StopWatch/>
@@ -18,3 +18,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
+
+export default App
