@@ -1,7 +1,8 @@
 import { useState, useRef } from 'react';
 import { Text, View } from 'react-native';
-import StopWatchButton from './StopWatchButton';
-import { formatTime } from '../utils/helperFunctions';
+import StopWatchButton from '../StopWatchButton';
+import { formatTime } from '../../utils/helperFunctions';
+import { styles } from './styles';
 
 export default function StopWatch() {
   const [elapsedTime, setElapsedTime] = useState<number>(0);
@@ -64,7 +65,7 @@ export default function StopWatch() {
   return (
     <>
       <View>
-        <Text>{isStopped ? "Timer stopped" : formatTime(elapsedTime)}</Text>
+        <Text style={styles.displayText}>{isStopped ? "Timer stopped" : formatTime(elapsedTime)}</Text>
       </View>
       <View>
         <StopWatchButton 
