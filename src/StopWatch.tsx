@@ -50,6 +50,21 @@ const Stopwatch: React.FC<StopwatchProps> = () => {
 
   return (
     <View>
+      <Text>{formatTime(time)}</Text>
+      <View>
+        <StopWatchButton
+          title={running ? "Pause" : "Start"}
+          onPress={startStopwatch}
+          running={running}
+        />
+        <StopWatchButton title="Lap" onPress={recordLap} disabled={!running} />
+        <StopWatchButton title="Reset" onPress={resetStopwatch} disabled={running} />
+      </View>
+      <View>
+        {laps.map((lap, index) => (
+          <Text key={index}>{`${formatTime(lap)}`}</Text>
+        ))}
+      </View>
     </View>
   );
 };
