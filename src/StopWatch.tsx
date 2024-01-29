@@ -88,6 +88,12 @@ export default function StopWatch() {
             }, 1000)
         );
     };
+    const resetClock = () => {
+        setClock(null);
+        setLaps([]);
+        clearInterval(stopwatchId);
+        setStopwatchId(NaN);
+    };
 
     function addLap() {
         const from = clock;
@@ -128,6 +134,7 @@ export default function StopWatch() {
                       renderItem={renderLap}
                       keyExtractor={(_, index) => (Math.random() * index).toString(12)}
                       testID="lap-list"/>
+            <StopWatchButton onClick={resetClock} text="Reset"/>
         </>
     );
 }
