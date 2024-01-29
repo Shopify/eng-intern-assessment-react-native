@@ -38,15 +38,28 @@ describe('Stopwatch', () => {
       expect( await getByText(/(\d{2}:){2}\d{2}/).textContent).not.toBe(pausedTime);
     })
   });
-  test('records and displays lap times', () => {
+  test('records and displays lap times', async () => {
     const { getByText, getByTestId } = render(<Stopwatch />);
     
-    fireEvent.press(getByText('Start'));
-    fireEvent.press(getByText('Lap'));
-    expect(getByTestId('lap-list')).toContainElement(getByText(/(\d{2}:){2}\d{2}/));
+    await act(async () => {
+        fireEvent.press(getByText('Start'));
+        await new Promise((resolve) => setTimeout(resolve, 100));
+        fireEvent.press(getByText('Lap'));
 
-    fireEvent.press(getByText('Lap'));
-    expect(getByTestId('lap-list').children.length).toBe(2);
+        await new Promise((resolve) => setTimeout(resolve, 100));
+        fireEvent.press(getByText('Lap'));
+
+        await new Promise((resolve) => setTimeout(resolve, 100));
+        fireEvent.press(getByText('Stop'));
+    });
+
+    // Attempt to retrieve lap time elements individually
+    const lap1 = getByTestId('lap-time-0');
+    const lap2 = getByTestId('lap-time-1');
+
+    // Verify the content of each lap
+    expect(lap1.props.children.join('')).toMatch(/Lap 1: (\d{2}:){2}\d{2}\.\d{2}/);
+    expect(lap2.props.children.join('')).toMatch(/Lap 2: (\d{2}:){2}\d{2}\.\d{2}/);
   });
 
   test('resets the stopwatch', () => {

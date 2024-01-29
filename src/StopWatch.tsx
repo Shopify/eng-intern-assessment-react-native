@@ -79,7 +79,7 @@ const Laps = React.memo(({laps}:{laps:string[]}) => {
   return (
     <ScrollView style={styles.scrollContainer}>
         {laps.map((lapTime, index) => 
-          <Text style = {styles.lapText} key={index}>Lap {index + 1}: {lapTime}</Text>
+          <Text style = {styles.lapText} key={index} testID={`lap-time-${index}`}>Lap {index + 1}: {lapTime}</Text>
         )}
     </ScrollView>
   );
