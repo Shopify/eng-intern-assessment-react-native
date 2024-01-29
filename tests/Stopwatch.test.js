@@ -1,55 +1,55 @@
-import React from 'react';
-import { render, fireEvent } from '@testing-library/react-native';
-import Stopwatch from '../src/Stopwatch';
+import React from "react";
+import { render, fireEvent, within } from "@testing-library/react-native";
+import Stopwatch from "../src/Stopwatch";
 
-describe('Stopwatch', () => {
-  test('renders initial state correctly', () => {
+describe("Stopwatch Component", () => {
+  // Tests the initial state of the stopwatch.
+  test("initial state is rendered correctly", () => {
     const { getByText, queryByTestId } = render(<Stopwatch />);
-    
-    expect(getByText('00:00:00')).toBeTruthy();
-    expect(queryByTestId('lap-list')).toBeNull();
+    expect(getByText("00:00:00")).toBeTruthy(); // Checks if initial time is 00:00:00
+    expect(queryByTestId("lap-list")).toBeNull(); // Ensures no laps are listed initially
   });
 
-  test('starts and stops the stopwatch', () => {
+  // Tests the start and stop functionality of the stopwatch.
+  test("starts and stops the stopwatch", () => {
     const { getByText, queryByText } = render(<Stopwatch />);
-    
-    fireEvent.press(getByText('Start'));
-    expect(queryByText(/(\d{2}:){2}\d{2}/)).toBeTruthy();
-
-    fireEvent.press(getByText('Stop'));
-    expect(queryByText(/(\d{2}:){2}\d{2}/)).toBeNull();
+    fireEvent.press(getByText("Start"));
+    expect(queryByText(/(\d{2}:){2}\d{2}/)).toBeTruthy(); // Verifies the timer starts
+    fireEvent.press(getByText("Stop"));
+    expect(getByText("00:00:00")).toBeTruthy(); // Confirms the timer resets to 00:00:00
   });
 
-  test('pauses and resumes the stopwatch', () => {
+  // Tests the pause and resume functionality of the stopwatch.
+  test("pauses and resumes the stopwatch", () => {
     const { getByText } = render(<Stopwatch />);
-    
-    fireEvent.press(getByText('Start'));
-    fireEvent.press(getByText('Pause'));
-    const pausedTime = getByText(/(\d{2}:){2}\d{2}/).textContent;
-
-    fireEvent.press(getByText('Resume'));
-    expect(getByText(/(\d{2}:){2}\d{2}/).textContent).not.toBe(pausedTime);
+    fireEvent.press(getByText("Start"));
+    fireEvent.press(getByText("Pause"));
+    const pausedTime = getByText(/(\d{2}:){2}\d{2}/).props.children;
+    fireEvent.press(getByText("Resume"));
+    const resumedTime = getByText(/(\d{2}:){2}\d{2}/).props.children;
+    expect(resumedTime).not.toBe(pausedTime); // Ensures the time changes after resuming
   });
 
-  test('records and displays lap times', () => {
+  // Tests the lap recording functionality of the stopwatch.
+  test("records and displays lap times", () => {
     const { getByText, getByTestId } = render(<Stopwatch />);
-    
-    fireEvent.press(getByText('Start'));
-    fireEvent.press(getByText('Lap'));
-    expect(getByTestId('lap-list')).toContainElement(getByText(/(\d{2}:){2}\d{2}/));
-
-    fireEvent.press(getByText('Lap'));
-    expect(getByTestId('lap-list').children.length).toBe(2);
+    fireEvent.press(getByText("Start"));
+    fireEvent.press(getByText("Lap"));
+    const lapList = getByTestId("lap-list");
+    expect(lapList).toBeDefined(); // Confirms the lap list is present
+    fireEvent.press(getByText("Lap"));
+    const { queryAllByText: queryAllByTextWithinLapList } = within(lapList);
+    const matchingElements = queryAllByTextWithinLapList(/(\d{2}:){2}\d{2}/);
+    expect(matchingElements.length).toBe(2); // Verifies two laps are recorded
   });
 
-  test('resets the stopwatch', () => {
+  // Tests the reset functionality of the stopwatch.
+  test("resets the stopwatch", () => {
     const { getByText, queryByTestId } = render(<Stopwatch />);
-    
-    fireEvent.press(getByText('Start'));
-    fireEvent.press(getByText('Lap'));
-    fireEvent.press(getByText('Reset'));
-
-    expect(getByText('00:00:00')).toBeTruthy();
-    expect(queryByTestId('lap-list')).toBeNull();
+    fireEvent.press(getByText("Start"));
+    fireEvent.press(getByText("Lap"));
+    fireEvent.press(getByText("Reset"));
+    expect(getByText("00:00:00")).toBeTruthy(); // Confirms the timer resets to 00:00:00
+    expect(queryByTestId("lap-list")).toBeNull(); // Ensures no laps are listed after reset
   });
 });

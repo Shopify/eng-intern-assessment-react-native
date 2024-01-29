@@ -1,3 +1,33 @@
+# Max Bueckert's Stopwatch
+
+## Existing Functionality
+
+- **Start Button:** Initializes the clock.
+- **Lap Button:** Calculates and displays the split of the last lap under the timer.
+- **Reset Button:** Resets the clock and laps, while keeping it running.
+- **Stop Button:** Stops the clock and shows the initial start screen.
+- **Pause:** Pauses the timer, disabling lap/reset buttons.
+- **Resume:** Resumes time when paused.
+
+## Changes to Testing
+
+- **Starts and Stops the Stopwatch:** Updated to verify that after the stop button is clicked, the initial start screen with time 00:00:00 is displayed.
+- **Pauses and Resumes the Stopwatch:** Modified to extract the inner text via `.props.children` instead of `.textContent`, correcting a previous error.
+- **Records and Displays Lap Times:** Altered to test the length of the lap-list following multiple clicks of the Lap Button. This change avoids the previous issue where the regex `/(\d{2}:){2}\d{2}/` also matched the running timer, leading to test errors.
+
+
+
+
+
+https://github.com/maxbueckert/eng-intern-assessment-react-native/assets/122507377/8a715556-8d7d-4600-8c6a-3fe830b468a3
+
+<img width="323" alt="image" src="https://github.com/maxbueckert/eng-intern-assessment-react-native/assets/122507377/ef43688e-8ac4-48f2-bfcd-61fedb0ab564">
+
+
+
+
+
+
 # Technical Instructions
 1. Fork this repo to your local Github account.
 2. Create a new branch to complete all your work in.
