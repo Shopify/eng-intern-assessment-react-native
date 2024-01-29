@@ -2,7 +2,6 @@ import {GestureResponderEvent, ScrollView, Text, View } from 'react-native';
 import { styles } from './Styles';
 import React, { useEffect, useState } from "react";
 import StopWatchButton from './StopWatchButton';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 export default function StopWatch() {
   const [isRunning, setIsRunning] = useState(false);
@@ -42,16 +41,10 @@ export default function StopWatch() {
       </View>
       <View style = {styles.buttonContainer}>
         <StopWatchButton
-          label = {isRunning ? 'Pause' : 'Start'}
+          label = {isRunning ? 'Stop' : 'Start'}
           onClick= {isRunning ? onStop : onStart}
           textColor='white'
           buttonColor= {isRunning ? 'red' : 'green'}
-        />
-        <StopWatchButton
-          label = {'Stop'}
-          onClick= {onStop}
-          textColor='white'
-          buttonColor='red'
         />
         <StopWatchButton
           label = {'Lap'}

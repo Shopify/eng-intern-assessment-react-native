@@ -14,21 +14,21 @@ describe('Stopwatch', () => {
     const { getByText, queryByText } = render(<Stopwatch />);
     
     fireEvent.press(getByText('Start'));
-    expect(queryByText(/(\d{2}:){2}\d{2}/)).toBeTruthy();
+    expect(queryByText(/(\d{2}):(\d{2}):(\d{2})\.(\d{2})/)).toBeTruthy();
 
     fireEvent.press(getByText('Stop'));
-    expect(queryByText(/(\d{2}:){2}\d{2}/)).toBeNull();
+    expect(queryByText(/(\d{2}):(\d{2}):(\d{2})\.(\d{2})/)).toBeNull();
   });
 
   test('pauses and resumes the stopwatch', () => {
     const { getByText } = render(<Stopwatch />);
     
     fireEvent.press(getByText('Start'));
-    fireEvent.press(getByText('Pause'));
-    const pausedTime = getByText(/(\d{2}:){2}\d{2}/).textContent;
+    fireEvent.press(getByText('Stop'));
+    const pausedTime = getByText(/(\d{2}):(\d{2}):(\d{2})\.(\d{2})/).textContent;
 
-    fireEvent.press(getByText('Resume'));
-    expect(getByText(/(\d{2}:){2}\d{2}/).textContent).not.toBe(pausedTime);
+    fireEvent.press(getByText('Start'));
+    expect(getByText(/(\d{2}):(\d{2}):(\d{2})\.(\d{2})/).textContent).not.toBe(pausedTime);
   });
 
   test('records and displays lap times', () => {
@@ -36,7 +36,7 @@ describe('Stopwatch', () => {
     
     fireEvent.press(getByText('Start'));
     fireEvent.press(getByText('Lap'));
-    expect(getByTestId('lapTime')).toContainElement(getByText(/(\d{2}:){2}\d{2}/));
+    expect(getByTestId('lapTime')).toContainElement(getByText(/(\d{2}):(\d{2}):(\d{2})\.(\d{2})/));
 
     fireEvent.press(getByText('Lap'));
     expect(getByTestId('lapTime').children.length).toBe(2);

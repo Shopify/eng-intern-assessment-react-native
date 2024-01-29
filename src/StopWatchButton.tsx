@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, TouchableOpacity, Text, GestureResponderEvent } from 'react-native';
 import { styles } from './Styles';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
+
 
 interface StopWatchButtonProps {
   label:string,
