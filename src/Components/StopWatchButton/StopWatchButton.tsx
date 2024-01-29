@@ -29,7 +29,6 @@ const StopWatchButton = (props: StopWatchButtonProps) => {
 
 const styles = StyleSheet.create({
   button: {
-    backgroundColor: "orange",
     padding: 5,
   },
 });

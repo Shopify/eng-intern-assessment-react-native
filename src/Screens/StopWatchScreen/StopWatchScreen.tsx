@@ -44,12 +44,33 @@ const StopWatchScreen = () => {
       <View style={styles.stopwatchContainer}>
         <StopWatch time={elapsedTime} />
         <View style={styles.buttonContainer}>
-          <StopWatchButton
-            onPress={startTimer}
-            title="Start"
-            colour="#90be6d"
-          />
-          <StopWatchButton onPress={stopTimer} title="Stop" colour="#f94144" />
+          {isRunning ? (
+            <>
+              <StopWatchButton
+                onPress={stopTimer}
+                title="Stop"
+                colour="#f94144"
+              />
+              <StopWatchButton
+                onPress={() => {}}
+                title="Lap"
+                colour="#a5a58d"
+              />
+            </>
+          ) : (
+            <>
+              <StopWatchButton
+                onPress={startTimer}
+                title="Start"
+                colour="#90be6d"
+              />
+              <StopWatchButton
+                onPress={resetTimer}
+                title="Reset"
+                colour="#ffe8d6"
+              />
+            </>
+          )}
         </View>
       </View>
       <LapsList />
