@@ -1,5 +1,6 @@
 import { View, Text, StyleSheet } from "react-native";
 import React, { useState, useEffect } from "react";
+import StopWatchButton from "./StopWatchButton";
 
 export default function StopWatch() {
   const [timeinSeconds, setTimeInSeconds] = useState(0);
@@ -10,10 +11,11 @@ export default function StopWatch() {
   }, [timeinSeconds]);
 
   return (
-    <View>
-      <Text style={{ fontSize: 25 }}>
+    <View style={styles.container}>
+      <Text style={{ fontSize: 30 }}>
         {timeArray[0]}:{timeArray[1]}:{timeArray[2]}
       </Text>
+      <StopWatchButton setTimeInSeconds={setTimeInSeconds}></StopWatchButton>
     </View>
   );
 }
@@ -29,3 +31,10 @@ function calculateTimeInSeconds(timeInSeconds: number): (number | string)[] {
     seconds < 10 ? `0${seconds}` : seconds,
   ];
 }
+
+const styles = StyleSheet.create({
+  container: {
+    alignItems: "center",
+    justifyContent: "center",
+  },
+});
