@@ -1,24 +1,26 @@
 import React from 'react';
 import { render, fireEvent, within, act} from '@testing-library/react-native';
-import Stopwatch from '../src/Stopwatch';
 import App from '../App';
 
-// In order to adhere to `Project Goals #2` which says: 
-
-// Ensure code quality:
-// *Write clean, well-structured, and maintainable code.
-// *Follow best practices and adhere to the React and TypeScript coding conventions.
-// *Pay attention to code readability, modularity, and performance.
-
-// The testing file should render the App component instead of the Stopwatch component
-
+/**
+ * The original testing file rendered the Stopwatch component. However, 
+ * In order to adhere to `Project Goals #2`: 
+ * Ensure code quality:
+ * Write clean, well-structured, and maintainable code.
+ * Follow best practices and adhere to the React and TypeScript coding conventions.
+ * Pay attention to code readability, modularity, and performance.
+ * 
+ * I believe that it is more sensible to render the App component instead, since 
+ * the App component ties together the Stopwatchbuttons and the Stopwatch display. 
+ */
+ 
 
 jest.useFakeTimers();
 
 describe('Stopwatch', () => {
 
   test('renders initial state correctly', () => {
-    const { getByText, queryByTestId } = render(<App/>);
+    const { getByText, queryByTestId } = render(<App />);
     
     expect(getByText('00:00:00')).toBeTruthy();
     expect(queryByTestId('lap-list')).toBeNull();
@@ -34,9 +36,11 @@ describe('Stopwatch', () => {
       jest.advanceTimersByTime(2000);
     })
   
-    // Now we expect the timer to show 2 seconds have passed. 
-    // We need to assert this exact time.
-    // Since the time format is '00:00:02', we will use that string.
+    /** 
+    * Now we expect the timer to show 2 seconds have passed. 
+    * We need to assert this exact time.
+    * Since the time format is '00:00:02', we will use that string.
+    */
   
     let timeDisplay = findByText('00:00:02');
    
@@ -71,7 +75,8 @@ describe('Stopwatch', () => {
     // Capture the paused time
     const pausedTimeElement = getByText(/(\d{2}:){2}\d{2}/);
     const pausedTime = pausedTimeElement.props.children;
-    console.log('the pausedTime is', pausedTime);
+   
+    expect(pausedTime).toBe('00:00:02');
   
     // Resume the stopwatch
     fireEvent.press(getByText('Start'));
@@ -85,10 +90,10 @@ describe('Stopwatch', () => {
     const resumedTimeElement = getByText(/(\d{2}:){2}\d{2}/);
     const resumedTime = resumedTimeElement.props.children;
 
-    console.log('the resumedTime is', resumedTime);
 
     // The resumed time should be greater than the paused time which indicates that the stopwatch is resumed counting
-    expect(resumedTime).not.toBe(pausedTime);
+    expect(resumedTime).not.toBe(pausedTime)
+    expect(resumedTime).toBe('00:00:03');
   });
 
   test('records and displays lap times', () => {
@@ -96,15 +101,25 @@ describe('Stopwatch', () => {
     
     fireEvent.press(getByText('Start'));
     fireEvent.press(getByText('Lap'));
-    const lapList = getByTestId('lap-list');  
-    // Narrow the search space to get elements that are only in the lap-list itself and not actually the stopwatch display
-    const lapTimes = within(lapList).getAllByText(/(\d{2}:){2}\d{2}/); 
-    expect(lapTimes.length).toBe(1); // Check that there is 1 and only 1 lap time recorded
 
+    // Get the lap list and find all text elements that match the lap time format
+    let lapList = getByTestId('lap-list');  
+    let lapTimes = within(lapList).queryAllByText(/(\d{2}:){2}\d{2}/);
+    
+    // Check that there is 1 lap time recorded
+    expect(lapTimes.length).toBe(1);
+
+    // Record the second lap
     fireEvent.press(getByText('Lap'));
-    expect(getByTestId('lap-list').children.length).toBe(2);
+
+    // Re-query the updated lap list
+    lapList = getByTestId('lap-list');  
+    lapTimes = within(lapList).queryAllByText(/(\d{2}:){2}\d{2}/);
+
+    // Check that there are now 2 lap times recorded
+    console.log(lapTimes, 'the laptimes is')
+    expect(lapTimes.length).toBe(2);
   });
-  
 
   test('resets the stopwatch', () => {
     const { getByText, queryByTestId } = render(<App/>);
