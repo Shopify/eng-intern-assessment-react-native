@@ -1,27 +1,22 @@
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
 
 interface StopWatchButtonProps {
-  title: string;
+  title: "Start" | "Stop" | "Lap" | "Reset";
   onPress: () => void;
 }
 
 const StopWatchButton = ({ title, onPress }: StopWatchButtonProps) => {
-  let backgroundColor, borderColor, textColor;
-
-  // Set the button colors based on the title
-  if (title === "Start") {
-    backgroundColor = "rgba(144, 238, 144, 0.5)";
-    borderColor = "darkgreen";
-    textColor = "darkgreen";
-  } else if (title === "Stop") {
-    backgroundColor = "rgba(238, 144, 144, 0.5)";
-    borderColor = "darkred";
-    textColor = "darkred";
-  } else {
-    backgroundColor = "white";
-    borderColor = "black";
-    textColor = "black";
-  }
+  const getColors = (title: StopWatchButtonProps["title"]) => {
+    switch (title) {
+      case "Start":
+        return ["rgba(144, 238, 144, 0.5)", "darkgreen", "darkgreen"];
+      case "Stop":
+        return ["rgba(238, 144, 144, 0.5)", "darkred", "darkred"];
+      default:
+        return ["white", "black", "black"];
+    }
+  };
+  const [backgroundColor, borderColor, textColor] = getColors(title);
 
   return (
     <TouchableOpacity
