@@ -12,6 +12,10 @@ import App from '../App';
  * 
  * I believe that it is more sensible to render the App component instead, since 
  * the App component ties together the Stopwatchbuttons and the Stopwatch display. 
+ * 
+ * Side note: Many of the test cases could have been accomplished using the same functions. For example, 
+ * the test `pauses and resumes the stopwatch` could have adopted a simlar approach to the test case
+ * `starts and stops the stopwatch` but I decided to use regex as a demonstration of alternative strategies. 
  */
  
 
@@ -20,14 +24,15 @@ jest.useFakeTimers();
 describe('Stopwatch', () => {
 
   test('renders initial state correctly', () => {
-    const { getByText, queryByTestId } = render(<App />);
+    const {getByText, queryByTestId } = render(<App />);
     
     expect(getByText('00:00:00')).toBeTruthy();
     expect(queryByTestId('lap-list')).toBeNull();
+
   });
 
-  test('starts and stops the stopwatch', () => {
-    const { getByText, findByText } = render(<App />);
+  test('starts and stops the stopwatch', async() => {
+    const {getByText, findByText } = render(<App />);
   
     fireEvent.press(getByText('Start'));
   
@@ -41,11 +46,9 @@ describe('Stopwatch', () => {
     * We need to assert this exact time.
     * Since the time format is '00:00:02', we will use that string.
     */
-  
-    let timeDisplay = findByText('00:00:02');
-   
-    expect(timeDisplay).toBeTruthy();
-  
+
+    expect(getByText('00:00:02')).toBeTruthy();
+
     // Stop the stopwatch
     fireEvent.press(getByText('Stop'));
   
@@ -55,7 +58,7 @@ describe('Stopwatch', () => {
     })
   
     // If the application is correctly programmed, the time should still be '00:00:02' because the stopwatch is stopped. 
-    timeDisplay = findByText('00:00:02');
+    timeDisplay = await findByText('00:00:02');
     expect(timeDisplay).toBeTruthy();
   });
 
@@ -90,8 +93,10 @@ describe('Stopwatch', () => {
     const resumedTimeElement = getByText(/(\d{2}:){2}\d{2}/);
     const resumedTime = resumedTimeElement.props.children;
 
-
-    // The resumed time should be greater than the paused time which indicates that the stopwatch is resumed counting
+   /** 
+    * The resumed time should not be equal to the paused time and in general greater than the paused time
+    * which indicates that the stopwatch has resumed counting
+    */
     expect(resumedTime).not.toBe(pausedTime)
     expect(resumedTime).toBe('00:00:03');
   });
@@ -100,25 +105,31 @@ describe('Stopwatch', () => {
     const { getByText, getByTestId } = render(<App/>);
     
     fireEvent.press(getByText('Start'));
+
+    act(() => {
+      jest.advanceTimersByTime(1000); 
+    })
+
+    // Record the first lap
     fireEvent.press(getByText('Lap'));
 
-    // Get the lap list and find all text elements that match the lap time format
-    let lapList = getByTestId('lap-list');  
-    let lapTimes = within(lapList).queryAllByText(/(\d{2}:){2}\d{2}/);
-    
-    // Check that there is 1 lap time recorded
-    expect(lapTimes.length).toBe(1);
+    act(() => {
+      jest.advanceTimersByTime(2000); 
+    })
 
     // Record the second lap
     fireEvent.press(getByText('Lap'));
 
-    // Re-query the updated lap list
-    lapList = getByTestId('lap-list');  
-    lapTimes = within(lapList).queryAllByText(/(\d{2}:){2}\d{2}/);
-
-    // Check that there are now 2 lap times recorded
-    console.log(lapTimes, 'the laptimes is')
+    // Get the lap list and find all text elements that match the lap time format
+    const lapList = getByTestId('lap-list');  
+    const lapTimes = within(lapList).queryAllByText(/(\d{2}:){2}\d{2}/);
+    
+    // Sanity Check
     expect(lapTimes.length).toBe(2);
+    // Rigorous Check 
+    expect(lapTimes[0].props.children[3]).toEqual('00:00:01');
+    expect(lapTimes[1].props.children[3]).toEqual('00:00:03');
+    
   });
 
   test('resets the stopwatch', () => {
