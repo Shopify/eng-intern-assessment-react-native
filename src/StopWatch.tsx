@@ -7,41 +7,59 @@ export default function StopWatch() {
   // initialize state variables
   const [play, setPlay] = useState(false);
   const [playCount, setPlayCount] = useState(0);
-  const [timerValue, setTimerValue] = useState(0);
+  const [stopWatchValue, setStopWatchValue] = useState(0);
   const [intervalId, setIntervalId] = useState<number | undefined>(undefined);
 
   // handler function for play state
   const handlePlay = () => {
     setPlay((prevPlay) => {
       // Toggle play state only if the stopwatch is not paused
-      if (prevPlay && timerValue > 0) {
+      if (prevPlay && stopWatchValue > 0) {
         // Stop the stopwatch when play is paused
-        stopTimer();
+        stopStopWatch();
       } else if (!prevPlay) {
         // Start the stopwatch when play is pressed
-        startTimer();
+        startStopWatch();
       }
       return !prevPlay;
     });
     // Increment play count
     setPlayCount((prevCount) => prevCount + 1);
   }
+
+  // handler function for resetting
+  const handleReset = () => {
+    // Reset the stopwatch
+    resetStopWatch();
+  }
   
 
   // handler function for starting the stopwatch
-  const startTimer = () => {
+  const startStopWatch = () => {
     const id = setInterval(() => {
-      setTimerValue((prevValue) => prevValue + 1);
+      setStopWatchValue((prevValue) => prevValue + 1);
     }, 1000); // Increment every 1000 milliseconds
     setIntervalId(id);
   }
 
-  // handler function for stopping the timer
-  const stopTimer = () => {
+  // handler function for stopping the stopwatch
+  const stopStopWatch = () => {
     if (intervalId !== undefined) {
       clearInterval(intervalId);
       setIntervalId(undefined);
     }
+  }
+
+  // handler function for resetting the stopwatch
+  const resetStopWatch = () => {
+    //reset the stop watch value
+    setStopWatchValue(0);
+    // reset the other states
+    if (intervalId !== undefined) {
+      clearInterval(intervalId);
+      setIntervalId(undefined);
+    }
+    setPlay(false);
   }
 
   // Format time in HH:MM:SS
@@ -60,8 +78,6 @@ export default function StopWatch() {
       // Stop the timer animation when play is paused or stopped
       clearInterval(intervalId);
       setIntervalId(undefined);
-      // Reset the timer animation when play is paused or stopped
-      // animatedValue.setValue(0);
     }
   }, [play, intervalId]);
 
@@ -71,12 +87,12 @@ export default function StopWatch() {
       source={require("../assets/mobile-background.png")}
     >
       <View >
-        <Text style={styles.timerText}>{formatTime(timerValue)}</Text>
+        <Text style={styles.timerText}>{formatTime(stopWatchValue)}</Text>
         <View style={styles.buttonContainer}>
           <StopWatchButton 
             imageName="reset"
             title="Reset"
-            onPress={() => console.log('Stop Button')}
+            onPress={handleReset}
           />
           <StopWatchButton 
             imageName="play"
