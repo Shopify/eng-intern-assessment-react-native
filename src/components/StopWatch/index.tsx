@@ -76,27 +76,32 @@ export default function StopWatch() {
     time: elapsedTime,
   }));
 
+  let reversedLapData: Lap[] = [];
+  lapData.map(lap => {
+    reversedLapData.unshift(lap)
+  })
+
     // Determine the best and worst laps based on durations
   const [bestLap, worstLap] = useMemo(() => {
-    if (lapData.length === 0 || lapData.length === 1) {
+    if (reversedLapData.length === 0 || reversedLapData.length === 1) {
       return [null, null];
     }
 
     let minDurationIndex = 0;
     let maxDurationIndex = 0;
 
-    lapData.forEach((lap, index) => {
-      if (lap.duration < lapData[minDurationIndex].duration) {
+    reversedLapData.forEach((lap, index) => {
+      if (lap.duration < reversedLapData[minDurationIndex].duration) {
         minDurationIndex = index;
       }
 
-      if (lap.duration > lapData[maxDurationIndex].duration) {
+      if (lap.duration > reversedLapData[maxDurationIndex].duration) {
         maxDurationIndex = index;
       }
     });
 
     return [minDurationIndex, maxDurationIndex];
-  }, [lapData]);
+  }, [reversedLapData]);
 
   const renderLapItem = ({ item, index }: { item: Lap; index: number }) => {
     const isBestLap = index === bestLap;
@@ -139,7 +144,7 @@ export default function StopWatch() {
       </View>
       {laps.length > 0 && 
         <FlatList
-          data={lapData}
+          data={reversedLapData}
           keyExtractor={item => item.lapNumber.toString()}
           renderItem={renderLapItem}
           style={styles.flatList}
