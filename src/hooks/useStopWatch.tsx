@@ -20,6 +20,18 @@ export function useStopwatch(): Stopwatch {
   const lastTime = useRef(Date.now());
   const accumulatedTime = useRef(0);
 
+  const minLapTime = useRef<number | null>(null);
+  const maxLapTime = useRef<number | null>(null);
+
+  function updateMinAndMaxLapTimes(newLap: number) {
+    if (minLapTime.current === null || newLap < minLapTime.current) {
+      minLapTime.current = newLap;
+    }
+    if (maxLapTime.current === null || newLap > maxLapTime.current) {
+      maxLapTime.current = newLap;
+    }
+  }
+
   function resume() {
     if (!isPaused) return;
     setIsPaused(false);
@@ -39,12 +51,15 @@ export function useStopwatch(): Stopwatch {
     lastTime.current = Date.now();
     setMilliseconds(0);
     setLaps([]);
+    minLapTime.current = null;
+    maxLapTime.current = null;
     accumulatedTime.current = 0;
   }
 
   function lap() {
     const lapTime = milliseconds - accumulatedTime.current;
     setLaps((laps) => {
+      updateMinAndMaxLapTimes(lapTime);
       return [...laps, lapTime];
     });
   }
@@ -65,6 +80,8 @@ export function useStopwatch(): Stopwatch {
     milliseconds,
     laps,
     isPaused,
+    minLapTime: minLapTime.current,
+    maxLapTime: maxLapTime.current,
     resume,
     pause,
     reset,
