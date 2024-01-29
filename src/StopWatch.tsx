@@ -91,7 +91,6 @@ export default function StopWatch() {
 
     function stopClock() {
         pauseClock();
-        setFromClock(null);
         setToClock(null);
     }
 
@@ -141,6 +140,7 @@ export default function StopWatch() {
                 text={fromClock === null ? "Start" : "Stop"}
                 colour={fromClock === null ? "#40a02b" : "#d20f39"}
                 onClick={stopwatchId ? stopClock : startClock}
+                disabled={toClock === null && isNaN(stopwatchId)}
             />
             <StopWatchButton
                 text={stopwatchId ? "Pause" : "Resume"}
