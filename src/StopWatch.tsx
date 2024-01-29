@@ -26,8 +26,34 @@ export default function StopWatch() {
     const [toClock, setToClock] = useState<Date | null>(new Date());
     // used to stop setInterval
     const [stopwatchId, setStopwatchId] = useState(NaN);
-    const [elapsedTime, setElapsedTime] = useState<string>("--:--:--");
-
+    const [laps, setLaps] = useState<interval[]>([]);
+    let styles = StyleSheet.create({
+        lapList: {
+            maxHeight: 100,
+            height: 100,
+            flexGrow: 0,
+            backgroundColor: "red",
+            display: laps.length > 0 ? "flex" : "none"
+        },
+        spacer: {
+            width: "100%",
+            height: 100,
+        },
+        counter: {
+            fontSize: 48,
+            textAlign: "center",
+            width: "100%",
+            flexGrow: 0,
+            backgroundColor: "green"
+        },
+        buttonGroup: {
+            width: 250,
+            flexDirection: "column",
+            justifyContent: "space-evenly",
+            flexGrow: 0,
+            backgroundColor: "blue"
+        }
+    });
     const startClock = () => {
         setClock(new Date());
         resumeClock();
@@ -67,16 +93,28 @@ export default function StopWatch() {
 
     return (
         <>
-            <Text>{elapsedTimeString(clock, toClock)}</Text>
-            <StopWatchButton
-                text={stopwatchId ? "Stop" : "Start"}
-                onClick={stopwatchId ? stopClock : startClock}
-            />
-
-            <StopWatchButton
-                text={stopwatchId ? "Pause" : "Resume"}
-                onClick={stopwatchId ? pauseClock : resumeClock}
-            />
+            <Text style={styles.counter}>{elapsedTimeStringFromDates(clock, toClock)}</Text>
+            <View>
+                <View style={styles.buttonGroup}>
+                    <StopWatchButton
+                        text={stopwatchId ? "Stop" : "Start"}
+                        onClick={stopwatchId ? stopClock : startClock}
+                    />
+                    <StopWatchButton
+                        text={stopwatchId ? "Pause" : "Resume"}
+                        onClick={stopwatchId ? pauseClock : resumeClock}
+                    />
+                    <StopWatchButton onClick={addLap} text="Lap"/>
+                </View>
+            </View>
+            <View style={styles.spacer}/>
+            <FlatList ref={flatList}
+                      centerContent={true}
+                      style={styles.lapList}
+                      data={laps}
+                      renderItem={renderLap}
+                      keyExtractor={(item, index) => (Math.random() * 999).toString(12)}
+                      testID="lap-list"/>
         </>
     );
 }

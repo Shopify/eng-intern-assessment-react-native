@@ -1,13 +1,14 @@
-import {Button, View} from 'react-native';
+import {Button, ColorValue, View} from "react-native";
 
 type stopWatchButtonProps = {
     onClick: () => void;
     text: string;
+    colour?: ColorValue;
 };
 export default function StopWatchButton(props: Readonly<stopWatchButtonProps>) {
     return (
-        <View>
-            <Button title={props.text} onPress={props.onClick} />
-        </View>
+        <>
+            <Button color={props.colour} title={props.text} onPress={props.onClick} />
+        </>
     );
 }
