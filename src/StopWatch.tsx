@@ -2,6 +2,7 @@ import { View, Text, StyleSheet } from "react-native";
 import React, { useState, useEffect } from "react";
 import StopWatchButton from "./StopWatchButton";
 
+// export timer and buttons
 export default function StopWatch() {
   const [timeinSeconds, setTimeInSeconds] = useState(0);
   const [timeArray, setTimeArray] = useState<Array<number | string>>([]);
@@ -20,6 +21,7 @@ export default function StopWatch() {
   );
 }
 
+// reformats time in seconds to hours:minutes:seconds in a 00:00:00 format
 function calculateTimeInSeconds(timeInSeconds: number): (number | string)[] {
   let hours: number = Math.floor(timeInSeconds / 3600);
   let minutes: number = Math.floor((timeInSeconds - hours * 3600) / 60);

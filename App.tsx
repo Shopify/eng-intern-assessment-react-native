@@ -2,6 +2,7 @@ import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
 import StopWatch from "./src/StopWatch";
 
+// renders the timer, buttons, and lap times
 export default function App() {
   return (
     <View style={styles.container}>

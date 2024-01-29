@@ -8,64 +8,68 @@ type Props = {
 export default function StopWatchButton(props: Props) {
   const { setTimeInSeconds } = props;
   const [intervalId, setIntervalId] = useState<number>(0);
-  const [startButton, setStartButton] = useState<string>("Start");
-  const [laps, setLaps] = useState<number[]>([]);
+  const [startButton, setStartButton] = useState<string>("Start"); // tracks when to display "Start" vs "Resume"
+  const [stopButton, setStopButton] = useState<string>("Stop"); // tracks when to display "Stop" vs "Pause"
   const [lapTimes, setLapTimes] = useState<string[]>([]); // store lap times as strings
   const startTimeRef = useRef<number>(0); // creates ref to store start time
-  const [timerStarted, setTimerStarted] = useState<boolean>(false);
+  const [timerStarted, setTimerStarted] = useState<boolean>(false); // tracks if timer started, if not disable the other buttons
+  const [lapStarted, setlapStarted] = useState<boolean>(false); // tracks if timer started, if not disable the other buttons
 
   const handleStartButton = () => {
     const interval: any = setInterval(() => {
       setTimeInSeconds((previousState: number) => previousState + 1);
-    }, 1000);
+    }, 1000); // start counting
 
     setIntervalId(interval);
-    startTimeRef.current = Date.now(); // save current time as start time
 
-    setTimerStarted(true);
+    if (!timerStarted) {
+      // if timer already started, don't reset the initial start time
+      startTimeRef.current = Date.now(); // save current time as start time
+    }
+
+    setTimerStarted(true); // did we start the timer? yes
+    setStopButton("Pause"); // change "stop" to "pause"
   };
 
-  const handlePauseButton = () => {
-    clearInterval(intervalId);
-    setStartButton("Resume");
-    const elapsedTime = Math.floor((Date.now() - startTimeRef.current) / 1000);
-    setTimeInSeconds((previousState: number) => previousState);
+  const handleStopButton = () => {
+    clearInterval(intervalId); // pause the timer
+    setStartButton("Resume"); // change "Start" to "Resume"
+  };
+
+  const handleLapButton = () => {
+    // Math.floor() rounds the number down
+    const lapTime = Math.floor((Date.now() - startTimeRef.current) / 1000); // current time minus start time = duration of this lap
+    const formattedLapTime = formatTime(lapTime); // reformats time to 00:00:00
+    setLapTimes((prevLapTimes) => [...prevLapTimes, formattedLapTime]); // add to array
+
+    startTimeRef.current = Date.now(); // new start time = time when lap button was pressed
+    setlapStarted(true);
   };
 
   const handleResetButton = () => {
     clearInterval(intervalId); // resets the timer to 00:00:00
     setTimeInSeconds(0);
     setStartButton("Start"); // change "resume" to "start"
-    setLaps([]); // reset all laps and their times
-    setLapTimes([]);
+    setStopButton("Stop"); // change "pause" to "stop"
+    setLapTimes([]); // reset laps
 
+    // reset
     setTimerStarted(false);
+    setlapStarted(false);
   };
 
-  const handleLapButton = () => {
-    const currentTime = Date.now();
-    const elapsedSeconds = Math.floor(
-      (currentTime - startTimeRef.current) / 1000
-    );
-
-    // const lapTime = Math.floor((Date.now() - startTimeRef.current) / 1000);
-    setLaps((prevLaps) => [...prevLaps, elapsedSeconds]);
-
-    const formattedLapTime = formatTime(elapsedSeconds);
-    setLapTimes((prevLapTimes) => [...prevLapTimes, formattedLapTime]);
-
-    startTimeRef.current = currentTime;
-  };
-
+  // function reformats the time into 00:00:00
   const formatTime = (timeInSeconds: number): string => {
+    const hours = Math.floor(timeInSeconds / 3600);
     const minutes = Math.floor(timeInSeconds / 60);
-    const seconds = timeInSeconds % 60;
-    return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(
+    const seconds = Math.floor(timeInSeconds % 60);
+    return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(
       2,
       "0"
-    )}`;
+    )}:${String(seconds).padStart(2, "0")}`;
   };
 
+  // Start/Resume, Stop/Pause, Lap, Reset Buttons
   return (
     <View>
       <View style={styles.buttons}>
@@ -73,14 +77,15 @@ export default function StopWatchButton(props: Props) {
           onPress={handleStartButton}
           title={startButton}
           color="black"
+          disabled={lapStarted}
         ></Button>
       </View>
       <View style={styles.buttons}>
         <Button
-          onPress={handlePauseButton}
-          title="Pause"
+          onPress={handleStopButton}
+          title={stopButton}
           color="black"
-          disabled={!timerStarted}
+          disabled={!timerStarted || lapStarted}
         ></Button>
       </View>
       <View style={styles.buttons}>
@@ -100,7 +105,7 @@ export default function StopWatchButton(props: Props) {
         ></Button>
       </View>
       <View style={styles.textContainer}>
-        <Text>Lap Times:</Text>
+        <Text lap-list>Lap Times:</Text>
       </View>
       <View style={styles.scrollView}>
         <ScrollView>
