@@ -72,7 +72,7 @@ export default function StopWatch() {
   }));
 
   const renderLapItem = ({ item }: { item: Lap }) => (
-    <View style={styles.lapItem}>
+    <View testID='lap-item' style={styles.lapItem}>
       <Text style={styles.column}>{item.lapNumber}</Text>
       <Text style={styles.column}>{formatTime(item.duration)}</Text>
     </View>

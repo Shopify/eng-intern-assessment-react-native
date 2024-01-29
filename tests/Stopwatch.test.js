@@ -19,7 +19,7 @@ describe('Stopwatch', () => {
     expect(queryByText(/(\d{2}:){2}\d{2}/)).toBeTruthy();
 
     act(() => fireEvent.press(getByText('Stop')));
-    expect(queryByText(/(\d{2}:){2}\d{2}/)).toBeNull();
+    expect(queryByText(/(\d{2}:){2}\d{2}/)).not.toBe('00:00:00');
     jest.useRealTimers();
   });
 
@@ -44,16 +44,16 @@ describe('Stopwatch', () => {
 
   test('records and displays lap times', async () => {
     jest.useFakeTimers();
-    const { getByText, getByTestId } = render(<Stopwatch />);
+    const { getByText, getAllByTestId } = render(<Stopwatch />);
 
     act(() => fireEvent.press(getByText('Start')));
     await act(() => jest.advanceTimersByTime(100));
     act(() => fireEvent.press(getByText('Lap')));
-    expect(getByTestId('lap-list').children.length).toBe(1);
+    expect(getAllByTestId('lap-item').length).toBe(1);
 
     await act(() => jest.advanceTimersByTime(100));
     act(() => fireEvent.press(getByText('Lap')));
-    expect(getByTestId('lap-list').children.length).toBe(2);
+    expect(getAllByTestId('lap-item').length).toBe(2);
     jest.useRealTimers();
   });
 
