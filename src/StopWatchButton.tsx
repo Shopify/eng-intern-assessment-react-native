@@ -6,6 +6,7 @@ interface StopWatchButtonProps {
 }
 
 const StopWatchButton = ({ title, onPress }: StopWatchButtonProps) => {
+  // Returns the colors for the button based on the title
   const getColors = (title: StopWatchButtonProps["title"]) => {
     switch (title) {
       case "Start":
@@ -16,6 +17,8 @@ const StopWatchButton = ({ title, onPress }: StopWatchButtonProps) => {
         return ["white", "black", "black"];
     }
   };
+
+  // Destructure the colors from the getColors function
   const [backgroundColor, borderColor, textColor] = getColors(title);
 
   return (

@@ -12,7 +12,7 @@ const LapRecord = ({ laps, formatTime }: LapRecordProps) => {
   return (
     <ScrollView>
       {reversedLaps.map((lap, index) => (
-        <View key={index}>
+        <View key={index} testID="lap-list">
           <View style={styles.lap}>
             <Text style={styles.lapText}>
               Lap {reversedLaps.length - index}
