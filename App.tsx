@@ -1,6 +1,8 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, SafeAreaView, View, Text, Image } from 'react-native';
+import { StyleSheet, SafeAreaView, View, Text, Image, Platform } from 'react-native';
 import StopWatch from './src/components/StopWatch';
+
+const isAndroid = Platform.OS === 'android';
 
 export default function App() {
 
@@ -26,6 +28,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
+    paddingTop: isAndroid ? 45 : 0,
   },
   stopWatchView: {
     flex:1,

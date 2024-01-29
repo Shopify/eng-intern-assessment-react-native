@@ -1,9 +1,11 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, Platform } from "react-native";
+
+const isAndroid = Platform.OS === 'android';
 
 export const styles = StyleSheet.create({
   displayText: {
-    fontSize: 65,
-    fontFamily: 'Courier New',
+    fontSize: isAndroid ? 82 : 65,
+    fontFamily: isAndroid ? 'Roboto' : 'Courier New',
     marginBottom: 25,
   },
   buttonsContainer: {
