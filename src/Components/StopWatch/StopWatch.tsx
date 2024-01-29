@@ -1,11 +1,20 @@
 import { useState } from "react";
 import { Text, View } from "react-native";
 import StopWatchButton from "../StopWatchButton/StopWatchButton";
+import { formatTime } from "../../utils/TimeUtils";
 
-export default function StopWatch() {
+interface StopWatchProps {
+  time: number;
+}
+
+export default function StopWatch(props: StopWatchProps) {
+  const { time } = props;
+
+  const formattedTime = formatTime(time);
+
   return (
     <View>
-      <Text>00:00:00</Text>
+      <Text>{formattedTime}</Text>
     </View>
   );
 }

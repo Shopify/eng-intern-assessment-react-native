@@ -7,23 +7,20 @@ import {
   View,
 } from "react-native";
 
-const StopWatchButton = () => {
+interface StopWatchButtonProps {
+  title: string;
+  onPress: () => void;
+  colour: string;
+}
+
+const StopWatchButton = (props: StopWatchButtonProps) => {
+  const { title, onPress, colour } = props;
+
   return (
     <View>
-      {/* <Button
-        title="Testing"
-        onPress={() => {
-          Alert.alert("Testing button pressed!");
-        }}
-        color="red"
-      /> */}
-      <TouchableHighlight
-        onPress={() => {
-          Alert.alert("Testing button pressed!");
-        }}
-      >
-        <View style={styles.button}>
-          <Text>Testing</Text>
+      <TouchableHighlight onPress={onPress}>
+        <View style={[styles.button, { backgroundColor: colour }]}>
+          <Text>{title}</Text>
         </View>
       </TouchableHighlight>
     </View>
@@ -31,10 +28,6 @@ const StopWatchButton = () => {
 };
 
 const styles = StyleSheet.create({
-  // container: {
-  //   display: "flex",
-  //   flexDirection: "column",
-  // },
   button: {
     backgroundColor: "orange",
     padding: 5,
