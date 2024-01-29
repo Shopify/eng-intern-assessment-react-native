@@ -31,21 +31,28 @@ function elapsedTimeStringFromDates(from: Date | null, to: Date | null = new Dat
 
 function renderLap({item}: ListRenderItemInfo<[Date, Date]>) {
     const [from, to] = item;
-    return <Text>{elapsedTimeStringFromDates(from, to)}</Text>;
+    return <Text style={{fontSize: 20}}>{elapsedTimeStringFromDates(from, to)}</Text>;
 }
 
 export default function StopWatch() {
+    //the stop watch works by keeping track of two dates, the start and end of the current interval
+    //the interval is calculated by subtracting the start from the end
     const [fromClock, setFromClock] = useState<Date | null>(null);
     const [toClock, setToClock] = useState<Date | null>(new Date());
+
     const [stopwatchId, setStopwatchId] = useState(NaN);
     const [laps, setLaps] = useState<[Date, Date][]>([]);
+
     const styles = StyleSheet.create({
         lapList: {
             maxHeight: 150,
             alignContent: "center",
-            backgroundColor: "red",
             flex: 2,
             display: laps.length > 0 ? "flex" : "none"
+        },
+        contentContainerStyle: {
+            alignItems: "center",
+            flexGrow: 1
         },
         spacer: {
             width: "100%",
@@ -54,21 +61,21 @@ export default function StopWatch() {
             flex: 2,
             flexGrow: 1,
             flexShrink: 0,
-            backgroundColor: "yellow",
             display: laps.length < 1 ? "flex" : "none"
         },
         counter: {
             fontSize: 48,
             textAlign: "center",
+            fontStyle: "normal",
+            fontWeight: "bold",
             width: "100%",
             marginTop: 100,
-            backgroundColor: "green"
+            color: "#4c4f69",
         },
         buttonGroup: {
             width: 250,
             flexDirection: "column",
             justifyContent: "space-around",
-            backgroundColor: "blue",
             padding: 10,
             margin: 85,
             flex: 1,
@@ -132,26 +139,26 @@ export default function StopWatch() {
         <View style={styles.buttonGroup}>
             <StopWatchButton
                 text={fromClock === null ? "Start" : "Stop"}
-                colour={fromClock === null ? "green" : "red"}
+                colour={fromClock === null ? "#40a02b" : "#d20f39"}
                 onClick={stopwatchId ? stopClock : startClock}
             />
             <StopWatchButton
                 text={stopwatchId ? "Pause" : "Resume"}
-                colour={stopwatchId ? "goldenrod" : "lightblue"}
+                colour={stopwatchId ? "#df8e1d" : "#04a5e5"}
                 disabled={isNaN(stopwatchId) && fromClock === null}
                 onClick={stopwatchId ? pauseClock : resumeClock}
             />
-            <StopWatchButton onClick={addLap} text="Lap"/>
+            <StopWatchButton colour="#1e66f5" onClick={addLap} text="Lap"/>
             <View style={styles.spacer}/>
             <FlatList
                 centerContent={true}
                 style={styles.lapList}
                 data={laps}
-                contentContainerStyle={{alignItems: "center", flexGrow: 1}}
+                contentContainerStyle={styles.contentContainerStyle}
                 renderItem={renderLap}
                 keyExtractor={(_, index) => (Math.random() * index).toString(12)}
                 testID="lap-list"/>
-            <StopWatchButton onClick={resetClock} text="Reset"/>
+            <StopWatchButton onClick={resetClock} text="Reset" colour="#11111b"/>
         </View>
     </>;
 }
