@@ -88,8 +88,10 @@ export default function StopWatch() {
     </View>
   );
 
+  const stopWatchJustifyContent = laps.length > 0 ? 'flex-start' : 'center';
+
   return (
-    <>
+    <View style={{flex: 1, justifyContent: stopWatchJustifyContent }}>
       <View>
         <Text style={styles.displayText}>{formatTime(elapsedTime)}</Text>
       </View>
@@ -114,6 +116,6 @@ export default function StopWatch() {
           testID='lap-list'
         />
       }
-    </>
+    </View>
   );
 }

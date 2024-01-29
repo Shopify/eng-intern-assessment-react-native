@@ -3,7 +3,7 @@ import { StyleSheet } from "react-native";
 export const styles = StyleSheet.create({
   displayText: {
     fontSize: 65,
-    fontFamily: 'Courier New' ,
+    fontFamily: 'Courier New',
     marginBottom: 25,
   },
   buttonsContainer: {
