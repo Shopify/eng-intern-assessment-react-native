@@ -1,6 +1,6 @@
-import { Dimensions, StyleSheet, Text, View } from "react-native";
-import StopWatchButton from "./StopWatchButton";
+import { Dimensions, SafeAreaView, StyleSheet, Text, View } from "react-native";
 import { useRef, useState } from "react";
+import StopWatchButton from "./StopWatchButton";
 import LapRecord from "./LapRecord";
 
 const screenWidth = Dimensions.get("window").width;
@@ -56,7 +56,7 @@ const StopWatch = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView>
       <View style={styles.timerSection}>
         <Text style={styles.timer}>{formatTime(time)}</Text>
         <View style={styles.buttonRow}>
@@ -74,7 +74,7 @@ const StopWatch = () => {
       <View style={styles.lapRecord}>
         <LapRecord laps={laps} formatTime={formatTime} />
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
   timer: {
     fontSize: 70,
     textAlign: "center",
-    marginTop: screenHeight * 0.25,
+    marginTop: screenHeight * 0.2,
     fontFamily: "Menlo",
   },
 
@@ -101,7 +101,6 @@ const styles = StyleSheet.create({
     flex: 1,
     marginBottom: 20,
   },
-  container: {},
   timerSection: {
     justifyContent: "center",
   },
