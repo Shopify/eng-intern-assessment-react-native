@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
     flex:1,
   },
   createdBy: { 
-    fontFamily: 'Georgia-Italic', 
+    fontFamily: isAndroid ? 'Roboto' : 'Georgia-Italic', 
     marginBottom: 6 
   },
   logo: {
