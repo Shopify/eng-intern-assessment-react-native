@@ -48,9 +48,11 @@ export default function StopWatchButton(props: Props) {
 
   const handleLapButton = () => {
     const lapStartTimes = lapStartTimeRef.current;
-    if (lapStartTimes.length > laps.length) {
+    const lapsCount = laps.length;
+
+    if (lapStartTimes.length > lapsCount) {
       const lapTime = Math.floor(
-        (Date.now() - lapStartTimeRef.current[laps.length]) / 1000
+        (Date.now() - lapStartTimeRef.current[lapsCount]) / 1000
       );
       setLaps((prevLaps) => [...prevLaps, lapTime]);
 
