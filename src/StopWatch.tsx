@@ -1,27 +1,26 @@
-import {Text} from "react-native";
+import {FlatList, ListRenderItemInfo, StyleSheet, Text, View} from "react-native";
 import interval, {Interval} from "./Interval";
-import {useState} from "react";
+import {useRef, useState} from "react";
 import StopWatchButton from "./StopWatchButton";
 
-function elapsedTimeString(from: Date | null, to: Date | null = new Date()): string {
+function elapsedTimeStringFromDates(from: Date | null, to: Date | null = new Date()): string {
     if(to === null && from === null || to === null)
         return "--:--:--";
     if(from === null)
         return "00:00:00";
+    const interval = Interval(to.valueOf() - from.valueOf());
+    return elapsedTimeStringFromInterval(interval);
+}
 
+function elapsedTimeStringFromInterval(interval: interval): string {
     const padTimeString = (n: number) => n < 10 ? `0${n}` : `${n}`;
-    const {hours, minutes, seconds} = Interval(to.valueOf() - from.valueOf());
+    const {hours, minutes, seconds} = interval;
 
     return `${padTimeString(hours)}:${padTimeString(minutes)}:${padTimeString(seconds)}`;
 }
 
-const incrementIntervalBy1Second = (interval: interval | null): interval => {
-    if(interval === null)
-        interval = Interval(0);
-    return Interval(interval.totalMilliseconds + 1);
-};
-
 export default function StopWatch() {
+    const flatList = useRef<FlatList | null>(null);
     const [clock, setClock] = useState<Date | null>(null);
     const [toClock, setToClock] = useState<Date | null>(new Date());
     // used to stop setInterval
@@ -56,6 +55,7 @@ export default function StopWatch() {
     });
     const startClock = () => {
         setClock(new Date());
+        setToClock(new Date());
         resumeClock();
     };
 
@@ -85,10 +85,20 @@ export default function StopWatch() {
         setStopwatchId(
             setInterval(() => {
                 setToClock(new Date());
-                setElapsedTime(elapsedTimeString(clock, new Date()));
             }, 1000)
         );
     };
+
+    function addLap() {
+        const from = clock;
+        const to = toClock;
+        if(from !== null && to !== null)
+            setLaps([...laps, Interval(to.valueOf() - from.valueOf())]);
+    }
+
+    function renderLap({item}: ListRenderItemInfo<interval>) {
+        return <Text>{elapsedTimeStringFromInterval(item)}</Text>;
+    }
 
 
     return (
@@ -97,11 +107,14 @@ export default function StopWatch() {
             <View>
                 <View style={styles.buttonGroup}>
                     <StopWatchButton
-                        text={stopwatchId ? "Stop" : "Start"}
+                        text={clock === null ? "Start" : "Stop"}
+                        colour={clock === null ? "green" : "red"}
                         onClick={stopwatchId ? stopClock : startClock}
                     />
                     <StopWatchButton
                         text={stopwatchId ? "Pause" : "Resume"}
+                        colour={stopwatchId ? "goldenrod" : "lightblue"}
+                        disabled={isNaN(stopwatchId) && clock === null}
                         onClick={stopwatchId ? pauseClock : resumeClock}
                     />
                     <StopWatchButton onClick={addLap} text="Lap"/>
@@ -113,7 +126,7 @@ export default function StopWatch() {
                       style={styles.lapList}
                       data={laps}
                       renderItem={renderLap}
-                      keyExtractor={(item, index) => (Math.random() * 999).toString(12)}
+                      keyExtractor={(_, index) => (Math.random() * index).toString(12)}
                       testID="lap-list"/>
         </>
     );
