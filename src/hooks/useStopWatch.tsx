@@ -12,7 +12,7 @@ export interface Stopwatch {
   lap: () => void;
 }
 
-export function useStopwatch(): Stopwatch {
+export function useStopWatch(): Stopwatch {
   const [milliseconds, setMilliseconds] = useState(0);
   const [isPaused, setIsPaused] = useState(true);
   const [laps, setLaps] = useState<number[]>([]);

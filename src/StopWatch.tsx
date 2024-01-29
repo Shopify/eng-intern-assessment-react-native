@@ -1,7 +1,7 @@
 import React from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import StopwatchButton from './StopWatchButton';
-import { useStopwatch } from './hooks/useStopWatch';
+import { useStopWatch } from './hooks/useStopWatch';
 
 function formatNumber(num: number) {
   return String(num).padStart(2, '0');
@@ -18,7 +18,7 @@ const formatTime = (milliseconds: number) => {
 
 export default function Stopwatch() {
 
-  const stopwatch = useStopwatch();
+  const stopwatch = useStopWatch();
   return (
     
     <View style={styles.container}>
