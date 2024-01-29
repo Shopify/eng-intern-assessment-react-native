@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useMemo } from 'react';
 import { Text, View, FlatList } from 'react-native';
 import StopWatchButton from '../StopWatchButton';
 import { formatTime } from '../../utils/helperFunctions';
@@ -7,6 +7,7 @@ import { styles } from './styles';
 type Lap = {
   lapNumber: number;
   duration: number;
+  time: number
 };
 
 export default function StopWatch() {
@@ -69,22 +70,52 @@ export default function StopWatch() {
   };
 
   // Transform the laps array into the proper data for the flat list
-  const lapData = laps.map((duration, index) => ({
+  const lapData = laps.map((elapsedTime, index) => ({
     lapNumber: index + 1,
-    duration: duration,
+    duration: elapsedTime - (laps[index-1] || 0),
+    time: elapsedTime,
   }));
 
-  const renderLapItem = ({ item }: { item: Lap }) => (
-    <View testID='lap-item' style={styles.lapItem}>
-      <Text style={styles.column}>{item.lapNumber}</Text>
-      <Text style={styles.column}>{formatTime(item.duration)}</Text>
-    </View>
-  );
+    // Determine the best and worst laps based on durations
+  const [bestLap, worstLap] = useMemo(() => {
+    if (lapData.length === 0 || lapData.length === 1) {
+      return [null, null];
+    }
+
+    let minDurationIndex = 0;
+    let maxDurationIndex = 0;
+
+    lapData.forEach((lap, index) => {
+      if (lap.duration < lapData[minDurationIndex].duration) {
+        minDurationIndex = index;
+      }
+
+      if (lap.duration > lapData[maxDurationIndex].duration) {
+        maxDurationIndex = index;
+      }
+    });
+
+    return [minDurationIndex, maxDurationIndex];
+  }, [lapData]);
+
+  const renderLapItem = ({ item, index }: { item: Lap; index: number }) => {
+    const isBestLap = index === bestLap;
+    const isWorstLap = index === worstLap;
+    
+    return (
+      <View testID='lap-item' style={styles.lapItem}>
+        <Text style={[styles.column, isBestLap && styles.bestLap, isWorstLap && styles.worstLap]}>{item.lapNumber}</Text>
+        <Text style={[styles.column, isBestLap && styles.bestLap, isWorstLap && styles.worstLap]}>{formatTime(item.duration)}</Text>
+        <Text style={[styles.column, isBestLap && styles.bestLap, isWorstLap && styles.worstLap]}>{formatTime(item.time)}</Text>
+      </View>
+    );
+  };
 
   const renderListHeader = () => (
     <View style={styles.header}>
       <Text style={styles.column}>Lap #</Text>
       <Text style={styles.column}>Duration</Text>
+      <Text style={styles.column}>Time</Text>
     </View>
   );
 

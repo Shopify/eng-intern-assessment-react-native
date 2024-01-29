@@ -38,5 +38,13 @@ export const styles = StyleSheet.create({
     borderColor: 'black',
     paddingVertical: 8,
     fontWeight: 'bold',
+  },
+  bestLap: {
+    color: 'green',
+    fontWeight: '600'
+  },
+  worstLap: {
+    color: 'red',
+    fontWeight: '600'
   }
 });
