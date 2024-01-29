@@ -23,6 +23,12 @@ export function useStopwatch(): Stopwatch {
   const minLapTime = useRef<number | null>(null);
   const maxLapTime = useRef<number | null>(null);
 
+  // just so we don't recompute this each time for no reason
+  const totalLaps = useMemo(
+    () => laps.reduce((total, lap) => total + lap, 0),
+    [laps],
+  );
+
   function updateMinAndMaxLapTimes(newLap: number) {
     if (minLapTime.current === null || newLap < minLapTime.current) {
       minLapTime.current = newLap;
@@ -57,7 +63,7 @@ export function useStopwatch(): Stopwatch {
   }
 
   function lap() {
-    const lapTime = milliseconds - accumulatedTime.current;
+    const lapTime = milliseconds - totalLaps;
     setLaps((laps) => {
       updateMinAndMaxLapTimes(lapTime);
       return [...laps, lapTime];
