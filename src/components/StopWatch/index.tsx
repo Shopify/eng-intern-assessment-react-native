@@ -11,10 +11,12 @@ type Lap = {
 
 export default function StopWatch() {
   const [elapsedTime, setElapsedTime] = useState<number>(0);
-  const [isRunning, setIsRunning] = useState(false);
-  const [isPaused, setIsPaused] = useState(false);
-  const [isStopped, setIsStopped] = useState(false);
+  const [isRunning, setIsRunning] =  useState<boolean>(false);
+  const [isPaused, setIsPaused] =  useState<boolean>(false);
+  const [isStopped, setIsStopped] =  useState<boolean>(false);
   const [laps, setLaps] = useState<number[]>([]);
+  // Using refs to maintain values between renders without causing 
+  // re-renders when they change
   const intervalRef = useRef<number | null>(null);
   const startTimeRef = useRef<number | null>(null);
 
@@ -66,6 +68,7 @@ export default function StopWatch() {
     setLaps((prevLaps) => [...prevLaps, elapsedTime]);
   };
 
+  // Transform the laps array into the proper data for the flat list
   const lapData = laps.map((duration, index) => ({
     lapNumber: index + 1,
     duration: duration,
@@ -78,7 +81,7 @@ export default function StopWatch() {
     </View>
   );
 
-  const renderHeader = () => (
+  const renderListHeader = () => (
     <View style={styles.header}>
       <Text style={styles.column}>Lap #</Text>
       <Text style={styles.column}>Duration</Text>
@@ -92,14 +95,14 @@ export default function StopWatch() {
       </View>
       <View style={styles.btnStart}>
         <StopWatchButton 
-          btnTitle={isRunning ? (isPaused ? 'Resume' : 'Pause') : 'Start'}
+          buttonTitle={isRunning ? (isPaused ? 'Resume' : 'Pause') : 'Start'}
           onPressButton={isRunning ? (isPaused ? handlePressResume : handlePressPause) : handlePressStart}
         />
       </View>
       <View style={styles.buttonsContainer}>
-        <StopWatchButton btnTitle='Reset' onPressButton={handlePressReset} disabled={!isRunning && !isStopped}/>
-        <StopWatchButton btnTitle='Lap' onPressButton={handlePressLap} disabled={!isRunning}/>
-        <StopWatchButton btnTitle='Stop' onPressButton={handlePressStop} disabled={!isRunning}/>
+        <StopWatchButton buttonTitle='Reset' onPressButton={handlePressReset} disabled={!isRunning && !isStopped}/>
+        <StopWatchButton buttonTitle='Lap' onPressButton={handlePressLap} disabled={!isRunning}/>
+        <StopWatchButton buttonTitle='Stop' onPressButton={handlePressStop} disabled={!isRunning}/>
       </View>
       {laps.length > 0 && 
         <FlatList
@@ -107,7 +110,7 @@ export default function StopWatch() {
           keyExtractor={item => item.lapNumber.toString()}
           renderItem={renderLapItem}
           style={styles.flatList}
-          ListHeaderComponent={renderHeader}
+          ListHeaderComponent={renderListHeader}
           testID='lap-list'
         />
       }

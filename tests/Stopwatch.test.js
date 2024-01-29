@@ -11,15 +11,19 @@ describe('Stopwatch', () => {
   });
 
   test('starts and stops the stopwatch', async () => {
+    // Using fake timers as the StopWatch code uses setInterval
+    // https://testing-library.com/docs/using-fake-timers/
     jest.useFakeTimers();
     const { getByText, queryByText } = render(<Stopwatch />);
 
     act(() => fireEvent.press(getByText('Start')));
+    // Advance timers by 100 milliseconds to simulate time passing
     await act(() => jest.advanceTimersByTime(100));
     expect(queryByText(/(\d{2}:){2}\d{2}/)).toBeTruthy();
 
     act(() => fireEvent.press(getByText('Stop')));
     expect(queryByText(/(\d{2}:){2}\d{2}/)).not.toBe('00:00:00');
+    // Reset timers to real timers
     jest.useRealTimers();
   });
 
@@ -36,9 +40,7 @@ describe('Stopwatch', () => {
 
     act(() => fireEvent.press(getByText('Resume')));
     await act(() => jest.advanceTimersByTime(100));
-    await waitFor(() => {
-      expect(getByText(/(\d{2}:){2}\d{2}/).props.children).not.toBe(pausedTime);
-    });
+    expect(getByText(/(\d{2}:){2}\d{2}/).props.children).not.toBe(pausedTime);
     jest.useRealTimers();
   });
 
@@ -67,10 +69,8 @@ describe('Stopwatch', () => {
     await act(() => jest.advanceTimersByTime(200));
     act(() => fireEvent.press(getByText('Reset')));
 
-    await waitFor(() => {
-      expect(getByText('00:00:00')).toBeTruthy();
-      expect(queryByTestId('lap-list')).toBeNull();
-    });
+    expect(getByText('00:00:00')).toBeTruthy();
+    expect(queryByTestId('lap-list')).toBeNull();
     jest.useRealTimers();
   });
 });

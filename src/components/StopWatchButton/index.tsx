@@ -2,29 +2,31 @@ import { View, TouchableOpacity, Text, StyleSheet, ColorValue } from 'react-nati
 import { styles } from './styles';
 
 interface StopWatchButtonProps {
-  btnTitle: string;
+  buttonTitle: string;
   onPressButton: () => void;
   disabled?: boolean;
 }
 
-export default function StopWatchButton({ btnTitle, onPressButton, disabled }:StopWatchButtonProps) {
-  const defineBgColor = (btnTitle: string): ColorValue => {
+export default function StopWatchButton({ buttonTitle, onPressButton, disabled }:StopWatchButtonProps) {
+  // Return the background color based on the button title
+  const defineBgColor = (buttonTitle: string): ColorValue => {
     const colorMap: { [key: string]: ColorValue } = {
       Reset: 'orange',
       Lap: '#89CFF0',
       Stop: '#E34234',
     };
 
-    return colorMap[btnTitle] || '#50C878';
+    // Return the color from the map, or green(#50C878) if not found
+    return colorMap[buttonTitle] || '#50C878';
   };
 
-  const bgColor = defineBgColor(btnTitle);
+  const bgColor = defineBgColor(buttonTitle);
   const background = disabled ? '#c6c6c6' : bgColor;
 
   return (
     <View style={[styles.btnContainer, { backgroundColor: background}]}>
       <TouchableOpacity onPress={onPressButton} disabled={disabled}>
-        <Text style={styles.title}>{btnTitle}</Text>
+        <Text style={styles.title}>{buttonTitle}</Text>
       </TouchableOpacity>
     </View>
   );
