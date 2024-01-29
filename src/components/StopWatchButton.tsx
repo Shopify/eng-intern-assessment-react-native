@@ -40,11 +40,11 @@ const styles = StyleSheet.create({
     elevation: 6, // Add elevation for drop shadow on Android
     shadowColor: '#ffffff',
     shadowOffset: {
-      width: 2,
+      width: 0,
       height: 2,
     },
     shadowOpacity: 0.35,
-    shadowRadius: 5,
+    shadowRadius: 10,
   },
   text: {
     color: 'white',
