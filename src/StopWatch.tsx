@@ -1,4 +1,4 @@
-import { View, StyleSheet, ImageBackground, Text, Animated } from 'react-native';
+import { View, StyleSheet, ImageBackground, Text, Animated, FlatList, ScrollView } from 'react-native';
 import StopWatchButton from './StopWatchButton';
 import { useState, useEffect, useRef } from 'react';
 
@@ -9,6 +9,9 @@ export default function StopWatch() {
   const [playCount, setPlayCount] = useState(0);
   const [stopWatchValue, setStopWatchValue] = useState(0);
   const [intervalId, setIntervalId] = useState<number | undefined>(undefined);
+  const [lapsRecorded, setLapsRecorded] = useState(false);
+  const [laps, setLaps] = useState<number[]>([]);
+  const lastLapTimestamp = useRef<number | null>(null);
 
   // handler function for play state
   const handlePlay = () => {
@@ -33,8 +36,13 @@ export default function StopWatch() {
     resetStopWatch();
   }
   
+  // handler function for recording the lap
+  const handleLap = () => {
+    // Record the lpa
+    recordLap();
+  }
 
-  // handler function for starting the stopwatch
+  // helper function for starting the stopwatch
   const startStopWatch = () => {
     const id = setInterval(() => {
       setStopWatchValue((prevValue) => prevValue + 1);
@@ -42,7 +50,7 @@ export default function StopWatch() {
     setIntervalId(id);
   }
 
-  // handler function for stopping the stopwatch
+  // helper function for stopping the stopwatch
   const stopStopWatch = () => {
     if (intervalId !== undefined) {
       clearInterval(intervalId);
@@ -50,10 +58,13 @@ export default function StopWatch() {
     }
   }
 
-  // handler function for resetting the stopwatch
+  // helper function for resetting the stopwatch
   const resetStopWatch = () => {
     //reset the stop watch value
     setStopWatchValue(0);
+    // reset the laps recorded
+    setLaps([]);
+    lastLapTimestamp.current = null;
     // reset the other states
     if (intervalId !== undefined) {
       clearInterval(intervalId);
@@ -62,7 +73,31 @@ export default function StopWatch() {
     setPlay(false);
   }
 
-  // Format time in HH:MM:SS
+  // helper function for recording a lap
+  const recordLap = () => {
+    if (lastLapTimestamp.current !== null) {
+      // Calculate the time difference between the current lap and the previous lap
+      const lapTime = stopWatchValue - lastLapTimestamp.current;
+      // append to the list of laps
+      setLaps((prevLaps) => [...prevLaps, lapTime]);
+    } else {
+      // If it's the first lap, calculate the time difference between the current lap and the start
+      const lapTime = stopWatchValue;
+      setLaps((prevLaps) => [...prevLaps, lapTime]);
+      setLapsRecorded(true);
+    }
+    // Update the last lap timestamp
+    lastLapTimestamp.current = stopWatchValue;
+  }
+
+  const renderLapItem = ({ item, index }: { item: number; index: number }) => (
+    <View style={styles.lapItem}>
+      <Text>Lap {index + 1}</Text>
+      <Text>{formatTime(item)}</Text>
+    </View>
+  );
+
+  // Helper function for formatting time in HH:MM:SS
   const formatTime = (timeInSeconds: number) => {
     const hours = Math.floor(timeInSeconds / 3600);
     const minutes = Math.floor((timeInSeconds % 3600) / 60);
@@ -86,8 +121,22 @@ export default function StopWatch() {
       style={styles.background}
       source={require("../assets/mobile-background.png")}
     >
-      <View >
+      <View style={styles.container}>
         <Text style={styles.timerText}>{formatTime(stopWatchValue)}</Text>
+        {lapsRecorded &&
+          <View style={styles.scrollView}>
+            <FlatList
+              data={laps}
+              keyExtractor={(item, index) => index.toString()}
+              renderItem={renderLapItem}
+              ListHeaderComponent={() => (
+                <View style={styles.lapHeader}>
+                  <Text style={styles.lapHeaderText}>Laps</Text>
+                </View>
+              )}
+            />
+          </View>
+        }
         <View style={styles.buttonContainer}>
           <StopWatchButton 
             imageName="reset"
@@ -104,7 +153,7 @@ export default function StopWatch() {
           <StopWatchButton 
             imageName="lap"
             title="Lap"
-            onPress={() => console.log('Stop Button')}
+            onPress={handleLap}
           />
         </View>
       </View>
@@ -113,6 +162,10 @@ export default function StopWatch() {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    marginTop: '40%',
+  },
   background: {
       flex: 1,
       justifyContent: "flex-end",
@@ -122,14 +175,36 @@ const styles = StyleSheet.create({
     flexDirection: 'row', // Arrange items horizontally
     justifyContent: 'space-around', // Add space between items
     paddingHorizontal: 16, // Add some horizontal padding
-    marginBottom: '30%', // Add some marginBottom if needed
+    position: 'absolute',
+    bottom: '20%', // Stick to the bottom of the screen
+    width: '100%', // Take the full width
+    height: 80,
   },
   timerText: {
     fontSize: 32,
     fontWeight: 'bold',
     textAlign: 'center',
     marginVertical: 20,
-    marginBottom: '110%',
     color: 'white',
+  },
+  lapItem: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: '#ddd',
+  },
+  lapHeader: {
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    backgroundColor: '#f0f0f0',
+  },
+  lapHeaderText: {
+    fontWeight: 'bold',
+  },
+  scrollView: {
+    flex: 1,
+    marginBottom: '70%',
   },
 })
