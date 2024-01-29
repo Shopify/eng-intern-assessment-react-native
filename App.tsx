@@ -1,15 +1,11 @@
 import { StatusBar } from "expo-status-bar";
 import { SafeAreaView, StyleSheet, Text, View } from "react-native";
 import StopWatch from "./src/Components/StopWatch/StopWatch";
-import StopWatchScreen from "./src/Screens/StopWatchScreen/StopWatchScreen";
 
 export default function App() {
   return (
     <SafeAreaView style={styles.container}>
-      {/* <Text>Open up App.tsx to start working on your app!</Text> */}
-      <StopWatchScreen />
-
-      {/* <StatusBar style="auto" /> */}
+      <StopWatch />
     </SafeAreaView>
   );
 }

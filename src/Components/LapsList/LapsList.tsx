@@ -1,13 +1,24 @@
 import React from "react";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
+import { formatTime } from "../../utils/TimeUtils";
 
-const LapsList = () => {
+interface LapsListInterface {
+  laps: number[];
+}
+
+const LapsList = (props: LapsListInterface) => {
+  const { laps } = props;
+
   return (
     <View style={styles.container}>
-      <ScrollView>
-        <Text>1</Text>
-        <Text>2</Text>
-        <Text>3</Text>
+      <ScrollView testID="lap-list">
+        {laps.map((lap, index) => {
+          return (
+            <Text key={index + 1} testID={`saved-lap-${index + 1}`}>{`Lap ${
+              index + 1
+            } - ${formatTime(lap)}`}</Text>
+          );
+        })}
       </ScrollView>
     </View>
   );
