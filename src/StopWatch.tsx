@@ -58,7 +58,10 @@ const Stopwatch: React.FC<StopwatchProps> = () => {
           running={running}
         />
         <StopWatchButton title="Lap" onPress={recordLap} disabled={!running} />
-        <StopWatchButton title="Reset" onPress={resetStopwatch} disabled={running} />
+        <StopWatchButton
+          title="Reset"
+          onPress={resetStopwatch}
+        />
       </View>
       <View>
         {laps.map((lap, index) => (
