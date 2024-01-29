@@ -12,7 +12,6 @@ export default function StopWatchButton(props: Props) {
   const [laps, setLaps] = useState<number[]>([]);
   const [lapTimes, setLapTimes] = useState<string[]>([]); // store lap times as strings
   const startTimeRef = useRef<number>(0); // creates ref to store start time
-  const lapStartTimeRef = useRef<number[]>([]);
   const [timerStarted, setTimerStarted] = useState<boolean>(false);
 
   const handleStartButton = () => {
@@ -22,43 +21,40 @@ export default function StopWatchButton(props: Props) {
 
     setIntervalId(interval);
     startTimeRef.current = Date.now(); // save current time as start time
-    lapStartTimeRef.current.push(startTimeRef.current); // stores the start time for each lap
 
     setTimerStarted(true);
   };
 
-  const handleStopButton = () => {
+  const handlePauseButton = () => {
     clearInterval(intervalId);
     setStartButton("Resume");
     const elapsedTime = Math.floor((Date.now() - startTimeRef.current) / 1000);
-    setTimeInSeconds((previousState: number) => previousState + elapsedTime);
+    setTimeInSeconds((previousState: number) => previousState);
   };
 
   const handleResetButton = () => {
-    clearInterval(intervalId);
+    clearInterval(intervalId); // resets the timer to 00:00:00
     setTimeInSeconds(0);
-    setStartButton("Start");
-    setLaps([]);
+    setStartButton("Start"); // change "resume" to "start"
+    setLaps([]); // reset all laps and their times
     setLapTimes([]);
 
     setTimerStarted(false);
-
-    lapStartTimeRef.current = [];
   };
 
   const handleLapButton = () => {
-    const lapStartTimes = lapStartTimeRef.current;
-    const lapsCount = laps.length;
+    const currentTime = Date.now();
+    const elapsedSeconds = Math.floor(
+      (currentTime - startTimeRef.current) / 1000
+    );
 
-    if (lapStartTimes.length > lapsCount) {
-      const lapTime = Math.floor(
-        (Date.now() - lapStartTimeRef.current[lapsCount]) / 1000
-      );
-      setLaps((prevLaps) => [...prevLaps, lapTime]);
+    // const lapTime = Math.floor((Date.now() - startTimeRef.current) / 1000);
+    setLaps((prevLaps) => [...prevLaps, elapsedSeconds]);
 
-      const formattedLapTime = formatTime(lapTime);
-      setLapTimes((prevLapTimes) => [...prevLapTimes, formattedLapTime]);
-    }
+    const formattedLapTime = formatTime(elapsedSeconds);
+    setLapTimes((prevLapTimes) => [...prevLapTimes, formattedLapTime]);
+
+    startTimeRef.current = currentTime;
   };
 
   const formatTime = (timeInSeconds: number): string => {
@@ -81,8 +77,8 @@ export default function StopWatchButton(props: Props) {
       </View>
       <View style={styles.buttons}>
         <Button
-          onPress={handleStopButton}
-          title="Stop"
+          onPress={handlePauseButton}
+          title="Pause"
           color="black"
           disabled={!timerStarted}
         ></Button>
@@ -103,7 +99,9 @@ export default function StopWatchButton(props: Props) {
           disabled={!timerStarted}
         ></Button>
       </View>
-      <Text>Lap Times:</Text>
+      <View style={styles.textContainer}>
+        <Text>Lap Times:</Text>
+      </View>
       <View style={styles.scrollView}>
         <ScrollView>
           {lapTimes.map((lapTime, index) => (
@@ -120,6 +118,11 @@ const styles = StyleSheet.create({
     backgroundColor: "#84EF9E",
     margin: 8,
     width: 100,
+  },
+  textContainer: {
+    alignItems: "center",
+    justifyContent: "center",
+    fontSize: 20,
   },
   scrollView: {
     height: 400,
