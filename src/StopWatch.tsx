@@ -9,10 +9,6 @@ function elapsedTimeStringFromDates(from: Date | null, to: Date | null = new Dat
     if(from === null)
         return "00:00:00";
     const interval = Interval(to.valueOf() - from.valueOf());
-    return elapsedTimeStringFromInterval(interval);
-}
-
-function elapsedTimeStringFromInterval(interval: interval): string {
     const padTimeString = (n: number) => n < 10 ? `0${n}` : `${n}`;
     const {hours, minutes, seconds} = interval;
 
@@ -25,7 +21,7 @@ export default function StopWatch() {
     const [toClock, setToClock] = useState<Date | null>(new Date());
     // used to stop setInterval
     const [stopwatchId, setStopwatchId] = useState(NaN);
-    const [laps, setLaps] = useState<interval[]>([]);
+    const [laps, setLaps] = useState<[Date, Date][]>([]);
     let styles = StyleSheet.create({
         lapList: {
             maxHeight: 100,
@@ -99,11 +95,12 @@ export default function StopWatch() {
         const from = clock;
         const to = toClock;
         if(from !== null && to !== null)
-            setLaps([...laps, Interval(to.valueOf() - from.valueOf())]);
+            setLaps([...laps, [from, to]]);
     }
 
-    function renderLap({item}: ListRenderItemInfo<interval>) {
-        return <Text>{elapsedTimeStringFromInterval(item)}</Text>;
+    function renderLap({item}: ListRenderItemInfo<[Date, Date]>) {
+        const [from, to] = item;
+        return <Text>{elapsedTimeStringFromDates(from, to)}</Text>;
     }
 
 
