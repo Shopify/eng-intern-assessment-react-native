@@ -24,29 +24,38 @@ export default function StopWatch() {
     const [laps, setLaps] = useState<[Date, Date][]>([]);
     let styles = StyleSheet.create({
         lapList: {
-            maxHeight: 100,
-            height: 100,
-            flexGrow: 0,
+            maxHeight: 150,
+            alignContent: "center",
             backgroundColor: "red",
+            flex: 2,
             display: laps.length > 0 ? "flex" : "none"
         },
         spacer: {
             width: "100%",
-            height: 100,
+            maxHeight: 150,
+            height: 150,
+            flex: 2,
+            flexGrow:1,
+            flexShrink:0,
+            backgroundColor: "yellow",
+            display: laps.length < 1 ? "flex" : "none"
         },
         counter: {
             fontSize: 48,
             textAlign: "center",
             width: "100%",
-            flexGrow: 0,
+            marginTop: 100,
             backgroundColor: "green"
         },
         buttonGroup: {
             width: 250,
             flexDirection: "column",
-            justifyContent: "space-evenly",
-            flexGrow: 0,
-            backgroundColor: "blue"
+            justifyContent: "space-around",
+            backgroundColor: "blue",
+            padding: 10,
+            margin: 85,
+            flex: 1,
+            flexShrink:0,
         }
     });
     const startClock = () => {
@@ -107,31 +116,30 @@ export default function StopWatch() {
     return (
         <>
             <Text style={styles.counter}>{elapsedTimeStringFromDates(clock, toClock)}</Text>
-            <View>
-                <View style={styles.buttonGroup}>
-                    <StopWatchButton
-                        text={clock === null ? "Start" : "Stop"}
-                        colour={clock === null ? "green" : "red"}
-                        onClick={stopwatchId ? stopClock : startClock}
-                    />
-                    <StopWatchButton
-                        text={stopwatchId ? "Pause" : "Resume"}
-                        colour={stopwatchId ? "goldenrod" : "lightblue"}
-                        disabled={isNaN(stopwatchId) && clock === null}
-                        onClick={stopwatchId ? pauseClock : resumeClock}
-                    />
-                    <StopWatchButton onClick={addLap} text="Lap"/>
-                </View>
+            <View style={styles.buttonGroup}>
+                <StopWatchButton
+                    text={clock === null ? "Start" : "Stop"}
+                    colour={clock === null ? "green" : "red"}
+                    onClick={stopwatchId ? stopClock : startClock}
+                />
+                <StopWatchButton
+                    text={stopwatchId ? "Pause" : "Resume"}
+                    colour={stopwatchId ? "goldenrod" : "lightblue"}
+                    disabled={isNaN(stopwatchId) && clock === null}
+                    onClick={stopwatchId ? pauseClock : resumeClock}
+                />
+                <StopWatchButton onClick={addLap} text="Lap"/>
+                <View style={styles.spacer}/>
+                <FlatList ref={flatList}
+                          centerContent={true}
+                          style={styles.lapList}
+                          data={laps}
+                          contentContainerStyle={{alignItems: "center", flexGrow: 1}}
+                          renderItem={renderLap}
+                          keyExtractor={(_, index) => (Math.random() * index).toString(12)}
+                          testID="lap-list"/>
+                <StopWatchButton onClick={resetClock} text="Reset"/>
             </View>
-            <View style={styles.spacer}/>
-            <FlatList ref={flatList}
-                      centerContent={true}
-                      style={styles.lapList}
-                      data={laps}
-                      renderItem={renderLap}
-                      keyExtractor={(_, index) => (Math.random() * index).toString(12)}
-                      testID="lap-list"/>
-            <StopWatchButton onClick={resetClock} text="Reset"/>
         </>
     );
 }
