@@ -13,7 +13,7 @@ export default function StopWatchButton(props: Props) {
   const [lapTimes, setLapTimes] = useState<string[]>([]); // store lap times as strings
   const startTimeRef = useRef<number>(0); // creates ref to store start time
   const [timerStarted, setTimerStarted] = useState<boolean>(false); // tracks if timer started, if not disable the other buttons
-  const [lapStarted, setlapStarted] = useState<boolean>(false); // tracks if timer started, if not disable the other buttons
+  const [lapStarted, setlapStarted] = useState<boolean>(false); // tracks if laps started, if so disable the other buttons
 
   const handleStartButton = () => {
     const interval: any = setInterval(() => {
