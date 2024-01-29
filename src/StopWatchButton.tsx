@@ -4,8 +4,8 @@ import { TouchableOpacity, Text, StyleSheet, StyleProp, ViewStyle } from 'react-
 interface StopWatchButtonProps {
   title: string;
   onPress: () => void;
-  running: boolean;
-  disabled: boolean;
+  running?: boolean;
+  disabled?: boolean;
 }
 
 const StopWatchButton: FC<StopWatchButtonProps> = ({ title, onPress, running, disabled }) => {
