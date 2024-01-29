@@ -7,8 +7,7 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "test": "jest",
-    "specific": "jest -t 'renders initial state correctly'"
+    "test": "jest"
   },
   "dependencies": {
     "expo": "~49.0.15",
