@@ -2,27 +2,29 @@ import {GestureResponderEvent, ScrollView, Text, View } from 'react-native';
 import { styles } from './Styles';
 import React, { useEffect, useState } from "react";
 import StopWatchButton from './StopWatchButton';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 export default function StopWatch() {
   const [isRunning, setIsRunning] = useState(false);
   const [elapsedTime, setElapsedTime] = useState(0);
   const [lapTime, setLapTime] = useState<string[]>([]);
-  let id: number;
 
   useEffect(() => {
     if (isRunning) {
-      id = setInterval(() => {
+      const intervalId = setInterval(() => {
         setElapsedTime(prevTime => prevTime + 1);
       }, 10);
-    } else {
-        setElapsedTime(0);
+    return () => {clearInterval(intervalId);}
     }
-    return () => clearInterval(id);
   }, [isRunning]);
 
-  const onStartStop = ():void => {
-    setIsRunning(!isRunning);
+  const onStart = ():void => {
+    setIsRunning(true);
   };
+
+  const onStop = ():void => {
+    setIsRunning(false);
+  }
 
   const onReset = ():void => {
     setLapTime([]);
@@ -40,12 +42,28 @@ export default function StopWatch() {
       </View>
       <View style = {styles.buttonContainer}>
         <StopWatchButton
-          label = {isRunning ? 'Stop' : 'Start'}
-          onClick= {onStartStop}
+          label = {isRunning ? 'Pause' : 'Start'}
+          onClick= {isRunning ? onStop : onStart}
+          textColor='white'
+          buttonColor= {isRunning ? 'red' : 'green'}
         />
         <StopWatchButton
-          label = {isRunning ? 'Lap' : 'Reset'}
-          onClick= {isRunning ? onLap: onReset}
+          label = {'Stop'}
+          onClick= {onStop}
+          textColor='white'
+          buttonColor='red'
+        />
+        <StopWatchButton
+          label = {'Lap'}
+          onClick = {onLap}
+          textColor='white'
+          buttonColor='#708090'
+        />
+        <StopWatchButton
+          label = {'Reset'}
+          onClick= {onReset}
+          textColor='white'
+          buttonColor='#708090'
         />
       </View>
       <Laps
@@ -68,7 +86,7 @@ const Laps = React.memo(({laps}:{laps:string[]}) => {
   return (
     <ScrollView style={styles.scrollContainer}>
         {laps.map((lapTime, index) => 
-          <Text key={index}>Lap {index + 1}: {lapTime}</Text>
+          <Text style = {styles.lapText} key={index}>Lap {index + 1}: {lapTime}</Text>
         )}
     </ScrollView>
   );

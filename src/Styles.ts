@@ -3,7 +3,7 @@ import { StyleSheet } from "react-native";
 export const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: '#fff',
+      backgroundColor: 'black',
       alignItems: 'center',
       justifyContent: 'center',
     },
@@ -13,14 +13,17 @@ export const styles = StyleSheet.create({
     stopwatchText: {
         display: "flex",
         justifyContent: "center",
+        fontSize: 60,
+        color: '#fff'
     },
     buttonContainer: {
         flexDirection: "row",
-        justifyContent: "space-around",
-        width: "60%"
+        justifyContent: "space-between",
+        alignItems: "center",
+        width: "80%"
     },
     button: {
-      backgroundColor: 'red',
+      backgroundColor: '#708090',
       padding: 10,
       borderRadius: 5,
       justifyContent:"center",
@@ -28,10 +31,14 @@ export const styles = StyleSheet.create({
     },
     buttonText: {
       fontSize: 20,
+      color: '#fff'
     },
     scrollContainer: {
       maxHeight: 200,
       overflow: 'scroll',
+    },
+    lapText:{
+      color: '#fff'
     }
   });
   

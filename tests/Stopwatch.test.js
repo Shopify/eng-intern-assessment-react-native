@@ -6,7 +6,7 @@ describe('Stopwatch', () => {
   test('renders initial state correctly', () => {
     const { getByText, queryByTestId } = render(<Stopwatch />);
     
-    expect(getByText('00:00:00')).toBeTruthy();
+    expect(getByText('00:00:00.00')).toBeTruthy();
     expect(queryByTestId('lap-list')).toBeNull();
   });
 
@@ -36,10 +36,10 @@ describe('Stopwatch', () => {
     
     fireEvent.press(getByText('Start'));
     fireEvent.press(getByText('Lap'));
-    expect(getByTestId('lap-list')).toContainElement(getByText(/(\d{2}:){2}\d{2}/));
+    expect(getByTestId('lapTime')).toContainElement(getByText(/(\d{2}:){2}\d{2}/));
 
     fireEvent.press(getByText('Lap'));
-    expect(getByTestId('lap-list').children.length).toBe(2);
+    expect(getByTestId('lapTime').children.length).toBe(2);
   });
 
   test('resets the stopwatch', () => {
@@ -49,7 +49,7 @@ describe('Stopwatch', () => {
     fireEvent.press(getByText('Lap'));
     fireEvent.press(getByText('Reset'));
 
-    expect(getByText('00:00:00')).toBeTruthy();
-    expect(queryByTestId('lap-list')).toBeNull();
+    expect(getByText('00:00:00.00')).toBeTruthy();
+    expect(queryByTestId('lapTime')).toBeNull();
   });
 });

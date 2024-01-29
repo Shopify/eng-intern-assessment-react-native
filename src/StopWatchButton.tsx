@@ -1,20 +1,25 @@
 import React from 'react';
 import { View, TouchableOpacity, Text, GestureResponderEvent } from 'react-native';
 import { styles } from './Styles';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 interface StopWatchButtonProps {
   label:string,
   onClick: () => void,
+  textColor?: string,
+  buttonColor?: string,
 }
 
 const StopWatchButton: React.FC<StopWatchButtonProps> = ({
   label,
   onClick,
+  textColor,
+  buttonColor
   }) => {
   return (
     <View >
-      <TouchableOpacity style={styles.button} onPress={onClick}>
-        <Text style={styles.buttonText}>{label}</Text>
+      <TouchableOpacity style={[styles.button, {backgroundColor: buttonColor}]} onPress={onClick}>
+        <Text style={[styles.buttonText, {color: textColor}]}>{label}</Text>
       </TouchableOpacity>
     </View>
   );
