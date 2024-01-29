@@ -35,7 +35,6 @@ export default function StopWatch() {
     // Reset the stopwatch
     resetStopWatch();
   }
-  
   // handler function for recording the lap
   const handleLap = () => {
     // Record the lpa
@@ -47,6 +46,12 @@ export default function StopWatch() {
     const id = setInterval(() => {
       setStopWatchValue((prevValue) => prevValue + 1);
     }, 1000); // Increment every 1000 milliseconds
+
+    // Clear the previous interval if it exists
+    if (intervalId !== undefined) {
+      clearInterval(intervalId);
+    }
+
     setIntervalId(id);
   }
 
@@ -65,6 +70,7 @@ export default function StopWatch() {
     // reset the laps recorded
     setLaps([]);
     lastLapTimestamp.current = null;
+    setLapsRecorded(false);
     // reset the other states
     if (intervalId !== undefined) {
       clearInterval(intervalId);
@@ -92,8 +98,8 @@ export default function StopWatch() {
 
   const renderLapItem = ({ item, index }: { item: number; index: number }) => (
     <View style={styles.lapItem}>
-      <Text>Lap {index + 1}</Text>
-      <Text>{formatTime(item)}</Text>
+      <Text style={styles.lapItemText}>Lap {index + 1}</Text>
+      <Text testID="lap-item" style={styles.lapItemText}>{formatTime(item)}</Text>
     </View>
   );
 
@@ -114,6 +120,13 @@ export default function StopWatch() {
       clearInterval(intervalId);
       setIntervalId(undefined);
     }
+
+    // Cleanup function to clear interval when component is unmounted
+    return () => {
+      if (intervalId !== undefined) {
+        clearInterval(intervalId);
+      }
+    };
   }, [play, intervalId]);
 
   return (
@@ -122,10 +135,11 @@ export default function StopWatch() {
       source={require("../assets/mobile-background.png")}
     >
       <View style={styles.container}>
-        <Text style={styles.timerText}>{formatTime(stopWatchValue)}</Text>
+        <Text testID="timer-text" style={styles.timerText}>{formatTime(stopWatchValue)}</Text>
         {lapsRecorded &&
           <View style={styles.scrollView}>
             <FlatList
+              testID="lap-list"
               data={laps}
               keyExtractor={(item, index) => index.toString()}
               renderItem={renderLapItem}
@@ -181,7 +195,7 @@ const styles = StyleSheet.create({
     height: 80,
   },
   timerText: {
-    fontSize: 32,
+    fontSize: 70,
     fontWeight: 'bold',
     textAlign: 'center',
     marginVertical: 20,
@@ -194,6 +208,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     borderBottomWidth: 1,
     borderBottomColor: '#ddd',
+    fontSize: 15,
+  },
+  lapItemText: {
+    fontSize: 20,
+    color: 'white',
   },
   lapHeader: {
     paddingVertical: 8,
@@ -202,6 +221,7 @@ const styles = StyleSheet.create({
   },
   lapHeaderText: {
     fontWeight: 'bold',
+    fontSize: 20,
   },
   scrollView: {
     flex: 1,

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, Image, Text, TouchableWithoutFeedback } from 'react-native';
+import { View, StyleSheet, Image, Text, TouchableHighlight } from 'react-native';
 
 // interface for the arguments being passed
 interface StopWatchButtonProps {
@@ -14,7 +14,7 @@ interface StopWatchButtonProps {
 // container for all of the different icons to be used for this button component
 const imagePaths: { [key: string]: any } = {
   play: require('../assets/play.png'),
-  pause: require('../assets/pause.png'),
+  stop: require('../assets/pause.png'),
   reset: require('../assets/reset.png'),
   lap: require('../assets/lap.png'),
 };
@@ -26,7 +26,7 @@ const StopWatchButton: React.FC<StopWatchButtonProps> = ({ imageName, title, pla
     // if playCount was passed in, return either the play or pause icon depending on state
     if (playCount !== undefined) {
       if (play) {
-        return imagePaths.pause;
+        return imagePaths.stop;
       } else {
         return imagePaths.play;
       }
@@ -42,7 +42,7 @@ const StopWatchButton: React.FC<StopWatchButtonProps> = ({ imageName, title, pla
     // if PlayCount was passed in and timer has already started, return either 'Pause' or 'Resume' depending on the play state
     if (playCount !== undefined && playCount > 0) {
       if (play) {
-        return 'Pause';
+        return 'Stop';
       } else {
         return 'Resume';
       }
@@ -54,12 +54,12 @@ const StopWatchButton: React.FC<StopWatchButtonProps> = ({ imageName, title, pla
   }
 
   return (
-    <TouchableWithoutFeedback onPress={onPress}>
+    <TouchableHighlight onPress={onPress}>
       <View style={styles.container}>
         <Image style={styles.image} source={getImagePath()}/>
         <Text>{getTitle()}</Text>
       </View>
-    </TouchableWithoutFeedback>
+    </TouchableHighlight>
   );
 }
 
