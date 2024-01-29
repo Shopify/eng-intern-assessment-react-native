@@ -1,3 +1,18 @@
+# failing tests
+
+I have completed the project to the best of my ability to comply with both the instructions and given tests.
+Below, are 2/5 of the given tests that are failing and my explanation as to why I think so.
+
+3. **Test 3**: tests the pause and resume functionality.
+The test fails because there is not enough of a delay from when it presses pause and then presses resume.
+The implemented functionality is that the stopwatch does not continue to run in the background even though it's paused.
+Although, the tests *seems* to expect otherwise.
+4. **Test 4**: tests the lap functionality.
+The test fails with `Found multiple elements with text: /(\d{2}:){2}\d{2}/`.
+It would appear that the list component that displays the laps is not being updated with the time or is in the incorrect format.
+But that is not the case, furthermore when the counter's text (the text that displays the stopwatch time) is removed the test fails with `expect(...).toContainElement is not a function`.
+Uncertain, why exactly this test is failing, but I suspect something in the test rather than the code.
+
 # Technical Instructions
 1. Fork this repo to your local Github account.
 2. Create a new branch to complete all your work in.
