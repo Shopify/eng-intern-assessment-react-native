@@ -1,61 +1,63 @@
-// import React, { useState, useEffect } from 'react';
-// import { View, Text } from 'react-native';
-
-// export default function Stopwatch() {
-//   const [time, setTime] = useState(0);
-//   const [laps, setLaps] = useState([]);
-//   const [isRunning, setIsRunning] = useState(false);
-
-//   useEffect(() => {
-//     // Use ReturnType to infer the type returned by setInterval
-//     let interval: ReturnType<typeof setInterval>;
-//     if (isRunning) {
-//       interval = setInterval(() => {
-//         setTime(prevTime => prevTime + 1);
-//       }, 1000);
-//     }
-//     return () => clearInterval(interval as unknown as number);
-//   }, [isRunning]);
-
-
-
-//   return (
-//     <View>
-//       {/* Display time and laps */}
-//       <Text>{time}</Text>
-//       {/* Display laps */}
-//       {/* Display buttons */}
-//     </View>
-//   );
-// }
-// src/Stopwatch.tsx
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, ScrollView, StyleSheet } from 'react-native';
 
-// Define a type for the props
+// Defining the types for the component props
 type StopwatchProps = {
-  time: number;
-  laps: number[];
+  time: number; // Current time of the stopwatch
+  laps: number[]; // Array to store lap times
 };
 
 const Stopwatch: React.FC<StopwatchProps> = ({ time, laps }) => {
-  // Function to format time in seconds to MM:SS format
+  // Function to format time into a readable format (MM:SS.ms)
   const formatTime = (time: number): string => {
-    const minutes = Math.floor(time / 60);
-    const seconds = time % 60;
-    const miliseconds = 
-    return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}:${milliseconds.toString().padStart(3, '0')}`;
+    const minutes = Math.floor(time / 60000);
+    const seconds = Math.floor((time % 60000) / 1000);
+    const milliseconds = Math.floor((time % 1000) / 10);
+
+    return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}.${milliseconds.toString().padStart(2, '0')}`;
   };
 
   return (
-    <View>
-      <Text>{formatTime(time)}</Text>
-      {laps.map((lap: number, index: number) => (
-        <Text key={index}>Lap {index + 1}: {formatTime(lap)}</Text> 
-      ))}
+    <View style={styles.container}>
+      {/* Displaying the formatted time */}
+      <Text style={styles.timerDisplay}>{formatTime(time)}</Text>
+      
+      {/* ScrollView to list lap times */}
+      <ScrollView style={styles.lapList}>
+        {laps.map((lap, index) => (
+          <Text key={index} style={styles.lapTime}>
+            Lap {index + 1}: {formatTime(lap)}
+          </Text>
+        ))}
+      </ScrollView>
     </View>
   );
 };
+
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    width: '100%',
+    padding: 20,
+  },
+  timerDisplay: {
+    fontSize: 48,
+    fontWeight: 'bold',
+    marginBottom: 30,
+  },
+  lapList: {
+    flex: 1,
+    width: '100%',
+    padding: 5,
+  },
+  lapTime: {
+    fontSize: 16,
+    color: '#333',
+    marginBottom: 5,
+  },
+});
 
 export default Stopwatch;
 
