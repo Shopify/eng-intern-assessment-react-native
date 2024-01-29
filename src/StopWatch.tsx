@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import { View, Text } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import StopWatchButton from "./StopWatchButton";
 
 interface StopwatchProps {}
@@ -50,8 +50,8 @@ const Stopwatch: React.FC<StopwatchProps> = () => {
 
   return (
     <View>
-      <Text>{formatTime(time)}</Text>
-      <View>
+  <Text style={styles.stopwatchTitle}>{formatTime(time)}</Text>
+      <View style={styles.buttonContainer}>
         <StopWatchButton
           title={running ? "Pause" : "Start"}
           onPress={startStopwatch}
@@ -65,11 +65,26 @@ const Stopwatch: React.FC<StopwatchProps> = () => {
       </View>
       <View>
         {laps.map((lap, index) => (
-          <Text key={index}>{`${formatTime(lap)}`}</Text>
+          <Text style={styles.lapsTextItem} key={index}>{`${formatTime(lap)}`}</Text>
         ))}
       </View>
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  stopwatchTitle: {
+    textAlign: "center",
+    fontSize: 50,
+    fontWeight: "bold",
+  },
+  buttonContainer: { 
+    flexDirection: "row", justifyContent: 'center'
+  },
+  lapsTextItem: {
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+});
 
 export default Stopwatch;
