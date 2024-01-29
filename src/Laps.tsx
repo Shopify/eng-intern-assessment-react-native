@@ -7,34 +7,34 @@ type LapsProps = {
 
 const Laps = ({ lapTimes }: LapsProps) => {
 
+    if (lapTimes.length == 0){
+        return null;
+    }else{
+
     return(
-        <View style={styles.container}>
-        <ScrollView>
+        <ScrollView testID="lap-list" style={styles.container}>
             {lapTimes.map((lapTime, index) => (
           <Text key={index} style={styles.lapTime}>
             Lap {index + 1}: {formatTime(lapTime)}
           </Text>
         ))}
         </ScrollView>
-        </View>
     );
+
+    };
 };
 
 const styles = StyleSheet.create({
     container: {
-        height: 300
-    },
+        height: 300,
 
-    lapsLabel: {
-        fontSize: 25,
-        fontWeight: "bold",
-        textAlign: "left"
     },
-
 
     lapTime: {
         fontSize: 18,
-        textAlign: 'left',
+        textAlign: 'center',
+        color: "#fff",
+        marginBottom: 10
       },
     
 

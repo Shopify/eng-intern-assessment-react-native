@@ -4,7 +4,7 @@ import { useState, useRef } from "react";
 import formatTime from "./util/FormatTime";
 import Laps from './Laps';
 
-const StopWatch = () => {
+const Stopwatch = () => {
   const [isRunning, setIsRunning] = useState(false);
   const [timePassed, setTimePassed] = useState(0);
   const intervalRef = useRef<number | null>(null);
@@ -19,7 +19,7 @@ const StopWatch = () => {
     const startTime = Date.now() - timePassed;
     intervalRef.current = setInterval(() => {
       setTimePassed(Date.now() - startTime);
-    }, 100);
+    }, 1);
   }
 
   setIsRunning(!isRunning);
@@ -68,7 +68,9 @@ const StopWatch = () => {
       buttonStyles={styles.lapButton}
       />
       <Text style={styles.lapsLabel}>Laps</Text>
-      <Laps lapTimes={lapTimes} />
+      <View style={styles.lapsContainer}>
+        <Laps lapTimes={lapTimes} />
+      </View>
     </View>
   )
 };
@@ -77,21 +79,29 @@ const StopWatch = () => {
 const styles = StyleSheet.create({
 
   timer: {
-    fontSize: 20,
+    fontSize: 40,
+    color: "#fff",
+    textAlign: "center",
+    marginBottom: 20,
   },
 
   lapsLabel: {
     fontSize: 25,
     fontWeight: "bold",
-    textAlign: "left"
+    textAlign: "center",
+    color: "#fff",
+    marginTop: 20,
+    marginBottom: 10
   },
 
   startButton: {
     paddingHorizontal: 50,
     paddingVertical: 20,
     borderRadius: 20,
-    backgroundColor: "green",
-    textAlign: "center"
+    backgroundColor: "#34eb46",
+    textAlign: "center",
+    marginBottom: 15,
+    marginRight: 7.5,
   },
 
   startResetContainer: {
@@ -104,25 +114,34 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
     borderRadius: 20,
     backgroundColor: "grey",
-    textAlign: "center"
+    textAlign: "center",
+    marginLeft: 7.5,
+    marginBottom: 15
   },
 
   stopButton: {
-    paddingHorizontal: 50,
+    paddingHorizontal: 52,
     paddingVertical: 20,
     borderRadius: 20,
     backgroundColor: "red",
-    textAlign: "center"
+    textAlign: "center",
+    marginBottom: 15,
+    marginRight: 15,
+
   },
 
   lapButton: {
     paddingHorizontal: 100,
     paddingVertical: 20,
     borderRadius: 20,
-    backgroundColor: "orange",
+    backgroundColor: "#4CB9E7",
     textAlign: "center"
+  },
+
+  lapsContainer: {
+    height: 400,
   }
 
 })
 
-export default StopWatch;
+export default Stopwatch;

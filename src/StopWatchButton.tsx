@@ -1,4 +1,4 @@
-import { View, TouchableOpacity, TouchableOpacityProps, Text } from 'react-native';
+import {View, TouchableOpacity, TouchableOpacityProps, Text, StyleSheet} from 'react-native';
 
 interface StopWatchButtonProps extends TouchableOpacityProps{
   title: string;
@@ -14,11 +14,20 @@ const StopWatchButton: React.FC<StopWatchButtonProps> = ({title, onPress, button
       onPress={() => onPress()}
       style={buttonStyles}
       >
-        <Text>{title}</Text>
+        <Text style={styles.buttonText}>{title}</Text>
       </TouchableOpacity>
     </View>
   );
 
 };
+
+const styles = StyleSheet.create({
+    buttonText:{
+        fontSize: 18,
+        fontWeight: "bold",
+        color: "#fff",
+        textAlign: "center"
+    }
+});
 
 export default StopWatchButton;
