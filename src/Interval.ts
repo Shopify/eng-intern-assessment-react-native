@@ -19,7 +19,7 @@ export const Interval = (elapsedMilliseconds: number): interval => {
         },
         get seconds() {
             // math trunc will work because it's showing the time representation hh:mm:ss:mmmm
-            // so if it's fractional then a whole x (second, minute,etc.) hasn't elapsed yet so show 0
+            // so if it's fractional then a whole x (second, minute, etc.) hasn't elapsed yet so show 0
             return Math.trunc((this.totalMilliseconds / 1000) % 60);
         },
         get minutes() {
@@ -34,5 +34,3 @@ export const Interval = (elapsedMilliseconds: number): interval => {
         totalMilliseconds: elapsedMilliseconds
     };
 };
-
-export default interval;
