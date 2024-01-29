@@ -4,6 +4,7 @@ import StopWatchButton from "./components/StopWatchButton";
 import TimeDisplay from "./components/timeDisplay";
 import LapsRecord from "./components/LapRecord";
 
+//main function for the stopwatch
 export default function StopWatch() {
   const [isRunning, setIsRunning] = useState(false);
   const [started, setStarted] = useState(false);

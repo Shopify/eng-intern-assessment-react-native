@@ -6,6 +6,7 @@ interface TimeDisplayProps {
   timeInSeconds: number;
 }
 
+// file for time display component
 export default function TimeDisplay(props: Readonly<TimeDisplayProps>) {
   const { timeInSeconds } = props;
   const formattedTime = timeInSeconds === -1 ? '' : formatTime(timeInSeconds);

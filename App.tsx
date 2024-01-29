@@ -2,7 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, View } from 'react-native';
 import StopWatch from "./src/StopWatch";
 
-
+//app page for running stopwatch
 export default function App() {
   return (
     <View style={styles.container}>
