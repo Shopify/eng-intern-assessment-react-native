@@ -19,11 +19,11 @@ export default function StopWatch() {
   const [started, setStarted] = useState(false);
   const [laps, setLaps] = useState<number[]>([]);
   const [showTime, setShowtime] = useState(false);
-  const timer = useRef(null);
   const intervalRef = useRef<number | null>(null);
 
   useEffect(() => {
     if(isRunning){
+      // Update interval every 1000 milliseconds or 1 second.
       intervalRef.current = setInterval(() => {
         setTime(prevTime => prevTime + 1)
       }, 1000);
@@ -36,6 +36,7 @@ export default function StopWatch() {
     }
   }, [isRunning]);
 
+  // Reset the time to zero and laps
   const reset = () => {
     setStarted(false);
     setRunning(false);
@@ -43,6 +44,7 @@ export default function StopWatch() {
     setLaps([]);
   };
 
+  // Same as reset except we don't show the time
   const stop = () => {
     setStarted(false);
     setShowtime(false);
@@ -51,10 +53,12 @@ export default function StopWatch() {
     setLaps([]);
   };
 
+  // Pause the timer
   const pause = () => {
     setRunning(false);
   };
 
+  // Resume the timer
   const resume = () => {
     setRunning(true);
     if(!started){
@@ -63,6 +67,7 @@ export default function StopWatch() {
     setShowtime(true);
   }
 
+  // When lap button is pressed, adds the current lap
   const lapPress = () => {
     setLaps([...laps, time]);
   };
@@ -83,9 +88,9 @@ export default function StopWatch() {
             color="red"
             isDisabled={!started}/>
           <StopWatchButton 
-            name={isRunning ? "Pause" : "Resume"} 
+            name={isRunning ? "Pause" : "Resume"}
             onClick={isRunning ? pause : resume}
-            color={isRunning ? "red" : "lightgreen"}
+            color={isRunning ? "red" : "lightgreen"}  // Different Color based on which options it is
             isDisabled={false}/>
           <StopWatchButton 
             name={"Lap"}
@@ -95,7 +100,7 @@ export default function StopWatch() {
           <StopWatchButton 
             name={"Stop"}
             onClick={stop} 
-            color={started ? "red" : "darkgrey"}
+            color={started ? "red" : "darkgrey"}  // Grayed out when it is unavailable
             isDisabled={!started}/>
         </View>
       </View>

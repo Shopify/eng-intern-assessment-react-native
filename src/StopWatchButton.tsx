@@ -21,7 +21,7 @@ export default function StopWatchButton({ name, onClick, color, isDisabled=false
   return (
     <SafeAreaView>
       <Pressable
-        style={[styles.buttonShape, {backgroundColor: color}]}
+        style={[styles.buttonShape, {backgroundColor: color}]}  // Customizable color for different scenarios
         onPress={onClick}
         accessibilityLabel={name}
         disabled={isDisabled}>
