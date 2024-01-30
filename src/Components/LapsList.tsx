@@ -1,35 +1,47 @@
 import { ScrollView, StyleSheet, Text, View } from "react-native";
+// Import utility function for time display
 import { displayTime } from "../util/displayTime";
 
+// Define TypeScript interface for LapsProps
 interface LapsProps {
-  laps: number[] | null;
+  laps: number[] | null; // Array of lap times or null
 }
+
+// Define TypeScript interface for LapsEntryProps
 interface LapsEntryProps {
-  time: number;
-  idx: number;
+  time: number; // Time for each lap
+  idx: number; // Index of the lap
 }
+
+// Functional component to display each lap entry
 const LapsEntry = ({ time, idx }: LapsEntryProps) => {
   return (
     <View>
+      {/* Display the lap number and time */}
       <Text style={styles.lapsEntry} key={idx}>{`Lap #${idx + 1}: ${displayTime(
         time
       )}`}</Text>
+      {/* Separator line */}
       <View style={{ flex: 1, height: 1, backgroundColor: "black" }} />
     </View>
   );
 };
 
+// Functional component to display the list of laps
 export const LapsList = ({ laps }: LapsProps) => {
-  // Using ScrollView instead of FlatList as it is easier to use and we don't need to worry about RAM issues in this case, as we are dealing with a stopwatch
+  // Using ScrollView for the list of laps
   return (
     <View style={styles.lapsListContainer}>
+      {/* Title for the laps section */}
       <Text style={styles.title}>Laps</Text>
+      {/* Check if laps exist and render them */}
       {laps && (
         <ScrollView
           style={styles.lapsList}
           contentContainerStyle={styles.lapsListContent}
         >
           <View testID="lap-list">
+            {/* Map through each lap and render a LapsEntry component */}
             {laps.map((time, idx) => (
               <LapsEntry time={time} idx={idx} key={idx} />
             ))}

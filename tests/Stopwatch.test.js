@@ -1,11 +1,10 @@
 import React from "react";
-import { render, fireEvent } from "@testing-library/react-native";
+import { render, fireEvent, act } from "@testing-library/react-native";
 import Stopwatch from "../src/Stopwatch";
 
 describe("Stopwatch", () => {
   test("renders initial state correctly", () => {
     const { getByText, queryByTestId } = render(<Stopwatch />);
-
     expect(getByText("00:00:00")).toBeTruthy();
     expect(queryByTestId("lap-list")).toBeNull();
   });
@@ -21,16 +20,15 @@ describe("Stopwatch", () => {
   });
 
   test("pauses and resumes the stopwatch", async () => {
+    jest.useFakeTimers();
     const { getByText } = render(<Stopwatch />);
-
     fireEvent.press(getByText("Start"));
     fireEvent.press(getByText("Pause"));
-    const pausedTime = getByText(/(\d{2}:){2}\d{2}/).textContent;
+    const pausedTime = getByText(/(\d{2}:){2}\d{2}/).props.children;
     fireEvent.press(getByText("Resume"));
-    // Wait for a moment
-    await new Promise((r) => setTimeout(r, 1000));
+    await act(async () => jest.advanceTimersByTime(1000));
     expect(getByText(/(\d{2}:){2}\d{2}/).props.children).not.toBe(pausedTime);
-    // expect(getByText(/(\d{2}:){2}\d{2}/).textContent).not.toBe(pausedTime);
+    jest.clearAllTimers();
   });
 
   test("records and displays lap times", () => {
@@ -38,7 +36,7 @@ describe("Stopwatch", () => {
 
     fireEvent.press(getByText("Start"));
     fireEvent.press(getByText("Lap"));
-    // expect(getByTestId('lap-list')).toContainElement(getByText(/(\d{2}:){2}\d{2}/));
+    expect(getByTestId("lap-list").children.length).toBe(1);
 
     fireEvent.press(getByText("Lap"));
     expect(getByTestId("lap-list").children.length).toBe(2);
