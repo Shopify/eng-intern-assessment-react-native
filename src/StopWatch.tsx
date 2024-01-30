@@ -50,7 +50,8 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   stopwatchText: {
-    fontSize: 24,
+    fontSize: 72,
+    fontWeight: "300"
   },
 });
 

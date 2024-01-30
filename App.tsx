@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, View, Text, ScrollView } from 'react-native';
 import StopWatch from './src/StopWatch';
 import StopWatchButton from './src/StopWatchButton';
 
@@ -41,17 +41,28 @@ export default function App() {
 
   return (
     <View style={styles.container}>
+      
+      <View style={styles.stopWatch}>
       <StopWatch ref={stopWatchRef} />
+      </View>
 
+      
+      {/* Display recorded laps */}
+      <ScrollView style={styles.lapScrollView}>
+      {laps.map((lap, index) => (
+        <View key={index} style={styles.lapContainer}>
+        <Text style={[styles.lapText, {fontWeight: '500'}]}>{`Lap ${String(index + 1).padStart(2, '0')} : `}</Text>
+        <Text style={styles.lapText}>{`${lap}`}</Text>
+        </View>
+      ))}
+      </ScrollView>
       {/* Buttons to control the stopwatch */}
+      <View style={styles.buttonsContainer}>
       <StopWatchButton title={isRunning ? 'Stop' : 'Start'} onPress={startStopWatch} />
       <StopWatchButton title="Reset" onPress={resetStopWatch} />
       <StopWatchButton title="Lap" onPress={recordLap} />
+      </View>
 
-      {/* Display recorded laps */}
-      {laps.map((lap, index) => (
-        <Text key={index}>{`Lap ${index + 1}: ${lap}`}</Text>
-      ))}
     </View>
   );
 }
@@ -59,8 +70,28 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: '#4bfe85',
+    alignItems: 'center'
   },
+  buttonsContainer: {
+    flexDirection: 'row',
+    position: 'absolute',
+    bottom: 20,
+    zIndex: 100
+  },
+  stopWatch: {
+    marginTop: 120,
+    marginBottom: 0,
+  },
+  lapContainer: {
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
+  lapText: {
+    fontSize: 18,
+  },
+  lapScrollView: {
+    maxHeight:'50%',
+  }
+
 });

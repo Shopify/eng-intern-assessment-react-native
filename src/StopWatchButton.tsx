@@ -16,14 +16,18 @@ const StopWatchButton: React.FC<StopwatchButtonProps> = ({ title, onPress }) => 
 
 const styles = StyleSheet.create({
   button: {
-    backgroundColor: '#3498db',
+    backgroundColor: 'black',
     padding: 15,
     margin: 5,
-    borderRadius: 5,
+    borderRadius: 100,
+    width: 100,
+    
   },
   buttonText: {
     color: '#fff',
     fontSize: 18,
+    textAlign: 'center',
+    fontWeight: "500"
   },
 });
 
