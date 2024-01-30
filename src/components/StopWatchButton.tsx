@@ -1,27 +1,5 @@
-import { DimensionValue, Insets, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-
-type ActionTypes =
-  | "start"
-  | "stop"
-  | "reset"
-  | "lap";
-
-interface StopWatchButtonProps {
-  action: ActionTypes
-  onPress(): void;
-
-  height?: DimensionValue;
-  width?: DimensionValue;
-
-  buttonColor?: string;
-  buttonBorderColor?: string;
-
-  borderRadius?: number;
-  bottomBorderWidth?: number;
-
-  isDisabled?: boolean;
-  hitslop?: Insets;
-}
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { StopWatchButtonProps } from '../types/ButtonProps';
 
 export default function StopWatchButton(
   {
@@ -60,12 +38,7 @@ export default function StopWatchButton(
         <TouchableOpacity
           hitSlop={hitslop}
           disabled={isDisabled}
-          style={{
-            width: "100%",
-            height: "100%",
-            justifyContent: "center",
-            alignItems: "center"
-          }}
+          style={styles.button}
           onPress={!isDisabled ? onPress : () => null}
         >
           <Text style={styles.text}>{buttonTitle}</Text>
@@ -77,6 +50,16 @@ export default function StopWatchButton(
 }
 
 const styles = StyleSheet.create({
+  container: {
+    width: "100%",
+    height: "100%",
+  },
+  button: {
+    width: "100%",
+    height: "100%",
+    justifyContent: "center",
+    alignItems: "center"
+  },
   text: {
     color: "#FAFAFA",
   },
