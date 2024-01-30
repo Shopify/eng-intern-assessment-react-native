@@ -18,13 +18,13 @@ export const displayTime = (centiseconds: number) => {
     seconds = (centiseconds - remainCentiseconds ) / 100 // a secomd is calculated after from the multiple of hundred (in this case , 1) gotten after removing the remaining centiseconds
 
     if(seconds < 60 ){
-        return  `00:${padToTwo(seconds)}: ${padToTwo(remainCentiseconds)}`  //this is displayed when the second are more than zero and less than 60 (which makes a minute)
+        return  `00:${padToTwo(seconds)}:${padToTwo(remainCentiseconds)}`  //this is displayed when the second are more than zero and less than 60 (which makes a minute)
     }
 
 
     let remainSeconds  = seconds % 60  // this is the remaining seconds after calulating a second after 100 centiseconds
     minutes = (seconds - remainSeconds ) / 60 // a minute is calculated after from the multiple of sixty (in this case , 1) gotten after removing the remaining centiseconds
 
-    return `${padToTwo(minutes)}:${padToTwo(remainSeconds)}: ${padToTwo(remainCentiseconds)}`  // this occurs when the minutes start counting 
+    return `${padToTwo(minutes)}:${padToTwo(remainSeconds)}:${padToTwo(remainCentiseconds)}`  // this occurs when the minutes start counting 
 
 };

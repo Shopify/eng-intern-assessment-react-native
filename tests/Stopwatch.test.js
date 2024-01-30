@@ -3,7 +3,8 @@ import { render, fireEvent } from '@testing-library/react-native';
 import Stopwatch from '../src/Stopwatch';
 
 describe('Stopwatch', () => {
-  test('renders initial state correctly', () => {
+  it('renders initial state correctly', () => {
+    
     const { getByText, queryByTestId } = render(<Stopwatch />);
 
     
