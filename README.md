@@ -1,5 +1,7 @@
 ## Implementation
 - Start, Stop, Resume, Lap, Reset features all working
+- Color coding for fastest and slowest laps implemented
+- Laps accurate to millisecond, whereas only centiseconds displayed on stopwatch
 
 ## Testing
 - Test functions modified to exclude centiseconds
