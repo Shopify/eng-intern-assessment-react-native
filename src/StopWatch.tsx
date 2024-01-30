@@ -26,8 +26,8 @@ export default function StopWatch() {
   const [isRunning, setIsRunning] = useState(false);
   const [lapTimes, setLapTimes] = useState<LapTime[]>([]);
   const [lapTime, setLapTime] = useState(0);
-  const [reset, setReset] = useState(false);
   const intervalRef = useRef<number | null>(null);
+  const [stop, setStop] = useState(false);
 
   const handleStartStop = () => {
     if (isRunning) {
@@ -42,6 +42,7 @@ export default function StopWatch() {
         const currentElapsedTime = Date.now() - startTime;
         setElapsedTime(currentElapsedTime);
       }, 100);
+      setStop(false);
     }
 
     // Toggle the running state
@@ -59,6 +60,7 @@ export default function StopWatch() {
     setIsRunning(false);
     setLapTimes([]);
     setLapTime(0);
+    setStop(false);
   };
 
   const handleLap = () => {
@@ -70,26 +72,48 @@ export default function StopWatch() {
     setLapTimes([...lapTimes, newLap]);
   }
 
+  const handleStop = () => {
+    // Stop the stopwatch if it's running
+    if (intervalRef.current !== null) {
+      clearInterval(intervalRef.current);
+    }
+    handleStartStop();
+    setStop(true);
+  }
+
 
   return (
     <View style={styles.container}>
-      <Text style={styles.time}> {formatTime(elapsedTime)}</Text>
+      <Text style={styles.time}> {stop ? null : formatTime(elapsedTime)}</Text>
       <View style={styles.buttonContainer}>
         {
-          elapsedTime === 0 && <StopWatchButtons
+          elapsedTime === 0 &&
+          <StopWatchButtons
             name="Start"
             onPress={handleStartStop}
           />
         }
         {
-          elapsedTime > 0 && <StopWatchButtons
-            name={isRunning ? 'Pause' : 'Resume'}
+          isRunning &&
+          <StopWatchButtons
+            name='Pause'
+            onPress={handleStartStop}
+          />
+        }
+        {
+          !isRunning && 
+          <StopWatchButtons
+            name='Resume'
             onPress={handleStartStop}
           />
         }
         <StopWatchButtons
-          name='Reset'
-          onPress={elapsedTime > 0 ? handleReset : handleStartStop}
+          name="Stop"
+          onPress={handleStop}
+        />
+        <StopWatchButtons
+          name="Reset"
+          onPress={handleReset}
         />
         <StopWatchButtons
           name="Lap"
@@ -100,7 +124,7 @@ export default function StopWatch() {
         <FlatList
           data={lapTimes}
           renderItem={({ item, index }) => {
-            return <View key={index} style={styles.row}>
+            return <View key={index} style={styles.row} testID="lap-list">
               <Text style={styles.cell}>Lap {item.lap}</Text>
               <Text style={styles.cell}>{formatTime(item.time)}</Text>
               {/* <Text style={styles.cell}>{formatTime(item.elapsedTime)}</Text> */}

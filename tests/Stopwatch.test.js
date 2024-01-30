@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react-native';
+import { render, fireEvent, waitFor, within } from '@testing-library/react-native';
 import Stopwatch from '../src/Stopwatch';
 
 describe('Stopwatch', () => {
@@ -16,19 +16,20 @@ describe('Stopwatch', () => {
     fireEvent.press(getByText("Start"));
     expect(queryByText(/(\d{2}:){2}\d{2}/)).toBeTruthy();
 
-    fireEvent.press(getByText("Pause"));
-    expect(queryByText(/(\d{2}:){2}\d{2}/)).toBeTruthy();
+    fireEvent.press(getByText("Stop"));
+    expect(queryByText(/(\d{2}:){2}\d{2}/)).toBeNull();
   });
 
   test('pauses and resumes the stopwatch', () => {
     const { getByText } = render(<Stopwatch />);
     
-    fireEvent.press(getByText('Start'));
-    fireEvent.press(getByText('Pause'));
-    const pausedTime = getByText(/(\d{2}:){2}\d{2}/).textContent;
+    fireEvent.press(getByText("Start"));
+    fireEvent.press(getByText("Pause"));
+    
+    const pausedTime = queryByText(/(\d{2}:){2}\d{2}/)
 
-    fireEvent.press(getByText('Resume'));
-    expect(getByText(/(\d{2}:){2}\d{2}/).textContent).not.toBe(pausedTime);
+    fireEvent.press(getByText("Resume"));
+    expect(getByText(/(\d{2}:){2}\d{2}/)).not.toEqual(pausedTime);
   });
 
   test('records and displays lap times', () => {
@@ -36,18 +37,20 @@ describe('Stopwatch', () => {
     
     fireEvent.press(getByText('Start'));
     fireEvent.press(getByText('Lap'));
-    expect(getByTestId('lap-list')).toContainElement(getByText(/(\d{2}:){2}\d{2}/));
-
+    expect(within(getByTestId('lap-list')).getByText(/(\d{2}:){2}\d{2}/)).toBeTruthy();
+    
     fireEvent.press(getByText('Lap'));
-    expect(getByTestId('lap-list').children.length).toBe(2);
+    // count of laps-list
+    const allElements = getByTestId('lap-test');
+    expect(allElements).toHaveLength(2);
   });
 
   test('resets the stopwatch', () => {
     const { getByText, queryByTestId } = render(<Stopwatch />);
     
-    fireEvent.press(getByText('Start'));
-    fireEvent.press(getByText('Lap'));
-    fireEvent.press(getByText('Reset'));
+    fireEvent.press(getByText("Start"));
+    fireEvent.press(getByText("Lap"));
+    fireEvent.press(getByText("Reset"));
 
     expect(getByText('00:00:00')).toBeTruthy();
     expect(queryByTestId('lap-list')).toBeNull();
