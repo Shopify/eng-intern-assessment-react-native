@@ -94,14 +94,14 @@ export default function StopWatch() {
           />
         }
         {
-          isRunning &&
+         isRunning &&
           <StopWatchButtons
             name='Pause'
             onPress={handleStartStop}
           />
         }
         {
-          !isRunning && 
+          elapsedTime !== 0 && !isRunning && 
           <StopWatchButtons
             name='Resume'
             onPress={handleStartStop}
@@ -146,19 +146,19 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   time: {
-    fontSize: 24,
+    fontSize: 45,
     marginBottom: 20,
   },
   row: {
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginVertical: 2,
     marginHorizontal: 15,
     padding: 10,
   },
   cell: {
     paddingRight: 10,
+    fontSize: 18,
   },
   lapContainer: {
     flex: 1,

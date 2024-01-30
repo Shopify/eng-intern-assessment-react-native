@@ -1,6 +1,7 @@
 import React from 'react';
 import { TouchableOpacity, Text, StyleSheet } from 'react-native';
 
+// Interface for the props
 interface StopWatchButtonsProps {
   name: string;
   onPress: () => void;
@@ -9,7 +10,7 @@ interface StopWatchButtonsProps {
 const StopWatchButtons: React.FC<StopWatchButtonsProps> = ({ name, onPress }) => {
   return (
     <TouchableOpacity style={styles.button} onPress={onPress}>
-      <Text>{name}</Text>
+      <Text style={styles.buttonText}>{name}</Text>
     </TouchableOpacity>
   );
 };
@@ -21,6 +22,11 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     margin: 5,
     alignItems: 'center',
+    cornerRadius: 50,
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 20,
   },
 });
 
