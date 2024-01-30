@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
         alignContent: "center"
     },
     lapText: {
-        fontSize: 18,
+        fontSize: 19,
         marginHorizontal: 10,
         textAlign: "center"
     },
