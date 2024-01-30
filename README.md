@@ -8,7 +8,9 @@ My stopwatch app has the following features:
 - Lap button to record the laps easily along with minimum and maximum laps colored to easily identifty your slowest and fastest times.
 
 
-![Screenshot of the app(iPhone 15 Pro Max, iOS 17](https://github.com/HamsterStack/eng-intern-assessment-react-native/assets/108938294/ec6437af-67e9-44c8-86ff-8c4db29518da)
+![Screenshot of the app(iPhone 15 Pro Max, iOS 17](https://github.com/HamsterStack/eng-intern-assessment-react-native/assets/108938294/f8be86e4-0da9-48e4-97bc-e1714c0ccf1f)
+
+
 
 
 ## Tests
