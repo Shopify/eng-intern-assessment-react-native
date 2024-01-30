@@ -63,6 +63,7 @@ export function useStopWatch(): Stopwatch {
   }
 
   function lap() {
+    if(milliseconds === 0) return;
     const lapTime = milliseconds - totalLaps;
     setLaps((laps) => {
       updateMinAndMaxLapTimes(lapTime);
