@@ -12,6 +12,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { View, SafeAreaView, StyleSheet, Text, ScrollView } from 'react-native';
 import StopWatchButton from './StopWatchButton';
 import { formatTime } from './utils/timeUtil';
+import Laps from './Laps';
 
 export default function StopWatch() {
   const [time, setTime] = useState(0);
@@ -23,14 +24,12 @@ export default function StopWatch() {
 
   useEffect(() => {
     if(isRunning){
-      // Update interval every 1000 milliseconds or 1 second.
+      // Update interval every 10 milliseconds.
       intervalRef.current = setInterval(() => {
-        setTime(prevTime => prevTime + 1)
-      }, 1000);
+        setTime(prevTime => prevTime + 10)
+      }, 10);
     }
-    else if(intervalRef.current){
-      clearInterval(intervalRef.current);
-    }
+    
     return () => {
       if(intervalRef.current) clearInterval(intervalRef.current);
     }
@@ -55,11 +54,13 @@ export default function StopWatch() {
 
   // Pause the timer
   const pause = () => {
+    setTime((prevTime) => prevTime + 10);
     setRunning(false);
   };
 
   // Resume the timer
   const resume = () => {
+    setTime((prevTime) => prevTime + 10);
     setRunning(true);
     if(!started){
       setStarted(true);
@@ -88,7 +89,7 @@ export default function StopWatch() {
             color="red"
             isDisabled={!started}/>
           <StopWatchButton 
-            name={isRunning ? "Pause" : "Resume"}
+            name={ isRunning ? "Pause" : started ? "Resume" : "Start"}
             onClick={isRunning ? pause : resume}
             color={isRunning ? "red" : "lightgreen"}  // Different Color based on which options it is
             isDisabled={false}/>
@@ -96,7 +97,7 @@ export default function StopWatch() {
             name={"Lap"}
             onClick={lapPress} 
             color="lightblue"
-            isDisabled={!isRunning}/>
+            isDisabled={!isRunning && !started}/>
           <StopWatchButton 
             name={"Stop"}
             onClick={stop} 
@@ -104,14 +105,7 @@ export default function StopWatch() {
             isDisabled={!started}/>
         </View>
       </View>
-      <ScrollView testID='lap-list' style={styles.lapContainer}>
-        {laps.map((lap, index) => (
-          <View key={index} style={styles.lapRow}>
-            <Text style={styles.lapText}>{index + 1}</Text>
-            <Text style={styles.lapText}>{formatTime(lap)}</Text>
-          </View>
-        ))}
-      </ScrollView>
+      <Laps lapsTable={laps}/>
     </SafeAreaView>
   );
 }
@@ -131,21 +125,6 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginBottom: 15,
     textAlign: "center"
-  },
-  lapContainer: {
-    width: "90%",
-    alignContent: "center"
-  },
-  lapText: {
-    fontSize: 18,
-    marginHorizontal: 10,
-    textAlign: "center"
-  },
-  lapRow: {
-    flexDirection: "row",
-    justifyContent: "space-around",
-    paddingHorizontal: 15,
-    paddingVertical: 10
   },
   timerContainer: {
     flex: 0.6,

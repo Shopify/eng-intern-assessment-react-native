@@ -1,15 +1,13 @@
 /**
- * Format seconds into the HH:MM:SS format
+ * Format seconds into the MM:SS:.ss or HH:MM:SS.ss format
  * 
- * @param {number} time - Number of Seconds
+ * @param {number} time - Number of Milliseconds
  * @returns {string} Formatted time string
  */
 export function formatTime(time: number): string {
-    const hours = Math.floor(time / 3600);
-    const minutes = Math.floor(time / 60);
-    const seconds = time % 60;
+    const milliseconds = Math.floor((time % 1000)/10);
+    const seconds = Math.floor(time / 1000);
+    const minutes = Math.floor(seconds / 60);
 
-    return [hours, minutes, seconds]
-        .map(val => val < 10 ? `0${val}` : val)
-        .join(':');;
+    return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}:${String(milliseconds).padStart(2, '0')}`;
 }

@@ -77,26 +77,36 @@ describe('Stopwatch', () => {
     expect(queryByText(/(\d{2}:){2}\d{2}/)).toBeNull();
   });
 
-  test('pauses and resumes the stopwatch', () => {
-    const { getByText } = render(<Stopwatch />);
-    
-    fireEvent.press(getByText('Start'));
-    fireEvent.press(getByText('Pause'));
-    const pausedTime = getByText(/(\d{2}:){2}\d{2}/).textContent;
+  test("pauses and resumes the stopwatch", async () => {
+    const { getByText, findByText } = render(<Stopwatch />);
 
-    fireEvent.press(getByText('Resume'));
-    expect(getByText(/(\d{2}:){2}\d{2}/).textContent).not.toBe(pausedTime);
+    fireEvent.press(getByText("Start"));
+
+    await new Promise((resolve) => setTimeout(resolve, 20));
+    fireEvent.press(getByText("Pause"));
+    const pausedTimeElement = getByText(/(\d{2}:){2}\d{2}/);
+    const pausedTime = pausedTimeElement.props.children;
+
+    fireEvent.press(getByText("Resume"));
+    const resumedTimeElement = await findByText(/(\d{2}:){2}\d{2}/);
+    const resumedTime = resumedTimeElement.props.children;
+    expect(pausedTime && resumedTime).toBeTruthy();
+    if (pausedTime && resumedTime) {
+      expect(pausedTime).not.toBe(resumedTime);
+    }
   });
 
-  test('records and displays lap times', () => {
+  test("records and displays lap times", async () => {
     const { getByText, getByTestId } = render(<Stopwatch />);
-    
-    fireEvent.press(getByText('Start'));
-    fireEvent.press(getByText('Lap'));
-    expect(getByTestId('lap-list')).toContainElement(getByText(/(\d{2}:){2}\d{2}/));
+    fireEvent.press(getByText("Start"));
+    await new Promise((resolve) => setTimeout(resolve, 500));
+    fireEvent.press(getByText("Lap"));
+    const lapList = getByTestId("lap-list");
+    expect(lapList.props.children[1].props.children.length).toBe(1);
+    await new Promise((resolve) => setTimeout(resolve, 10));
+    fireEvent.press(getByText("Lap"));
 
-    fireEvent.press(getByText('Lap'));
-    expect(getByTestId('lap-list').children.length).toBe(2);
+    expect(lapList.props.children[1].props.children.length).toBe(2);
   });
 
   test('resets the stopwatch', () => {
