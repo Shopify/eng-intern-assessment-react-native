@@ -117,12 +117,12 @@ export default function StopWatch() {
       </View>
       <View style={styles.buttonsContainer}>
         <View style={styles.buttonsRowContainer}>
-          <StopWatchButton action='start' onPress={() => setIsTimerOn(true)} isDisabled={isTimerOn}/>
+          <StopWatchButton action='start' onPress={() => setIsTimerOn(true)} isDisabled={isTimerOn} buttonColor='#62a84f' buttonBorderColor='#326345'/>
           <StopWatchButton action='stop' onPress={() => setIsTimerOn(false)} isDisabled={!isTimerOn}></StopWatchButton>
         </View>
         <View style={styles.buttonsRowContainer}> 
           <StopWatchButton action='lap' onPress={addLap} isDisabled={!isTimerOn}></StopWatchButton>
-          <StopWatchButton action='reset' onPress={resetTimer} isDisabled={time === 0}></StopWatchButton>
+          <StopWatchButton action='reset' onPress={resetTimer} isDisabled={time === 0} buttonColor='#e3494c' buttonBorderColor='#940628'></StopWatchButton>
         </View>
     </View>
     </View>

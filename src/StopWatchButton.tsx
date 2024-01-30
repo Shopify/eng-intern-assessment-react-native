@@ -30,7 +30,7 @@ export default function StopWatchButton(
     height = 40,
     width = 80,
     buttonColor = "#6BBDF3",
-    buttonBorderColor = "white",
+    buttonBorderColor = "#4796D0",
     borderRadius = 8,
     isDisabled = false,
     hitslop = { top: 20, bottom: 20, left: 20, right: 20 },
@@ -52,6 +52,7 @@ export default function StopWatchButton(
         style={{
           backgroundColor: isDisabled ? "#484254" : buttonColor,
           borderColor: isDisabled ? "#777777" : buttonBorderColor,
+          borderWidth: 1,
           borderRadius: borderRadius,
         }}
         {...props}
