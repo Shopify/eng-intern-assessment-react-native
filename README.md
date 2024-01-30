@@ -7,7 +7,8 @@ My stopwatch app has the following features:
 - Reset button to reset the times and laps to 0.
 - Lap button to record the laps easily along with minimum and maximum laps colored to easily identifty your slowest and fastest times.
 
-![Screenshot of the app(iPhone 15 Pro Max, iOS 17)](https://github.com/HamsterStack/eng-intern-assessment-react-native/assets/108938294/dbc6357c-4b48-47e3-80eb-c77e4aa07c61)
+
+![Screenshot of the app(iPhone 15 Pro Max, iOS 17](https://github.com/HamsterStack/eng-intern-assessment-react-native/assets/108938294/ec6437af-67e9-44c8-86ff-8c4db29518da)
 
 
 ## Tests
