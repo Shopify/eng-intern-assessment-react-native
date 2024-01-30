@@ -4,6 +4,10 @@ import StopWatchButton from "../StopWatchButton/StopWatchButton";
 import LapsList from "../LapsList/LapsList";
 import { formatTime } from "../../utils/TimeUtils";
 
+/**
+ * Stopwatch component that includes the time display, buttons, and laps list
+ * @returns A stopwatch component
+ */
 const StopWatch = () => {
   const [isRunning, setIsRunning] = useState<boolean>(false);
   const [elapsedTime, setElapsedTime] = useState<number>(0);
@@ -15,6 +19,7 @@ const StopWatch = () => {
     if (isRunning) {
       intervalID = setInterval(() => {
         const currentTime = Date.now();
+        // Computes elapsed time between current time and (state) start time
         setElapsedTime(
           (previousElapsedTime) =>
             previousElapsedTime + (currentTime - startTime)
@@ -79,6 +84,7 @@ const StopWatch = () => {
           )}
         </View>
       </View>
+      {/* Only renders the laps list when we have at least one lap */}
       {laps.length > 0 && <LapsList laps={laps} />}
     </View>
   );

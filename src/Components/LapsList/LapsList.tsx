@@ -6,6 +6,11 @@ interface LapsListInterface {
   laps: number[];
 }
 
+/**
+ * Component which displays all saved laps
+ * @param props - LapsListInterface which only has a list of laps (each in miliseconds)
+ * @returns Component for a list of laps
+ */
 const LapsList = (props: LapsListInterface) => {
   const { laps } = props;
 

@@ -6,6 +6,11 @@ interface StopWatchButtonProps {
   colour: string;
 }
 
+/**
+ * Reusable button component for the stopwatch
+ * @param props - StopWatchButtonProps which has a title, onPress function, and colour
+ * @returns A button component
+ */
 const StopWatchButton = (props: StopWatchButtonProps) => {
   const { title, onPress, colour } = props;
 

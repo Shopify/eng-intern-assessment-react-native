@@ -1,3 +1,8 @@
+/**
+ * Utility function that formats time in miliseconds to a string in the format HH:MM:SS
+ * @param time - Time in miliseconds
+ * @returns String for the time in the format HH:MM:SS
+ */
 export const formatTime = (time: number) => {
   const hours = Math.floor(time / 3600000);
   const minutes = Math.floor((time - hours * 3600000) / 60000);
