@@ -2,6 +2,12 @@ import { FlatList, StyleSheet, Text, View } from 'react-native';
 import StopWatchButton from './StopWatchButton';
 import { useEffect, useState } from 'react';
 
+type LapItem = {
+  index: number;
+  lapTime: number;
+  generalTime: number;
+}
+
 function formatTime(millis: number): string {
   const hours = Math.floor((millis/1000)/3600);
   const minutes = Math.floor(((millis/1000) - (hours*3600))/60);
@@ -11,19 +17,34 @@ function formatTime(millis: number): string {
   return `${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}.${millisFormatted.toString().padStart(3, "0")}`;
 }
 
-const renderLap = ({ item }: { item: number }) => {
+const renderLap = ({ item }: { item: LapItem }) => {
   return (
-    <Text style={styles.text}>
-      {formatTime(item)}
-    </Text>
+    <View style={styles.lapItemContainer}>
+      <View style={{width: "20%"}}>
+        <Text style={styles.text}>
+          {item.index.toString()}
+        </Text>
+      </View>
+      <View style={{width: "40%", alignItems: "center"}}>
+        <Text style={styles.text}>
+          {formatTime(item.lapTime)}
+        </Text>
+      </View>
+      <View style={{width: "40%", alignItems: "flex-end"}}>
+        <Text style={styles.text}>
+          {formatTime(item.generalTime)}
+        </Text>
+      </View>
+    </View>
+    
   );
 };
 
 export default function StopWatch() {
-  const[startTime, setStartTime] = useState<number | null>(null);
-  const[time, setTime] = useState(3560000);
+  const [startTime, setStartTime] = useState<number | null>(null);
+  const [time, setTime] = useState(0);
   const [isTimerOn, setIsTimerOn] = useState(false);
-  const [laps, setLaps] = useState<number[]>([]);
+  const [lapItems, setLapItems] = useState<LapItem[]>([]);
 
   useEffect(() => {
     let interval: number | null = null;
@@ -46,18 +67,26 @@ export default function StopWatch() {
   function resetTimer(){
     setTime(0);
     setIsTimerOn(false);
-    setLaps([]);
+    setLapItems([]);
   }
 
   function addLap(){
+    const newestTime = lapItems.length > 0 ? lapItems[lapItems.length-1].generalTime : 0;
+    const newestIndex = lapItems.length > 0 ? lapItems[lapItems.length-1].index : 0;
+
+    const newLapItem = {
+      index: newestIndex+1,
+      lapTime: time-newestTime,
+      generalTime: time
+    }
+
     const newLaps = [
-      ...laps.slice(0, laps.length),
-      time,
-      ...laps.slice(laps.length)
+      ...lapItems.slice(0, lapItems.length),
+      newLapItem,
+      ...lapItems.slice(lapItems.length)
     ];
 
-    console.log(newLaps);
-    setLaps(newLaps);
+    setLapItems(newLaps);
   }
 
   return (
@@ -66,8 +95,21 @@ export default function StopWatch() {
         <Text style={styles.stopwatchText}>{formatTime(time)}</Text>
       </View>
       <View style={styles.lapsContainer}>
+        {lapItems.length > 0 ?
+          <View style={styles.lapsHeader}>
+          <View style={{width: "20%"}}>
+            <Text style={styles.text}>Lap</Text>
+          </View>
+          <View style={{width: "40%", alignItems: "center"}}>
+            <Text style={styles.text}>Lap Time</Text>
+          </View>
+          <View style={{width: "40%", alignItems: "flex-end"}}>
+            <Text style={styles.text}>Overall Time</Text>
+          </View>
+        </View> : 
+        null}
         <FlatList
-          data={laps}
+          data={[...lapItems].reverse()}
           renderItem={renderLap}
           scrollEnabled={true}
           showsVerticalScrollIndicator={false}
@@ -75,12 +117,12 @@ export default function StopWatch() {
       </View>
       <View style={styles.buttonsContainer}>
         <View style={styles.buttonsRowContainer}>
-          <StopWatchButton action='start' onPress={() => setIsTimerOn(true)}></StopWatchButton>
-          <StopWatchButton action='stop' onPress={() => setIsTimerOn(false)}></StopWatchButton>
+          <StopWatchButton action='start' onPress={() => setIsTimerOn(true)} isDisabled={isTimerOn}/>
+          <StopWatchButton action='stop' onPress={() => setIsTimerOn(false)} isDisabled={!isTimerOn}></StopWatchButton>
         </View>
         <View style={styles.buttonsRowContainer}> 
-          <StopWatchButton action='lap' onPress={addLap}></StopWatchButton>
-          <StopWatchButton action='reset' onPress={resetTimer}></StopWatchButton>
+          <StopWatchButton action='lap' onPress={addLap} isDisabled={!isTimerOn}></StopWatchButton>
+          <StopWatchButton action='reset' onPress={resetTimer} isDisabled={time === 0}></StopWatchButton>
         </View>
     </View>
     </View>
@@ -100,25 +142,28 @@ const styles = StyleSheet.create({
     height: "30%",
     width: "90%",
   },
+  lapsHeader: {
+    flexDirection: "row",
+    width: "100%",
+    marginBottom: 4,
+  },
   lapsContainer: {
-    justifyContent: "center",
-    alignItems: "center",
     height: "30%",
-    width: "90%",
+    width: "80%",
+  },
+  lapItemContainer:{
+    flexDirection: "row",
+    alignItems: "center",
   },
   buttonsContainer:{
     justifyContent: "flex-end",
     alignItems: "center",
     height: "40%",
     width: "90%",
-    // borderWidth: 2,
-    // borderColor: "white"
   },
   buttonsRowContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
-    // borderWidth: 2,
-    // borderColor: "white",
     width: "80%",
     marginBottom: 32,
   },

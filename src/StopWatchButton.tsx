@@ -38,7 +38,7 @@ export default function StopWatchButton(
   }
   : StopWatchButtonProps) {
 
-  //Button title is just the action capitalized
+  //Button title is just the action name capitalized
   const buttonTitle = action.substring(0, 1).toUpperCase() + action.substring(1);
 
   return (
@@ -65,7 +65,7 @@ export default function StopWatchButton(
             justifyContent: "center",
             alignItems: "center"
           }}
-          onPress={onPress}
+          onPress={!isDisabled ? onPress : () => null}
         >
           <Text style={styles.text}>{buttonTitle}</Text>
         </TouchableOpacity>
