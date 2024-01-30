@@ -16,6 +16,12 @@ const formatTime = (milliseconds: number) => {
   return `${hours}:${minutes}:${seconds}.${centiseconds}`;
 };
 
+export const lapColors = {
+  default: 'black',
+  minLap: 'red',
+  maxLap: '#5ab068'
+};
+
 export default function Stopwatch() {
 
   const stopwatch = useStopWatch();
@@ -39,14 +45,14 @@ export default function Stopwatch() {
           >
 
           {stopwatch.laps.slice().reverse().map((lap, index) => {
-            let lapColor = 'black'; // Default lap color
+            let lapColor = lapColors.default;
 
             if (stopwatch.laps.length >= 3) {
               if (lap === stopwatch.minLapTime) {
-                lapColor = 'red'; // Set color to red for minimum lap time
+                lapColor = lapColors.minLap;
               }
               else if (lap === stopwatch.maxLapTime) {
-                lapColor = 'limegreen'; // Set color to green for maximum lap time
+                lapColor = lapColors.maxLap;
               }
             }
 

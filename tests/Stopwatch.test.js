@@ -1,6 +1,7 @@
 import React from 'react';
 import { render, fireEvent, act, waitFor } from '@testing-library/react-native';
 import Stopwatch from '../src/Stopwatch';
+import { lapColors } from '../src/Stopwatch';
 
 jest.useFakeTimers();
 
@@ -89,7 +90,6 @@ describe('Stopwatch', () => {
 
     const startButton = getByTestId('start-button');
     const lapButton = getByTestId('lap-button');
-    const resetButton = getByTestId('reset-button');
 
     act(() => fireEvent.press(startButton));
     act(() => jest.advanceTimersByTime(1000));
@@ -108,7 +108,26 @@ describe('Stopwatch', () => {
     const lapThreeColor = lapThreeTime.props.style.find(s => s.color).color;
     // lapOne is max with 5 seconds and lapThree is min with 1 second
     // confirm that lapOneTime color is red and lapThreeTime color is green
-    expect(lapOneColor).toBe('limegreen');
-    expect(lapThreeColor).toBe('red');
+    expect(lapOneColor).toBe(lapColors.maxLap);
+    expect(lapThreeColor).toBe(lapColors.minLap);
+  });
+
+  test('disable adding laps when paused', () => {
+    const { getByText, queryByTestId, getByTestId} = render(<Stopwatch />);
+
+    const startButton = getByTestId('start-button');
+    const lapButton = getByTestId('lap-button');
+    const stopButton = getByTestId('stop-button');
+
+    act(() => fireEvent.press(startButton));
+    act(() => jest.advanceTimersByTime(1000));
+    act(() => fireEvent.press(stopButton));
+
+    act(() => fireEvent.press(lapButton));
+
+    // shouldn't have added the lap because the stopwatch is paused
+
+    const lapOneTime = queryByTestId('time-0');
+    expect(lapOneTime).toBeNull();
   });
 });
