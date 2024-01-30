@@ -127,7 +127,7 @@ export default function StopWatch() {
             return <View key={index} style={styles.row} testID="lap-list">
               <Text style={styles.cell}>Lap {item.lap}</Text>
               <Text style={styles.cell}>{formatTime(item.time)}</Text>
-              {/* <Text style={styles.cell}>{formatTime(item.elapsedTime)}</Text> */}
+              <Text style={styles.cell}>{formatTime(item.elapsedTime)}</Text>
             </View>
           }}
           numColumns={1}
