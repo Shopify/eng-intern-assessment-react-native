@@ -2,13 +2,7 @@ import { FlatList, StyleSheet, Text, View } from 'react-native';
 import StopWatchButton from './StopWatchButton';
 import { useEffect, useState } from 'react';
 import { formatTime } from '../utils/formatTime';
-
-//LapItem contains the field needed to display the laps 
-type LapItem = {
-  index: number;
-  lapTime: number;
-  generalTime: number;
-}
+import { LapItem } from '../types/LapItem';
 
 //renderLap function is used to render each lapItem into a row with the formatted time
 const renderLap = ({ item }: { item: LapItem }) => {
