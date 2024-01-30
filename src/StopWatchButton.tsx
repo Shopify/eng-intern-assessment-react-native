@@ -12,10 +12,10 @@ export default function StopwatchButton({ onResume, onReset, onLap, onPause, isP
 
   return (
     <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
-      <Button title="Start" onPress={onResume} disabled={!isPaused} />
-      <Button title="Stop" onPress={onPause} disabled={isPaused} />
-      <Button title="Reset" onPress={onReset} />
-      <Button title="Lap" onPress={onLap}  />
+      <Button testID='start-button' title="Start" onPress={onResume} disabled={!isPaused} />
+      <Button testID='stop-button' title="Stop" onPress={onPause} disabled={isPaused} />
+      <Button testID='reset-button' title="Reset" onPress={onReset} />
+      <Button testID='lap-button' title="Lap" onPress={onLap}  />
     </View>
   );
 }

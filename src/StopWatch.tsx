@@ -35,6 +35,7 @@ export default function Stopwatch() {
           <ScrollView 
             style={styles.lapScrollView}
             contentContainerStyle={styles.lapScrollViewContent}
+            testID='lap-list'
           >
 
           {stopwatch.laps.slice().reverse().map((lap, index) => {
@@ -52,10 +53,10 @@ export default function Stopwatch() {
             return (
               <React.Fragment key={index}>
                 <View style={styles.lapContentContainer}>
-                  <Text style={[styles.lap, { color: lapColor }]}>
+                  <Text style={[styles.lap, { color: lapColor }]} testID={`lap-${index}`}>
                     Lap {stopwatch.laps.length - index}
                   </Text>
-                  <Text style={[styles.lap, { color: lapColor }]}>
+                  <Text style={[styles.lap, { color: lapColor }]} testID={`time-${index}`}>
                     {formatTime(lap)}
                   </Text>
                 </View>
@@ -88,6 +89,7 @@ const styles = StyleSheet.create({
     fontSize: 56,
     fontWeight: '500',
     marginBottom: 20,
+    minWidth:320,
   },
   lapScrollView: {
     maxHeight: 210,
