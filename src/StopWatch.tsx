@@ -23,7 +23,8 @@ const StopWatch = forwardRef((props, ref) => {
   useImperativeHandle(ref, () => ({
     start: () => setIsRunning(true),
     stop: () => setIsRunning(false),
-    reset: () => setElapsedTime(0),
+    reset: function() {setElapsedTime(0)
+                      setIsRunning(false)} ,
     getFormattedTime: () => formatTime(elapsedTime),
   }));
 
