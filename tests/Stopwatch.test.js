@@ -15,7 +15,7 @@ describe('Stopwatch', () => {
     
     fireEvent.press(getByText('Start'));
     expect(queryByText(/(\d{2}:){2}\d{2}/)).toBeTruthy();
-
+    
     fireEvent.press(getByText('Stop'));
     expect(queryByText(/(\d{2}:){2}\d{2}/)).toBeNull();
   });
