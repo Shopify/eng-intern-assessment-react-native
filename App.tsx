@@ -15,9 +15,15 @@ export default function App() {
 
   const startTime = () => {
     setIsStopWatchRunning(true);
+  const startTimeStamp = performance.now();
 
-    const id = setInterval(() => setTimeCount((prev) => prev + 10), 10);
-    setTimeInterval(id);
+  const id = setInterval(() => {
+      const currentTimeStamp = performance.now();
+      const elapsedTime = currentTimeStamp - startTimeStamp;
+      setTimeCount(Math.floor(elapsedTime)); // Using Math.floor for a whole number representation
+      }, 
+      10);
+      setTimeInterval(id);
   };
 
   const stopTime = () => {
