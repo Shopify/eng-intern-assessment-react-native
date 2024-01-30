@@ -19,15 +19,17 @@ export default function App() {
   // Start Time Function
   const startTime = () => {
     setIsStopWatchRunning(true);
-    const startTimeStamp = performance.now();
+    
+    // Calculate the initial elapsed time when starting
+    const startTimeStamp = performance.now() - timeCount;
 
     const id = setInterval(() => {
-        const currentTimeStamp = performance.now();
-        const elapsedTime = currentTimeStamp - startTimeStamp;
-        setTimeCount(Math.floor(elapsedTime)); 
-      }, 
-        
-    10);
+
+      const currentTimeStamp = performance.now();
+      const elapsedTime = currentTimeStamp - startTimeStamp;
+      setTimeCount(Math.floor(elapsedTime));
+
+    }, 10);
     setTimeInterval(id);
 
   };
