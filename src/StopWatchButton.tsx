@@ -62,7 +62,7 @@ export const StopWatchButton: React.FC<Props> = ({
         ]}
         onPress={isStopWatchRunning ? stopTime : startTime}
       >
-        <Text style={{ color: 'white' }}>{isStopWatchRunning ? 'Stop' : 'Start'}</Text>
+        <Text style={{ color: 'white' }}>{isStopWatchRunning ? 'Pause' : 'Start'}</Text>
       </Pressable>
     </View>
 
