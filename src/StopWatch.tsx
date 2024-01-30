@@ -21,6 +21,7 @@ export const StopWatch: React.FC = () => {
     setIsRunning(false);
     setStartButtonDisabled(false);
     setLapButtonDisabled(true);
+    setTime(0);
   };
 
   const pauseStopwatch = () => {
@@ -63,14 +64,12 @@ export const StopWatch: React.FC = () => {
   const formatTime = (milliseconds: number) => {
     const seconds = Math.floor(milliseconds / 1000);
     const minutes = Math.floor(seconds / 60);
-    const hours = Math.floor(minutes / 60);
 
-    const formattedHours = String(hours).padStart(2, '0');
     const formattedMinutes = String(minutes % 60).padStart(2, '0');
     const formattedSeconds = String(seconds % 60).padStart(2, '0');
     const formattedMilliseconds = String(milliseconds % 1000).padStart(3, '0');
 
-    return `${formattedHours}:${formattedMinutes}:${formattedSeconds}.${formattedMilliseconds.slice(0, 2)}`;
+    return `${formattedMinutes}:${formattedSeconds}:${formattedMilliseconds.slice(0, 2)}`;
   };
 
   useEffect(() => {
@@ -99,7 +98,7 @@ export const StopWatch: React.FC = () => {
         </View>
       </View>
 
-      <FlatList
+      <FlatList data-test-id='lap-list'
         data={laps}
         keyExtractor={(item, index) => index.toString()}
         renderItem={({ item, index }) => (

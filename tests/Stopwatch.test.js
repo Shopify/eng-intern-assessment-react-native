@@ -1,17 +1,17 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react-native';
-import Stopwatch from '../src/Stopwatch';
+import { render, fireEvent, waitFor } from '@testing-library/react-native';
+import { StopWatch } from '../src/StopWatch';
 
 describe('Stopwatch', () => {
   test('renders initial state correctly', () => {
-    const { getByText, queryByTestId } = render(<Stopwatch />);
+    const { getByText, queryByTestId } = render(<StopWatch />);
     
     expect(getByText('00:00:00')).toBeTruthy();
     expect(queryByTestId('lap-list')).toBeNull();
   });
 
   test('starts and stops the stopwatch', () => {
-    const { getByText, queryByText } = render(<Stopwatch />);
+    const { getByText, queryByText } = render(<StopWatch />);
     
     fireEvent.press(getByText('Start'));
     expect(queryByText(/(\d{2}:){2}\d{2}/)).toBeTruthy();
@@ -21,18 +21,18 @@ describe('Stopwatch', () => {
   });
 
   test('pauses and resumes the stopwatch', () => {
-    const { getByText } = render(<Stopwatch />);
+    const { getByText } = render(<StopWatch />);
     
     fireEvent.press(getByText('Start'));
     fireEvent.press(getByText('Pause'));
     const pausedTime = getByText(/(\d{2}:){2}\d{2}/).textContent;
 
-    fireEvent.press(getByText('Resume'));
+    fireEvent.press(getByText('Start'));
     expect(getByText(/(\d{2}:){2}\d{2}/).textContent).not.toBe(pausedTime);
   });
 
   test('records and displays lap times', () => {
-    const { getByText, getByTestId } = render(<Stopwatch />);
+    const { getByText, getByTestId } = render(<StopWatch />);
     
     fireEvent.press(getByText('Start'));
     fireEvent.press(getByText('Lap'));
@@ -43,7 +43,7 @@ describe('Stopwatch', () => {
   });
 
   test('resets the stopwatch', () => {
-    const { getByText, queryByTestId } = render(<Stopwatch />);
+    const { getByText, queryByTestId } = render(<StopWatch />);
     
     fireEvent.press(getByText('Start'));
     fireEvent.press(getByText('Lap'));
