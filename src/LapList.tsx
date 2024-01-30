@@ -10,14 +10,13 @@ type Props = {
   
   export const LapList: React.FC<Props> = ({ laps }) => {
     const reversedLaps = [...laps].reverse();
+    
     const renderItem = ({ item, index }: { item: number; index: number }) => (
-
-    // Display the times of the laps 
-      <View style={styles.lapItem}>
-        <Text>{`Lap ${reversedLaps.length - index}: ${formatTime(item)}`}</Text>
-      </View>
-
-    );
+        <View style={styles.lapItem}>
+          <Text style={styles.lapItemText}>{`Lap ${reversedLaps.length - index}:`}</Text>
+          <Text style={styles.lapItemText}>{formatTime(item)}</Text>
+        </View>
+      );
   
     // Format the time of the laps in HH:MM:SS format
     const formatTime = (time: number): string => {
@@ -59,8 +58,21 @@ type Props = {
 
     lapItem: {
       padding: 10,
+      flexDirection: 'row', // Use row layout to align lap number and time horizontally
+      justifyContent: 'space-between',
       borderBottomWidth: 1,
       borderBottomColor: '#ccc',
+      
     },
+
+    lapItemText: {
+        fontWeight: '300',
+        paddingLeft: 20, 
+        paddingRight: 20,
+        color: '#383838',
+        fontSize: 20,
+        
+
+      },
 
 });
