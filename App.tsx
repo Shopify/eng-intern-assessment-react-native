@@ -3,29 +3,37 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, View } from 'react-native';
 import { StopWatch } from './src/StopWatch';
 import { StopWatchButton } from './src/StopWatchButton';
-import { LapList } from './src/LapList'; // Import the LapList component
+import { LapList } from './src/LapList'; 
 
 const CURRENT_TIME = 0;
 
 export default function App() {
+
+  // States that keep track of the time 
   const [timeCount, setTimeCount] = useState<number>(CURRENT_TIME);
   const [timeInterval, setTimeInterval] = useState<NodeJS.Timeout | null>(null);
   const [isStopWatchRunning, setIsStopWatchRunning] = useState<boolean>(false);
   const [laps, setLaps] = useState<number[]>([]);
 
+
+  // Start Time Function
   const startTime = () => {
     setIsStopWatchRunning(true);
-  const startTimeStamp = performance.now();
+    const startTimeStamp = performance.now();
 
-  const id = setInterval(() => {
-      const currentTimeStamp = performance.now();
-      const elapsedTime = currentTimeStamp - startTimeStamp;
-      setTimeCount(Math.floor(elapsedTime)); // Using Math.floor for a whole number representation
+    const id = setInterval(() => {
+        const currentTimeStamp = performance.now();
+        const elapsedTime = currentTimeStamp - startTimeStamp;
+        setTimeCount(Math.floor(elapsedTime)); 
       }, 
-      10);
-      setTimeInterval(id);
+        
+    10);
+    setTimeInterval(id);
+
   };
 
+
+  // Stop Time Function
   const stopTime = () => {
     if (timeInterval !== null) {
       clearInterval(timeInterval);
@@ -34,11 +42,13 @@ export default function App() {
     setIsStopWatchRunning(false);
   };
 
+  // Reset Time Function
   const resetTime = () => {
     setTimeCount(0);
-    setLaps([]); // Clear laps when resetting
+    setLaps([]); 
   };
 
+  // Add Lap Function
   const addLap = () => {
     setLaps((prevLaps) => [...prevLaps, timeCount]);
   };
@@ -75,4 +85,5 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  
 });
