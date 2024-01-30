@@ -1,6 +1,10 @@
 {
   "extends": "@tsconfig/react-native/tsconfig.json",
   "compilerOptions": {
-    "strict": true
+    "strict": true,
+    "outDir": "../build/app",
+    "module": "esnext",
+    "baseUrl": "",
+    "types": ["node"]
   }
 }
