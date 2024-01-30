@@ -15,7 +15,7 @@ interface LapGroupProps {
 export default function LapList({laps}: LapGroupProps) {
     return (
 
-        <ScrollView>
+        <ScrollView testID={"lap-list"}>
             {laps.map((lap, index) => (
                 <View key={index} style={styles.container} testID={"lap-item"}>
                     <Text style={styles.text}>{lap.title}</Text>
