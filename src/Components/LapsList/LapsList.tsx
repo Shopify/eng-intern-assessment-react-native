@@ -10,23 +10,56 @@ const LapsList = (props: LapsListInterface) => {
   const { laps } = props;
 
   return (
-    <View style={styles.container}>
-      <ScrollView testID="lap-list">
-        {laps.map((lap, index) => {
-          return (
-            <Text key={index + 1} testID={`saved-lap-${index + 1}`}>{`Lap ${
-              index + 1
-            } - ${formatTime(lap)}`}</Text>
-          );
-        })}
-      </ScrollView>
-    </View>
+    <ScrollView
+      style={styles.container}
+      contentContainerStyle={styles.containerItems}
+      testID="lap-list"
+    >
+      {laps.map((lap, index) => {
+        return (
+          <View
+            key={index + 1}
+            style={styles.lapItem}
+            testID={`saved-lap-${index + 1}`}
+          >
+            <Text style={styles.lapTitle}>Lap {index + 1}</Text>
+            <Text>{formatTime(lap)}</Text>
+          </View>
+        );
+      })}
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
+    width: "100%",
     height: "50%",
+    display: "flex",
+    marginBottom: 50,
+    paddingHorizontal: 20,
+    borderRadius: 8,
+    backgroundColor: "#bcb8b1",
+  },
+  containerItems: {
+    width: "100%",
+    display: "flex",
+    justifyContent: "space-evenly",
+    paddingVertical: 20,
+    gap: 10,
+  },
+  lapItem: {
+    width: "100%",
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+    paddingVertical: 10,
+    gap: 15,
+    borderRadius: 8,
+    backgroundColor: "white",
+  },
+  lapTitle: {
+    fontWeight: "bold",
   },
 });
 

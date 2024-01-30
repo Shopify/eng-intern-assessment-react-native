@@ -44,21 +44,23 @@ const StopWatch = () => {
   return (
     <View style={styles.container}>
       <View style={styles.stopwatchContainer}>
-        <Text testID="elapsed-time">{formatTime(elapsedTime)}</Text>
+        <Text style={styles.timeDisplay} testID="elapsed-time">
+          {formatTime(elapsedTime)}
+        </Text>
         <View style={styles.buttonContainer}>
           {isRunning ? (
             <>
               <StopWatchButton
                 onPress={stopTimer}
                 title="Stop"
-                colour="#f94144"
+                colour="#ffa69e"
               />
               <StopWatchButton
                 onPress={() => {
                   addLap(elapsedTime);
                 }}
                 title="Lap"
-                colour="#a5a58d"
+                colour="#b5e2fa"
               />
             </>
           ) : (
@@ -71,7 +73,7 @@ const StopWatch = () => {
               <StopWatchButton
                 onPress={resetTimer}
                 title="Reset"
-                colour="#ffe8d6"
+                colour="#d5bdaf"
               />
             </>
           )}
@@ -84,21 +86,30 @@ const StopWatch = () => {
 
 const styles = StyleSheet.create({
   container: {
+    width: "80%",
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
+    padding: 20,
   },
   stopwatchContainer: {
-    height: "50%",
+    height: "40%",
     display: "flex",
-    justifyContent: "center",
     alignItems: "center",
+    justifyContent: "center",
+    padding: 10,
+  },
+  timeDisplay: {
+    fontSize: 50,
+    fontWeight: "bold",
+    color: "#e9ecef",
   },
   buttonContainer: {
     display: "flex",
     flexDirection: "row",
-    gap: 5,
+    padding: 10,
+    gap: 8,
   },
 });
 
