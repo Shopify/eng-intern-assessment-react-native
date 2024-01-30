@@ -1,7 +1,7 @@
 import React from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import StopwatchButton from './StopWatchButton';
-import { useStopWatch } from './hooks/useStopWatch';
+import { useStopWatch } from '../hooks/useStopWatch';
 
 function formatNumber(num: number) {
   return String(num).padStart(2, '0');
