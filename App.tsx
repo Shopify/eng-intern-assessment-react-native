@@ -130,6 +130,7 @@ const styles = StyleSheet.create({
   lapsContainer: {
     marginTop: 15,
     alignItems: 'center',
+    backgroundColor: '#dc3545'
   },
   lapText: {
     fontSize: 20,

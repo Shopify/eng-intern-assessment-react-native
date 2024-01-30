@@ -46,13 +46,13 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   button: {
-    backgroundColor: '#007bff',
+    backgroundColor: '#dc3545',
     padding: 10,
     borderRadius: 5,
     marginHorizontal: 10,
   },
   lapButton: {
-    backgroundColor: '#ff7f0e', 
+    backgroundColor: '#dc3545', 
     padding: 10,
     borderRadius: 5,
     marginHorizontal: 10,
