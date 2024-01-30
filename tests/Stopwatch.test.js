@@ -17,10 +17,10 @@ describe('Stopwatch', () => {
   test('starts and stops the stopwatch', () => {
     const { getByText, queryByText } = render(<Stopwatch />);
     
-    fireEvent.press(getByText('Start'));
+    act(() => fireEvent.press(getByText('Start')));
     expect(queryByText(/(\d{2}:){2}\d{2}\.\d{2}/)).toBeTruthy();
 
-    fireEvent.press(getByText('Stop'));
+    act(() => fireEvent.press(getByText('Stop')));
     expect(queryByText(/(\d{2}:){2}\d{2}\.\d{2}/)).toBeTruthy();
   });
 
