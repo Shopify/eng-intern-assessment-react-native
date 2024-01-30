@@ -9,11 +9,12 @@ type Props = {
 };
   
   export const LapList: React.FC<Props> = ({ laps }) => {
+    const reversedLaps = [...laps].reverse();
     const renderItem = ({ item, index }: { item: number; index: number }) => (
 
     // Display the times of the laps 
       <View style={styles.lapItem}>
-        <Text>{`Lap ${index + 1}: ${formatTime(item)}`}</Text>
+        <Text>{`Lap ${reversedLaps.length - index}: ${formatTime(item)}`}</Text>
       </View>
 
     );
@@ -33,7 +34,7 @@ type Props = {
         // List of the Laps using FlatList
         <View style={styles.lapListContainer}>
             <FlatList
-                data={laps}
+                data={reversedLaps}
                 renderItem={renderItem}
                 keyExtractor={(item, index) => index.toString()}
                 style={styles.lapList}
