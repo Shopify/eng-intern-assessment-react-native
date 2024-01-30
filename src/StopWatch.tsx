@@ -72,24 +72,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 20,
   },
-  button: {
-    backgroundColor: '#007bff',
-    padding: 10,
-    borderRadius: 5,
-    marginHorizontal: 10,
-  },
-  lapButton: {
-    backgroundColor: '#dc3545', 
-    padding: 10,
-    borderRadius: 5,
-    marginHorizontal: 10,
-  },
-  resetButton: {
-    backgroundColor: '#dc3545', 
-    padding: 10,
-    borderRadius: 5,
-    marginHorizontal: 10,
-  },
   buttonText: {
     color: 'white',
     fontSize: 20, 
