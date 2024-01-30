@@ -1,9 +1,28 @@
 # Joshua Fung Submission for Shopify 2024 Mobile Engineering Assessment
 
-## Changes
+This is my submission for the Shopify 2024 Mobile Engineering Assessment, thank you for your time and consideration! :)
+
+Truthfully, I would have liked to have put in more time and polished it more (as well as more test cases), however, I have been very tight on time and extremely jetlagged due to flying across the world for my upcoming academic exchange.
+
+I have included some considerations and changes I have made in the sections below:.
+
+## Considerations
+
+- The test cases seemed to suggest 4 separate buttons which seemed excessive from a user's perspective -- Instead, I went for a two button approach:
+
+  - When the stopwatch has not started / has stopped, we have the 'start' and 'reset' buttons
+    - Start -> Starts the stopwatch and begins counting time
+    - Reset -> Resets the saved time and clears all laps
+  - When the stopwatch is running, we have the 'stop' and 'lap' buttons
+    - Stop -> Pauses the stopwatch and halts its count
+    - Lap -> Takes the elapsed time and adds it to the state as another lap
+
+- File structure was also slightly modified to break it down into more subfolders. Initially I was going to put what is currently in `StopWatch.tsx` into a `Screens` folder, but I didn't want to deviate too much.
+
+## (Test) Changes
 
 - The given `records and displays lap time` test was having a lot of issues, incl. the usage of `toContainElement()` as it's meant for web DOM elements rather than React Native components -> Checked for existence instead
-- Given tests' usage of `.textContent` does not seem to work anymore -> Used `.props.children` instead
+- Given tests' usage of `.textContent` seemed to also be having issues -> Used `.props.children` instead
 - Wrapped fire events that caused state changed with `act()`
   - However, I acknowledge that the fire event for pressing the "Lap" button is still triggering a warning (albeit being wrapped)
 
