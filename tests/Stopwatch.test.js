@@ -3,8 +3,10 @@ import { render, fireEvent } from '@testing-library/react-native';
 import Stopwatch from '../src/Stopwatch';
 
 describe('Stopwatch', () => {
-  test('renders initial state correctly', () => {
+  it('renders initial state correctly', () => {
+    
     const { getByText, queryByTestId } = render(<Stopwatch />);
+
     
     expect(getByText('00:00:00')).toBeTruthy();
     expect(queryByTestId('lap-list')).toBeNull();
