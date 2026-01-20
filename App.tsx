@@ -1,20 +1,61 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, View } from 'react-native';
+import StopWatch from './src/StopWatch';
+import StopWatchButton from './src/StopWatchButton';
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+  // State variables for time and stopwatch running status
+  const [time, setTime] = useState(0);
+  const [isRunning, setIsRunning] = useState(false);
+  const [laps, setLaps] = useState<number[]>([]);
+
+  const recordLap = () => {
+    const newLaps = [...laps, time];
+    console.log("Recording lap:", newLaps); // Debug log
+    setLaps(newLaps);
+  };
+
+  const handleReset = () => {
+    setTime(0);
+    setIsRunning(false);
+    setLaps([]);  // Clear the laps
+  };
+  
+  useEffect(() => {
+    let interval: number | undefined;
+
+    // Set interval to update time every second when the stopwatch is running
+    if (isRunning) {
+      interval = setInterval(() => {
+        setTime(t => t + 1);
+      }, 1000);
+    }
+
+    // Clear interval on component unmount or when stopwatch stops
+    return () => {
+      if (interval) clearInterval(interval);
+    };
+  }, [isRunning]); // Dependence on isRunning to start/stop interval
+
+return (
+  <View style={styles.container}>
+    <StopWatch time={time} laps={laps} />
+    <StopWatchButton 
+      setIsRunning={setIsRunning} 
+      setTime={setTime} 
+      recordLap={recordLap}
+      handleReset={handleReset}  // Pass this new reset function
+    />
+  </View>
+);
+
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    justifyContent: 'space-around', // This can be adjusted to 'space-between' or 'center'
     alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: '#fff',
   },
 });
