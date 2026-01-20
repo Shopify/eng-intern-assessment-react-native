@@ -1,20 +1,22 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { SafeAreaView } from 'react-native';
+import { ThemeProvider } from '@shopify/restyle';
+import StopWatch from './src/StopWatch';
+import theme from './src/theme';
+import Box from './src/Box';
+import Text from './src/Text';
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <ThemeProvider theme={theme}>
+      <Box backgroundColor='mainBackground' width='100%' height='100%'>
+        <SafeAreaView>
+          <Text textAlign='center' padding='m'>StopWatchify</Text>
+          <StopWatch/>
+          <StatusBar style="auto" />
+        </SafeAreaView>
+      </Box>
+    </ThemeProvider>
+
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
