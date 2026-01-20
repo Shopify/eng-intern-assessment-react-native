@@ -1,84 +1,56 @@
-# Technical Instructions
-1. Fork this repo to your local Github account.
-2. Create a new branch to complete all your work in.
-3. Test your work using the provided tests
-4. Create a Pull Request against the Shopify Main branch when you're done and all tests are passing
+---
 
-# Project Overview
-The goal of this project is to implement a stopwatch application using React Native and TypeScript. The stopwatch should have the following functionality:
+# Stopwatch Application: Enhanced Edition
 
-- Start the stopwatch to begin counting time.
-- Stop the stopwatch to pause the timer.
-- Displays Laps when a button is pressed.
-- Reset the stopwatch to zero.
+## Introduction
+Welcome to the enhanced version of the Stopwatch application, meticulously developed using React Native and TypeScript. This forked repository showcases a series of significant improvements and new features, elevating the original project to new heights. This document outlines the key enhancements, project setup, and how you can get involved.
 
-You will be provided with a basic project structure that includes the necessary files and dependencies. Your task is to write the code to implement the stopwatch functionality and ensure that it works correctly.
+## Project Enhancements
+This version of the Stopwatch application boasts a range of updates and new functionalities, ensuring a more robust, user-friendly, and visually appealing experience:
 
-## Project Setup
-To get started with the project, follow these steps:
+### Key Enhancements
+- **Enhanced Stopwatch Components**: The core functionality of the Stopwatch and StopwatchButton components has been significantly improved to include start, stop, lap recording, and reset features.
+- **UI and Aesthetic Upgrades**: Integration of the Digital-7 font and an updated UI layout for an immersive user experience.
+- **Expo Upgrade for Custom Fonts**: The project now uses the latest version of Expo, supporting custom fonts for an elegant display.
+- **Improved Time Representation**: A redefined `formatTime` utility function in `timeUtils.ts` offers greater precision and flexibility in time calculations.
+- **Extensive Jest Testing**: Comprehensive testing has been conducted to ensure the reliability and accuracy of the Stopwatch component under various scenarios.
 
-1. Clone the project repository to your local development environment.
+### Demo Links
+Experience the updated application in action through these demos:
+- **iOS Simulator Demo**:
 
-2. Install the required dependencies by running npm install in the project directory.
+https://github.com/Shopify/eng-intern-assessment-react-native/assets/60167559/1a4925b2-4f8c-4306-bc14-8ba5c5d79005
 
-3. Familiarize yourself with the project structure. The main files you will be working with are:
-    - /App.tsx: The main component that renders the stopwatch and handles its functionality.
-    - src/Stopwatch.tsx: A separate component that represents the stopwatch display.
-    - src/StopwatchButton.tsx: A separate component that represents the start, stop, and reset buttons.
+- **Android Simulator Demo**:
 
-4. Review the existing code in the above files to understand the initial structure and component hierarchy.
+https://github.com/Shopify/eng-intern-assessment-react-native/assets/60167559/9cca8bcc-01b4-4bed-a56f-58b9014c878c
 
-## Project Goals
-Your specific goals for this project are as follows:
+## Project Overview
+The goal of this enhanced project is not only to implement a stopwatch application but to do so with a focus on aesthetics, user experience, and robustness, using React Native and TypeScript.
 
-1. Implement the stopwatch functionality:
-    - The stopwatch should start counting when the user clicks the start button.
-    - The stopwatch should stop counting when the user clicks the stop button.
-    - The stopwatch should reset to zero when the user clicks the reset button.
-    - The stopwatch should record and display laps when user clicks the lap button.
+### New Project Setup
+1. **Clone the Enhanced Repository**: Clone this enhanced version to your local development environment.
+2. **Install Dependencies**: Run `npm install` for all required dependencies, compatible with the latest Expo version.
+3. **Explore Enhanced Components**:
+    - `/App.tsx`: The main component with improved functionality and layout.
+    - `src/Stopwatch.tsx`: Enhanced stopwatch display component.
+    - `src/StopwatchButton.tsx`: Upgraded component for start, stop, reset, and lap functionalities.
 
-2. Ensure code quality:
-    - Write clean, well-structured, and maintainable code.
-    - Follow best practices and adhere to the React and TypeScript coding conventions.
-    - Pay attention to code readability, modularity, and performance.
+### Enhanced Project Goals
+- Implement and refine the stopwatch functionality with added features.
+- Focus on code quality, following best practices in React Native and TypeScript.
+- Conduct extensive testing for reliability and performance.
+- Document code comprehensively for clarity and maintainability.
 
-3. Test your code:
-    - Run the application and test the stopwatch functionality to ensure it works correctly.
-    - Verify that the stopwatch starts, stops, resets, and records laps as expected.
+### Getting Started with the Enhanced Version
+1. **Clone and Setup**: Follow the cloning and setup instructions above.
+2. **Review and Modify**: Understand the enhancements and make further improvements if needed.
+3. **Run and Test**: Use `npm start` to run the application and `npm test` for testing.
+4. **Contribute**: Push your enhancements and create a pull request for review.
 
-4. Code documentation:
-    - Document your code by adding comments and explanatory notes where necessary.
-    - Provide clear explanations of the implemented functionality and any important details.
+## Resources for Enhanced Development
+- [TypeScript Documentation](https://www.typescriptlang.org/docs/)
+- [React Native Documentation](https://reactnative.dev/docs/getting-started)
+- [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/)
 
-5. Version control:
-    - Use Git for version control. Commit your changes regularly and push them to a branch in your forked repository.
-
- 6. Create a Pull Request:
-    - Once you have completed the project goals, create a pull request to merge your changes into the main repository.
-    - Provide a clear description of the changes made and any relevant information for the code review.
-
-## Getting Started
-To start working on the project, follow these steps:
-
-1. Clone the repository to your local development environment.
-
-2. Install the required dependencies by running npm install in the project directory.
-
-3. Open the project in your preferred code editor.
-
-4. Review the existing code in the src directory to understand the initial structure and component hierarchy.
-
-5. Implement the stopwatch functionality by modifying the necessary components (App.tsx, Stopwatch.tsx, StopwatchButton.tsx).
-
-6. Run the application using npm start and test the stopwatch functionality.
-
-7. Commit your changes regularly and push them to a branch in your forked repository.
-
-8. Once you have completed the project goals, create a pull request to merge your changes into the main repository.
-
-## Resources
-Here are some resources that may be helpful during your work on this project:
-
-- [TypeScript Documentation](https://www.typescriptlang.org/docs/) - Official documentation for TypeScript, offering guidance on TypeScript features and usage.
-
-- [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/) - Explore React Testing Library, a popular testing library for React applications.
+---
