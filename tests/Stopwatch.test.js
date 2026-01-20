@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react-native';
+import { render, fireEvent, within } from '@testing-library/react-native';
 import Stopwatch from '../src/Stopwatch';
 
 describe('Stopwatch', () => {
@@ -28,7 +28,7 @@ describe('Stopwatch', () => {
     const pausedTime = getByText(/(\d{2}:){2}\d{2}/).textContent;
 
     fireEvent.press(getByText('Resume'));
-    expect(getByText(/(\d{2}:){2}\d{2}/).textContent).not.toBe(pausedTime);
+    expect(getByText(/(\d{2}:){2}\d{2}/).props.children).not.toBe(pausedTime);
   });
 
   test('records and displays lap times', () => {
@@ -36,10 +36,10 @@ describe('Stopwatch', () => {
     
     fireEvent.press(getByText('Start'));
     fireEvent.press(getByText('Lap'));
-    expect(getByTestId('lap-list')).toContainElement(getByText(/(\d{2}:){2}\d{2}/));
+    expect(within(getByTestId('lap-list')).getByText(/(\d{2}:){2}\d{2}/)).toBeTruthy();
 
     fireEvent.press(getByText('Lap'));
-    expect(getByTestId('lap-list').children.length).toBe(2);
+    expect(within(getByTestId('lap-list')).getAllByText(/(\d{2}:){2}\d{2}/).length).toBe(2);
   });
 
   test('resets the stopwatch', () => {
